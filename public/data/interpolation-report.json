@@ -1,0 +1,166 @@
+{
+  "generatedAt": "2026-09-22T08:40:11.455580+00:00",
+  "passed": true,
+  "thresholdKm": 1,
+  "method": "Every 3-hour midpoint held out from the 6-hour cubic-Hermite table. Neither midpoint positions nor velocities are used for interpolation.",
+  "reference": "NASA/JPL Horizons; same coordinates, time scale, origin and target ID",
+  "sampleStepSeconds": 21600,
+  "validationOffsetSeconds": 10800,
+  "totalCheckpoints": 49657,
+  "maxPositionErrorKm": 0.0783695347892376,
+  "bodies": [
+    {
+      "naifId": 10,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 1.506380334160198e-08,
+      "rmsPositionErrorKm": 6.1586366731801666e-09,
+      "maxVelocityErrorKmS": 2.7709439950290428e-14,
+      "worstTimeTdb": 847616400.0,
+      "passed": true
+    },
+    {
+      "naifId": 199,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.0783695347892376,
+      "rmsPositionErrorKm": 0.035790578682019944,
+      "maxVelocityErrorKmS": 3.5429299204696747e-08,
+      "worstTimeTdb": 847573200.0,
+      "passed": true
+    },
+    {
+      "naifId": 299,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.000710480904821155,
+      "rmsPositionErrorKm": 0.0006714917944872374,
+      "maxVelocityErrorKmS": 5.022657587797732e-11,
+      "worstTimeTdb": 832064400.0,
+      "passed": true
+    },
+    {
+      "naifId": 399,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.0003554341756830465,
+      "rmsPositionErrorKm": 0.00019846545991741857,
+      "maxVelocityErrorKmS": 2.1438736001964603e-10,
+      "worstTimeTdb": 870469200.0,
+      "passed": true
+    },
+    {
+      "naifId": 301,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.019758947920761993,
+      "rmsPositionErrorKm": 0.011881407466686702,
+      "maxVelocityErrorKmS": 1.7399832876225802e-08,
+      "worstTimeTdb": 851374800.0,
+      "passed": true
+    },
+    {
+      "naifId": 499,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.00018833464183348923,
+      "rmsPositionErrorKm": 0.00015734195410882582,
+      "maxVelocityErrorKmS": 8.822924488862476e-09,
+      "worstTimeTdb": 883558800.0,
+      "passed": true
+    },
+    {
+      "naifId": 599,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.03469843667611802,
+      "rmsPositionErrorKm": 0.03163020693859403,
+      "maxVelocityErrorKmS": 3.531806199820716e-07,
+      "worstTimeTdb": 838414800.0,
+      "passed": true
+    },
+    {
+      "naifId": 699,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.0011552284114346675,
+      "rmsPositionErrorKm": 0.0005533725586438367,
+      "maxVelocityErrorKmS": 1.4676968839326783e-08,
+      "worstTimeTdb": 838544400.0,
+      "passed": true
+    },
+    {
+      "naifId": 799,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.008953169671692674,
+      "rmsPositionErrorKm": 0.002751864556150028,
+      "maxVelocityErrorKmS": 3.203985870837999e-07,
+      "worstTimeTdb": 858243600.0,
+      "passed": true
+    },
+    {
+      "naifId": 899,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.0049436194968061065,
+      "rmsPositionErrorKm": 0.0015679598843661648,
+      "maxVelocityErrorKmS": 1.4566211718685168e-07,
+      "worstTimeTdb": 835088400.0,
+      "passed": true
+    },
+    {
+      "naifId": 1,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.0783695347892376,
+      "rmsPositionErrorKm": 0.035790578682019944,
+      "maxVelocityErrorKmS": 3.5429299204696747e-08,
+      "worstTimeTdb": 847573200.0,
+      "passed": true
+    },
+    {
+      "naifId": 2,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 0.000710480904821155,
+      "rmsPositionErrorKm": 0.0006714917944872374,
+      "maxVelocityErrorKmS": 5.022657587797732e-11,
+      "worstTimeTdb": 832064400.0,
+      "passed": true
+    },
+    {
+      "naifId": 4,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 3.4009725569301167e-05,
+      "rmsPositionErrorKm": 2.129678212254699e-05,
+      "maxVelocityErrorKmS": 1.1623904014112772e-11,
+      "worstTimeTdb": 827766000.0,
+      "passed": true
+    },
+    {
+      "naifId": 5,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 3.633077307213009e-07,
+      "rmsPositionErrorKm": 1.0756118546961111e-07,
+      "maxVelocityErrorKmS": 2.8801966391150732e-11,
+      "worstTimeTdb": 823294800.0,
+      "passed": true
+    },
+    {
+      "naifId": 6,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 1.1982470223607834e-06,
+      "rmsPositionErrorKm": 3.9879526311945813e-07,
+      "maxVelocityErrorKmS": 9.946265517926984e-11,
+      "worstTimeTdb": 880470000.0,
+      "passed": true
+    },
+    {
+      "naifId": 7,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 1.9806785577832674e-06,
+      "rmsPositionErrorKm": 6.851498573749952e-07,
+      "maxVelocityErrorKmS": 1.3685194580720516e-10,
+      "worstTimeTdb": 879195600.0,
+      "passed": true
+    },
+    {
+      "naifId": 8,
+      "checkpoints": 2921,
+      "maxPositionErrorKm": 1.9159439993435657e-06,
+      "rmsPositionErrorKm": 6.244359121731646e-07,
+      "maxVelocityErrorKmS": 2.082525776027184e-10,
+      "worstTimeTdb": 871635600.0,
+      "passed": true
+    }
+  ]
+}

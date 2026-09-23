@@ -1,0 +1,74 @@
+{
+  "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/mar099s.bsp",
+  "originalFile": "mar099s.bsp",
+  "targets": [
+    401,
+    402,
+    499
+  ],
+  "excerptStartTdb": 820497600.0,
+  "excerptEndTdb": 883656000.0,
+  "method": "jplephem exact extraction of selected original Chebyshev records, no refitting",
+  "excerptSha256": "70abe187e46f0d7c1262f8539200d7417c37695321ae58a5cc717ac6b171ca8b",
+  "downloadedBytes": 2830784,
+  "rangeRequests": [
+    {
+      "contentRange": "bytes 0-65535/67594240",
+      "etag": null,
+      "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+      "sha256": "126df63c29cf683017ea30d0f706166aa4ecc4d67fb7391fa2f76a911b5d0758",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 65536-131071/67594240",
+      "etag": null,
+      "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+      "sha256": "018beaaed7a5c93523e18ad98b35c5c4de4698d466ec4e787aac0fa0361aef1c",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 32178176-32243711/67594240",
+      "etag": null,
+      "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+      "sha256": "69ce7389042b7b18f8ad4c8d4b65afdf5514c7bbd3c1b715616bc0b9ee3518c7",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 18153472-19364655/67594240",
+      "etag": null,
+      "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+      "sha256": "b8b14970877173fdd804b8f06ea7a560bb347e8cf29df374f690cb78d800aaf5",
+      "bytes": 1211184
+    },
+    {
+      "contentRange": "bytes 48234496-48300031/67594240",
+      "etag": null,
+      "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+      "sha256": "dbbe213097be5cf86edac87e820537e572c7c8a4797cccc8598952f4fd07c2a4",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 41222144-41864287/67594240",
+      "etag": null,
+      "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+      "sha256": "4bb4acd7c4406d5e53f4bac773723bdd399f3aaab270ff20b4f711763f2a249e",
+      "bytes": 642144
+    },
+    {
+      "contentRange": "bytes 64946176-65011711/67594240",
+      "etag": null,
+      "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+      "sha256": "405d264fe0bf4ff34a5ea4f28e9e7b81828ccd54f8436fea3ecf7c28fed78834",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 57671680-58321455/67594240",
+      "etag": null,
+      "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+      "sha256": "63b9a7513afc07c94342a75b87069cdfafdf414dbf6f4cceaca982bc64855b79",
+      "bytes": 649776
+    }
+  ],
+  "retrievedAt": "2026-09-22T10:04:38.281985+00:00",
+  "dafRecordPadding": true
+}

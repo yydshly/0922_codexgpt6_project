@@ -1,0 +1,167 @@
+{
+  "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/ura184_part-3.bsp",
+  "originalFile": "ura184_part-3.bsp",
+  "targets": [
+    705,
+    701,
+    702,
+    703,
+    704,
+    799
+  ],
+  "excerptStartTdb": 820497600.0,
+  "excerptEndTdb": 883656000.0,
+  "method": "jplephem exact extraction of selected original Chebyshev records, no refitting",
+  "excerptSha256": "ad2db421e859d87f6328220cd6a499465b0f045891cebb38c4d4202902b85863",
+  "downloadedBytes": 2001800,
+  "rangeRequests": [
+    {
+      "contentRange": "bytes 0-65535/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "7507cc9c2b7a807123168878da5dcbe0c9c874c8075a66efd161f2d2e370d168",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 65536-131071/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "8bc06bbfc8a56085014312e0a340f934f6007b7b3e4a4381594808972d9587b0",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 342360064-342425599/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "63fd438def309bfe4310b23fa83381196c89da46f8b3b807d072550f7e44e4eb",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 53280768-53346303/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "c3825cc5f6710a137736fb4a83e97b10d7411f8d3f0cccd10983e7a4963c676a",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 5242880-5523903/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "090bc638e0e83fbc4200982fd2660b635d4f1ee3249af48b2d6479c1adaeb8c1",
+      "bytes": 281024
+    },
+    {
+      "contentRange": "bytes 86376448-86441983/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "21483de1abb920aa12a08427e19f0222e3bfedcc1ac092dc58371ef8b6055c37",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 56557568-56732783/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "64fd9f95b61e376331fcf00aad4b0bebb9c06f50a007bf4a0137f5de66feb4e3",
+      "bytes": 175216
+    },
+    {
+      "contentRange": "bytes 117047296-117112831/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "1bcdd512629d90f5a0d086b3cf099cafedb6b113c8cc12e2d15a5fb08b469488",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 89391104-89579767/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "b8050a90b38b6fc1f3e6dfebd47c390a5417ea20015170f5ff1a59c5083280cf",
+      "bytes": 188664
+    },
+    {
+      "contentRange": "bytes 138280960-138346495/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "a706c8ab8d0be522ed1146f6e337817cddf25b215ad1773536a6ba51b4ac78b9",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 119144448-119282215/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "9e7be7802fbfe45868bc962797fabdebf84bc82699ceed920ed974dd82511db3",
+      "bytes": 137768
+    },
+    {
+      "contentRange": "bytes 155844608-155910143/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "b1a3d295de5abac9d21b3cf69a6baccdc4f33c852f208605bf896114d3f43ba8",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 139984896-140099343/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "780e76aa8d37db8f682543043c31528c31b3b14939f828e460cb01080647240b",
+      "bytes": 114448
+    },
+    {
+      "contentRange": "bytes 170983424-171048959/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "deaa768a2ae7ac07d54b029b5a72925fe6ac087fd0c679e9ac102eee2c143ac0",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 157286400-157408039/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "106044d872c8fcfc7386b8a22b66bd5852ebc26bfcd0ffb18d0af40c29a6e8a8",
+      "bytes": 121640
+    },
+    {
+      "contentRange": "bytes 220528640-220594175/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "927e46a6f28597d3063f98b21a6707d1d9572088c070312fcbe4a56de1796b84",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 251330560-251396095/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "e51332197742a64d3f6f22aa808741d0b6db8959f04962248298e4329ac31a77",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 279838720-279904255/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "9ed795d02edb9cb8891f8517f0d4c0c4b55c7c8d24daca0899004f7190b5c6ac",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 299565056-299630591/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "bc69e0f14da387c115df290139457b7b52c13cc3d5847d950f6187ab11edcba3",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 315949056-316014591/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "8cc80bf27dcf7619eb52309ab0fbdb5214d6df6d361195074f12d34d3abcc2b6",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 329973760-330039295/386885632",
+      "etag": null,
+      "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+      "sha256": "ffea9aeff234455dfde1210a5dc2496320c86549b6920efcd10ea15067cc0455",
+      "bytes": 65536
+    }
+  ],
+  "retrievedAt": "2026-09-22T11:59:18.555191+00:00"
+}

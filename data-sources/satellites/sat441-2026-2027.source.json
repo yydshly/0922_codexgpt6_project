@@ -1,0 +1,211 @@
+{
+  "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/sat441.bsp",
+  "originalFile": "sat441.bsp",
+  "targets": [
+    602,
+    606,
+    601,
+    603,
+    604,
+    605,
+    608,
+    699
+  ],
+  "excerptStartTdb": 820497600.0,
+  "excerptEndTdb": 883656000.0,
+  "method": "jplephem exact extraction of selected original Chebyshev records, no refitting",
+  "excerptSha256": "7c7e286cb74cf51408507f4896f5fb9c0381665bda02092015a14abca34da37b",
+  "downloadedBytes": 2910672,
+  "rangeRequests": [
+    {
+      "contentRange": "bytes 0-65535/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "58346ec5e539386dc91d5cd894a85d0c6bbb0070604a4bdd0150ebffa087eafc",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 65536-131071/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "d5eb1e79edda6b0b0ae93277bde5b8ed5998a608cf83201618671e2635312316",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 510722048-510787583/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "b7fe84e33b829a29f7f83d2b24756486ffe7bddbb968b80484a6b0d4ab938385",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 51642368-51707903/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "9bd4b3b519acb5821798a331e6d4165423da03922ad7c315cc08d0f3f9095d21",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 93913088-93978623/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "98f959e74f1086cedf0e89374e59a91ce6bb1d08659454994ff0e40dc547ec46",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 118161408-118226943/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "589d5857b150fbc07813b422159c6161de58c144d0a70fa613fc5fb1cfff7e33",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 137756672-137822207/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "efb4927a6544475e65144a6e6b63a085e267ef183264a4102e83b0361e345acf",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 150798336-150863871/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "4b5ec5b2bc528bfbd25e0f0a857550a2d7259ecb234ff273511dec558f5cbaa3",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 161349632-161415167/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "09716c0fbff459b79f3b17f1f2cbe4105094c24f13a6a91f8f65f43b2d057df4",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 173408256-173473791/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "5e6e6b28169c92e579ce3540ec3f972fa1c9b8b0a74d01528b86f381fb7cf780",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 338100224-338165759/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "e703426c35ad68baffb9cf8fb97d461cbf3ffe47cdec2d5be630be3d13d75a43",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 383975424-384040959/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "30daaf251f0b7823d8ea748201b1d2629070f2bc15884fe4e9d1c316d9032306",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 340328448-340749007/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "5274c614154a02e092796f5cb5b0cff3e3e03f86c2900f575757bb329642b03a",
+      "bytes": 420560
+    },
+    {
+      "contentRange": "bytes 421527552-421593087/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "530dec7124e745c5fa78219c270cbfa255c042eb5624e70522f19d9ec7ee0dd0",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 385744896-386114391/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "aa7139d6a24b39b1aa8169e6e9444c5aef6ce0dd01540270246be9f9a5bba0fa",
+      "bytes": 369496
+    },
+    {
+      "contentRange": "bytes 443088896-443154431/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "25e8e44756cec0d6a32751a2d411db70f070d6fcb3521bd29bcd15307646873b",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 422576128-422791279/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "837b25dd4761a7677a47340fc1f6fbcf97cf94a04e27527c6a2b904a3f20669b",
+      "bytes": 215152
+    },
+    {
+      "contentRange": "bytes 460521472-460587007/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "7a9df2466f84f3f318850fd6f5d3f32ebc793aab7a8dea9e88a21b824fd21ae2",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 443940864-444099039/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "1fde9c19f8a076c5a2a792c37b78e84dbc65bb85fe4fd3cdec7ad542acbab618",
+      "bytes": 158176
+    },
+    {
+      "contentRange": "bytes 472121344-472186879/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "a60c6b1cb05add1c037f2f88f24f3c8b3857b106a4b17a939f383d3c76ae5a5c",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 461045760-461187215/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "bbe30f224052cbe84641b22d6155bdfcf425cc3ec5dc808f41fde243b92e6249",
+      "bytes": 141456
+    },
+    {
+      "contentRange": "bytes 481492992-481558527/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "53200b0402e205e36174fa877e9ef42284b1729626c1efa00fe2efeb3b3e45ad",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 472580096-472672823/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "e8a01f9885a8dc0755ff47e34772b85faaef13eb0673639926f36089820fdb38",
+      "bytes": 92728
+    },
+    {
+      "contentRange": "bytes 492175360-492240895/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "4b2b44d4eedfa43fcdbac760a694e6790dcd5f0089f7baf3397f87331aa5f5bd",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 489684992-489750527/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "5a5be83b3e1f2711047d12c3caecdbed77c2eea5c2da11ddf3512413600fbae0",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 638582784-638648319/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "6c14db2e2b447f8c507879ae3d32984efb0b86c599d1c3dab22480ff9f40ddf7",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 620691456-620893839/661592064",
+      "etag": null,
+      "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+      "sha256": "0d8815fedd665155c8d896e6e07ee8eb971accaaf50b7a381c974392ddf1bd09",
+      "bytes": 202384
+    }
+  ],
+  "retrievedAt": "2026-09-22T12:18:37.136178+00:00"
+}

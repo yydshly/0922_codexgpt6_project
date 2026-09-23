@@ -1,0 +1,412 @@
+{
+  "generatedAt": "2026-09-22T12:18:43.022470+00:00",
+  "passed": true,
+  "thresholdKm": 1,
+  "method": "Every midpoint held out between stored states is independently evaluated from the original SPK Chebyshev polynomials. Midpoint states never participate in Hermite interpolation. Cadence is halved until all pass.",
+  "maxPositionErrorKm": 0.9301925606225014,
+  "totalCheckpoints": 237575,
+  "satellites": [
+    {
+      "id": "io",
+      "targetNaifId": 501,
+      "centerNaifId": 599,
+      "stepSeconds": 3600,
+      "checkpoints": 17544,
+      "maxPositionErrorKm": 0.5445603841446403,
+      "rmsPositionErrorKm": 0.5267900572840694,
+      "maxVelocityErrorKmS": 4.637104095307601e-06,
+      "worstTimeTdb": 849846600.0,
+      "attempts": [
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 8.702479189674628
+        },
+        {
+          "stepSeconds": 3600,
+          "maxPositionErrorKm": 0.5445603841446403
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "europa",
+      "targetNaifId": 502,
+      "centerNaifId": 599,
+      "stepSeconds": 7200,
+      "checkpoints": 8772,
+      "maxPositionErrorKm": 0.8906006399415799,
+      "rmsPositionErrorKm": 0.8279153483551261,
+      "maxVelocityErrorKmS": 5.977470359082069e-06,
+      "worstTimeTdb": 871167600.0,
+      "attempts": [
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 0.8906006399415799
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "ganymede",
+      "targetNaifId": 503,
+      "centerNaifId": 599,
+      "stepSeconds": 10800,
+      "checkpoints": 5848,
+      "maxPositionErrorKm": 0.41677030176365537,
+      "rmsPositionErrorKm": 0.4047985689193495,
+      "maxVelocityErrorKmS": 9.355949377427164e-07,
+      "worstTimeTdb": 848323800.0,
+      "attempts": [
+        {
+          "stepSeconds": 21600,
+          "maxPositionErrorKm": 6.660741456132617
+        },
+        {
+          "stepSeconds": 10800,
+          "maxPositionErrorKm": 0.41677030176365537
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "callisto",
+      "targetNaifId": 504,
+      "centerNaifId": 599,
+      "stepSeconds": 21600,
+      "checkpoints": 2924,
+      "maxPositionErrorKm": 0.4426796272312866,
+      "rmsPositionErrorKm": 0.38660671983735306,
+      "maxVelocityErrorKmS": 7.132891011789931e-07,
+      "worstTimeTdb": 843296400.0,
+      "attempts": [
+        {
+          "stepSeconds": 43200,
+          "maxPositionErrorKm": 7.04930083610449
+        },
+        {
+          "stepSeconds": 21600,
+          "maxPositionErrorKm": 0.4426796272312866
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "titan",
+      "targetNaifId": 606,
+      "centerNaifId": 699,
+      "stepSeconds": 21600,
+      "checkpoints": 2924,
+      "maxPositionErrorKm": 0.37730372497806425,
+      "rmsPositionErrorKm": 0.3071824668434765,
+      "maxVelocityErrorKmS": 4.3380769651990654e-07,
+      "worstTimeTdb": 849452400.0,
+      "attempts": [
+        {
+          "stepSeconds": 43200,
+          "maxPositionErrorKm": 6.034245679275371
+        },
+        {
+          "stepSeconds": 21600,
+          "maxPositionErrorKm": 0.37730372497806425
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "enceladus",
+      "targetNaifId": 602,
+      "centerNaifId": 699,
+      "stepSeconds": 3600,
+      "checkpoints": 17544,
+      "maxPositionErrorKm": 0.8574249561536692,
+      "rmsPositionErrorKm": 0.8261564405957214,
+      "maxVelocityErrorKmS": 9.469260926951344e-06,
+      "worstTimeTdb": 881217000.0,
+      "attempts": [
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 13.689776189241597
+        },
+        {
+          "stepSeconds": 3600,
+          "maxPositionErrorKm": 0.8574249561536692
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "triton",
+      "targetNaifId": 801,
+      "centerNaifId": 899,
+      "stepSeconds": 10800,
+      "checkpoints": 5848,
+      "maxPositionErrorKm": 0.2953120720444033,
+      "rmsPositionErrorKm": 0.2946170994110944,
+      "maxVelocityErrorKmS": 7.439250879292573e-07,
+      "worstTimeTdb": 847546200.0,
+      "attempts": [
+        {
+          "stepSeconds": 21600,
+          "maxPositionErrorKm": 4.7170740830526485
+        },
+        {
+          "stepSeconds": 10800,
+          "maxPositionErrorKm": 0.2953120720444033
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "phobos",
+      "targetNaifId": 401,
+      "centerNaifId": 499,
+      "stepSeconds": 1800,
+      "checkpoints": 35088,
+      "maxPositionErrorKm": 0.7792698679043699,
+      "rmsPositionErrorKm": 0.6958913312062833,
+      "maxVelocityErrorKmS": 3.9956682458380865e-05,
+      "worstTimeTdb": 828407700.0,
+      "attempts": [
+        {
+          "stepSeconds": 3600,
+          "maxPositionErrorKm": 12.325741738918698
+        },
+        {
+          "stepSeconds": 1800,
+          "maxPositionErrorKm": 0.7792698679043699
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "deimos",
+      "targetNaifId": 402,
+      "centerNaifId": 499,
+      "stepSeconds": 3600,
+      "checkpoints": 17544,
+      "maxPositionErrorKm": 0.11321482208646347,
+      "rmsPositionErrorKm": 0.11289405577283365,
+      "maxVelocityErrorKmS": 1.3081738008099832e-06,
+      "worstTimeTdb": 881818200.0,
+      "attempts": [
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 1.807500129060191
+        },
+        {
+          "stepSeconds": 3600,
+          "maxPositionErrorKm": 0.11321482208646347
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "miranda",
+      "targetNaifId": 705,
+      "centerNaifId": 799,
+      "stepSeconds": 3600,
+      "checkpoints": 17544,
+      "maxPositionErrorKm": 0.40251046611589053,
+      "rmsPositionErrorKm": 0.39775015691505244,
+      "maxVelocityErrorKmS": 4.22613346291535e-06,
+      "worstTimeTdb": 867979800.0,
+      "attempts": [
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 6.4286446286916465
+        },
+        {
+          "stepSeconds": 3600,
+          "maxPositionErrorKm": 0.40251046611589053
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "ariel",
+      "targetNaifId": 701,
+      "centerNaifId": 799,
+      "stepSeconds": 7200,
+      "checkpoints": 8772,
+      "maxPositionErrorKm": 0.9301925606225014,
+      "rmsPositionErrorKm": 0.925467670922218,
+      "maxVelocityErrorKmS": 5.4209723780507074e-06,
+      "worstTimeTdb": 841669200.0,
+      "attempts": [
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 0.9301925606225014
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "umbriel",
+      "targetNaifId": 702,
+      "centerNaifId": 799,
+      "stepSeconds": 7200,
+      "checkpoints": 8772,
+      "maxPositionErrorKm": 0.18297266574579635,
+      "rmsPositionErrorKm": 0.17654308140168895,
+      "maxVelocityErrorKmS": 6.983875840667453e-07,
+      "worstTimeTdb": 863096400.0,
+      "attempts": [
+        {
+          "stepSeconds": 14400,
+          "maxPositionErrorKm": 2.923039514759897
+        },
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 0.18297266574579635
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "titania",
+      "targetNaifId": 703,
+      "centerNaifId": 799,
+      "stepSeconds": 10800,
+      "checkpoints": 5848,
+      "maxPositionErrorKm": 0.07778063893449871,
+      "rmsPositionErrorKm": 0.07525520142028008,
+      "maxVelocityErrorKmS": 1.6588438989666253e-07,
+      "worstTimeTdb": 833365800.0,
+      "attempts": [
+        {
+          "stepSeconds": 21600,
+          "maxPositionErrorKm": 1.2345941778347094
+        },
+        {
+          "stepSeconds": 10800,
+          "maxPositionErrorKm": 0.07778063893449871
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "oberon",
+      "targetNaifId": 704,
+      "centerNaifId": 799,
+      "stepSeconds": 21600,
+      "checkpoints": 2924,
+      "maxPositionErrorKm": 0.2946892787055907,
+      "rmsPositionErrorKm": 0.28153945419670323,
+      "maxVelocityErrorKmS": 6.223301846250874e-07,
+      "worstTimeTdb": 841676400.0,
+      "attempts": [
+        {
+          "stepSeconds": 21600,
+          "maxPositionErrorKm": 0.2946892787055907
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "mimas",
+      "targetNaifId": 601,
+      "centerNaifId": 699,
+      "stepSeconds": 1800,
+      "checkpoints": 35088,
+      "maxPositionErrorKm": 0.21052003845176145,
+      "rmsPositionErrorKm": 0.18194396100101395,
+      "maxVelocityErrorKmS": 3.856354300277895e-06,
+      "worstTimeTdb": 841950900.0,
+      "attempts": [
+        {
+          "stepSeconds": 3600,
+          "maxPositionErrorKm": 3.3633128453249688
+        },
+        {
+          "stepSeconds": 1800,
+          "maxPositionErrorKm": 0.21052003845176145
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "tethys",
+      "targetNaifId": 603,
+      "centerNaifId": 699,
+      "stepSeconds": 3600,
+      "checkpoints": 17544,
+      "maxPositionErrorKm": 0.28443630490028166,
+      "rmsPositionErrorKm": 0.28373877536822784,
+      "maxVelocityErrorKmS": 2.2217181048282355e-06,
+      "worstTimeTdb": 869488200.0,
+      "attempts": [
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 4.544510476050156
+        },
+        {
+          "stepSeconds": 3600,
+          "maxPositionErrorKm": 0.28443630490028166
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "dione",
+      "targetNaifId": 604,
+      "centerNaifId": 699,
+      "stepSeconds": 3600,
+      "checkpoints": 17544,
+      "maxPositionErrorKm": 0.08383946183943784,
+      "rmsPositionErrorKm": 0.08228442395963603,
+      "maxVelocityErrorKmS": 4.5650382087058875e-07,
+      "worstTimeTdb": 839550600.0,
+      "attempts": [
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 1.3403910092871694
+        },
+        {
+          "stepSeconds": 3600,
+          "maxPositionErrorKm": 0.08383946183943784
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "rhea",
+      "targetNaifId": 605,
+      "centerNaifId": 699,
+      "stepSeconds": 7200,
+      "checkpoints": 8772,
+      "maxPositionErrorKm": 0.25001052262159623,
+      "rmsPositionErrorKm": 0.24766004574544404,
+      "maxVelocityErrorKmS": 8.203700370084754e-07,
+      "worstTimeTdb": 844412400.0,
+      "attempts": [
+        {
+          "stepSeconds": 14400,
+          "maxPositionErrorKm": 3.99614370431514
+        },
+        {
+          "stepSeconds": 7200,
+          "maxPositionErrorKm": 0.25001052262159623
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "iapetus",
+      "targetNaifId": 608,
+      "centerNaifId": 699,
+      "stepSeconds": 86400,
+      "checkpoints": 731,
+      "maxPositionErrorKm": 0.652189490207505,
+      "rmsPositionErrorKm": 0.3894938155918692,
+      "maxVelocityErrorKmS": 2.041918502237811e-06,
+      "worstTimeTdb": 839030400.0,
+      "attempts": [
+        {
+          "stepSeconds": 86400,
+          "maxPositionErrorKm": 0.652189490207505
+        }
+      ],
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,1672 @@
+{
+  "version": "naif-satellites-2026-2027-v3-saturn",
+  "source": "NASA/JPL NAIF satellite SPK kernels",
+  "sourceUrl": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/",
+  "generatedAt": "2026-09-22T12:18:43.022470+00:00",
+  "startUtc": "2026-01-01T00:00:00.000Z",
+  "endUtc": "2028-01-01T00:00:00.000Z",
+  "startTdb": 820497669.18392,
+  "endTdb": 883569669.183905,
+  "frame": "ECLIPJ2000",
+  "units": "km, km/s",
+  "timeScale": "TDB seconds past J2000",
+  "origin": "Each satellite is relative to its parent PLANET CENTER (599,699,899,499,799); never a system barycenter",
+  "aberration": "NONE: geometric states, no light-time or stellar-aberration correction",
+  "satelliteIds": [
+    "io",
+    "europa",
+    "ganymede",
+    "callisto",
+    "titan",
+    "enceladus",
+    "triton",
+    "phobos",
+    "deimos",
+    "miranda",
+    "ariel",
+    "umbriel",
+    "titania",
+    "oberon",
+    "mimas",
+    "tethys",
+    "dione",
+    "rhea",
+    "iapetus"
+  ],
+  "chunks": [
+    {
+      "file": "jupiter-2026-01.json",
+      "parentId": "jupiter",
+      "startTdb": 820497669.18392,
+      "endTdb": 823176069.184785,
+      "bytes": 174724,
+      "sha256": "eb5c36df4c5bfd773ae6cb90b02d9acbe830644c76033316f021db7017760b1b"
+    },
+    {
+      "file": "saturn-2026-01.json",
+      "parentId": "saturn",
+      "startTdb": 820497669.18392,
+      "endTdb": 823176069.184785,
+      "bytes": 492216,
+      "sha256": "d3949fbf22a6fa827659e67b2e5e6b6eb008304146833ae52070146d820713d8"
+    },
+    {
+      "file": "neptune-2026-01.json",
+      "parentId": "neptune",
+      "startTdb": 820497669.18392,
+      "endTdb": 823176069.184785,
+      "bytes": 29183,
+      "sha256": "c017725c4155a86b1bf057b223841ca925937d46422b3441c9c6750b59a3f1f4"
+    },
+    {
+      "file": "mars-2026-01.json",
+      "parentId": "mars",
+      "startTdb": 820497669.18392,
+      "endTdb": 823176069.184785,
+      "bytes": 261280,
+      "sha256": "b1335c7d9d681a274d6d970d1361bb6c13be00889949c6944298e9c9f77b7c8d"
+    },
+    {
+      "file": "uranus-2026-01.json",
+      "parentId": "uranus",
+      "startTdb": 820497669.18392,
+      "endTdb": 823176069.184785,
+      "bytes": 217601,
+      "sha256": "4b6bd1ce9ea992e438a682e6e741ef054ddd299ed0212793e0b41a4bce275779"
+    },
+    {
+      "file": "jupiter-2026-02.json",
+      "parentId": "jupiter",
+      "startTdb": 823176069.184785,
+      "endTdb": 825595269.1853772,
+      "bytes": 157881,
+      "sha256": "7f7b98f7334919a13e06e056eb4d93d793dc133f8cd14b5cbf6e05bf2c9d55ab"
+    },
+    {
+      "file": "saturn-2026-02.json",
+      "parentId": "saturn",
+      "startTdb": 823176069.184785,
+      "endTdb": 825595269.1853772,
+      "bytes": 444778,
+      "sha256": "1200eb9d87562b80094d49296f1c9ddb681fce8425148952496ad055fe2eebd7"
+    },
+    {
+      "file": "neptune-2026-02.json",
+      "parentId": "neptune",
+      "startTdb": 823176069.184785,
+      "endTdb": 825595269.1853772,
+      "bytes": 26460,
+      "sha256": "63da3be7f4de597c11e9b2582272bed43c1d27ae3030bb7a006bd4b19931e9d3"
+    },
+    {
+      "file": "mars-2026-02.json",
+      "parentId": "mars",
+      "startTdb": 823176069.184785,
+      "endTdb": 825595269.1853772,
+      "bytes": 236171,
+      "sha256": "fef604e11127f7c5c78690c3febbbe5afe989d0ac4f7d9987e411fd5e510addd"
+    },
+    {
+      "file": "uranus-2026-02.json",
+      "parentId": "uranus",
+      "startTdb": 823176069.184785,
+      "endTdb": 825595269.1853772,
+      "bytes": 196631,
+      "sha256": "40f19a94ef7536f86c5fc31bb764d94587afeba735ff73091207f4deac88d950"
+    },
+    {
+      "file": "jupiter-2026-03.json",
+      "parentId": "jupiter",
+      "startTdb": 825595269.1853772,
+      "endTdb": 828273669.1856546,
+      "bytes": 174718,
+      "sha256": "fc565a104e482b7a66773496ef7f0e1e3a1cb87bf7dfb7b47f8c9a9e5e4bb500"
+    },
+    {
+      "file": "saturn-2026-03.json",
+      "parentId": "saturn",
+      "startTdb": 825595269.1853772,
+      "endTdb": 828273669.1856546,
+      "bytes": 492384,
+      "sha256": "6ff3513879662cbcbd708bbfafda40f90c20acfe46af933cb966f7955e7ad2a9"
+    },
+    {
+      "file": "neptune-2026-03.json",
+      "parentId": "neptune",
+      "startTdb": 825595269.1853772,
+      "endTdb": 828273669.1856546,
+      "bytes": 29213,
+      "sha256": "ab50eab0b35a1621e3b480d4ae534f0b05e425b15dd5caf5b83fb45d636db0e0"
+    },
+    {
+      "file": "mars-2026-03.json",
+      "parentId": "mars",
+      "startTdb": 825595269.1853772,
+      "endTdb": 828273669.1856546,
+      "bytes": 261417,
+      "sha256": "f972b602bf062312b6b6229071375a03097d5f93569931dcbe5e902a4bf9a8ed"
+    },
+    {
+      "file": "uranus-2026-03.json",
+      "parentId": "uranus",
+      "startTdb": 825595269.1853772,
+      "endTdb": 828273669.1856546,
+      "bytes": 217576,
+      "sha256": "b256364d912acd817a37d56136e784ce0b1c57649acfb2e264d74e64f2a6edad"
+    },
+    {
+      "file": "jupiter-2026-04.json",
+      "parentId": "jupiter",
+      "startTdb": 828273669.1856546,
+      "endTdb": 830865669.185484,
+      "bytes": 169046,
+      "sha256": "68ec1837ca9c7704adf2245b8d7ca2378ae5034ae8220ac8d3177087345cbca3"
+    },
+    {
+      "file": "saturn-2026-04.json",
+      "parentId": "saturn",
+      "startTdb": 828273669.1856546,
+      "endTdb": 830865669.185484,
+      "bytes": 476587,
+      "sha256": "ce13a54b4b86f3bbd240b484fbd018dbea413065d685445d556267e4c5e3e6f2"
+    },
+    {
+      "file": "neptune-2026-04.json",
+      "parentId": "neptune",
+      "startTdb": 828273669.1856546,
+      "endTdb": 830865669.185484,
+      "bytes": 28325,
+      "sha256": "a919183e393b7b95e614b361cdf4cd9e456d9911274996f53c4454c0fbf6badf"
+    },
+    {
+      "file": "mars-2026-04.json",
+      "parentId": "mars",
+      "startTdb": 828273669.1856546,
+      "endTdb": 830865669.185484,
+      "bytes": 253016,
+      "sha256": "225b44f220b3ea8f7e5919ebd4e012759c6e637881e92d23182f56dc1f71c644"
+    },
+    {
+      "file": "uranus-2026-04.json",
+      "parentId": "uranus",
+      "startTdb": 828273669.1856546,
+      "endTdb": 830865669.185484,
+      "bytes": 210433,
+      "sha256": "dfae529aa669c15947adabe4796be6dee18a8c5369c416d5e40c372bcd326468"
+    },
+    {
+      "file": "jupiter-2026-05.json",
+      "parentId": "jupiter",
+      "startTdb": 830865669.185484,
+      "endTdb": 833544069.1849113,
+      "bytes": 174560,
+      "sha256": "9e2de5ab266c6070fe3664ae67ead58ce2a2859956bc2dbc6698f5e374863772"
+    },
+    {
+      "file": "saturn-2026-05.json",
+      "parentId": "saturn",
+      "startTdb": 830865669.185484,
+      "endTdb": 833544069.1849113,
+      "bytes": 492480,
+      "sha256": "8188ff88b54d69e2e41f8ef2a01f0d4afb068daa7abb835dd0393a21cb217d16"
+    },
+    {
+      "file": "neptune-2026-05.json",
+      "parentId": "neptune",
+      "startTdb": 830865669.185484,
+      "endTdb": 833544069.1849113,
+      "bytes": 29220,
+      "sha256": "759bb44d865f6ec239ed377250fc076e6211db7cf6253087c8509ef600ea6a05"
+    },
+    {
+      "file": "mars-2026-05.json",
+      "parentId": "mars",
+      "startTdb": 830865669.185484,
+      "endTdb": 833544069.1849113,
+      "bytes": 261541,
+      "sha256": "db77444ff1da4e79673cdce0972158782d5ee9b5ae46cde2fb86209a519d481c"
+    },
+    {
+      "file": "uranus-2026-05.json",
+      "parentId": "uranus",
+      "startTdb": 830865669.185484,
+      "endTdb": 833544069.1849113,
+      "bytes": 217590,
+      "sha256": "c3479f41953c6c18dd0b19ec7bf5d05698ca7c43f9dac72a182f7bc8b1d58dd3"
+    },
+    {
+      "file": "jupiter-2026-06.json",
+      "parentId": "jupiter",
+      "startTdb": 833544069.1849113,
+      "endTdb": 836136069.1841229,
+      "bytes": 169042,
+      "sha256": "2359450c63e4e7f86de8fa93b72a1aa87a55b2d545cbda7116ba7328867f81f4"
+    },
+    {
+      "file": "saturn-2026-06.json",
+      "parentId": "saturn",
+      "startTdb": 833544069.1849113,
+      "endTdb": 836136069.1841229,
+      "bytes": 476552,
+      "sha256": "d2f4fb71e35252906f671c64f47df86bd99fbca0cec18b14ba10d6c3750223f9"
+    },
+    {
+      "file": "neptune-2026-06.json",
+      "parentId": "neptune",
+      "startTdb": 833544069.1849113,
+      "endTdb": 836136069.1841229,
+      "bytes": 28283,
+      "sha256": "7ace15053cf9f8d653c626c04c2033b8fae293e02377523f55b3f9b99faebb00"
+    },
+    {
+      "file": "mars-2026-06.json",
+      "parentId": "mars",
+      "startTdb": 833544069.1849113,
+      "endTdb": 836136069.1841229,
+      "bytes": 253101,
+      "sha256": "7c10e1d546112a6deac7d216d295d754a4f79544b16f24859a3a42a6224fb269"
+    },
+    {
+      "file": "uranus-2026-06.json",
+      "parentId": "uranus",
+      "startTdb": 833544069.1849113,
+      "endTdb": 836136069.1841229,
+      "bytes": 210621,
+      "sha256": "c01bdaba73cb33c615b7a75f0128f03d7d30db7f32baddf96154f9fa44125dfa"
+    },
+    {
+      "file": "jupiter-2026-07.json",
+      "parentId": "jupiter",
+      "startTdb": 836136069.1841229,
+      "endTdb": 838814469.1832788,
+      "bytes": 174703,
+      "sha256": "cd63610896a2093ef2e64a7ddd03d3c0797ef450f0a17e655656f94246e4d33f"
+    },
+    {
+      "file": "saturn-2026-07.json",
+      "parentId": "saturn",
+      "startTdb": 836136069.1841229,
+      "endTdb": 838814469.1832788,
+      "bytes": 492387,
+      "sha256": "ba6c60c0ae7db4745f0e34d1f3372e36b3c822e3a2a3f0cb61ac4010e8e945fb"
+    },
+    {
+      "file": "neptune-2026-07.json",
+      "parentId": "neptune",
+      "startTdb": 836136069.1841229,
+      "endTdb": 838814469.1832788,
+      "bytes": 29251,
+      "sha256": "36f2a0fad673be94fced8e102e05b846a6e76666d63700572aa136cb155d4cb6"
+    },
+    {
+      "file": "mars-2026-07.json",
+      "parentId": "mars",
+      "startTdb": 836136069.1841229,
+      "endTdb": 838814469.1832788,
+      "bytes": 261664,
+      "sha256": "90252ec791d638abcb9e7f11471b07816ad8788f5386a96f0f25df69b51992ba"
+    },
+    {
+      "file": "uranus-2026-07.json",
+      "parentId": "uranus",
+      "startTdb": 836136069.1841229,
+      "endTdb": 838814469.1832788,
+      "bytes": 217511,
+      "sha256": "7ead1b82ce9e201ce666b4894b1a5eee0e468a0b0c883a6298bbe19e961ca775"
+    },
+    {
+      "file": "jupiter-2026-08.json",
+      "parentId": "jupiter",
+      "startTdb": 838814469.1832788,
+      "endTdb": 841492869.1826266,
+      "bytes": 174603,
+      "sha256": "c755000bbfa3b010cc536261bd5a9d4ebed23585abe975fa1f7672078d7fb9d0"
+    },
+    {
+      "file": "saturn-2026-08.json",
+      "parentId": "saturn",
+      "startTdb": 838814469.1832788,
+      "endTdb": 841492869.1826266,
+      "bytes": 492622,
+      "sha256": "e0d188a579b1153daee93b1e8d2092acc6f937557c14c5ebaa7f1463fd9117ac"
+    },
+    {
+      "file": "neptune-2026-08.json",
+      "parentId": "neptune",
+      "startTdb": 838814469.1832788,
+      "endTdb": 841492869.1826266,
+      "bytes": 29246,
+      "sha256": "a9cb13feedadd139f835b41541dd24b734772d4ff2f6febda4cef1301721b73e"
+    },
+    {
+      "file": "mars-2026-08.json",
+      "parentId": "mars",
+      "startTdb": 838814469.1832788,
+      "endTdb": 841492869.1826266,
+      "bytes": 261451,
+      "sha256": "650232dbcee1be5ca3c23f31f414c26d2e71df52af1c15a33f7ccee9f74866e4"
+    },
+    {
+      "file": "uranus-2026-08.json",
+      "parentId": "uranus",
+      "startTdb": 838814469.1832788,
+      "endTdb": 841492869.1826266,
+      "bytes": 217602,
+      "sha256": "51e091e7cbfd5b2e5578fac848b6c28178fd323efc8a939d95351edc9faa7cf7"
+    },
+    {
+      "file": "jupiter-2026-09.json",
+      "parentId": "jupiter",
+      "startTdb": 841492869.1826266,
+      "endTdb": 844084869.1823484,
+      "bytes": 169139,
+      "sha256": "fef59d7d857ec60f3314a99aa0e75a9f633e294eef0a2935753b0fba34b75e7d"
+    },
+    {
+      "file": "saturn-2026-09.json",
+      "parentId": "saturn",
+      "startTdb": 841492869.1826266,
+      "endTdb": 844084869.1823484,
+      "bytes": 476807,
+      "sha256": "bf818a597c5178f64d7c0faef1b9dc1bb42f13b8b361dd6f93aafaa197d61876"
+    },
+    {
+      "file": "neptune-2026-09.json",
+      "parentId": "neptune",
+      "startTdb": 841492869.1826266,
+      "endTdb": 844084869.1823484,
+      "bytes": 28267,
+      "sha256": "7debffe577751790aa053881247ab636be9ee7010ab00382dd1c6e5c46637e6d"
+    },
+    {
+      "file": "mars-2026-09.json",
+      "parentId": "mars",
+      "startTdb": 841492869.1826266,
+      "endTdb": 844084869.1823484,
+      "bytes": 253239,
+      "sha256": "3b92c3a24e5933e8a7c4580f29e45e3ca9dba597a4463c4779e32b21fa1fcd93"
+    },
+    {
+      "file": "uranus-2026-09.json",
+      "parentId": "uranus",
+      "startTdb": 841492869.1826266,
+      "endTdb": 844084869.1823484,
+      "bytes": 210697,
+      "sha256": "f219542c9c15aaedeba1edce2bbe99613b49141645b448503ffecb053a2acb23"
+    },
+    {
+      "file": "jupiter-2026-10.json",
+      "parentId": "jupiter",
+      "startTdb": 844084869.1823484,
+      "endTdb": 846763269.1825113,
+      "bytes": 174632,
+      "sha256": "5048e63935aa19f2930b70766a1b74972574e944685fdd1b6c1465a4b8581105"
+    },
+    {
+      "file": "saturn-2026-10.json",
+      "parentId": "saturn",
+      "startTdb": 844084869.1823484,
+      "endTdb": 846763269.1825113,
+      "bytes": 492572,
+      "sha256": "69131cdd2ec2f88d8061737fa84da9c95efa5415fde79feb727e3a435024293d"
+    },
+    {
+      "file": "neptune-2026-10.json",
+      "parentId": "neptune",
+      "startTdb": 844084869.1823484,
+      "endTdb": 846763269.1825113,
+      "bytes": 29251,
+      "sha256": "6267d91bc572d65cc810f2b44d09865e20d630d6f687857983947ab32d38f797"
+    },
+    {
+      "file": "mars-2026-10.json",
+      "parentId": "mars",
+      "startTdb": 844084869.1823484,
+      "endTdb": 846763269.1825113,
+      "bytes": 261588,
+      "sha256": "bedc6f283c1b9c78d83204c07c904bbc5527157631e434a9efec7e81c5fef7db"
+    },
+    {
+      "file": "uranus-2026-10.json",
+      "parentId": "uranus",
+      "startTdb": 844084869.1823484,
+      "endTdb": 846763269.1825113,
+      "bytes": 217533,
+      "sha256": "1435b1d6e852cf3f6e7a4420caa76f75269b35deccdf7190ea2c0e0fb0c128cd"
+    },
+    {
+      "file": "jupiter-2026-11.json",
+      "parentId": "jupiter",
+      "startTdb": 846763269.1825113,
+      "endTdb": 849355269.183072,
+      "bytes": 169117,
+      "sha256": "b42f6f8ca3ea80a3037b58e7669b0b7f031571948c469bffc53fc23d6218524c"
+    },
+    {
+      "file": "saturn-2026-11.json",
+      "parentId": "saturn",
+      "startTdb": 846763269.1825113,
+      "endTdb": 849355269.183072,
+      "bytes": 476537,
+      "sha256": "a1ce971add0bcd5fb2d0252afd54c5dfdebb88ae769945cecf20615fb79d0da4"
+    },
+    {
+      "file": "neptune-2026-11.json",
+      "parentId": "neptune",
+      "startTdb": 846763269.1825113,
+      "endTdb": 849355269.183072,
+      "bytes": 28282,
+      "sha256": "4ffd51ab5d6a8c18e70d7a8759a11988f45d6df5bf7d66c209c9f01619d83866"
+    },
+    {
+      "file": "mars-2026-11.json",
+      "parentId": "mars",
+      "startTdb": 846763269.1825113,
+      "endTdb": 849355269.183072,
+      "bytes": 253199,
+      "sha256": "8bee220c0e81f23dd92d22e00945bb42bf9d603e7f54d1a58654427f500a19d2"
+    },
+    {
+      "file": "uranus-2026-11.json",
+      "parentId": "uranus",
+      "startTdb": 846763269.1825113,
+      "endTdb": 849355269.183072,
+      "bytes": 210625,
+      "sha256": "0439740e2e513008b66c89a7061e6926be50a92a35259d48d1e2eab4702ab40e"
+    },
+    {
+      "file": "jupiter-2026-12.json",
+      "parentId": "jupiter",
+      "startTdb": 849355269.183072,
+      "endTdb": 852033669.1839125,
+      "bytes": 174472,
+      "sha256": "0d53f60a58d5cd385ee7937df2074fd0ebfcbc072a2ae9053f7a33139fd0aac8"
+    },
+    {
+      "file": "saturn-2026-12.json",
+      "parentId": "saturn",
+      "startTdb": 849355269.183072,
+      "endTdb": 852033669.1839125,
+      "bytes": 492226,
+      "sha256": "ff6ebbf3201fe8cdd152107c674cc721b4017ca29a2418be66fa463fbf8beadd"
+    },
+    {
+      "file": "neptune-2026-12.json",
+      "parentId": "neptune",
+      "startTdb": 849355269.183072,
+      "endTdb": 852033669.1839125,
+      "bytes": 29216,
+      "sha256": "9ebe606827eeefd970c72031eef3681504cef995613f37865daa7edac3868a37"
+    },
+    {
+      "file": "mars-2026-12.json",
+      "parentId": "mars",
+      "startTdb": 849355269.183072,
+      "endTdb": 852033669.1839125,
+      "bytes": 261591,
+      "sha256": "689ebc6d12f2c01234465682317baba84299e19dd6a87a117bcd58b78e3f144a"
+    },
+    {
+      "file": "uranus-2026-12.json",
+      "parentId": "uranus",
+      "startTdb": 849355269.183072,
+      "endTdb": 852033669.1839125,
+      "bytes": 217559,
+      "sha256": "7030257b6ad623c8ca55fc35cfe92991ec6f6bf7270e4f40578c0f8a6893116d"
+    },
+    {
+      "file": "jupiter-2027-01.json",
+      "parentId": "jupiter",
+      "startTdb": 852033669.1839125,
+      "endTdb": 854712069.1847785,
+      "bytes": 174722,
+      "sha256": "427a5ff4cb9a7f2dc9720f1e2e478db6704e891677e3bdb093255c012885efd4"
+    },
+    {
+      "file": "saturn-2027-01.json",
+      "parentId": "saturn",
+      "startTdb": 852033669.1839125,
+      "endTdb": 854712069.1847785,
+      "bytes": 492308,
+      "sha256": "16c7f1c55ce2bf5f396f87f2b2d0f4babfb9b5725f7ca07de4378ec0e41d16b3"
+    },
+    {
+      "file": "neptune-2027-01.json",
+      "parentId": "neptune",
+      "startTdb": 852033669.1839125,
+      "endTdb": 854712069.1847785,
+      "bytes": 29209,
+      "sha256": "454b950a969f432a36cc8f776cb847ff80fe7328e95b04a8c81319d14d0cae37"
+    },
+    {
+      "file": "mars-2027-01.json",
+      "parentId": "mars",
+      "startTdb": 852033669.1839125,
+      "endTdb": 854712069.1847785,
+      "bytes": 261698,
+      "sha256": "a26d4dfe2dfbaf97443c4f54d89c83be93cdcab852b007c160763ac8bdf7745f"
+    },
+    {
+      "file": "uranus-2027-01.json",
+      "parentId": "uranus",
+      "startTdb": 852033669.1839125,
+      "endTdb": 854712069.1847785,
+      "bytes": 217690,
+      "sha256": "6d482d4e605586c0f7495d982aa9856727748b6a879ab4e9621758feeb670c2a"
+    },
+    {
+      "file": "jupiter-2027-02.json",
+      "parentId": "jupiter",
+      "startTdb": 854712069.1847785,
+      "endTdb": 857131269.1853731,
+      "bytes": 157866,
+      "sha256": "4a9c4de5c63ef4ead9904caf155fbadc7d3f72ba9656ac278cf777d208e66a4f"
+    },
+    {
+      "file": "saturn-2027-02.json",
+      "parentId": "saturn",
+      "startTdb": 854712069.1847785,
+      "endTdb": 857131269.1853731,
+      "bytes": 444904,
+      "sha256": "f93658c34363adbb05267749c4ba973d6dd1dd6bceddbe4fda382820d7ad62e6"
+    },
+    {
+      "file": "neptune-2027-02.json",
+      "parentId": "neptune",
+      "startTdb": 854712069.1847785,
+      "endTdb": 857131269.1853731,
+      "bytes": 26414,
+      "sha256": "fb280e72234111a9a02508ef5402a70193d407ac51a663c4f2fc32b24394a84f"
+    },
+    {
+      "file": "mars-2027-02.json",
+      "parentId": "mars",
+      "startTdb": 854712069.1847785,
+      "endTdb": 857131269.1853731,
+      "bytes": 236411,
+      "sha256": "fb9bda0b7c70268f3e405503cb7bc377d9bf797df55ed05d76099850edd968e4"
+    },
+    {
+      "file": "uranus-2027-02.json",
+      "parentId": "uranus",
+      "startTdb": 854712069.1847785,
+      "endTdb": 857131269.1853731,
+      "bytes": 196701,
+      "sha256": "a401125aa19da8bf7001204d3f252680dc345aaa7b83bbd7b93e40e411646f29"
+    },
+    {
+      "file": "jupiter-2027-03.json",
+      "parentId": "jupiter",
+      "startTdb": 857131269.1853731,
+      "endTdb": 859809669.1856543,
+      "bytes": 174763,
+      "sha256": "38a00d65b3291a9ff45c073e303d7411eab1e34d5e40f8520e0b341fec5093e8"
+    },
+    {
+      "file": "saturn-2027-03.json",
+      "parentId": "saturn",
+      "startTdb": 857131269.1853731,
+      "endTdb": 859809669.1856543,
+      "bytes": 492187,
+      "sha256": "214d6a036763d374cf0fd84cdf54a240f7fbc8921c811a560762977796dc6a32"
+    },
+    {
+      "file": "neptune-2027-03.json",
+      "parentId": "neptune",
+      "startTdb": 857131269.1853731,
+      "endTdb": 859809669.1856543,
+      "bytes": 29208,
+      "sha256": "7d490d2ac840342650040fc73509c87406b45c5f6e681ce8b02003b84d18307d"
+    },
+    {
+      "file": "mars-2027-03.json",
+      "parentId": "mars",
+      "startTdb": 857131269.1853731,
+      "endTdb": 859809669.1856543,
+      "bytes": 261496,
+      "sha256": "16e586c828debee83232cb70a15de9553a80ee37a67b7c9e6dfb5c15295290fd"
+    },
+    {
+      "file": "uranus-2027-03.json",
+      "parentId": "uranus",
+      "startTdb": 857131269.1853731,
+      "endTdb": 859809669.1856543,
+      "bytes": 217584,
+      "sha256": "d70bd333ac7a1987eb69db5d4ba89278581df4e1614e78ad80a85a0af474dfd9"
+    },
+    {
+      "file": "jupiter-2027-04.json",
+      "parentId": "jupiter",
+      "startTdb": 859809669.1856543,
+      "endTdb": 862401669.1854873,
+      "bytes": 169150,
+      "sha256": "090802a1fc95e63d870fb5767348c413479b9f3112598059e5c371cd045d657e"
+    },
+    {
+      "file": "saturn-2027-04.json",
+      "parentId": "saturn",
+      "startTdb": 859809669.1856543,
+      "endTdb": 862401669.1854873,
+      "bytes": 476552,
+      "sha256": "64a287e6ad86bee752172b4bad87cb5e52b740b25122a52fd645f8c6c98bb563"
+    },
+    {
+      "file": "neptune-2027-04.json",
+      "parentId": "neptune",
+      "startTdb": 859809669.1856543,
+      "endTdb": 862401669.1854873,
+      "bytes": 28309,
+      "sha256": "58f8efe8a1e0b276a164c80f1cb15e6aef9e6fe50d740e6a14b7f6de472d83c7"
+    },
+    {
+      "file": "mars-2027-04.json",
+      "parentId": "mars",
+      "startTdb": 859809669.1856543,
+      "endTdb": 862401669.1854873,
+      "bytes": 253140,
+      "sha256": "9851882c2145afb913aa21c83725f6821966773bec39a1c4356c0f7c16fca5d3"
+    },
+    {
+      "file": "uranus-2027-04.json",
+      "parentId": "uranus",
+      "startTdb": 859809669.1856543,
+      "endTdb": 862401669.1854873,
+      "bytes": 210564,
+      "sha256": "b86a46570806de792130ff354439c6d9b7ab0943732b3172205ded1b0a16869b"
+    },
+    {
+      "file": "jupiter-2027-05.json",
+      "parentId": "jupiter",
+      "startTdb": 862401669.1854873,
+      "endTdb": 865080069.1849173,
+      "bytes": 174684,
+      "sha256": "efd5bb096b275fcd5987af8b2e37fd4266cbe2348d6d8f43db8fc301de235609"
+    },
+    {
+      "file": "saturn-2027-05.json",
+      "parentId": "saturn",
+      "startTdb": 862401669.1854873,
+      "endTdb": 865080069.1849173,
+      "bytes": 492314,
+      "sha256": "e8dd45a4c6ced26d68e05f3032f39a800f8d77708412f416489ee0a17ff82aa9"
+    },
+    {
+      "file": "neptune-2027-05.json",
+      "parentId": "neptune",
+      "startTdb": 862401669.1854873,
+      "endTdb": 865080069.1849173,
+      "bytes": 29241,
+      "sha256": "aec9caa0d7bd106fcf5e5a49c66897f145a87fed33dd668fdeebcd1795ed33e0"
+    },
+    {
+      "file": "mars-2027-05.json",
+      "parentId": "mars",
+      "startTdb": 862401669.1854873,
+      "endTdb": 865080069.1849173,
+      "bytes": 261498,
+      "sha256": "7076668f21f41fd14df62493bfe5d9fc1e88667351bd4358602aa2b48fac0a4e"
+    },
+    {
+      "file": "uranus-2027-05.json",
+      "parentId": "uranus",
+      "startTdb": 862401669.1854873,
+      "endTdb": 865080069.1849173,
+      "bytes": 217635,
+      "sha256": "8315cd058b24e869b0c44605b8e374a1b4dc11922fa85e17e0283735336b00d4"
+    },
+    {
+      "file": "jupiter-2027-06.json",
+      "parentId": "jupiter",
+      "startTdb": 865080069.1849173,
+      "endTdb": 867672069.1841302,
+      "bytes": 169124,
+      "sha256": "ed194cc5e5a98d142079546efbeb091264b69bf9ad73cfa0304d84f9a23f2019"
+    },
+    {
+      "file": "saturn-2027-06.json",
+      "parentId": "saturn",
+      "startTdb": 865080069.1849173,
+      "endTdb": 867672069.1841302,
+      "bytes": 476566,
+      "sha256": "3d9653aaf55ab536845b4d2348c92fd823b317dedd6f825b5d172bb24809b1cd"
+    },
+    {
+      "file": "neptune-2027-06.json",
+      "parentId": "neptune",
+      "startTdb": 865080069.1849173,
+      "endTdb": 867672069.1841302,
+      "bytes": 28326,
+      "sha256": "a72475a228d3bdae4d283c206f8d8da5320e5178d83b56a33f770dfdbee8e6b6"
+    },
+    {
+      "file": "mars-2027-06.json",
+      "parentId": "mars",
+      "startTdb": 865080069.1849173,
+      "endTdb": 867672069.1841302,
+      "bytes": 253010,
+      "sha256": "317edb2d56eb808189ffdaf23f7bf17bd13008b2b71b17d697f19a09db206046"
+    },
+    {
+      "file": "uranus-2027-06.json",
+      "parentId": "uranus",
+      "startTdb": 865080069.1849173,
+      "endTdb": 867672069.1841302,
+      "bytes": 210644,
+      "sha256": "cad8965acb00c3eb9cde9d0b3683b66e9d2b9bd7b8aa1f75dd7f0113f4f77f3b"
+    },
+    {
+      "file": "jupiter-2027-07.json",
+      "parentId": "jupiter",
+      "startTdb": 867672069.1841302,
+      "endTdb": 870350469.1832854,
+      "bytes": 174742,
+      "sha256": "0c63c3b7cbc7443b664971c1b4da88b1b5eab7e956bf5996673b5039ba9f2e0a"
+    },
+    {
+      "file": "saturn-2027-07.json",
+      "parentId": "saturn",
+      "startTdb": 867672069.1841302,
+      "endTdb": 870350469.1832854,
+      "bytes": 492352,
+      "sha256": "d08edc23456ce4175c75ad7ca1d93eb194cabf2c0cae0248f279a550ff8dc4e3"
+    },
+    {
+      "file": "neptune-2027-07.json",
+      "parentId": "neptune",
+      "startTdb": 867672069.1841302,
+      "endTdb": 870350469.1832854,
+      "bytes": 29203,
+      "sha256": "fd9c19af9c59b917940f5171586df9aec1d078ffcdaa5f55e1d2e481e6b0813c"
+    },
+    {
+      "file": "mars-2027-07.json",
+      "parentId": "mars",
+      "startTdb": 867672069.1841302,
+      "endTdb": 870350469.1832854,
+      "bytes": 261474,
+      "sha256": "314c30f196daae82260087ad50c0ef65988acd099dab29474980c8c9e4cd7da5"
+    },
+    {
+      "file": "uranus-2027-07.json",
+      "parentId": "uranus",
+      "startTdb": 867672069.1841302,
+      "endTdb": 870350469.1832854,
+      "bytes": 217603,
+      "sha256": "ab54a22f124e5cb798bebb4f85fa2ca5ce5cc92afeda31db193bfd7ab2fee771"
+    },
+    {
+      "file": "jupiter-2027-08.json",
+      "parentId": "jupiter",
+      "startTdb": 870350469.1832854,
+      "endTdb": 873028869.1826308,
+      "bytes": 174567,
+      "sha256": "ae7f5487365a681d6acb2bef40b2a23689c546ffbd347caab5adb97e47e6e854"
+    },
+    {
+      "file": "saturn-2027-08.json",
+      "parentId": "saturn",
+      "startTdb": 870350469.1832854,
+      "endTdb": 873028869.1826308,
+      "bytes": 492455,
+      "sha256": "ca306d3f08532add909e955e9daf12bc516c0a4b44af07a99ca3606c7510ccbf"
+    },
+    {
+      "file": "neptune-2027-08.json",
+      "parentId": "neptune",
+      "startTdb": 870350469.1832854,
+      "endTdb": 873028869.1826308,
+      "bytes": 29273,
+      "sha256": "910496c709a926b4541d08108307baf1d1d96ea366ef3041f893ce3e5e22af05"
+    },
+    {
+      "file": "mars-2027-08.json",
+      "parentId": "mars",
+      "startTdb": 870350469.1832854,
+      "endTdb": 873028869.1826308,
+      "bytes": 261389,
+      "sha256": "6ba2f20c21e0268fdcb17569ce91df61f92c0cfb79dc723ea93871041510ca34"
+    },
+    {
+      "file": "uranus-2027-08.json",
+      "parentId": "uranus",
+      "startTdb": 870350469.1832854,
+      "endTdb": 873028869.1826308,
+      "bytes": 217614,
+      "sha256": "4b50bc991ecbdc67fe5ae3cc6d3444b9f49700327d145920ee050c1f25175743"
+    },
+    {
+      "file": "jupiter-2027-09.json",
+      "parentId": "jupiter",
+      "startTdb": 873028869.1826308,
+      "endTdb": 875620869.182349,
+      "bytes": 169024,
+      "sha256": "edc0d65061a975a1b185615c22525fdcb5e5cc5a1d507b01aa49275558d34a68"
+    },
+    {
+      "file": "saturn-2027-09.json",
+      "parentId": "saturn",
+      "startTdb": 873028869.1826308,
+      "endTdb": 875620869.182349,
+      "bytes": 476559,
+      "sha256": "f3599328b3e687a8574990b219fcfbf933ecc112478aecf9b486c3ded74730ae"
+    },
+    {
+      "file": "neptune-2027-09.json",
+      "parentId": "neptune",
+      "startTdb": 873028869.1826308,
+      "endTdb": 875620869.182349,
+      "bytes": 28320,
+      "sha256": "ecb4a8bb7c62d4f4bd72202984d83c7487636780e295344e180be99416e44d33"
+    },
+    {
+      "file": "mars-2027-09.json",
+      "parentId": "mars",
+      "startTdb": 873028869.1826308,
+      "endTdb": 875620869.182349,
+      "bytes": 252954,
+      "sha256": "b9e106712beb414791f07c5e3880b0a98709bf6993b1b4f0852f5ef989addf13"
+    },
+    {
+      "file": "uranus-2027-09.json",
+      "parentId": "uranus",
+      "startTdb": 873028869.1826308,
+      "endTdb": 875620869.182349,
+      "bytes": 210718,
+      "sha256": "799da2a11c5bab4d226a7ccab5e8f6d1d4e1060090c437df855e11853adfbdc3"
+    },
+    {
+      "file": "jupiter-2027-10.json",
+      "parentId": "jupiter",
+      "startTdb": 875620869.182349,
+      "endTdb": 878299269.1825081,
+      "bytes": 174656,
+      "sha256": "3146563f2a5e808cc03ef8f3376779868fc661167f3c6dbe9662ca43fb896c9c"
+    },
+    {
+      "file": "saturn-2027-10.json",
+      "parentId": "saturn",
+      "startTdb": 875620869.182349,
+      "endTdb": 878299269.1825081,
+      "bytes": 492270,
+      "sha256": "4c04b7ff1288035e25dc14b765f1ce8ee5cf62f90805a6e842923233d7b93ec4"
+    },
+    {
+      "file": "neptune-2027-10.json",
+      "parentId": "neptune",
+      "startTdb": 875620869.182349,
+      "endTdb": 878299269.1825081,
+      "bytes": 29225,
+      "sha256": "6eeca020622e2e2169cc2f75059bb99b419cd080648b7faca61d6349f5457ecf"
+    },
+    {
+      "file": "mars-2027-10.json",
+      "parentId": "mars",
+      "startTdb": 875620869.182349,
+      "endTdb": 878299269.1825081,
+      "bytes": 261396,
+      "sha256": "fa961af044e0ccefcc2fac74d5ef3b314b980398ae6344c92365af422dc8e2e1"
+    },
+    {
+      "file": "uranus-2027-10.json",
+      "parentId": "uranus",
+      "startTdb": 875620869.182349,
+      "endTdb": 878299269.1825081,
+      "bytes": 217486,
+      "sha256": "d071120dd74ba2e571a631924d80a4bdfaa1f48f40fd96e57e743e358a6c9f06"
+    },
+    {
+      "file": "jupiter-2027-11.json",
+      "parentId": "jupiter",
+      "startTdb": 878299269.1825081,
+      "endTdb": 880891269.1830658,
+      "bytes": 169179,
+      "sha256": "d5e73ff902451170c1d3cfc70eefe4df327172267bedaa90ea84a1da48726c6c"
+    },
+    {
+      "file": "saturn-2027-11.json",
+      "parentId": "saturn",
+      "startTdb": 878299269.1825081,
+      "endTdb": 880891269.1830658,
+      "bytes": 476501,
+      "sha256": "8bbf7dd12379653083ecf07b355831d5072ea896a7f86dca2a898b496047b023"
+    },
+    {
+      "file": "neptune-2027-11.json",
+      "parentId": "neptune",
+      "startTdb": 878299269.1825081,
+      "endTdb": 880891269.1830658,
+      "bytes": 28293,
+      "sha256": "180d107575a4f771ec7ad43aeacce048b484214ba0f0bce62cfe751099ebca11"
+    },
+    {
+      "file": "mars-2027-11.json",
+      "parentId": "mars",
+      "startTdb": 878299269.1825081,
+      "endTdb": 880891269.1830658,
+      "bytes": 252995,
+      "sha256": "5139f0cfb56a32d3ad6a4d3273847d937ade77ffc8af59c13aedae5e8f594eed"
+    },
+    {
+      "file": "uranus-2027-11.json",
+      "parentId": "uranus",
+      "startTdb": 878299269.1825081,
+      "endTdb": 880891269.1830658,
+      "bytes": 210758,
+      "sha256": "211c45b00efd0efb7241cd9c6afe01609503a7dd07796bceabd7c54c1acd88da"
+    },
+    {
+      "file": "jupiter-2027-12.json",
+      "parentId": "jupiter",
+      "startTdb": 880891269.1830658,
+      "endTdb": 883569669.183905,
+      "bytes": 174672,
+      "sha256": "38010b4cb978c7bb14aebe0d51523e4f4d6c30024164333bd8f335bf1970427d"
+    },
+    {
+      "file": "saturn-2027-12.json",
+      "parentId": "saturn",
+      "startTdb": 880891269.1830658,
+      "endTdb": 883569669.183905,
+      "bytes": 492177,
+      "sha256": "f4fc387b8f6e9fcad1a6aa78dd23b47bfe119ab92f026c6a7107b7233baa6bfe"
+    },
+    {
+      "file": "neptune-2027-12.json",
+      "parentId": "neptune",
+      "startTdb": 880891269.1830658,
+      "endTdb": 883569669.183905,
+      "bytes": 29190,
+      "sha256": "1f933a51a867e17dcdf6655742a3fcfc4726a5a1910cff4d304c40171a8354f8"
+    },
+    {
+      "file": "mars-2027-12.json",
+      "parentId": "mars",
+      "startTdb": 880891269.1830658,
+      "endTdb": 883569669.183905,
+      "bytes": 261370,
+      "sha256": "25704f23f2cd485a5d08701f15886ffe7e5e4b13a618add8f0f06a08ff9190fe"
+    },
+    {
+      "file": "uranus-2027-12.json",
+      "parentId": "uranus",
+      "startTdb": 880891269.1830658,
+      "endTdb": 883569669.183905,
+      "bytes": 217634,
+      "sha256": "1f05b61781da70973de8739aef036239309bd3a77c61e9b21cf036ebc27071cc"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/jup365.bsp",
+      "originalFile": "jup365.bsp",
+      "targets": [
+        501,
+        502,
+        503,
+        504,
+        599
+      ],
+      "excerptStartTdb": 820497600.0,
+      "excerptEndTdb": 883656000.0,
+      "method": "jplephem exact extraction of selected original Chebyshev records, no refitting",
+      "excerptSha256": "ecf5c907dad20b4ad788703511629f67456e7e5ca58710cbe59fe04d38445e90",
+      "downloadedBytes": 1836728,
+      "rangeRequests": [
+        {
+          "contentRange": "bytes 0-65535/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "972268c02d0b6ec7a3c08ae2f23b6c61b82b207e8aef33855b11d58444df8de9",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 65536-131071/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "64019e7a6ee353426dc355face8e4dda65e4c450fa246e26b144bf17bf73fc00",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 51576832-51642367/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "46bbcfd55bbbd96eedc136828343cb527649483c1c03b2a86125610adf111f25",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 103153664-103219199/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "e881b0777b6edbe76245eab99dd29c45a77582d7dcc3b70f28ed4a63397c7a18",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 136183808-136249343/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "a2f2d9f4f08d8e65974e24b72abde9dec40963eb27f614a7f66218959fcdc630",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 154206208-154271743/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "d30c73d47fc404b7cfd80a6ae8f324e4b63e5e2b818d741e3b71ad854ef2425d",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 733741056-733806591/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "91ec1b1623e21d6f760f1c7f7a684d3419eb3f26baef57d1608a1e461d4c2740",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 760086528-760152063/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "b24bfad8067464847abf47e767561e4cf022789c9e594dd57620f3f0367b70a0",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 737476608-737771903/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "2ba54bae1871ccf826ed366bcf5ee72f21bca007da6731d055144199e9e2cbb6",
+          "bytes": 295296
+        },
+        {
+          "contentRange": "bytes 786432000-786497535/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "d367b61969d050dd970c1e2a95291c0df89fa62a8ca9e8c5154dca1ea4635898",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 763822080-764132335/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "807237f233255a7dbbe85be1b4cdc9b3984012afdaedad8cfa4c03648bc41591",
+          "bytes": 310256
+        },
+        {
+          "contentRange": "bytes 803340288-803405823/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "a6d82e26cd26787c99afa13b02dec87c9a829aa3bfb41e12014f9b7546eb6f2d",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 788856832-789045279/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "36b7a03b0b67a0042bcbd3b29bb645586d6d31d6adfeed7ce7b76ac4539ae562",
+          "bytes": 188448
+        },
+        {
+          "contentRange": "bytes 812515328-812580863/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "62799e90e9c90efaa9527a425dadbf877ceee7aac4c933ce81c9d250b0c3ef36",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 804651008-804749935/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "f4cb866de7bebcb97f073c162b2521e5c0a0afc5b7b432334ee48efa20f04c06",
+          "bytes": 98928
+        },
+        {
+          "contentRange": "bytes 1108803584-1108869119/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "f03a80fba76670d6a3e2b8dc588b12917859c3de670da81426c6a8626bb2e20d",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 1097531392-1097688759/1136581632",
+          "etag": null,
+          "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+          "sha256": "e4eab97d958fe2baca396036c6e1b928d03bdb164d3b8931f4620882d61cfbc5",
+          "bytes": 157368
+        }
+      ],
+      "retrievedAt": "2026-09-22T10:03:56.548796+00:00",
+      "dafRecordPadding": true
+    },
+    {
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/sat441.bsp",
+      "originalFile": "sat441.bsp",
+      "targets": [
+        602,
+        606,
+        601,
+        603,
+        604,
+        605,
+        608,
+        699
+      ],
+      "excerptStartTdb": 820497600.0,
+      "excerptEndTdb": 883656000.0,
+      "method": "jplephem exact extraction of selected original Chebyshev records, no refitting",
+      "excerptSha256": "7c7e286cb74cf51408507f4896f5fb9c0381665bda02092015a14abca34da37b",
+      "downloadedBytes": 2910672,
+      "rangeRequests": [
+        {
+          "contentRange": "bytes 0-65535/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "58346ec5e539386dc91d5cd894a85d0c6bbb0070604a4bdd0150ebffa087eafc",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 65536-131071/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "d5eb1e79edda6b0b0ae93277bde5b8ed5998a608cf83201618671e2635312316",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 510722048-510787583/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "b7fe84e33b829a29f7f83d2b24756486ffe7bddbb968b80484a6b0d4ab938385",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 51642368-51707903/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "9bd4b3b519acb5821798a331e6d4165423da03922ad7c315cc08d0f3f9095d21",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 93913088-93978623/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "98f959e74f1086cedf0e89374e59a91ce6bb1d08659454994ff0e40dc547ec46",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 118161408-118226943/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "589d5857b150fbc07813b422159c6161de58c144d0a70fa613fc5fb1cfff7e33",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 137756672-137822207/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "efb4927a6544475e65144a6e6b63a085e267ef183264a4102e83b0361e345acf",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 150798336-150863871/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "4b5ec5b2bc528bfbd25e0f0a857550a2d7259ecb234ff273511dec558f5cbaa3",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 161349632-161415167/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "09716c0fbff459b79f3b17f1f2cbe4105094c24f13a6a91f8f65f43b2d057df4",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 173408256-173473791/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "5e6e6b28169c92e579ce3540ec3f972fa1c9b8b0a74d01528b86f381fb7cf780",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 338100224-338165759/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "e703426c35ad68baffb9cf8fb97d461cbf3ffe47cdec2d5be630be3d13d75a43",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 383975424-384040959/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "30daaf251f0b7823d8ea748201b1d2629070f2bc15884fe4e9d1c316d9032306",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 340328448-340749007/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "5274c614154a02e092796f5cb5b0cff3e3e03f86c2900f575757bb329642b03a",
+          "bytes": 420560
+        },
+        {
+          "contentRange": "bytes 421527552-421593087/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "530dec7124e745c5fa78219c270cbfa255c042eb5624e70522f19d9ec7ee0dd0",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 385744896-386114391/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "aa7139d6a24b39b1aa8169e6e9444c5aef6ce0dd01540270246be9f9a5bba0fa",
+          "bytes": 369496
+        },
+        {
+          "contentRange": "bytes 443088896-443154431/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "25e8e44756cec0d6a32751a2d411db70f070d6fcb3521bd29bcd15307646873b",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 422576128-422791279/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "837b25dd4761a7677a47340fc1f6fbcf97cf94a04e27527c6a2b904a3f20669b",
+          "bytes": 215152
+        },
+        {
+          "contentRange": "bytes 460521472-460587007/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "7a9df2466f84f3f318850fd6f5d3f32ebc793aab7a8dea9e88a21b824fd21ae2",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 443940864-444099039/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "1fde9c19f8a076c5a2a792c37b78e84dbc65bb85fe4fd3cdec7ad542acbab618",
+          "bytes": 158176
+        },
+        {
+          "contentRange": "bytes 472121344-472186879/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "a60c6b1cb05add1c037f2f88f24f3c8b3857b106a4b17a939f383d3c76ae5a5c",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 461045760-461187215/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "bbe30f224052cbe84641b22d6155bdfcf425cc3ec5dc808f41fde243b92e6249",
+          "bytes": 141456
+        },
+        {
+          "contentRange": "bytes 481492992-481558527/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "53200b0402e205e36174fa877e9ef42284b1729626c1efa00fe2efeb3b3e45ad",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 472580096-472672823/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "e8a01f9885a8dc0755ff47e34772b85faaef13eb0673639926f36089820fdb38",
+          "bytes": 92728
+        },
+        {
+          "contentRange": "bytes 492175360-492240895/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "4b2b44d4eedfa43fcdbac760a694e6790dcd5f0089f7baf3397f87331aa5f5bd",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 489684992-489750527/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "5a5be83b3e1f2711047d12c3caecdbed77c2eea5c2da11ddf3512413600fbae0",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 638582784-638648319/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "6c14db2e2b447f8c507879ae3d32984efb0b86c599d1c3dab22480ff9f40ddf7",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 620691456-620893839/661592064",
+          "etag": null,
+          "lastModified": "Sat, 29 Jan 2022 14:38:13 GMT",
+          "sha256": "0d8815fedd665155c8d896e6e07ee8eb971accaaf50b7a381c974392ddf1bd09",
+          "bytes": 202384
+        }
+      ],
+      "retrievedAt": "2026-09-22T12:18:37.136178+00:00"
+    },
+    {
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/nep098_part-1.bsp",
+      "originalFile": "nep098_part-1.bsp",
+      "targets": [
+        801,
+        899
+      ],
+      "excerptStartTdb": 820497600.0,
+      "excerptEndTdb": 883656000.0,
+      "method": "jplephem exact extraction of selected original Chebyshev records, no refitting",
+      "excerptSha256": "70b96f99fb5fbab67768b3d982db8782bbda0485bf8929934594f88b1c00c68c",
+      "downloadedBytes": 1048248,
+      "rangeRequests": [
+        {
+          "contentRange": "bytes 0-65535/821838848",
+          "etag": null,
+          "lastModified": "Mon, 13 Jul 2026 17:57:46 GMT",
+          "sha256": "ff30f40534cb47f88b2ad9af2a7f02e50020a17d562a3c6d4774786123ca44d4",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 9699328-9764863/821838848",
+          "etag": null,
+          "lastModified": "Mon, 13 Jul 2026 17:57:46 GMT",
+          "sha256": "952fccddd88c2e863f5df50b453e5fc3c323822b6e78fdffd81e34fb4d3f659f",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 20447232-20512767/821838848",
+          "etag": null,
+          "lastModified": "Mon, 13 Jul 2026 17:57:46 GMT",
+          "sha256": "973b49b5cae14650c47877f34e0f30d8ee3aff5e840faa1372c1dc361f8891f4",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 11599872-11706087/821838848",
+          "etag": null,
+          "lastModified": "Mon, 13 Jul 2026 17:57:46 GMT",
+          "sha256": "64c1742f27daa9afb420337e2e02dd15b1d9a6d50b63e36bda24d1fc4b70ed47",
+          "bytes": 106216
+        },
+        {
+          "contentRange": "bytes 75956224-76021759/821838848",
+          "etag": null,
+          "lastModified": "Mon, 13 Jul 2026 17:57:46 GMT",
+          "sha256": "556a172f3fc593dbdd3b4415f4d72f84623a4513439ae78d00853fb8bb609985",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 137363456-137428991/821838848",
+          "etag": null,
+          "lastModified": "Mon, 13 Jul 2026 17:57:46 GMT",
+          "sha256": "f2942baccdc4420d61e7eedfae5c44f3065b7ff0f037cd96d0e7d58bb8ade019",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 86507520-87121871/821838848",
+          "etag": null,
+          "lastModified": "Mon, 13 Jul 2026 17:57:46 GMT",
+          "sha256": "98819e562de927d616e3d176324b44bdf03867ba699905e7cba4ac19b584b440",
+          "bytes": 614352
+        }
+      ],
+      "retrievedAt": "2026-09-22T10:11:25.093832+00:00"
+    },
+    {
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/mar099s.bsp",
+      "originalFile": "mar099s.bsp",
+      "targets": [
+        401,
+        402,
+        499
+      ],
+      "excerptStartTdb": 820497600.0,
+      "excerptEndTdb": 883656000.0,
+      "method": "jplephem exact extraction of selected original Chebyshev records, no refitting",
+      "excerptSha256": "70abe187e46f0d7c1262f8539200d7417c37695321ae58a5cc717ac6b171ca8b",
+      "downloadedBytes": 2830784,
+      "rangeRequests": [
+        {
+          "contentRange": "bytes 0-65535/67594240",
+          "etag": null,
+          "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+          "sha256": "126df63c29cf683017ea30d0f706166aa4ecc4d67fb7391fa2f76a911b5d0758",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 65536-131071/67594240",
+          "etag": null,
+          "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+          "sha256": "018beaaed7a5c93523e18ad98b35c5c4de4698d466ec4e787aac0fa0361aef1c",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 32178176-32243711/67594240",
+          "etag": null,
+          "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+          "sha256": "69ce7389042b7b18f8ad4c8d4b65afdf5514c7bbd3c1b715616bc0b9ee3518c7",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 18153472-19364655/67594240",
+          "etag": null,
+          "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+          "sha256": "b8b14970877173fdd804b8f06ea7a560bb347e8cf29df374f690cb78d800aaf5",
+          "bytes": 1211184
+        },
+        {
+          "contentRange": "bytes 48234496-48300031/67594240",
+          "etag": null,
+          "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+          "sha256": "dbbe213097be5cf86edac87e820537e572c7c8a4797cccc8598952f4fd07c2a4",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 41222144-41864287/67594240",
+          "etag": null,
+          "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+          "sha256": "4bb4acd7c4406d5e53f4bac773723bdd399f3aaab270ff20b4f711763f2a249e",
+          "bytes": 642144
+        },
+        {
+          "contentRange": "bytes 64946176-65011711/67594240",
+          "etag": null,
+          "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+          "sha256": "405d264fe0bf4ff34a5ea4f28e9e7b81828ccd54f8436fea3ecf7c28fed78834",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 57671680-58321455/67594240",
+          "etag": null,
+          "lastModified": "Tue, 03 Jun 2025 00:01:57 GMT",
+          "sha256": "63b9a7513afc07c94342a75b87069cdfafdf414dbf6f4cceaca982bc64855b79",
+          "bytes": 649776
+        }
+      ],
+      "retrievedAt": "2026-09-22T10:04:38.281985+00:00",
+      "dafRecordPadding": true
+    },
+    {
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/ura184_part-3.bsp",
+      "originalFile": "ura184_part-3.bsp",
+      "targets": [
+        705,
+        701,
+        702,
+        703,
+        704,
+        799
+      ],
+      "excerptStartTdb": 820497600.0,
+      "excerptEndTdb": 883656000.0,
+      "method": "jplephem exact extraction of selected original Chebyshev records, no refitting",
+      "excerptSha256": "ad2db421e859d87f6328220cd6a499465b0f045891cebb38c4d4202902b85863",
+      "downloadedBytes": 2001800,
+      "rangeRequests": [
+        {
+          "contentRange": "bytes 0-65535/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "7507cc9c2b7a807123168878da5dcbe0c9c874c8075a66efd161f2d2e370d168",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 65536-131071/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "8bc06bbfc8a56085014312e0a340f934f6007b7b3e4a4381594808972d9587b0",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 342360064-342425599/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "63fd438def309bfe4310b23fa83381196c89da46f8b3b807d072550f7e44e4eb",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 53280768-53346303/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "c3825cc5f6710a137736fb4a83e97b10d7411f8d3f0cccd10983e7a4963c676a",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 5242880-5523903/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "090bc638e0e83fbc4200982fd2660b635d4f1ee3249af48b2d6479c1adaeb8c1",
+          "bytes": 281024
+        },
+        {
+          "contentRange": "bytes 86376448-86441983/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "21483de1abb920aa12a08427e19f0222e3bfedcc1ac092dc58371ef8b6055c37",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 56557568-56732783/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "64fd9f95b61e376331fcf00aad4b0bebb9c06f50a007bf4a0137f5de66feb4e3",
+          "bytes": 175216
+        },
+        {
+          "contentRange": "bytes 117047296-117112831/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "1bcdd512629d90f5a0d086b3cf099cafedb6b113c8cc12e2d15a5fb08b469488",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 89391104-89579767/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "b8050a90b38b6fc1f3e6dfebd47c390a5417ea20015170f5ff1a59c5083280cf",
+          "bytes": 188664
+        },
+        {
+          "contentRange": "bytes 138280960-138346495/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "a706c8ab8d0be522ed1146f6e337817cddf25b215ad1773536a6ba51b4ac78b9",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 119144448-119282215/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "9e7be7802fbfe45868bc962797fabdebf84bc82699ceed920ed974dd82511db3",
+          "bytes": 137768
+        },
+        {
+          "contentRange": "bytes 155844608-155910143/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "b1a3d295de5abac9d21b3cf69a6baccdc4f33c852f208605bf896114d3f43ba8",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 139984896-140099343/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "780e76aa8d37db8f682543043c31528c31b3b14939f828e460cb01080647240b",
+          "bytes": 114448
+        },
+        {
+          "contentRange": "bytes 170983424-171048959/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "deaa768a2ae7ac07d54b029b5a72925fe6ac087fd0c679e9ac102eee2c143ac0",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 157286400-157408039/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "106044d872c8fcfc7386b8a22b66bd5852ebc26bfcd0ffb18d0af40c29a6e8a8",
+          "bytes": 121640
+        },
+        {
+          "contentRange": "bytes 220528640-220594175/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "927e46a6f28597d3063f98b21a6707d1d9572088c070312fcbe4a56de1796b84",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 251330560-251396095/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "e51332197742a64d3f6f22aa808741d0b6db8959f04962248298e4329ac31a77",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 279838720-279904255/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "9ed795d02edb9cb8891f8517f0d4c0c4b55c7c8d24daca0899004f7190b5c6ac",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 299565056-299630591/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "bc69e0f14da387c115df290139457b7b52c13cc3d5847d950f6187ab11edcba3",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 315949056-316014591/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "8cc80bf27dcf7619eb52309ab0fbdb5214d6df6d361195074f12d34d3abcc2b6",
+          "bytes": 65536
+        },
+        {
+          "contentRange": "bytes 329973760-330039295/386885632",
+          "etag": null,
+          "lastModified": "Fri, 26 Sep 2025 13:43:01 GMT",
+          "sha256": "ffea9aeff234455dfde1210a5dc2496320c86549b6920efcd10ea15067cc0455",
+          "bytes": 65536
+        }
+      ],
+      "retrievedAt": "2026-09-22T11:59:18.555191+00:00"
+    }
+  ],
+  "interpolation": "Cubic Hermite, independently validated adaptive cadence",
+  "interpolationReport": "/data/satellites/interpolation-report.json",
+  "parameterSources": [
+    "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc",
+    "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc",
+    "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/ura184_part-3.cmt",
+    "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/sat441.cmt",
+    "https://ssd.jpl.nasa.gov/sats/elem/"
+  ],
+  "notes": [
+    "Satellite positions are visualization ephemerides only; the existing ten-body Newtonian integration is unchanged.",
+    "Interpolation accuracy is distinct from the observational uncertainty of an ephemeris solution.",
+    "2027 UTC assumes no additional leap second; refresh NAIF leap-second data if IERS announces one.",
+    "JUP365/SAT441/NEP098/MAR099/URA184 are fixed reproducible releases, matching the parent-center solution families; not a claim to use every most recent solution.",
+    "Uranian satellite GM values in the metadata use the URA182 solution documented in URA184, while the original ten-body integration constants remain unchanged."
+  ]
+}

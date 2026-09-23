@@ -1,0 +1,21 @@
+.solar-viewport{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse at 47% 43%,#0e1720 0%,#080d14 42%,#070b10 80%)}
+.solar-canvas{position:absolute;inset:0;display:block;touch-action:none;outline:none;cursor:grab}.solar-canvas:active{cursor:grabbing}
+.solar-leaders,.solar-labels{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.solar-label{position:absolute;display:none;align-items:center;gap:6px;pointer-events:auto;padding:4px 7px!important;border:1px solid transparent!important;background:rgba(8,13,20,.7)!important;box-shadow:none!important;line-height:1!important;min-height:0!important;border-radius:4px!important;font-size:11px!important;white-space:nowrap;color:#adb8c6!important;transition:background .16s,color .16s;cursor:pointer}
+.solar-label small{font:8px/1.1 ui-monospace,monospace;letter-spacing:1px;color:#64717e;margin-left:2px;display:none}.solar-label:hover small,.solar-label.is-selected small{display:inline}
+.comparison-viewport .solar-label small{display:none!important}.comparison-viewport .solar-label{font-size:10px!important;padding:4px 5px!important}
+.solar-label.is-selected{border-color:#59777c66!important;color:#e6f1f5!important;background:#162229dd!important}.solar-label:hover{color:white!important;background:#18212c!important}
+.solar-label-dot{height:4px;width:4px;min-width:4px;box-shadow:0 0 8px var(--body-color);border-radius:50%;background:var(--body-color)}
+.solar-family-count{font-size:8px;color:#8faaa9;border-left:1px solid #42575a;padding-left:5px}
+.spatial-viewport .solar-label small{display:none!important}
+.solar-label.solar-moon-label{font-size:9px!important;color:#92a4b1!important;padding:3px 5px!important;background:#080d14a8!important}
+.solar-moon-label .solar-label-dot{width:3px;height:3px;min-width:3px;box-shadow:none}
+.solar-region-label{position:absolute;display:none;gap:8px;align-items:center;pointer-events:auto;background:#080d14c4!important;border:1px solid #53666d40!important;border-radius:5px;padding:7px 9px!important;color:#9dadae;font-size:10px;cursor:pointer;text-align:left}
+.solar-region-label>i{width:20px;height:9px;border:1px dashed #97a29770;border-radius:50%;transform:rotate(-25deg)}
+.solar-region-label small{display:block!important;font-size:8px;margin-top:4px;color:#6d858b}
+.solar-region-label:hover{border-color:#8aa9aa88!important;color:#d7e9e6}
+.solar-scale{position:absolute;bottom:51px;left:26px;pointer-events:none;display:flex;flex-direction:column;gap:5px;font:10px ui-monospace,monospace;color:#788c9a}.solar-scale i{width:80px;border:solid #73818c;border-width:0 1px 1px;height:5px;display:block}.solar-scale small{font:9px system-ui;color:#52636f}
+.solar-coordinate{position:absolute;left:26px;bottom:23px;display:flex;align-items:center;gap:8px;pointer-events:none;font-size:9px;letter-spacing:.6px;color:#526774}.solar-coordinate>span:last-child{font-family:ui-monospace,monospace}.solar-axis{font:9px ui-monospace,monospace;border-top:1px solid #45636c;padding-top:5px;position:relative}.solar-axis:before{content:'';position:absolute;height:5px;width:1px;left:3px;top:-6px;background:#56717b}
+.solar-caption{position:absolute;bottom:21px;right:22px;max-width:64%;text-align:right;line-height:1.9;pointer-events:none;font-size:9px;color:#536773;letter-spacing:.25px}
+.solar-error{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px;color:#d7e1e9;background:#080e17f0}.solar-error p{max-width:340px;line-height:1.8;font-size:13px;color:#8996a4}
+@media(max-width:1100px){.solar-label small{display:none!important}.solar-caption{font-size:8px;bottom:14px}.solar-coordinate{bottom:15px;left:16px}.solar-scale{left:16px;bottom:42px}}

@@ -1,0 +1,139 @@
+{
+  "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/satellites/jup365.bsp",
+  "originalFile": "jup365.bsp",
+  "targets": [
+    501,
+    502,
+    503,
+    504,
+    599
+  ],
+  "excerptStartTdb": 820497600.0,
+  "excerptEndTdb": 883656000.0,
+  "method": "jplephem exact extraction of selected original Chebyshev records, no refitting",
+  "excerptSha256": "ecf5c907dad20b4ad788703511629f67456e7e5ca58710cbe59fe04d38445e90",
+  "downloadedBytes": 1836728,
+  "rangeRequests": [
+    {
+      "contentRange": "bytes 0-65535/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "972268c02d0b6ec7a3c08ae2f23b6c61b82b207e8aef33855b11d58444df8de9",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 65536-131071/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "64019e7a6ee353426dc355face8e4dda65e4c450fa246e26b144bf17bf73fc00",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 51576832-51642367/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "46bbcfd55bbbd96eedc136828343cb527649483c1c03b2a86125610adf111f25",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 103153664-103219199/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "e881b0777b6edbe76245eab99dd29c45a77582d7dcc3b70f28ed4a63397c7a18",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 136183808-136249343/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "a2f2d9f4f08d8e65974e24b72abde9dec40963eb27f614a7f66218959fcdc630",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 154206208-154271743/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "d30c73d47fc404b7cfd80a6ae8f324e4b63e5e2b818d741e3b71ad854ef2425d",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 733741056-733806591/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "91ec1b1623e21d6f760f1c7f7a684d3419eb3f26baef57d1608a1e461d4c2740",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 760086528-760152063/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "b24bfad8067464847abf47e767561e4cf022789c9e594dd57620f3f0367b70a0",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 737476608-737771903/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "2ba54bae1871ccf826ed366bcf5ee72f21bca007da6731d055144199e9e2cbb6",
+      "bytes": 295296
+    },
+    {
+      "contentRange": "bytes 786432000-786497535/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "d367b61969d050dd970c1e2a95291c0df89fa62a8ca9e8c5154dca1ea4635898",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 763822080-764132335/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "807237f233255a7dbbe85be1b4cdc9b3984012afdaedad8cfa4c03648bc41591",
+      "bytes": 310256
+    },
+    {
+      "contentRange": "bytes 803340288-803405823/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "a6d82e26cd26787c99afa13b02dec87c9a829aa3bfb41e12014f9b7546eb6f2d",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 788856832-789045279/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "36b7a03b0b67a0042bcbd3b29bb645586d6d31d6adfeed7ce7b76ac4539ae562",
+      "bytes": 188448
+    },
+    {
+      "contentRange": "bytes 812515328-812580863/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "62799e90e9c90efaa9527a425dadbf877ceee7aac4c933ce81c9d250b0c3ef36",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 804651008-804749935/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "f4cb866de7bebcb97f073c162b2521e5c0a0afc5b7b432334ee48efa20f04c06",
+      "bytes": 98928
+    },
+    {
+      "contentRange": "bytes 1108803584-1108869119/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "f03a80fba76670d6a3e2b8dc588b12917859c3de670da81426c6a8626bb2e20d",
+      "bytes": 65536
+    },
+    {
+      "contentRange": "bytes 1097531392-1097688759/1136581632",
+      "etag": null,
+      "lastModified": "Sun, 14 Mar 2021 15:29:22 GMT",
+      "sha256": "e4eab97d958fe2baca396036c6e1b928d03bdb164d3b8931f4620882d61cfbc5",
+      "bytes": 157368
+    }
+  ],
+  "retrievedAt": "2026-09-22T10:03:56.548796+00:00",
+  "dafRecordPadding": true
+}

@@ -1,0 +1,416 @@
+{
+  "version": "horizons-2026-2027-v1",
+  "source": "NASA/JPL Horizons API 1.2",
+  "sourceUrl": "https://ssd.jpl.nasa.gov/horizons/manual.html",
+  "generatedAt": "2026-09-22T08:40:11.455580+00:00",
+  "startUtc": "2026-01-01T00:00:00.000Z",
+  "endUtc": "2028-01-01T00:00:00.000Z",
+  "startTdb": 820497669.18392,
+  "endTdb": 883569669.183905,
+  "frame": "ECLIPJ2000 (ICRF, ecliptic of J2000.0)",
+  "origin": "Solar System Barycenter (NAIF 0)",
+  "units": "km, km/s",
+  "timeScale": "TDB seconds past J2000",
+  "aberration": "NONE: geometric states; no light-time or stellar-aberration corrections",
+  "bodyIds": [
+    "sun",
+    "mercury",
+    "venus",
+    "earth",
+    "moon",
+    "mars",
+    "jupiter",
+    "saturn",
+    "uranus",
+    "neptune"
+  ],
+  "displayNaifIds": [
+    10,
+    199,
+    299,
+    399,
+    301,
+    499,
+    599,
+    699,
+    799,
+    899
+  ],
+  "simulationNaifIds": [
+    10,
+    1,
+    2,
+    399,
+    301,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "interpolation": "Cubic Hermite using authoritative position and velocity; analytic derivative for velocity",
+  "stepSeconds": 21600,
+  "chunks": [
+    {
+      "file": "2026-01.json",
+      "startTdb": 820497600.0,
+      "endTdb": 823176000.0,
+      "coverageEndTdb": 823197600.0,
+      "bytes": 284698,
+      "sha256": "3c9b0f58caed1dd67489770d442f98ed03bf384fe33c3cd44ab4bdbee39042e0"
+    },
+    {
+      "file": "2026-02.json",
+      "startTdb": 823176000.0,
+      "endTdb": 825595200.0,
+      "coverageEndTdb": 825616800.0,
+      "bytes": 257061,
+      "sha256": "67034aea120e139a85958b699a933d322ce32866059e99bd6e27062dd9aec835"
+    },
+    {
+      "file": "2026-03.json",
+      "startTdb": 825595200.0,
+      "endTdb": 828273600.0,
+      "coverageEndTdb": 828295200.0,
+      "bytes": 283926,
+      "sha256": "1da127ce821e962d22d9160e6f0b63e09aba12bb02fa2a1354a741f12b69c9f3"
+    },
+    {
+      "file": "2026-04.json",
+      "startTdb": 828273600.0,
+      "endTdb": 830865600.0,
+      "coverageEndTdb": 830887200.0,
+      "bytes": 274590,
+      "sha256": "13dd038496961b34f40e61a3201f5daa54a2ef3f95dd5d245991f3c6ab3f1e2c"
+    },
+    {
+      "file": "2026-05.json",
+      "startTdb": 830865600.0,
+      "endTdb": 833544000.0,
+      "coverageEndTdb": 833565600.0,
+      "bytes": 283751,
+      "sha256": "f17d028a3680fb466a82567f9c41a26152f69b697959e8d1df33c321564508eb"
+    },
+    {
+      "file": "2026-06.json",
+      "startTdb": 833544000.0,
+      "endTdb": 836136000.0,
+      "coverageEndTdb": 836157600.0,
+      "bytes": 275708,
+      "sha256": "fbfc765a099ad903823789ea15fe368c082aaf11e58dc9723961ada987b41282"
+    },
+    {
+      "file": "2026-07.json",
+      "startTdb": 836136000.0,
+      "endTdb": 838814400.0,
+      "coverageEndTdb": 838836000.0,
+      "bytes": 283270,
+      "sha256": "7ebdc6844fff1958c3948f2f9cb651dc925afc40d973341fe1a8475f293dbbea"
+    },
+    {
+      "file": "2026-08.json",
+      "startTdb": 838814400.0,
+      "endTdb": 841492800.0,
+      "coverageEndTdb": 841514400.0,
+      "bytes": 282905,
+      "sha256": "116816298262326e2c350fc2f4b9dd71cb0f9b8c8bd81d8f1d5ce6b0fd8bf0df"
+    },
+    {
+      "file": "2026-09.json",
+      "startTdb": 841492800.0,
+      "endTdb": 844084800.0,
+      "coverageEndTdb": 844106400.0,
+      "bytes": 274582,
+      "sha256": "8c631e2688a754c7bb9e20c5276a3e352a5205783731ec39120287848a41e3df"
+    },
+    {
+      "file": "2026-10.json",
+      "startTdb": 844084800.0,
+      "endTdb": 846763200.0,
+      "coverageEndTdb": 846784800.0,
+      "bytes": 282965,
+      "sha256": "fbb98fbe39974084f94d1ec7a3f8853a3910015c34ade484304de192087f7467"
+    },
+    {
+      "file": "2026-11.json",
+      "startTdb": 846763200.0,
+      "endTdb": 849355200.0,
+      "coverageEndTdb": 849376800.0,
+      "bytes": 274100,
+      "sha256": "1ca990af1160b38a8dbec0963a4d1e9638c98b0ff9aef898cd06c10f9726cc0d"
+    },
+    {
+      "file": "2026-12.json",
+      "startTdb": 849355200.0,
+      "endTdb": 852033600.0,
+      "coverageEndTdb": 852055200.0,
+      "bytes": 284309,
+      "sha256": "f6a681029289919ffb2186ce6818fe71423e89f7fb150836752967a6c8e3ef55"
+    },
+    {
+      "file": "2027-01.json",
+      "startTdb": 852033600.0,
+      "endTdb": 854712000.0,
+      "coverageEndTdb": 854733600.0,
+      "bytes": 285018,
+      "sha256": "3395cae9e9066ead479f183df5fa49a5d08bc6718e9a0f6ed15f0871a2eadec6"
+    },
+    {
+      "file": "2027-02.json",
+      "startTdb": 854712000.0,
+      "endTdb": 857131200.0,
+      "coverageEndTdb": 857152800.0,
+      "bytes": 257914,
+      "sha256": "81244fa95bce4cb035303fe58932dd8ca33d6c250f89d758a34ea2b369663e67"
+    },
+    {
+      "file": "2027-03.json",
+      "startTdb": 857131200.0,
+      "endTdb": 859809600.0,
+      "coverageEndTdb": 859831200.0,
+      "bytes": 285305,
+      "sha256": "082df5f5ed4bcb72a2a1260870ed6600ddf634813ff6c3956e6d36b7ff2ffb93"
+    },
+    {
+      "file": "2027-04.json",
+      "startTdb": 859809600.0,
+      "endTdb": 862401600.0,
+      "coverageEndTdb": 862423200.0,
+      "bytes": 275673,
+      "sha256": "bf3e4fb5503e5f7cf09a79241964e78593ec67f43062394e33e4efa9e20b8d02"
+    },
+    {
+      "file": "2027-05.json",
+      "startTdb": 862401600.0,
+      "endTdb": 865080000.0,
+      "coverageEndTdb": 865101600.0,
+      "bytes": 284818,
+      "sha256": "849884b687f2a7c4d88ca63931081819253967d721c621d94a4a3696ee11cf2f"
+    },
+    {
+      "file": "2027-06.json",
+      "startTdb": 865080000.0,
+      "endTdb": 867672000.0,
+      "coverageEndTdb": 867693600.0,
+      "bytes": 275513,
+      "sha256": "0e45f18788ea30c757bd8469470bb39f31c40cc9d3604801940354ecf8dd133b"
+    },
+    {
+      "file": "2027-07.json",
+      "startTdb": 867672000.0,
+      "endTdb": 870350400.0,
+      "coverageEndTdb": 870372000.0,
+      "bytes": 283528,
+      "sha256": "c148b1b662291ba0a596bd8ec0480fb93cea0f307bbc784392aaf670b739acbf"
+    },
+    {
+      "file": "2027-08.json",
+      "startTdb": 870350400.0,
+      "endTdb": 873028800.0,
+      "coverageEndTdb": 873050400.0,
+      "bytes": 284093,
+      "sha256": "3e8181ed89a06aec728b177a8921d5d18e8b7d8c0a247283bd6a060f83b03433"
+    },
+    {
+      "file": "2027-09.json",
+      "startTdb": 873028800.0,
+      "endTdb": 875620800.0,
+      "coverageEndTdb": 875642400.0,
+      "bytes": 275318,
+      "sha256": "ff7101966cd2241a758fae0c8652a30237643d2baa1b09afa8be8fa58d3fdff5"
+    },
+    {
+      "file": "2027-10.json",
+      "startTdb": 875620800.0,
+      "endTdb": 878299200.0,
+      "coverageEndTdb": 878320800.0,
+      "bytes": 283625,
+      "sha256": "52ef78daf767322d8a872dfd6cb8a3270a4689dec0432fd49128ab6d5ff2e70d"
+    },
+    {
+      "file": "2027-11.json",
+      "startTdb": 878299200.0,
+      "endTdb": 880891200.0,
+      "coverageEndTdb": 880912800.0,
+      "bytes": 274695,
+      "sha256": "0707211244ebc1c22b61db35f5813b01d0e7b1433ea237a1c39a0a753a8ffc72"
+    },
+    {
+      "file": "2027-12.json",
+      "startTdb": 880891200.0,
+      "endTdb": 883569600.0,
+      "coverageEndTdb": 883591200.0,
+      "bytes": 284449,
+      "sha256": "a0a1d2d63fa53a7769e54d5ef1938160f8ecefbc5f0952e988586f8b51e331bd"
+    }
+  ],
+  "targets": [
+    {
+      "naifId": 10,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/10-2026-2027-3h.txt.gz",
+      "sha256": "60060657b91dfecef504a680e712054c5b44d2a0aac8e6ed814a399624f0c46d",
+      "targetSource": "Target body name: Sun (10)                        {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 199,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27199%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/199-2026-2027-3h.txt.gz",
+      "sha256": "40f3b82b7b99e6b89e2bc774234965cb008c61d53c35c05142490c3fd6565e54",
+      "targetSource": "Target body name: Mercury (199)                   {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 299,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27299%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/299-2026-2027-3h.txt.gz",
+      "sha256": "e9193b934e06b3606b9f42deac6407b20ac53af46f5933214e2446130b846410",
+      "targetSource": "Target body name: Venus (299)                     {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 399,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27399%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/399-2026-2027-3h.txt.gz",
+      "sha256": "02ff6f1344a8ca997c95864b26117c270ee5b8246f785bb26a3bb0e1214c9c5b",
+      "targetSource": "Target body name: Earth (399)                     {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 301,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27301%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/301-2026-2027-3h.txt.gz",
+      "sha256": "1e0b81d307c151fc2b7df2612d683d0a5d5c18bb24e97d9bd6aeaa6e0fa7748d",
+      "targetSource": "Target body name: Moon (301)                      {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 499,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27499%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/499-2026-2027-3h.txt.gz",
+      "sha256": "d44f4612d1e64ca3770cb8e1c85300f111672a0ff59233ef83b39688789ca0d3",
+      "targetSource": "Target body name: Mars (499)                      {source: mar099}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 599,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27599%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/599-2026-2027-3h.txt.gz",
+      "sha256": "1f3c12806791275abfe6fa7eb91e64ef6e753c0655e4a61debd8bcddbc0cedce",
+      "targetSource": "Target body name: Jupiter (599)                   {source: jup365_merged}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 699,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27699%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/699-2026-2027-3h.txt.gz",
+      "sha256": "75cda6063a0a60980c94ab488c47d091437cfd795a217df2df992fe96cf981ee",
+      "targetSource": "Target body name: Saturn (699)                    {source: sat441l}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 799,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27799%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/799-2026-2027-3h.txt.gz",
+      "sha256": "27e051c35e37ae4d0704273e48c8110da2f50e5fb5f92ca94dc2d80a2b812f5b",
+      "targetSource": "Target body name: Uranus (799)                    {source: ura184_merged}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 899,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27899%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/899-2026-2027-3h.txt.gz",
+      "sha256": "d304d874756f577bc43133292f50d95bb857caa6ad442c594c13750bbb9d1a3d",
+      "targetSource": "Target body name: Neptune (899)                   {source: nep098_merged}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 1,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%271%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/1-2026-2027-3h.txt.gz",
+      "sha256": "3dc38deb8d08eb123e2f07a74e8e81e7be29b35df9f9195ec2a3dd371df3f1fa",
+      "targetSource": "Target body name: Mercury Barycenter (199)        {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 2,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%272%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/2-2026-2027-3h.txt.gz",
+      "sha256": "5c304527826c3ed0acb2e7bc6a1f5766f965d7179f07749e26871b07c3b02344",
+      "targetSource": "Target body name: Venus Barycenter (299)          {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 4,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%274%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/4-2026-2027-3h.txt.gz",
+      "sha256": "20f26b601f6999b8ea4c977f52da867bedee7b57b044b1f36cdcd24588817d3c",
+      "targetSource": "Target body name: Mars Barycenter (4)             {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 5,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%275%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/5-2026-2027-3h.txt.gz",
+      "sha256": "8e76a6a0c2737f95224ec11c64ed9903985d008c55743f71061f6acdcec0611a",
+      "targetSource": "Target body name: Jupiter Barycenter (5)          {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 6,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%276%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/6-2026-2027-3h.txt.gz",
+      "sha256": "5891a9331b132cc3c5e0c020b16d8b0584293a49e2d21a32fb89a994c3ce0e6e",
+      "targetSource": "Target body name: Saturn Barycenter (6)           {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 7,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%277%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/7-2026-2027-3h.txt.gz",
+      "sha256": "2e1f488ecb491b4c3aa4234ac9a01c23127d18f291315d9e4be78a2d6536d24e",
+      "targetSource": "Target body name: Uranus Barycenter (7)           {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    },
+    {
+      "naifId": 8,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%278%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27",
+      "rawFile": "data-sources/horizons/8-2026-2027-3h.txt.gz",
+      "sha256": "74f0f9af802b7e85fa6b4653abab2e395eef097214a1fe0e44c5b33624c2aab1",
+      "targetSource": "Target body name: Neptune Barycenter (8)          {source: DE441}",
+      "sampleCount": 5843,
+      "rawStepSeconds": 10800
+    }
+  ],
+  "leapSeconds": {
+    "taiMinusUtc": 37,
+    "knownThrough": "2026-12-31",
+    "sourceUrl": "https://datacenter.iers.org/data/html/bulletinc-072.html",
+    "futureAssumption": "No leap second assumed in 2027; refresh IERS/NAIF leap-second data if one is announced."
+  },
+  "physicalParameterSource": "https://ssd.jpl.nasa.gov/planets/phys_par.html",
+  "gravitationalParameterSource": "https://ssd.jpl.nasa.gov/astro_par.html",
+  "textureAttribution": "/textures/sources.json",
+  "dataQualityReport": "/data/data-quality.md",
+  "notes": [
+    "Displayed planet centers are distinct from unexpanded planetary-system barycenters used for integration.",
+    "The 1 km threshold measures interpolation against held-out Horizons samples, not uncertainty of the underlying ephemeris."
+  ]
+}

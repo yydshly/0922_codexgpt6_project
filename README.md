@@ -4,7 +4,7 @@
 
 ## GitHub Pages 部署
 
-仓库的 [自动部署工作流](.github/workflows/deploy-pages.yml) 会在每次推送 `main` 时运行检查、构建并发布。在仓库的 Settings → Pages 中选择 GitHub Actions 作为发布来源。页面地址为 `https://<GitHub 用户名>.github.io/0922_codexgpt6_project/`。
+在线体验：[太阳系观测站](https://yydshly.github.io/0922_codexgpt6_project/)。仓库的 [自动部署工作流](.github/workflows/deploy-pages.yml) 会在每次推送 `main` 时运行检查、构建并发布；发布来源已设置为 GitHub Actions。
 
 部署构建会给页面设置仓库子路径，历表、纹理、报告和物理计算 Worker 都从该路径加载；日常本地开发仍使用根路径。
 ## 启动

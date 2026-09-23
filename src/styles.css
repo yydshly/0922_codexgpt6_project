@@ -104,3 +104,7 @@
 .overview-members{left:auto;right:22px}
 @media(max-width:900px){.overview-members{left:auto;right:18px}}
 @media(max-width:620px){.overview-members{right:17px;bottom:197px}}
+
+/* Keep the true-scale ruler visible below the scale navigation card. */
+.scene-area .solar-scale{left:auto;right:24px;bottom:49px;align-items:flex-end}
+@media(max-width:900px){.scene-area .solar-scale{right:18px}}

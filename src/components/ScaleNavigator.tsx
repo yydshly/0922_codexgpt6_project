@@ -28,6 +28,6 @@ export function ScaleNavigator({ level, scope, ratio, systemAvailable, onNavigat
       title={step.level === 3 && !systemAvailable ? '当前天体尚无已接入的卫星系统，可直接进入单体近景' : undefined}
       onClick={() => onNavigate(step.level)}
     ><i>{step.level}</i><span>{step.label}</span></button>)}</div>
-    <p>{scope}</p>
+    <p title={scope}>{scope}</p>
   </nav>;
 }

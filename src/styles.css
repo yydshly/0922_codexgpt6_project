@@ -83,3 +83,19 @@
 
 /* Keep the macro-structure doorway identifiable when other scene actions collapse to icons. */
 .scene-actions .macro-entry-button{white-space:nowrap}
+.header-progress{display:flex;align-items:center;gap:6px;color:#9dcaba;font-size:11px;white-space:nowrap}
+.header-progress:hover{color:#e1f7eb}
+.guide-open .time-dock{display:none}
+@media(min-width:561px) and (max-width:900px){
+  .scene-top{display:block;top:18px;left:18px;right:18px}
+  .scene-heading h1{font-size:22px;margin-top:6px}
+  .scene-heading .scene-description{margin-top:5px;font-size:11px}
+  .scene-actions{margin-top:14px;flex-wrap:wrap;gap:7px}
+  .scene-actions .outlined-button{flex:none;font-size:11px;min-height:34px;padding:8px 10px}
+  .view-switcher{top:151px}
+  .presentation-controls{top:194px}
+  .satellite-toolbar{top:194px}
+  .comparison-controls{top:194px}
+  .physics-badge{top:238px}
+  .region-physics-badge,.comparison-physics-badge{top:273px}
+}

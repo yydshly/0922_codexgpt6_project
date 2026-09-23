@@ -34,4 +34,5 @@
 .macro-header-actions{display:flex;align-items:center;gap:8px;flex:none}
 .macro-reading-button{display:flex;align-items:center;gap:7px;padding:10px 12px;border:1px solid #52766e;border-radius:5px;background:#1b3837;color:#c7e7db;font-size:11px;white-space:nowrap}
 .macro-reading-button:hover{background:#28524a}
-@media(max-width:560px){.macro-header-actions{gap:5px}.macro-reading-button{padding:8px;font-size:9px}.macro-reading-button svg{width:12px;height:12px}}
+@media(max-width:560px){.macro-header-actions{gap:5px}.macro-reading-button{padding:8px;font-size:9px}.macro-reading-button svg{width:12px;height:12px}}.macro-scroll-cue{display:none}
+@media(max-width:800px){.macro-scroll-cue{display:block;flex:none;padding:7px 9px;border:1px dashed #527078;border-radius:5px;color:#a8c9cb;font-size:9px;line-height:1.45;white-space:nowrap}}

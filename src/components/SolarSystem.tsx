@@ -397,7 +397,7 @@ export function SolarSystem(props:Props) {
       const visibleBodies=BODIES.map((_,i)=>earthMoon?(i===3||i===4):comparison?layout.visible[i]:options.view==='inner'?i<=5:true);
       const satelliteLayout=SATELLITES.map(body=>{
         const state=satellites.find(s=>s.id===body.id),parentIndex=BODY_IDS.indexOf(body.parentId),parent=bodyById[body.parentId];
-        const visible=!!state&&mode==='ephemeris'&&!comparison&&!earthMoon&&visibleBodies[parentIndex];
+        const visible=!!state&&mode==='ephemeris'&&!comparison&&!earthMoon&&options.view!=='follow'&&visibleBodies[parentIndex];
         const radius=overviewSatelliteRadius(body.radiusKm,parent.radiusKm,radii[parentIndex],spatial);
         const position=state?positions[parentIndex].clone().add(overviewSatelliteOffset(state.position,parent.radiusKm,radii[parentIndex],spatial,parent.id==='saturn'?.03:0)):new THREE.Vector3();
         return {state,parentIndex,parent,visible,radius,position};
@@ -553,6 +553,11 @@ export function SolarSystem(props:Props) {
         const x=(projected.x*.5+.5)*width,y=(-projected.y*.5+.5)*height;
         let visible=withinRegion&&projected.z>-1&&projected.z<1&&x>12&&x<width-12&&y>24&&y<height-20;
         if(i===4&&!near&&distance>1&&selectedId!=='moon'&&options.view!=='overview'&&options.view!=='inner')visible=false;
+        if(!spatial&&region){
+          if(options.view==='overview'&&i===4&&selectedId!=='moon')visible=false;
+          if(options.view==='inner'&&i===4&&selectedId!=='moon')visible=false;
+          if(options.view==='outer'&&i>0&&i<6)visible=false;
+        }
         if(options.view==='follow')visible=false;
         if(options.view==='earth-moon'&&i!==3&&i!==4)visible=false;
         if(comparison)visible=visible&&layout.visible[i];
@@ -595,6 +600,7 @@ export function SolarSystem(props:Props) {
         let visible=layout.visible&&projected.z>-1&&projected.z<1&&x>12&&x<width-12&&y>24&&y<height-65;
         // All moons remain rendered. Names expand with the selected family or a
         // closer camera, so a global view is not covered by crossing satellite labels.
+        if(!spatial&&region)visible=false;
         if(spatial&&selectedId!==layout.parent.id&&apparentRadius<8)visible=false;
         // An occulted moon is still part of the system, but its label must not appear on the foreground planet.
         if(visible){
@@ -608,7 +614,7 @@ export function SolarSystem(props:Props) {
       // Resolve label overlaps without changing physical positions or projection anchors.
       const occupied:{x:number,y:number}[]=[];
       const sceneBounds=element.getBoundingClientRect();
-      const reserved=Array.from(element.parentElement?.querySelectorAll('.view-controls,.overview-members,.scene-top,.view-switcher,.presentation-controls,.solar-region-label')??[]).map(panel=>{
+      const reserved=Array.from(element.parentElement?.querySelectorAll('.view-controls,.overview-members,.scene-top,.view-switcher,.presentation-controls,.scale-navigator,.solar-region-label')??[]).map(panel=>{
         const rect=panel.getBoundingClientRect();return {x:rect.left-sceneBounds.left,y:rect.top-sceneBounds.top,w:rect.width,h:rect.height};
       }).filter(rect=>rect.w>0&&rect.h>0);
       desiredLabels.sort((a,b)=>(a.i===selectedIndex?-1:b.i===selectedIndex?1:a.y-b.y));

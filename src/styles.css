@@ -99,3 +99,8 @@
   .physics-badge{top:238px}
   .region-physics-badge,.comparison-physics-badge{top:273px}
 }
+
+/* Keep the member inventory beside the scale guide in the overview. */
+.overview-members{left:auto;right:22px}
+@media(max-width:900px){.overview-members{left:auto;right:18px}}
+@media(max-width:620px){.overview-members{right:17px;bottom:197px}}

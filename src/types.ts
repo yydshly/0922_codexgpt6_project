@@ -22,7 +22,7 @@ export interface StateFrame {
   velocities: Float64Array;
 }
 export type SimulationMode = 'ephemeris' | 'physics';
-export type CameraView = 'overview' | 'inner' | 'outer' | 'earth-moon' | 'follow' | 'comparison';
+export type CameraView = 'overview' | 'inner' | 'outer' | 'earth-moon' | 'pluto-charon' | 'follow' | 'comparison';
 export interface ViewOptions {
   view: CameraView; exaggerated: boolean; trajectories: boolean;
   referencePlane: boolean; velocityVectors: boolean; belts: boolean; scale: boolean;

@@ -25,8 +25,8 @@ describe('parent-centered satellite ephemerides',()=>{
     expect(Object.fromEntries(SATELLITES.filter(body=>body.parentId==='saturn').map(body=>[body.id,body.naifId])))
       .toEqual({titan:606,enceladus:602,mimas:601,tethys:603,dione:604,rhea:605,iapetus:608});
     expect(SATELLITE_PARENTS.slice().sort()).toEqual(parentIds.slice().sort());
-    expect(OBSERVATION_COUNTS.dynamic).toBe(29);
-    expect(OBSERVATION_COUNTS.satellites).toBe(20); // Earth's Moon is already in BODY_IDS.
+    expect(OBSERVATION_COUNTS.dynamic).toBe(32);
+    expect(OBSERVATION_COUNTS.satellites).toBe(21); // The Moon and Charon both have checked state providers.
     const manifest=await loadSatelliteManifest();
     expect(manifest.satelliteIds).toEqual(SATELLITES.map(body=>body.id));
     const report=JSON.parse(readFileSync('public/data/satellites/interpolation-report.json','utf8'));

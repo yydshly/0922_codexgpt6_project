@@ -1,7 +1,7 @@
 import type { BodyId, CameraView } from '../types';
 
-/** Educational atlas only. These entries are not part of the ten-body ephemeris,
- * do not carry live coordinates, and must never be inserted into StateFrame.
+/** Educational atlas metadata. Three entries now also have an independent
+ * dynamic observation layer; none are inserted into the ten-body StateFrame.
  * Appearance/color are illustrative art directions, not measured albedos or maps.
  * Sources and radius derivations: docs/ATLAS-SOURCES.md (checked 2026-09-22).
  */
@@ -21,22 +21,29 @@ export interface AtlasBody {
   sourceUrl: string;
 }
 
-export const ATLAS_NOTICE = '真实观测覆盖太阳、八大行星、月球及已接入的扩展卫星。图鉴预览仅说明外观；已接入轨道的卫星可进入对应系统观看真实公转，其余成员仍为资料展示。扩展卫星不参与当前十体引力验证。';
+export const ATLAS_NOTICE = '真实观测覆盖太阳、八大行星、选定卫星，以及谷神星、冥王星与卡戎。图鉴预览仅说明外观；带有历表的成员可进入动态观测，其余成员仍为资料展示。扩展对象不参与当前十体引力验证。';
 
 export const ATLAS_BODIES: AtlasBody[] = [
   {
     id:'ceres',name:'谷神星',englishName:'Ceres',category:'dwarf',parent:'太阳',
-    radiusKm:476,radiusNote:'约，NASA 概览值；并非精密形状模型',color:'#b0ada4',appearance:'rock',
+    radiusKm:469.7,radiusNote:'JPL 物理参数表的体积等效平均半径；NASA 入门资料常约写 476 km',color:'#b0ada4',appearance:'rock',
     description:'位于火星与木星之间的小行星主带，是这一区域最大的天体，也是内太阳系唯一获正式认可的矮行星。',
     features:['绕太阳一周约 4.6 年','曙光号于 2015 年抵达，首次近距离探测矮行星','它属于主带，不能把所有矮行星都放在海王星之外'],
     sourceUrl:'https://science.nasa.gov/dwarf-planets/ceres/facts/',
   },
   {
     id:'pluto',name:'冥王星',englishName:'Pluto',category:'dwarf',parent:'太阳',
-    radiusKm:1188.5,radiusNote:'约，由 NASA 所列直径 2,377 km 换算',color:'#d3b5a1',appearance:'ice',
+    radiusKm:1188.3,radiusNote:'JPL 物理参数表的平均半径；NASA 入门资料约写直径 2,377 km',color:'#d3b5a1',appearance:'ice',
     description:'柯伊伯带中有冰山、冰川和稀薄大气的世界。2006 年被重新归为矮行星，2015 年新视野号完成飞掠。',
     features:['明亮的心形区域是它最醒目的地貌之一','表面有氮冰平原与水冰山脉','公转约 248 年；卡戎是其最大的卫星'],
     sourceUrl:'https://science.nasa.gov/dwarf-planets/pluto/facts/',
+  },
+  {
+    id:'charon',name:'卡戎',englishName:'Charon',category:'moon',parent:'冥王星',
+    radiusKm:606,radiusNote:'JPL 所列平均半径 606.0 ± 0.5 km',color:'#aeb6bc',appearance:'ice',
+    description:'冥王星最大的卫星。两者彼此潮汐锁定，卡戎约每 6.4 天绕冥王星系统运行一周。',
+    features:['直径约为冥王星的一半','两者中心相距约 19,640 km','灰色外观与北极红色区域为说明性重建'],
+    sourceUrl:'https://science.nasa.gov/dwarf-planets/pluto/moons/charon/',
   },
   {
     id:'haumea',name:'妊神星',englishName:'Haumea',category:'dwarf',parent:'太阳',

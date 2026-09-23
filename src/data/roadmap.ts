@@ -14,12 +14,12 @@ export interface RoadmapStage {
   boundary: string;
 }
 
-export const ROADMAP_UPDATED = '2026-09-22';
+export const ROADMAP_UPDATED = '2026-09-23';
 export const ROADMAP_BASELINE = {
   dynamicCount: OBSERVATION_COUNTS.dynamic,
   knowledgeCount: OBSERVATION_COUNTS.knowledgeOnly,
   physicsCount: 10,
-  summary: `目前可观察太阳、八大行星与 ${OBSERVATION_COUNTS.satellites} 颗选定卫星的真实运行，历表覆盖 2026—2027 年。另 ${OBSERVATION_COUNTS.knowledgeOnly} 个天体仅有资料与外观；物理验证使用独立十体模型。`,
+  summary: `目前可观察太阳、八大行星、${OBSERVATION_COUNTS.satellites} 颗选定卫星，以及谷神星与冥王星的真实运行，历表覆盖 2026—2027 年。另 ${OBSERVATION_COUNTS.knowledgeOnly} 个天体仅有资料与外观；物理验证使用独立十体模型。`,
 };
 export const ROADMAP_FOUNDATION = {
   title: '共同底座：每个天体都能说明它从哪里来',
@@ -44,10 +44,10 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
     boundary: '先接入真实观测。新增卫星不会自动加入十体引力验证；紧密轨道需要重新验证物理步长。',
   },
   {
-    id: 'dwarfs', number: '02', title: '让矮行星真正运行', status: '后续规划',
-    summary: '把图鉴里的矮行星接到真实时间轴，扩展到小行星主带与海王星之外，并单独呈现冥王星—卡戎系统。',
+    id: 'dwarfs', number: '02', title: '让矮行星真正运行', status: '部分完成', progress: '谷神星、冥王星与卡戎已接入',
+    summary: '谷神星、冥王星与卡戎已接入真实时间轴和独立近景；妊神星、鸟神星、阋神星仍为资料状态。',
     outcomes: ['从静态资料进入可定位、可跟随的动态天体。', '观察冥王星与卡戎围绕共同质心运行，理解行星中心与系统质心的区别。'],
-    candidates: ['谷神星、冥王星、妊神星、鸟神星、阋神星。', '卡戎作为冥王星系统的第一颗接入卫星。', '继阶段 01 后候选动态范围为 35 个；资料不足的目标继续保留为资料状态。'],
+    candidates: ['谷神星、冥王星、妊神星、鸟神星、阋神星。', '卡戎已作为冥王星系统的第一颗动态卫星接入。', '目前为 32 个动态天体；剩余三颗矮行星若通过数据验证，候选范围为 35 个。'],
     dependency: '复用阶段 01 的接入流程，增加矮行星分类与多层所属关系；逐体核对可用的几何历表。',
     acceptance: ['每个对象分别记录覆盖范围、采样精度与独立检查结果，不因进入全景就称为精确轨道。', '冥王星中心与系统质心分开标识，卡戎不会被当成围绕固定不动的冥王星运行。', '从远景切到近景不卡入球面；尺寸说明、分类、来源和图鉴入口相互关联。'],
     boundary: '妊神星等非球形外观需要单独模型；说明性外观不等同于精确地形或实时影像。',
@@ -91,9 +91,9 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
 ];
 
 export const ROADMAP_NEXT = {
-  title: '下一组：让矮行星进入时间轴',
-  summary: '两组主要卫星已完成观测接入。后续逐体核实矮行星与卡戎的数据，验证通过后再开放动态入口。',
-  steps: [`保持现有 ${OBSERVATION_COUNTS.dynamic} 个动态天体与独立十体物理基准可复验。`, '核实五颗矮行星与卡戎的数据覆盖、参照中心和参数来源。', '逐体生成数据包和独立检查点，通过后接入目录、全景与近景。'],
+  title: '下一组：补齐远缘矮行星与具名小天体',
+  summary: '谷神星、冥王星与卡戎已完成动态接入。接下来逐体核实妊神星、鸟神星、阋神星，并评估灶神星与彗星的可靠历表。',
+  steps: [`保持现有 ${OBSERVATION_COUNTS.dynamic} 个动态天体与独立十体物理基准可复验。`, '逐体核实余下三颗矮行星的数据覆盖、中心和非球形参数。', '评估灶神星与 67P 的可靠时段；逐体检查后再接入动态目录。'],
 };
 
 export const ROADMAP_SOURCES = [

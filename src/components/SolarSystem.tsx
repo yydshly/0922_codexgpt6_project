@@ -4,6 +4,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { BODIES, AU_KM, bodyById } from '../data/catalog';
 import { publicAsset } from '../data/publicAsset';
 import { SATELLITES } from '../data/satellites';
+import { DYNAMIC_DWARFS, type DwarfId } from '../data/dwarfs';
+import type { StateBatch } from '../ephemeris/stateProvider';
+import { CHARON_GM, PLUTO_GM, dwarfReferenceOrbit, plutoCharonBarycenter } from './dwarfOrbit';
 import type { OverviewSatelliteState } from '../hooks/useOverviewSatellites';
 import { BODY_IDS, type BodyId, type StateFrame, type SimulationMode, type ViewOptions, type BodyDefinition } from '../types';
 import './SolarSystem.css';
@@ -21,11 +24,13 @@ interface Props {
   frame: StateFrame | null; mode: SimulationMode; selectedId: BodyId;
   options: ViewOptions; onSelect: (id: BodyId) => void; onReady?: () => void;
   satellites?: OverviewSatelliteState[];
+  observations?: StateBatch | null; selectedDwarfId?: DwarfId | null;
+  onSelectDwarf?: (id: DwarfId) => void;
   onSelectSatellite?: (id: string) => void;
   onExploreRegion?: (region: 'asteroid' | 'kuiper') => void;
   onCameraInteraction?: () => void;
 }
-const LABEL_BODIES = [...BODIES, ...SATELLITES];
+const LABEL_BODIES = [...BODIES, ...SATELLITES, ...DYNAMIC_DWARFS];
 const FAMILY_COUNTS = satelliteFamilyCounts(SATELLITES);
 const RAD = Math.PI / 180;
 const toScene = (x: number, y: number, z: number) => new THREE.Vector3(x / AU_KM, z / AU_KM, -y / AU_KM);
@@ -301,6 +306,14 @@ export function SolarSystem(props:Props) {
       const group=makeAtlasMesh(body);group.userData.satelliteId=body.id;group.visible=false;scene.add(group);return group;
     });
     const satelliteLights=satelliteGroups.map(bindSatelliteSunlight);
+    const dwarfGroups=DYNAMIC_DWARFS.map(body=>{
+      const group=makeAtlasMesh(body);group.userData.dwarfId=body.id;group.visible=false;scene.add(group);return group;
+    });
+    const dwarfLights=dwarfGroups.map(bindSatelliteSunlight);
+    const dwarfOrbits=DYNAMIC_DWARFS.map(body=>{
+      const line=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:body.color,transparent:true,opacity:.27,depthWrite:false}));
+      line.visible=false;scene.add(line);return line;
+    });
     const satelliteOrbits=SATELLITES.map(body=>{
       const line=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:body.color,transparent:true,opacity:.21,depthWrite:false}));
       line.visible=false;scene.add(line);return line;
@@ -338,7 +351,7 @@ export function SolarSystem(props:Props) {
       sizeChanged=true;
     });resize.observe(element);
     let disposed=false, raf=0,initialized=false,lastView='',lastSelected='',lastComparison='',lastPresentation='',lastTime=NaN,lastHistory=NaN,lastOrbit=NaN,lastMode='';
-    let satelliteFramed=false,userNavigated=false,lastCameraAngle='',orbitPhase=0,visualFrameTime=performance.now();
+    let satelliteFramed=false,dwarfFramed=false,userNavigated=false,lastCameraAngle='',orbitPhase=0,visualFrameTime=performance.now();
     const markNavigation=()=>{userNavigated=true;latest.current.onCameraInteraction?.();};controls.addEventListener('start',markNavigation);
     const visualStart=performance.now();
     const origin=new THREE.Vector3(),projected=new THREE.Vector3(),sun=new THREE.Vector3();
@@ -350,11 +363,12 @@ export function SolarSystem(props:Props) {
       if(Math.hypot(event.clientX-downX,event.clientY-downY)>5)return;
       const rect=element.getBoundingClientRect();pointer.set((event.clientX-rect.left)/width*2-1,-(event.clientY-rect.top)/height*2+1);
       raycaster.setFromCamera(pointer,camera);
-      const hit=raycaster.intersectObjects([...groups.filter(g=>g.visible).map(g=>g.children[0]),...satelliteGroups.filter(g=>g.visible)],true)[0];
+      const hit=raycaster.intersectObjects([...groups.filter(g=>g.visible).map(g=>g.children[0]),...satelliteGroups.filter(g=>g.visible),...dwarfGroups.filter(g=>g.visible)],true)[0];
       if(hit){
         let object:THREE.Object3D|null=hit.object;
-        while(object&&!object.userData.bodyId&&!object.userData.satelliteId)object=object.parent;
-        if(object?.userData.satelliteId)latest.current.onSelectSatellite?.(object.userData.satelliteId);
+        while(object&&!object.userData.bodyId&&!object.userData.satelliteId&&!object.userData.dwarfId)object=object.parent;
+        if(object?.userData.dwarfId)latest.current.onSelectDwarf?.(object.userData.dwarfId);
+        else if(object?.userData.satelliteId)latest.current.onSelectSatellite?.(object.userData.satelliteId);
         else if(object?.userData.bodyId)latest.current.onSelect(object.userData.bodyId);
       }
     };
@@ -365,20 +379,28 @@ export function SolarSystem(props:Props) {
 
     const animate=()=>{
       if(disposed)return;raf=requestAnimationFrame(animate);
-      const {frame,options,selectedId,mode,satellites=[]}=latest.current;
+      const {frame,options,selectedId,selectedDwarfId,observations,mode,satellites=[]}=latest.current;
       if(!frame)return;
       const selectedIndex=BODY_IDS.indexOf(selectedId);
       const comparison=options.view==='comparison';
       const earthMoon=options.view==='earth-moon';
+      const plutoPair=options.view==='pluto-charon';
+      const dwarfStates=DYNAMIC_DWARFS.map(body=>observations?.states.find(state=>state.id===body.id));
+      const dwarfRealPositions=dwarfStates.map(state=>state?toScene(...state.position):new THREE.Vector3());
+      const plutoReal=dwarfRealPositions[1],charonReal=dwarfRealPositions[2];
+      const plutoSystemGm=PLUTO_GM+CHARON_GM;
+      const plutoBarycenter=plutoCharonBarycenter(plutoReal,charonReal);
+      const selectedDwarfState=selectedDwarfId?observations?.states.find(state=>state.id===selectedDwarfId):undefined;
+      const focusKey=selectedDwarfId??selectedId;
       const region=options.view==='overview'||options.view==='inner'||options.view==='outer';
-      const spatial=(options.presentation ?? 'spatial')==='spatial'&&(region||earthMoon);
+      const spatial=(options.presentation ?? 'spatial')==='spatial'&&(region||earthMoon||plutoPair);
       const cameraAngle=options.cameraAngle??'perspective';
       const visualNow=performance.now(),visualDelta=Math.min(.05,(visualNow-visualFrameTime)/1000);visualFrameTime=visualNow;
       const orbitalView=options.view==='inner'?'inner':options.view==='outer'?'outer':'overview';
       const layout=comparisonLayout(options.comparisonSet ?? 'planets');
       sun.copy(bodyPosition(frame,0));
       const focusIndex=options.view==='follow'?selectedIndex:options.view==='earth-moon'?3:0;
-      const nextOrigin=bodyPosition(frame,focusIndex);
+      const nextOrigin=plutoPair?plutoBarycenter.clone():selectedDwarfState&&options.view==='follow'?toScene(...selectedDwarfState.position):bodyPosition(frame,focusIndex);
       const actualPositions=BODIES.map((_,i)=>bodyPosition(frame,i));
       const earth=actualPositions[3], lunarVector=actualPositions[4].clone().sub(earth);
       const lunarScale=(earthMoon?6.5:orbitalView==='inner'?.7:1.8)/(384400/AU_KM);
@@ -388,13 +410,32 @@ export function SolarSystem(props:Props) {
       };
       const positions=actualPositions.map((position,i)=>{
         if(comparison)return layout.positions[i].clone();
+        if(plutoPair)return new THREE.Vector3();
         if(!spatial)return position.clone().sub(nextOrigin);
         if(earthMoon)return i===4?lunarVector.clone().multiplyScalar(lunarScale):new THREE.Vector3();
         if(i===4)return mapSolarVector(earth.clone().sub(sun)).addScaledVector(lunarVector,lunarScale);
         return mapSolarVector(position.clone().sub(sun));
       });
+      const dwarfPositions=dwarfRealPositions.map((position,i)=>{
+        if(plutoPair){
+          if(i===0)return new THREE.Vector3();
+          const relative=position.clone().sub(plutoBarycenter);
+          const separation=charonReal.distanceTo(plutoReal);
+          return spatial&&separation>0?relative.multiplyScalar(3.5/separation):relative;
+        }
+        if(spatial){
+          if(i===2){
+            const local=position.clone().sub(plutoReal);
+            return mapSolarVector(plutoReal.clone().sub(sun)).addScaledVector(local,local.lengthSq()>0?.75/local.length():0);
+          }
+          return mapSolarVector(position.clone().sub(sun));
+        }
+        return position.clone().sub(nextOrigin);
+      });
+      const dwarfRadii=DYNAMIC_DWARFS.map((body,i)=>spatial?(plutoPair?(i===1?1:i===2?body.radiusKm/DYNAMIC_DWARFS[1].radiusKm:0):[.21,.31,.15][i]):body.radiusKm/AU_KM);
+      const dwarfVisible=dwarfStates.map((state,i)=>!!state&&mode==='ephemeris'&&!comparison&&!earthMoon&&(plutoPair?i>0:options.view==='inner'?false:options.view==='follow'?selectedDwarfId?(selectedDwarfId==='ceres'?i===0:i>0):false:true));
       const radii=BODIES.map(body=>spatial?(earthMoon?(body.id==='earth'?1:body.id==='moon'?body.radiusKm/BODIES[3].radiusKm:0):spatialRadius(body,orbitalView)):body.radiusKm/AU_KM);
-      const visibleBodies=BODIES.map((_,i)=>earthMoon?(i===3||i===4):comparison?layout.visible[i]:options.view==='inner'?i<=5:true);
+      const visibleBodies=BODIES.map((_,i)=>plutoPair?false:earthMoon?(i===3||i===4):comparison?layout.visible[i]:options.view==='inner'?i<=5:true);
       const satelliteLayout=SATELLITES.map(body=>{
         const state=satellites.find(s=>s.id===body.id),parentIndex=BODY_IDS.indexOf(body.parentId),parent=bodyById[body.parentId];
         const visible=!!state&&mode==='ephemeris'&&!comparison&&!earthMoon&&options.view!=='follow'&&visibleBodies[parentIndex];
@@ -402,9 +443,9 @@ export function SolarSystem(props:Props) {
         const position=state?positions[parentIndex].clone().add(overviewSatelliteOffset(state.position,parent.radiusKm,radii[parentIndex],spatial,parent.id==='saturn'?.03:0)):new THREE.Vector3();
         return {state,parentIndex,parent,visible,radius,position};
       });
-      const changedViewSettings=sizeChanged||lastView!==options.view||lastPresentation!==(options.presentation ?? 'spatial')||lastCameraAngle!==cameraAngle||(options.view==='follow'&&lastSelected!==selectedId)||(comparison&&lastComparison!==options.comparisonSet);
-      if(changedViewSettings){satelliteFramed=false;userNavigated=false;}
-      const changedView=changedViewSettings||(region&&mode==='ephemeris'&&satellites.length===SATELLITES.length&&!satelliteFramed&&!userNavigated);
+      const changedViewSettings=sizeChanged||lastView!==options.view||lastPresentation!==(options.presentation ?? 'spatial')||lastCameraAngle!==cameraAngle||(options.view==='follow'&&lastSelected!==focusKey)||(comparison&&lastComparison!==options.comparisonSet);
+      if(changedViewSettings){satelliteFramed=false;dwarfFramed=false;userNavigated=false;}
+      const changedView=changedViewSettings||(region&&mode==='ephemeris'&&satellites.length===SATELLITES.length&&!satelliteFramed&&!userNavigated)||(region&&dwarfStates.every(Boolean)&&!dwarfFramed&&!userNavigated);
       if(changedView||!initialized){
         controls.target.set(0,0,0);
         orbitPhase=0;
@@ -414,6 +455,7 @@ export function SolarSystem(props:Props) {
         if(options.view==='inner')camera.position.set(.28,2.35,3.3);
         if(options.view==='outer')camera.position.set(4,29,44);
         if(options.view==='earth-moon')camera.position.set(.001,.0044,.0057);
+        if(plutoPair)camera.position.set(.001,.001,.002);
         if(options.view==='overview'||options.view==='outer'||options.view==='inner'){
           const extent=options.view==='inner'?1.9:33;
           const framingDistance=extent/(Math.tan(camera.fov*RAD/2)*Math.min(1,camera.aspect));
@@ -426,8 +468,16 @@ export function SolarSystem(props:Props) {
             bounds.expandByPoint(position.clone().addScalar(extent));bounds.expandByPoint(position.clone().addScalar(-extent));
           }});
           satelliteLayout.forEach(s=>{if(s.visible){bounds.expandByPoint(s.position.clone().addScalar(s.radius));bounds.expandByPoint(s.position.clone().addScalar(-s.radius));}});
+          dwarfPositions.forEach((position,i)=>{if(dwarfVisible[i]){bounds.expandByPoint(position.clone().addScalar(dwarfRadii[i]*1.1));bounds.expandByPoint(position.clone().addScalar(-dwarfRadii[i]*1.1));}});
           const center=bounds.getCenter(new THREE.Vector3());
           let direction=new THREE.Vector3(.58,.52,1).normalize();
+          if(plutoPair&&dwarfStates[1]&&dwarfStates[2]){
+            const relative=charonReal.clone().sub(plutoReal);
+            const relativeVelocity=toScene(...dwarfStates[2].velocity.map((value,axis)=>value-dwarfStates[1]!.velocity[axis]) as [number,number,number]);
+            const orbitNormal=relative.cross(relativeVelocity).normalize();
+            direction.copy(sun).sub(plutoBarycenter).normalize().addScaledVector(orbitNormal,.55).normalize();
+            camera.up.crossVectors(direction,charonReal.clone().sub(plutoReal)).normalize();
+          }
           if(region&&cameraAngle==='top')direction.set(0,1,.001).normalize();
           if(earthMoon){
             const moonDirection=lunarVector.clone().normalize();
@@ -448,29 +498,36 @@ export function SolarSystem(props:Props) {
             fit=Math.max(fit,depth+(Math.abs(delta.dot(right))+radius)/(Math.tan(camera.fov*RAD/2)*camera.aspect*.84),depth+(Math.abs(delta.dot(up))+radius)/(Math.tan(camera.fov*RAD/2)*.70));
           }});
           satelliteLayout.forEach(s=>{if(s.visible){const delta=s.position.clone().sub(center),depth=delta.dot(direction);fit=Math.max(fit,depth+(Math.abs(delta.dot(right))+s.radius)/(Math.tan(camera.fov*RAD/2)*camera.aspect*.84),depth+(Math.abs(delta.dot(up))+s.radius)/(Math.tan(camera.fov*RAD/2)*.70));}});
+          dwarfPositions.forEach((position,i)=>{if(dwarfVisible[i]){const delta=position.clone().sub(center),depth=delta.dot(direction),radius=dwarfRadii[i]*1.1;fit=Math.max(fit,depth+(Math.abs(delta.dot(right))+radius)/(Math.tan(camera.fov*RAD/2)*camera.aspect*.84),depth+(Math.abs(delta.dot(up))+radius)/(Math.tan(camera.fov*RAD/2)*.70));}});
           controls.target.copy(center);
           camera.position.copy(center).addScaledVector(direction,fit*(earthMoon?1.02:1.04));
           if(earthMoon)previousPairCenter.copy(center);
         }
+        if(plutoPair&&!spatial&&dwarfVisible[1]&&dwarfVisible[2]){
+          const center=dwarfPositions[1].clone().add(dwarfPositions[2]).multiplyScalar(.5);
+          const extent=dwarfPositions[1].distanceTo(dwarfPositions[2])*.5+dwarfRadii[1]*1.5;
+          controls.target.copy(center);
+          camera.position.copy(center).addScaledVector(new THREE.Vector3(.6,.4,1).normalize(),extent/(Math.tan(camera.fov*RAD/2)*Math.min(1,camera.aspect)*.66));
+        }
         if(options.view==='follow'){
-          const radius=BODIES[selectedIndex].radiusKm/AU_KM;
+          const radius=selectedDwarfState?DYNAMIC_DWARFS.find(body=>body.id===selectedDwarfId)!.radiusKm/AU_KM:BODIES[selectedIndex].radiusKm/AU_KM;
           // A sunward viewpoint opens on the illuminated hemisphere, preserving real illumination.
           const lit=sun.clone().sub(nextOrigin).normalize();
-          if(selectedId==='sun')lit.set(1,.3,1).normalize();
+          if(selectedId==='sun'&&!selectedDwarfState)lit.set(1,.3,1).normalize();
           lit.applyAxisAngle(new THREE.Vector3(0,1,0),.85);
           if(selectedId==='saturn'){
             const attitude=new THREE.Quaternion();orientation(BODIES[selectedIndex],frame.time,attitude);
             const pole=new THREE.Vector3(0,1,0).applyQuaternion(attitude);
             lit.addScaledVector(pole,.6).normalize();
           }
-          camera.position.copy(lit).multiplyScalar(radius*(selectedId==='saturn'?8.5:selectedId==='sun'?6.1:5.1));
+          camera.position.copy(lit).multiplyScalar(radius*(selectedDwarfState?5.8:selectedId==='saturn'?8.5:selectedId==='sun'?6.1:5.1));
           camera.position.y+=radius*.7;
         }
         if(comparison){
           const fit=Math.max(layout.width/Math.max(.2,camera.aspect),layout.height*1.55)/(2*Math.tan(camera.fov*RAD/2));
           camera.position.set(0,layout.height*.12,fit*1.32);
         }
-        initialized=true;if(satellites.length===SATELLITES.length)satelliteFramed=true;
+        initialized=true;if(satellites.length===SATELLITES.length)satelliteFramed=true;if(dwarfStates.every(Boolean))dwarfFramed=true;
       }
       if(spatial&&earthMoon&&!changedView){
         const bounds=new THREE.Box3();
@@ -487,9 +544,9 @@ export function SolarSystem(props:Props) {
       }
       controls.update();
       const relativeSun=sun.clone().sub(origin);
-      const near=options.view==='follow'||options.view==='earth-moon'||comparison;
+      const near=options.view==='follow'||options.view==='earth-moon'||plutoPair||comparison;
       const distance=camera.position.distanceTo(controls.target);
-      controls.minDistance=options.view==='follow'?BODIES[selectedIndex].radiusKm/AU_KM*1.15:1e-7;
+      controls.minDistance=options.view==='follow'?(selectedDwarfState?DYNAMIC_DWARFS.find(body=>body.id===selectedDwarfId)!.radiusKm:BODIES[selectedIndex].radiusKm)/AU_KM*1.15:1e-7;
       if(options.view==='follow'||comparison||spatial)camera.setViewOffset(width,height,0,-height*(spatial?.085:.055),width,height);else camera.clearViewOffset();
       camera.near=Math.max(1e-10,Math.min(distance*1e-5,.00001));
       camera.updateProjectionMatrix();
@@ -611,6 +668,43 @@ export function SolarSystem(props:Props) {
         if(visible)bodyAvoidance.push({x,y,r:apparentRadius+4});
         desiredLabels.push({i:BODIES.length+i,x:Math.min(width-105,Math.max(12,x+apparentRadius+10)),y:Math.min(height-90,Math.max(170,y-8)),visible,anchorX:x+apparentRadius*.6,anchorY:y-apparentRadius*.5});
       });
+      dwarfPositions.forEach((position,i)=>{
+        const body=DYNAMIC_DWARFS[i],group=dwarfGroups[i],line=dwarfOrbits[i],state=dwarfStates[i];
+        group.visible=dwarfVisible[i];line.visible=dwarfVisible[i]&&options.trajectories&&options.view!=='follow';
+        if(!state)return;
+        group.position.copy(position);group.scale.setScalar(dwarfRadii[i]);
+        if(i===2&&dwarfStates[1]){
+          const facing=plutoReal.clone().sub(charonReal).normalize();
+          group.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),facing);
+        }else{
+          group.rotation.set(0,(frame.time/(body.rotationHours*3600)*Math.PI*2)%(Math.PI*2),0);
+        }
+        dwarfLights[i].direction.copy(sun).sub(dwarfRealPositions[i]).normalize();
+        const sunState=observations?.states.find(item=>item.id==='sun');
+        const parentState=i===2?dwarfStates[1]:sunState;
+        if(line.visible&&parentState&&(changedView||lastMode!==mode||!Number.isFinite(line.userData.epoch)||Math.abs(frame.time-line.userData.epoch)>3600)){
+          let points=plutoPair&&i>0&&dwarfStates[1]&&dwarfStates[2]
+            ?dwarfReferenceOrbit(dwarfStates[2],dwarfStates[1],plutoSystemGm)
+            :dwarfReferenceOrbit(state,parentState,i===2?plutoSystemGm:BODIES[0].simulationGm);
+          if(plutoPair&&i>0){
+            const separation=charonReal.distanceTo(plutoReal);
+            const factor=(i===1?-CHARON_GM:PLUTO_GM)/plutoSystemGm*(spatial&&separation>0?3.5/separation:1);
+            points=points.map(point=>point.multiplyScalar(factor));
+          }else if(spatial){
+            if(i===2){const separation=charonReal.distanceTo(plutoReal);points=points.map(point=>point.multiplyScalar(separation>0?.75/separation:0));}
+            else points=points.map(point=>mapSolarVector(point));
+          }
+          line.geometry.dispose();line.geometry=new THREE.BufferGeometry().setFromPoints(points);line.userData.epoch=frame.time;
+        }
+        line.position.copy(plutoPair?new THREE.Vector3():i===2?dwarfPositions[1]:spatial?new THREE.Vector3():relativeSun);
+        projected.copy(position).project(camera);
+        const x=(projected.x*.5+.5)*width,y=(-projected.y*.5+.5)*height;
+        const apparentRadius=spatial?dwarfRadii[i]*height/(2*Math.max(dwarfRadii[i],camera.position.distanceTo(position))*Math.tan(camera.fov*RAD/2)):0;
+        let visible=dwarfVisible[i]&&options.view!=='follow'&&projected.z>-1&&projected.z<1&&x>12&&x<width-12&&y>24&&y<height-65;
+        if(i===2&&!plutoPair&&selectedDwarfId!=='charon')visible=false;
+        if(visible&&spatial)bodyAvoidance.push({x,y,r:apparentRadius+5});
+        desiredLabels.push({i:BODIES.length+SATELLITES.length+i,x:Math.min(width-105,Math.max(12,x+apparentRadius+12)),y:Math.min(height-90,Math.max(165,y-10)),visible,anchorX:x+apparentRadius*.6,anchorY:y-apparentRadius*.5});
+      });
       // Resolve label overlaps without changing physical positions or projection anchors.
       const occupied:{x:number,y:number}[]=[];
       const sceneBounds=element.getBoundingClientRect();
@@ -686,7 +780,7 @@ export function SolarSystem(props:Props) {
       }
       renderer.render(scene,camera);
       if(!lastMode)latest.current.onReady?.();
-      lastView=options.view;lastSelected=selectedId;lastTime=frame.time;lastMode=mode;
+      lastView=options.view;lastSelected=focusKey;lastTime=frame.time;lastMode=mode;
       lastComparison=options.comparisonSet ?? 'planets';
       lastPresentation=options.presentation ?? 'spatial';
       lastCameraAngle=cameraAngle;
@@ -708,16 +802,16 @@ export function SolarSystem(props:Props) {
     };
   },[]);
 
-  const spatialPresentation=(props.options.presentation ?? 'spatial')==='spatial'&&['overview','inner','outer','earth-moon'].includes(props.options.view);
+  const spatialPresentation=(props.options.presentation ?? 'spatial')==='spatial'&&['overview','inner','outer','earth-moon','pluto-charon'].includes(props.options.view);
   return <div className={`solar-viewport ${props.options.view==='comparison'?'comparison-viewport':''} ${spatialPresentation?'spatial-viewport':''}`} ref={host} data-testid="solar-viewport">
     <svg className="solar-leaders" aria-hidden="true">{LABEL_BODIES.map((body,i)=><line key={body.id} ref={node=>{leaders.current[i]=node;}} strokeWidth=".6" opacity={i<BODIES.length?'.48':'.25'} />)}</svg>
-    <div className="solar-labels">{LABEL_BODIES.map((body,i)=><button key={body.id} ref={node=>{labels.current[i]=node;}} onClick={()=>i<BODIES.length?props.onSelect(body.id as BodyId):props.onSelectSatellite?.(body.id)} className={`solar-label ${i>=BODIES.length?'solar-moon-label ':''}${props.selectedId===body.id?'is-selected':''}`} style={{'--body-color':body.color} as React.CSSProperties} aria-label={`选择${body.name}`}>
+    <div className="solar-labels">{LABEL_BODIES.map((body,i)=><button key={body.id} ref={node=>{labels.current[i]=node;}} onClick={()=>i<BODIES.length?props.onSelect(body.id as BodyId):i<BODIES.length+SATELLITES.length?props.onSelectSatellite?.(body.id):props.onSelectDwarf?.(body.id as DwarfId)} className={`solar-label ${i>=BODIES.length&&i<BODIES.length+SATELLITES.length?'solar-moon-label ':''}${i>=BODIES.length+SATELLITES.length?'solar-dwarf-label ':''}${(i<BODIES.length?props.selectedId===body.id:props.selectedDwarfId===body.id)?'is-selected':''}`} style={{'--body-color':body.color} as React.CSSProperties} aria-label={`选择${body.name}`}>
       <span className="solar-label-dot" /><span>{body.name}</span><small>{body.englishName.toUpperCase()}</small>
       {i<BODIES.length&&props.mode==='ephemeris'&&props.options.view==='overview'&&(FAMILY_COUNTS[body.id as BodyId]??0)>0&&<span className="solar-family-count" title="本观测站已接入历表的卫星样本，不表示该行星的卫星总数">已接入 {FAMILY_COUNTS[body.id as BodyId]} 颗</span>}
     </button>)}{(['asteroid','kuiper'] as const).map((region,i)=><button className="solar-region-label" key={region} ref={node=>{regionLabels.current[i]=node;}} onClick={()=>props.onExploreRegion?.(region)} aria-label={i===0?'了解小行星带成员':'了解柯伊伯带成员'}><i/><span>{i===0?'小行星主带':'柯伊伯带'}<small>区域示意 · 探索成员 ↗</small></span></button>)}</div>
     {props.options.scale&&!spatialPresentation&&<div className="solar-scale"><i/><span ref={scale}>1 AU</span><small>中心深度处 · 近似视野标尺</small></div>}
     <div className="solar-coordinate"><span className="solar-axis">3D</span> {props.options.view==='comparison'?'真实直径 · 对比陈列':spatialPresentation&&props.options.view==='overview'?'点行星展开卫星名称 · 滚轮靠近':spatialPresentation?'真实方位 · 空间展示':'黄道坐标系 J2000'}</div>
-    <div className="solar-caption">{props.options.view==='comparison'?'统一半径比例 · 排列与照明为示意 · 拖动旋转 / 滚轮缩放':props.options.view==='follow'?'拖动环绕球体 · 滚轮靠近 · 贴图非实时影像':props.options.trajectories?'细线：瞬时参考轨道 · 亮线：已运行轨迹':'拖动环绕系统 · 滚轮向球体靠近'}{props.options.velocityVectors&&props.options.view!=='comparison'?' · 箭头示意真实速度方向':''}<br />{props.selectedId==='sun'&&props.options.view==='follow'?'太阳为等离子体 · 日冕 / 日珥动态为增强示意':props.options.view==='comparison'?'所有球体使用真实平均半径比':spatialPresentation?props.options.view==='earth-moon'?'地月大小比真实 · 间距缩短展示':'轨道距离压缩 · 球体大小层次增强':'距离与天体半径均为真实比例'} · 背景星空为示意{props.options.belts&&['overview','inner','outer'].includes(props.options.view)&&<><br/>带区为随机区域示意点 · 无逐体轨道 · 点数不代表实际数量</>}</div>
+    <div className="solar-caption">{props.options.view==='comparison'?'统一半径比例 · 排列与照明为示意 · 拖动旋转 / 滚轮缩放':props.options.view==='pluto-charon'?'两颗球体绕双体质心运动 · 细线是瞬时二体参考轨道':props.options.view==='follow'?'拖动环绕球体 · 滚轮靠近 · 贴图非实时影像':props.options.trajectories?'细线：瞬时参考轨道 · 亮线：已运行轨迹':'拖动环绕系统 · 滚轮向球体靠近'}{props.options.velocityVectors&&props.options.view!=='comparison'?' · 箭头示意真实速度方向':''}<br />{props.options.view==='pluto-charon'?'球体外观为示意 · 距离和半径可切换真实比例':props.selectedId==='sun'&&props.options.view==='follow'?'太阳为等离子体 · 日冕 / 日珥动态为增强示意':props.options.view==='comparison'?'所有球体使用真实平均半径比':spatialPresentation?props.options.view==='earth-moon'?'地月大小比真实 · 间距缩短展示':'轨道距离压缩 · 球体大小层次增强':'距离与天体半径均为真实比例'} · 背景星空为示意{props.options.belts&&['overview','inner','outer'].includes(props.options.view)&&<><br/>带区为随机区域示意点 · 无逐体轨道 · 点数不代表实际数量</>}</div>
     {error&&<div className="solar-error" role="alert"><strong>3D 场景暂不可用</strong><p>{error}</p></div>}
   </div>;
 }

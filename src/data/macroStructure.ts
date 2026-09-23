@@ -50,14 +50,14 @@ export const MACRO_ZONES: readonly MacroZone[] = [
     evidence: '旅行者号曾穿过日球层顶；画面的圆球只是概念轮廓。', evidenceKind: '原位探测',
     sourceLabel: 'NASA 旅行者号任务', sourceUrl: 'https://science.nasa.gov/mission/voyager/interstellar-mission/', color: '#6ca9e4',
     detail: '这是按太阳风影响划分的区域，不是固体墙，也不是太阳引力的终点。它与散射盘等天体分布区可以重叠。',
-    visualMeaning: '蓝色透明球面和网格只是日球层的概念边界，不是一堵墙，也不是该日期测得的实际形状；太阳风本身没有逐粒模拟。',
+    visualMeaning: '蓝色轮廓提示日球层顶，金色轮廓提示终止激波，两者之间为日鞘；粒子向外流动示意太阳风。边界、速度和密度均不是该日期的实测结果，也不是等离子体模拟。',
   },
   {
     id: 'oort', name: '奥尔特云', english: 'OORT CLOUD', range: '内缘约 2,000–5,000 AU；外缘或至 100,000 AU', shape: '推测中的巨大球状壳层',
     evidence: '根据长周期彗星及动力学推断，尚未直接观测整个云。', evidenceKind: '模型推断',
     sourceLabel: 'NASA 奥尔特云资料', sourceUrl: 'https://science.nasa.gov/solar-system/oort-cloud/facts/', color: '#aac9e2',
     detail: '如果把太阳系的遥远引力成员也纳入视野，外层可能呈球状。但其边界、密度与成员位置仍有很大不确定性。',
-    visualMeaning: '淡蓝圆点是按球状壳层模型生成的固定随机样本；每个点都不是已观测天体。外侧细网格只提示模型范围，点数、位置、大小和密度均非实测。',
+    visualMeaning: '淡蓝圆点是按球状壳层模型生成的固定随机样本；每个点都不是已观测天体。外侧极淡轮廓只提示模型范围，点数、位置、大小和密度均非实测。',
   },
 ];
 

@@ -9,9 +9,9 @@ const completed = [
 ];
 
 const improvements = [
-  { title: '谷神星与冥王星—卡戎动态观测', detail: '三颗目标接入 2026—2027 年 JPL 几何历表；目录、图鉴、近景与时间轴使用同一时刻状态。' },
-  { title: '双体质心与清晰镜头', detail: '冥王星和卡戎依据各自中心状态围绕双体质心运动；空间观测、真实比例和瞬时参考轨道分别标注。' },
-  { title: '来源与校验可追溯', detail: '保留原始查询、每月数据包、插值检查结果和科学边界；新增对象不混入独立的十体引力验证。' },
+  { title: '宏观全景 · 12 类可开关图层', detail: '整合天体、种群、尘埃与空间环境；提供综合全景、天体与轨道、太阳风环境三个取景入口，靠近时展开局部细节。' },
+  { title: '代表天体与彗星参考轨道', detail: '谷神星与冥王星接入宏观历表位置；哈雷使用 JPL 指定历元根数画参考轨道，近太阳双尾为固定活动示意。动态天体仍为 32 个。' },
+  { title: '太阳风与日球层分区', detail: '增加可暂停的径向流动示意，以及终止激波、日鞘和日球层顶标注；不将边界轮廓或动画速度当作实测值。' },
 ];
 
 export function ProductProgress({ onClose }: { onClose: () => void }) {
@@ -30,7 +30,7 @@ export function ProductProgress({ onClose }: { onClose: () => void }) {
         <p className="product-progress-intro">我们将真实数据、物理近似和视觉示意分别标注。每轮先提交可运行的基线，再记录问题、优化和验证结果，便于对照验收。</p>
         <section><div className="product-progress-section-heading"><CheckCircle2 size={16}/><h3>已有能力 · 基线已提交</h3></div><div className="product-progress-list">{completed.map(item => <article key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></article>)}</div></section>
         <section><div className="product-progress-section-heading"><Clock3 size={16}/><h3>本轮优化 · 待验收</h3></div><ol className="product-progress-steps">{improvements.map(item => <li key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></li>)}</ol></section>
-        <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>打开全景确认 32 个动态目标加载；从目录进入谷神星与冥王星—卡戎，播放时间观察位置变化；切换空间观测与真实比例，再从图鉴进入同一目标。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
+        <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>打开“宏观结构”，依次查看综合全景、天体与轨道、太阳风环境；开关图层、靠近展开细节、暂停太阳风，再查看新增元素的来源。地月分步导览已后移，本轮先补整体画面。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
         <nav className="product-progress-links" aria-label="建设记录相关资料"><a href="https://github.com/yydshly/0922_codexgpt6_project/commits/main/" target="_blank" rel="noreferrer"><GitCommitHorizontal size={14}/>查看提交记录<ArrowUpRight size={13}/></a><a href="https://github.com/yydshly/0922_codexgpt6_project/blob/main/docs/PRODUCT-PROGRESS.md" target="_blank" rel="noreferrer">查看完整建设记录<ArrowUpRight size={13}/></a></nav>
       </div>
     </section>

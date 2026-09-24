@@ -1,3 +1,4 @@
+import {SizeComparison} from './SizeComparison';
 import {MacroContentsNav} from './MacroContentsNav';
 import {planetFocusLayers,planetFocusPhenomena} from '../data/macroFocus';
 import {createPlanetOrbits} from './macroPlanetOrbits';
@@ -409,6 +410,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
 }
 
 export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, onOpenSolarActivity, onOpenDust, onOpenHeliosphere, initialZone, onOpenFamily, initialFamily, initialMemberId, timeControls, frame, displayDate, isEphemeris = true, onClose, onOpenReadingGuide, onObservePlanets, onExploreObject }: Props) {
+  const [sizeComparisonOpen,setSizeComparisonOpen]=useState(false);
   const infoScroll=useRef<HTMLDivElement>(null);
   const [planetFocus,setPlanetFocus]=useState(false);
   const [planetOrbitOptions,setPlanetOrbitOptions]=useState<PlanetOrbitOptions>({orbits:true,scales:false,direction:false});
@@ -560,6 +562,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
           {integratedTarget&&<div className="panorama-current"><strong>当前定位：{(primaryId(integratedTarget)?bodyById[primaryId(integratedTarget)!].name+'本体':integratedTarget==='comet-demo'?'彗尾原理示例（非当日活动）':isCometId(integratedTarget)?COMETS.find(c=>c.id===integratedTarget)!.name:integratedTarget==='pluto-system'?'冥王星—卡戎':isMacroFamily(integratedTarget)?bodyById[integratedTarget].name+'系统':({sun:'太阳活动',dust:'行星际碎屑',helio:'日球层环境'}[integratedTarget as 'sun'|'dust'|'helio']))}</strong><button onClick={leaveIntegrated}>返回定位前视角</button></div>}
           <MacroOrbitPanel focused={planetFocus} canFocus={!!scientificFrame&&layers.planetary&&!selectedMember&&(!integratedTarget||!!primaryId(integratedTarget))&&solarTab==='zones'&&['all','planetary'].includes(selected)} onFocusToggle={()=>setPlanetFocus(v=>!v)} options={planetOrbitOptions} enabled={!!scientificFrame} onChange={key=>setPlanetOrbitOptions(v=>({...v,[key]:!v[key]}))} onOverview={()=>{setScope('solar');setSolarTab('zones');setSelected('planetary');setCameraView('oblique');setHeightScale(1);setLayers(v=>({...v,planetary:true}));setResetCount(n=>n+1);}} onEdge={()=>{setScope('solar');setSolarTab('zones');setSelected('planetary');setCameraView('edge');setHeightScale(1);setShowPlane(true);setLayers(v=>({...v,planetary:true}));setResetCount(n=>n+1);}}/>
           <MacroPrimaryPanel active={primaryId(integratedTarget)} frame={scientificFrame} date={displayDate} time={timeControls} onFocus={id=>focusIntegrated(primaryTarget(id))} onFamily={focusFamily} familiesEnabled={stageFlags.families}/>
+          <section className="panorama-families panorama-sizes"><h3>天体大小 · 用同一把尺比较</h3><p>全景球体经过放大，不宜直接比较。打开参考直径统一比例的双球窗口，选择太阳、行星或月球。</p><button onClick={()=>setSizeComparisonOpen(true)}>打开天体大小比较</button></section>
           <MacroEarthPanel options={earthAppearance} status={cloudStatus} enabled={!!scientificFrame} onClouds={()=>setEarthAppearance(v=>({...v,clouds:!v.clouds}))} onAtmosphere={()=>setEarthAppearance(v=>({...v,atmosphere:!v.atmosphere}))} onRetry={()=>setCloudRetry(v=>v+1)} onFocus={()=>focusIntegrated(primaryTarget('earth'))}/>
           <div className="panorama-members">
           {!stageFlags.structure&&!stageFlags.members&&<><h3>区域代表成员</h3><p>相关阶段尚未开启。可在阶段导览中开启“宏观结构”或“区域成员”，再查看已接入成员。</p><button onClick={onOpenStages}>打开阶段导览</button></>}
@@ -616,6 +619,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
         </div></div>
       </aside>
     </div>
+    {sizeComparisonOpen&&<SizeComparison onClose={()=>setSizeComparisonOpen(false)}/>}
     <footer className="macro-footer"><Compass size={13}/>{scope === 'cosmic' ? 'AU 是太阳系内尺度；光年用于恒星和星系距离。不同镜头独立取景，画面尺寸、方位与点数不表示真实比例或实测位置；背景星点为绘制示意。' : '太阳系包含行星、卫星、矮行星、小天体、尘埃与太阳风。行星、6 个区域代表成员与两颗彗星采用历表位置；淡色椭圆是瞬时参考轨道。点云、可选双尾、风与边界是示意，奥尔特云是推断；背景星点不是实测星位。'}</footer>
   </section>;
 }

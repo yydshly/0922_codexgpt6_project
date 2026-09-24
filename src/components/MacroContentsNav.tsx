@@ -3,6 +3,7 @@ import {INTEGRATED_ITEMS} from '../data/integratedScene';
 import type {StageFlags} from '../data/stages';
 
 const bodySections = [
+ {id:'sizes',name:'天体大小 · 统一比例比较',selector:'.panorama-sizes'},
  {id:'orbits',name:'行星轨道 · 尺度与方向',selector:'.panorama-orbits'},
  {id:'primary',name:'太阳与八大行星 · 位置与参数',selector:'.panorama-primary'},
  {id:'earth',name:'地球外观 · 云层与大气',selector:'.panorama-earth'},

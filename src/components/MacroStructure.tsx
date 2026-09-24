@@ -1,3 +1,5 @@
+import {createMacroEarth,type EarthAppearance,type CloudStatus} from './macroEarth';
+import {MacroEarthPanel} from './MacroEarthPanel';
 import {primaryId,primaryTarget,type PrimaryId} from '../data/macroPrimary';
 import {MacroPrimaryPanel} from './MacroPrimaryPanel';
 import {createPrimaryLabels} from './macroPrimaryLabels';
@@ -110,7 +112,7 @@ function orbitRing(au: number) {
   return new THREE.BufferGeometry().setFromPoints(vertices);
 }
 
-interface IntegratedOptions {comets:CometDisplay;binary:BinaryOptions;families:FamilySceneOptions;flags:IntegratedFlags;target:IntegratedTarget|null;request:number;restore:number;progress:number;onFocus:(target:IntegratedTarget)=>void}
+interface IntegratedOptions {earth:EarthAppearance&{retry:number;onStatus:(status:CloudStatus)=>void};comets:CometDisplay;binary:BinaryOptions;families:FamilySceneOptions;flags:IntegratedFlags;target:IntegratedTarget|null;request:number;restore:number;progress:number;onFocus:(target:IntegratedTarget)=>void}
 
 function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest, restoreRequest, cometBatch, cometTracks, showActivity, frame, selected, resetCount, family, cameraView, heightScale, showPlane, layers, batch, animate, showLabels, onDistance }: { integrated:IntegratedOptions; selectedMember:string|null; onSelectMember:(id:string)=>void; focusRequest:number; restoreRequest:number; cometBatch: StateBatch | null; cometTracks: CometTracks | null; showActivity: boolean; frame: StateFrame | null; selected: MacroZoneId; resetCount: number; family?: SolarFamilyId; cameraView: MacroCameraView; heightScale: 1 | 10; showPlane: boolean; layers: MacroLayerVisibility; batch: StateBatch | null; animate: boolean; showLabels: boolean; onDistance: (distance: number) => void }) {
   const host = useRef<HTMLDivElement>(null);
@@ -187,6 +189,8 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
     const primaryMeshes=Object.fromEntries([['sun',sun],...BODIES.filter(b=>b.kind==='planet').map((b,i)=>[b.id,planets[i]])]) as Record<PrimaryId,THREE.Mesh>;
     const primaryLabels=createPrimaryLabels(element,primaryMeshes,id=>displayRef.current.integrated.onFocus(primaryTarget(id)));
     const textureLoader=new THREE.TextureLoader();
+    const earthEffects=createMacroEarth(planets[2],textureLoader,status=>displayRef.current.integrated.earth.onStatus(status));
+    let cloudRetry=displayRef.current.integrated.earth.retry;
     for(const [mesh,path] of [[sun,bodyById.sun.texture!] as const,...BODIES.filter(b=>b.kind==='planet').map((b,i)=>[planets[i],b.texture!] as const)])textureLoader.load(path,map=>{if(disposed){map.dispose();return;}map.colorSpace=THREE.SRGBColorSpace;mesh.material.map=map;mesh.material.color.set('white');mesh.material.needsUpdate=true;});
 
     const addCloud = (id: MacroZoneId, geometry: THREE.BufferGeometry, color: string, size: number, opacity: number) => {
@@ -306,6 +310,8 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
         const delta=memberPosition.clone().sub(previousMember);camera.position.add(delta);controls.target.add(delta);previousMember.copy(memberPosition);
       }
       const primary=primaryId(integration.target);
+      if(cloudRetry!==integration.earth.retry){cloudRetry=integration.earth.retry;earthEffects.retry();}
+      earthEffects.update(integration.earth);
       const earthPosition=current?planets[2].position:null;
       const parentPositions=Object.fromEntries(BODIES.filter(b=>b.kind==='planet').map((b,i)=>[b.id,planets[i].position]));
       binaryScene.update({...integration.binary,enabled:integration.binary.enabled&&!focus.selectedMember&&!primary},camera,integration.target);
@@ -346,6 +352,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
     return () => {
       renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointerup',pointerUp);
       disposed=true;cancelAnimationFrame(animation); observer.disconnect(); controls.dispose(); sceneRef.current = null;
+      earthEffects.dispose();
       scene.traverse(object => {
         if (object instanceof THREE.Mesh || object instanceof THREE.Points || object instanceof THREE.Line) {
           object.geometry.dispose();
@@ -392,6 +399,9 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
 }
 
 export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, onOpenSolarActivity, onOpenDust, onOpenHeliosphere, initialZone, onOpenFamily, initialFamily, initialMemberId, timeControls, frame, displayDate, isEphemeris = true, onClose, onOpenReadingGuide, onObservePlanets, onExploreObject }: Props) {
+  const [earthAppearance,setEarthAppearance]=useState<EarthAppearance>({clouds:true,atmosphere:true});
+  const [cloudStatus,setCloudStatus]=useState<CloudStatus>('loading');
+  const [cloudRetry,setCloudRetry]=useState(0);
   const [panelTab, setPanelTab] = useState<'integrated' | 'learn' | 'layers' | 'sources'>('integrated');
   const [integratedChoices,setIntegratedChoices]=useState(defaultIntegratedFlags);
   const [integratedTarget,setIntegratedTarget]=useState<IntegratedTarget|null>(null);
@@ -514,7 +524,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
           {solarTab === 'zones' ? <><button className={`macro-zone ${selected === 'all' ? 'active' : ''}`} onClick={() => {setPanelTab('integrated');setSelected('all');}} aria-pressed={selected === 'all'}><span className="macro-zone-icon"><Maximize2 size={15}/></span><span><strong>整体形态</strong><small>行星薄盘 → 远缘球壳</small></span></button>{MACRO_ZONES.map(item => <button key={item.id} className={`macro-zone ${selected === item.id ? 'active' : ''}`} onClick={() => { setPanelTab('learn');setSelected(item.id); setLayers(v => ({ ...v, [item.id]: true })); }} aria-pressed={selected === item.id}><i style={{ background: item.color }}/><span><strong>{item.name}</strong><small>{item.range}</small></span></button>)}</> : SOLAR_FAMILIES.map(item => <button key={item.id} className={`macro-zone ${familyId === item.id ? 'active' : ''}`} onClick={() => { setFamilyId(item.id); const layer = item.id === 'centaurs' ? 'populations' : item.id === 'asteroids' ? 'asteroid' : item.id; setLayers(v => ({ ...v, [layer]: true })); }} aria-pressed={familyId === item.id}><i style={{ background: '#d5bd9a' }}/><span><strong>{item.name}</strong><small>{item.keyFact}</small></span></button>)}
         </> : <><div className="macro-section-title">离开太阳系 · 三个不同尺度</div>{COSMIC_LEVELS.map((item, index) => <button key={item.id} className={`macro-zone ${cosmicId === item.id ? 'active' : ''}`} onClick={() => setCosmicId(item.id)} aria-pressed={cosmicId === item.id}><span className="macro-cosmic-index">0{index + 1}</span><span><strong>{item.name}</strong><small>{item.keyFact}</small></span></button>)}<p className="macro-side-note">“恒星系统”是一颗或多颗恒星及其成员；“星系”是包含大量恒星的更大结构。太阳系属于银河系。</p></>}
       </nav>
-      <div className="macro-stage">{scope === 'solar' ? <MacroCanvas integrated={{comets:cometControls,binary:binaryOptions,families:{enabled:stageFlags.families&&effectiveLayers.planetary,moons:effectiveLayers.moons,rings:familyRings,enhanced:familyEnhanced,orbits:familyOrbits,selected:familySelected,onSelect:selectFamilyMoon,onFocus:focusFamily,states:familyStates},flags:effectiveIntegrated,target:integratedTarget,request:integratedRequest,restore:integratedRestore,progress:integratedProgress,onFocus:focusIntegrated}} selectedMember={selectedMember} onSelectMember={chooseMember} focusRequest={focusRequest} restoreRequest={restoreRequest} cometBatch={cometData.batch} cometTracks={cometTracks} showActivity={showActivity} showLabels={showLabels} onDistance={setCameraDistance} frame={scientificFrame} layers={effectiveLayers} batch={memberBatch} animate={animate} selected={solarTab === 'zones' ? selected : familyId === 'asteroids' ? 'asteroid' : familyId === 'dwarfs' ? 'all' : familyId === 'centaurs' ? 'scattered' : 'planetary'} resetCount={resetCount} family={solarTab === 'families' ? familyId : undefined} cameraView={cameraView} heightScale={solarTab === 'zones' && selected === 'planetary' ? heightScale : 1} showPlane={showPlane}/> : <CosmicCanvas level={cosmicId}/>}
+      <div className="macro-stage">{scope === 'solar' ? <MacroCanvas integrated={{earth:{...earthAppearance,retry:cloudRetry,onStatus:setCloudStatus},comets:cometControls,binary:binaryOptions,families:{enabled:stageFlags.families&&effectiveLayers.planetary,moons:effectiveLayers.moons,rings:familyRings,enhanced:familyEnhanced,orbits:familyOrbits,selected:familySelected,onSelect:selectFamilyMoon,onFocus:focusFamily,states:familyStates},flags:effectiveIntegrated,target:integratedTarget,request:integratedRequest,restore:integratedRestore,progress:integratedProgress,onFocus:focusIntegrated}} selectedMember={selectedMember} onSelectMember={chooseMember} focusRequest={focusRequest} restoreRequest={restoreRequest} cometBatch={cometData.batch} cometTracks={cometTracks} showActivity={showActivity} showLabels={showLabels} onDistance={setCameraDistance} frame={scientificFrame} layers={effectiveLayers} batch={memberBatch} animate={animate} selected={solarTab === 'zones' ? selected : familyId === 'asteroids' ? 'asteroid' : familyId === 'dwarfs' ? 'all' : familyId === 'centaurs' ? 'scattered' : 'planetary'} resetCount={resetCount} family={solarTab === 'families' ? familyId : undefined} cameraView={cameraView} heightScale={solarTab === 'zones' && selected === 'planetary' ? heightScale : 1} showPlane={showPlane}/> : <CosmicCanvas level={cosmicId}/>}
         <div className="macro-stage-label"><span className="macro-live-dot"/>{scope === 'cosmic' ? '宇宙邻域 · 形态示意' : solarTab === 'families' ? '太阳系成员 · 分层展示' : '太阳系宏观全景'} <span>·</span> {scope === 'solar' && !isEphemeris ? '当前为物理模式 · 实测天体已隐藏' : scope === 'solar' && displayDate ? `观测时刻 ${displayDate.replace('T', ' ')}（北京时间）` : scope === 'solar' ? '历表加载中' : '非真实相对方位'}</div>
         {scope === 'solar' && solarTab === 'families' && <div className="macro-family-key">{integratedTarget==='pluto-system'?'两颗球体随 JPL 日期运动 · 绿色十字是双体质心':familyId === 'dwarfs' ? '谷神星 / 冥王星：历表位置与瞬时参考轨道；卡戎可在全景现象中靠近展开' : familyId === 'moons' ? '卫星使用当日历表相对位置 · 球体与局部距离作展示缩放' : familyId === 'comets' ? '哈雷 / 67P：当日历表位置 · 亮线为两年路径，淡线为参考椭圆' : familyId === 'centaurs' ? '巨行星区域与特洛伊群为种群范围示意' : familyId === 'dust' ? '太阳附近尘埃点仅示意分布，不表示实测密度' : '主带点数、大小与位置均不代表真实小行星'}</div>}
         {scope === 'solar' && <div className="macro-depth-controls" aria-label="三维观察方式"><div role="group" aria-label="宏观镜头角度">{([['oblique','斜视'],['edge','侧视'],['top','俯视']] as const).map(([id,label]) => <button key={id} className={cameraView === id ? 'active' : ''} onClick={() => setCameraView(id)} aria-pressed={cameraView === id}>{label}</button>)}</div><button className={showPlane ? 'active' : ''} onClick={() => setShowPlane(value => !value)} aria-pressed={showPlane}>黄道面 / 高度线</button>{solarTab === 'zones' && selected === 'planetary' && <button className={heightScale === 10 ? 'active enhanced' : ''} onClick={() => setHeightScale(value => value === 1 ? 10 : 1)} aria-pressed={heightScale === 10}>{heightScale === 1 ? '行星高度 ×10' : '行星高度 ×10 · 示意'}</button>}</div>}
@@ -531,6 +541,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
           <p className="panorama-scale-note">天体锚点采用当前历表；周围现象为放大示意，不是当天事件。距离仍压缩，局部尺寸不能与天体距离直接比较。</p>
           {integratedTarget&&<div className="panorama-current"><strong>当前定位：{(primaryId(integratedTarget)?bodyById[primaryId(integratedTarget)!].name+'本体':integratedTarget==='comet-demo'?'彗尾原理示例（非当日活动）':isCometId(integratedTarget)?COMETS.find(c=>c.id===integratedTarget)!.name:integratedTarget==='pluto-system'?'冥王星—卡戎':isMacroFamily(integratedTarget)?bodyById[integratedTarget].name+'系统':({sun:'太阳活动',dust:'行星际碎屑',helio:'日球层环境'}[integratedTarget as 'sun'|'dust'|'helio']))}</strong><button onClick={leaveIntegrated}>返回定位前视角</button></div>}
           <MacroPrimaryPanel active={primaryId(integratedTarget)} frame={scientificFrame} date={displayDate} time={timeControls} onFocus={id=>focusIntegrated(primaryTarget(id))} onFamily={focusFamily} familiesEnabled={stageFlags.families}/>
+          <MacroEarthPanel options={earthAppearance} status={cloudStatus} enabled={!!scientificFrame} onClouds={()=>setEarthAppearance(v=>({...v,clouds:!v.clouds}))} onAtmosphere={()=>setEarthAppearance(v=>({...v,atmosphere:!v.atmosphere}))} onRetry={()=>setCloudRetry(v=>v+1)} onFocus={()=>focusIntegrated(primaryTarget('earth'))}/>
           <div className="panorama-members">
         {scope==='solar' && panelTab==='integrated' && (stageFlags.structure||stageFlags.members) && <RegionMembers date={displayDate} onBinary={stageFlags.families?focusBinary:undefined} includeNewMembers={stageFlags.members} zone="all" selectedId={selectedMember} onSelect={chooseMember} onLocate={()=>setFocusRequest(v=>v+1)} onReturn={()=>{setSelectedMember(null);setRestoreRequest(v=>v+1);}} onRegion={()=>{const body=regionMemberById(selectedMember);if(body){setPanelTab('learn');setSolarTab('zones');setSelected(body.zone);setLayers(v=>({...v,[body.zone]:true}));setSelectedMember(null);setResetCount(v=>v+1);}}} frame={scientificFrame} batch={memberBatch} loading={dwarfData.loading||smallBodyData.loading} error={dwarfData.error||smallBodyData.error} onRetry={()=>{dwarfData.retry();smallBodyData.retry();}} time={timeControls}/>}
           </div>

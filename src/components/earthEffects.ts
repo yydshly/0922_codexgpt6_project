@@ -83,7 +83,7 @@ export function createEarthAtmosphere(): EarthEffectMesh {
  * The texture follows the Earth group; no time-dependent weather or arbitrary cloud spin is added.
  * Consumers may share the cloudMap/cloudMapReady uniform objects with a surface-shadow shader.
  */
-export function createEarthClouds(loader: THREE.TextureLoader): EarthEffectMesh {
+export function createEarthClouds(loader: THREE.TextureLoader, onStatus?: (status: 'ready' | 'error') => void): EarthEffectMesh {
   const material = new THREE.ShaderMaterial({
     uniforms: {
       cloudMap: { value: new THREE.Texture() },
@@ -138,7 +138,8 @@ export function createEarthClouds(loader: THREE.TextureLoader): EarthEffectMesh 
     material.uniforms.cloudMap.value.dispose();
     material.uniforms.cloudMap.value = texture;
     material.uniforms.cloudMapReady.value = 1;
-  }, undefined, () => { /* An unavailable optional texture leaves the real surface visible. */ });
+    onStatus?.('ready');
+  }, undefined, () => { if (!material.userData.disposed) onStatus?.('error'); });
   const mesh = new THREE.Mesh(new THREE.SphereGeometry(EARTH_CLOUD_RADIUS, 128, 80), material);
   mesh.name = 'earth-clouds';
   mesh.renderOrder = 2;

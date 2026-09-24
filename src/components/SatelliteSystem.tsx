@@ -1,3 +1,5 @@
+import { makeFaintRings,updateFaintRings } from './planetaryRings';
+import { ringProfile } from '../data/rings';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -17,7 +19,7 @@ export interface SatelliteBodyState {
 export interface SatelliteSystemProps {
   parentId: BodyId; frame: StateFrame; satellites: SatelliteBodyState[];
   selectedId: string | null; onSelect: (id: string) => void;
-  physicalScale: boolean; trajectories: boolean;
+  physicalScale: boolean; trajectories: boolean; rings?:boolean; enhanceRings?:boolean; additionalRings?:boolean;
 }
 
 const KM_PER_UNIT = 20_000;
@@ -225,7 +227,7 @@ export function SatelliteSystem(props: SatelliteSystemProps) {
         uv.setXY(i, (radius - 1.24) / (2.33 - 1.24), .5);
       }
       const ringMaterial = new THREE.MeshStandardMaterial({ color: 0xdbc9ac, roughness: 1, side: THREE.DoubleSide, transparent: true, opacity: .83, depthWrite: false });
-      const ring = new THREE.Mesh(geometry, ringMaterial); ring.rotation.x = -Math.PI / 2; parentGroup.add(ring);
+      const ring = new THREE.Mesh(geometry, ringMaterial); ring.name='saturn-rings';ring.rotation.x = -Math.PI / 2; parentGroup.add(ring);
       loader.load(publicAsset('/textures/saturn-ring.png'), texture => {
         if (disposed) { texture.dispose(); return; }
         texture.colorSpace = THREE.SRGBColorSpace; ringMaterial.map = texture;
@@ -235,6 +237,7 @@ export function SatelliteSystem(props: SatelliteSystemProps) {
         ringMaterial.needsUpdate = true;
       });
     }
+    if(['jupiter','uranus','neptune'].includes(parent.id))parentGroup.add(makeFaintRings(parent,parentRadius));
     const parentLabel = document.createElement('span'); parentLabel.className = 'satellite-parent-label';
     parentLabel.textContent = parent.name; labelLayer.appendChild(parentLabel);
     const visuals = new Map<string, SatelliteVisual>();
@@ -279,6 +282,8 @@ export function SatelliteSystem(props: SatelliteSystemProps) {
     const animate = () => {
       raf = requestAnimationFrame(animate);
       const current = latest.current;
+      updateFaintRings(parentGroup,current.rings!==false&&current.additionalRings!==false,current.enhanceRings!==false,current.frame.time);
+      const ring=parentGroup.getObjectByName('saturn-rings');if(ring)ring.visible=current.rings!==false;
       if (!current.satellites.length) {
         // A missing month is a loading gap, not removal of the system. Preserve controls/resources.
         for (const visual of visuals.values()) { visual.group.visible = false; visual.orbit.visible = false; visual.label.style.display = 'none'; }
@@ -301,7 +306,7 @@ export function SatelliteSystem(props: SatelliteSystemProps) {
       orientParent(parentGroup, parent, current.frame.time);
       normal.copy(satelliteFamilyNormal(current.satellites));
       const refreshOrbit = changedScale || !Number.isFinite(lastOrbitTime) || Math.abs(current.frame.time - lastOrbitTime) > 120;
-      let extent = parentRadius * (parent.id === 'saturn' ? 2.5 : 1.15);
+      let extent = parentRadius * Math.max(parent.id==='saturn'?2.5:1.15,...(ringProfile(parent.id)?.bands.map(b=>b.outerKm/parent.radiusKm)??[]));
       for (const satellite of current.satellites) {
         let visual = visuals.get(satellite.id);
         let newVisual = false;
@@ -344,7 +349,7 @@ export function SatelliteSystem(props: SatelliteSystemProps) {
         let distance = fitRadius / Math.sin(halfFov);
         if (!selection && !current.physicalScale) {
           // Fit the tilted family without turning its real orbital plane into a horizontal ring.
-          const bounds = [{ position: ZERO, radius: parentRadius * (parent.id === 'saturn' ? 2.33 : 1) }];
+          const bounds = [{ position: ZERO, radius: parentRadius * Math.max(parent.id==='saturn'?2.33:1,...(ringProfile(parent.id)?.bands.map(b=>b.outerKm/parent.radiusKm)??[])) }];
           for (const visual of visuals.values()) {
             const radius = visual.radius * visual.extent;
             bounds.push({ position: visual.group.position, radius });

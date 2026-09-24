@@ -10,8 +10,8 @@ import type { StateFrame } from '../types';
 import type { StateBatch } from '../ephemeris/stateProvider';
 import type { MacroTimeControls } from './CometPanel';
 
-export function RegionMembers({zone,family,selectedId,onSelect,onReturn,onLocate,onRegion,frame,batch,loading,error,onRetry,time}: {
- zone:MacroZoneId; family?:SolarFamilyId; selectedId:string|null; onSelect:(id:string)=>void;
+export function RegionMembers({includeNewMembers=true,zone,family,selectedId,onSelect,onReturn,onLocate,onRegion,frame,batch,loading,error,onRetry,time}: {
+ includeNewMembers?:boolean; zone:MacroZoneId; family?:SolarFamilyId; selectedId:string|null; onSelect:(id:string)=>void;
  onReturn:()=>void; onLocate:()=>void; onRegion:()=>void;
  frame:StateFrame|null; batch:StateBatch|null; loading:boolean; error:string; onRetry:()=>void; time:MacroTimeControls;
 }){
@@ -20,8 +20,8 @@ export function RegionMembers({zone,family,selectedId,onSelect,onReturn,onLocate
  const detail=useRef<HTMLElement>(null);
  useEffect(()=>{setPreview(false);if(selectedId)detail.current?.scrollIntoView({block:'nearest'});},[selectedId]);
  const selected=regionMemberById(selectedId);
- const candidates=membersForRegion(zone,family);
- const members=candidates.length||!selected?candidates:membersForRegion(selected.zone);
+ const candidates=membersForRegion(zone,family).filter(b=>includeNewMembers||['ceres','pluto'].includes(b.id));
+ const members=candidates.length||!selected?candidates:membersForRegion(selected.zone).filter(b=>includeNewMembers||['ceres','pluto'].includes(b.id));
  const states=heliocentricComets(frame,batch), state=states.find(s=>s.id===selectedId), metrics=state?cometMetrics(state):null;
  if(!members.length && !selected)return null;
  return <section className="region-members" aria-label="区域真实成员">

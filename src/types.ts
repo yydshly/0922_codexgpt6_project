@@ -32,6 +32,9 @@ export interface ViewOptions {
   earthAtmosphere?: boolean;
   cameraAngle?: 'perspective' | 'top';
   cameraOrbit?: boolean;
+  rings?: boolean;
+  enhanceRings?: boolean;
+  additionalRings?: boolean;
 }
 export interface EphemerisManifest {
   version: string; source: string; sourceUrl: string; generatedAt: string;

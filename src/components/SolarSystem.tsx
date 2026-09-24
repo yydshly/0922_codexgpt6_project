@@ -1,3 +1,5 @@
+import { ringProfile } from '../data/rings';
+import { makeFaintRings,updateFaintRings } from './planetaryRings';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -255,7 +257,7 @@ function makeSaturnRing(loader:THREE.TextureLoader) {
     material.uniforms.ringMap.value.dispose();material.uniforms.ringMap.value=texture;
   });
   const ring=new THREE.Mesh(new THREE.RingGeometry(1.24,2.33,160),material);
-  ring.rotation.x=Math.PI/2;return ring;
+  ring.name='saturn-rings';ring.rotation.x=Math.PI/2;return ring;
 }
 
 export function SolarSystem(props:Props) {
@@ -300,6 +302,7 @@ export function SolarSystem(props:Props) {
         mesh.material.uniforms.cloudShadowReady=clouds.material.uniforms.cloudMapReady;
       }
       if(body.id==='saturn')group.add(makeSaturnRing(loader));
+      if(['jupiter','uranus','neptune'].includes(body.id))group.add(makeFaintRings(body,1));
       scene.add(group);return group;
     });
     const satelliteGroups=SATELLITES.map(body=>{
@@ -515,12 +518,12 @@ export function SolarSystem(props:Props) {
           const lit=sun.clone().sub(nextOrigin).normalize();
           if(selectedId==='sun'&&!selectedDwarfState)lit.set(1,.3,1).normalize();
           lit.applyAxisAngle(new THREE.Vector3(0,1,0),.85);
-          if(selectedId==='saturn'){
+          if(ringProfile(selectedId)){
             const attitude=new THREE.Quaternion();orientation(BODIES[selectedIndex],frame.time,attitude);
             const pole=new THREE.Vector3(0,1,0).applyQuaternion(attitude);
             lit.addScaledVector(pole,.6).normalize();
           }
-          camera.position.copy(lit).multiplyScalar(radius*(selectedDwarfState?5.8:selectedId==='saturn'?8.5:selectedId==='sun'?6.1:5.1));
+          camera.position.copy(lit).multiplyScalar(radius*(selectedDwarfState?5.8:selectedId==='saturn'?8.5:selectedId==='sun'?6.1:Math.max(5.1,...(ringProfile(selectedId)?.bands.map(b=>b.outerKm/BODIES[selectedIndex].radiusKm*3.4)??[]))));
           camera.position.y+=radius*.7;
         }
         if(comparison){
@@ -578,6 +581,8 @@ export function SolarSystem(props:Props) {
         const displayRadius=radius;
         group.scale.setScalar(displayRadius);
         orientation(body,frame.time,group.quaternion);
+        updateFaintRings(group,options.rings!==false&&options.additionalRings!==false,options.enhanceRings!==false,frame.time);
+        const ring=group.getObjectByName('saturn-rings');if(ring)ring.visible=options.rings!==false;
         if(body.id==='earth'){
           const surface=(group.children[0] as THREE.Mesh<THREE.SphereGeometry,THREE.ShaderMaterial>).material;
           surface.uniforms.earthWorldToLocal.value.setFromMatrix4(new THREE.Matrix4().makeRotationFromQuaternion(group.quaternion).invert());

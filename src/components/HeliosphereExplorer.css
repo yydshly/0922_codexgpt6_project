@@ -1,0 +1,6 @@
+.heliosphere-explorer .environment-canvas{top:90px;bottom:245px}
+.heliosphere-explorer .environment-badge{color:#acdfe2}
+.helio-cut-note{position:absolute;top:60px;left:22px;right:18px;color:#a9bccd;font-size:11px;line-height:1.6;pointer-events:none}
+.heliosphere-explorer .environment-facts button{margin:6px 5px 0 0}
+.heliosphere-explorer .solar-demo-controls{max-width:690px}
+@media(max-width:700px){.heliosphere-explorer .environment-stage{height:710px}.helio-cut-note{left:12px;top:55px}.heliosphere-explorer .environment-caption{font-size:10px}.heliosphere-explorer .environment-badge{font-size:10px}}

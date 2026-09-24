@@ -8,6 +8,7 @@ export const STAGES = [
  {id:'nearEarth',title:'06 · 辐射带与等离子体层',added:'走进磁层内部的粒子区域',description:'补内辐射带、外辐射带和等离子体层的三维体积分布示意，可分别开关，切开查看内部。',evidence:'NASA 科学说明支持形态与概念；点数、颜色、边界和缺口均为示意，不表示实测通量或辐射剂量。',how:'进入近地粒子区域 → 切开 / 恢复完整区域 → 单独开关三层 → 对比磁层与极光。'},
  {id:'solarActivity',title:'07 · 太阳活动与物质抛射',added:'区分太阳风、耀斑与 CME',description:'增加可暂停、拖动和重播的太阳活动原理演示，日冕、太阳风、耀斑、日冕物质抛射可分别开关，并关联地球磁层。',evidence:'依据 NASA 科学说明；纹理、光晕、云团和传播节奏为示意，不是当日事件或抵达时间预测。',how:'单独打开各层 → 播放或拖动进度 → 比较辐射与物质 → 接着看地球磁层。'},
  {id:'dustExplorer',title:'08 · 行星际尘埃与流星',added:'从小颗粒分布到大气中的光迹',description:'展开尘埃云、倾斜碎屑流和地球参考路径，再独立观察流星体进入大气、发光和消融的示例。',evidence:'NASA 科学资料支持概念；点云、倾角、尺寸和速度为示意，不是当日尘埃密度、流星雨或撞击预报。',how:'侧看尘埃厚度 → 分层开关 → 切换进入大气 → 播放与拖动 → 接着看真实彗星。'},
+ {id:'heliosphereExplorer',title:'09 · 日球层与星际空间',added:'分清太阳风边界与引力范围',description:'展开内部太阳风、终止激波、日鞘、日球层顶、星际介质和中性原子示例，支持剖示、完整轮廓与侧视。',evidence:'依据 NASA 科学资料；球面、点云、流动与缺口均为教学示意，不是当日边界或实测三维地图。',how:'逐层观察 → 切开 / 完整 → 播放两类粒子示意 → 对照奥尔特云 → 回看太阳活动。'},
 ] as const;
 export type StageId=typeof STAGES[number]['id'];
 export type StageFlags=Record<StageId,boolean>;

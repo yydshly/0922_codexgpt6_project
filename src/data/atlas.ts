@@ -21,7 +21,7 @@ export interface AtlasBody {
   sourceUrl: string;
 }
 
-export const ATLAS_NOTICE = '真实观测覆盖太阳、八大行星、选定卫星，以及谷神星、冥王星与卡戎。图鉴预览仅说明外观；带有历表的成员可进入动态观测，其余成员仍为资料展示。扩展对象不参与当前十体引力验证。';
+export const ATLAS_NOTICE = '真实观测覆盖太阳、八大行星、选定卫星，以及谷神星、冥王星与卡戎。图鉴预览仅说明外观；带有历表的成员可进入动态观测，灶神星、妊神星、鸟神星、阋神星与 67P 的历表在宏观页展示，可从相关入口查看。扩展对象不参与当前十体引力验证。';
 
 export const ATLAS_BODIES: AtlasBody[] = [
   {

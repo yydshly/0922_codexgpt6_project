@@ -7,19 +7,21 @@ import type { StateBatch, ObjectState } from '../ephemeris/stateProvider';
 import type { StateFrame } from '../types';
 import { COMETS } from '../ephemeris/comets';
 import { heliocentricComets, type CometTracks } from '../ephemeris/cometState';
+import { REGION_MEMBERS } from '../data/regionMembers';
 import { dwarfReferenceOrbit } from './dwarfOrbit';
 
 /** Explanatory geometry lives outside scientific state; animated wind has its own clock. */
-export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture, host: HTMLDivElement) {
+export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture, host: HTMLDivElement, onSelect: (id:string)=>void) {
   const groups = Object.fromEntries(['dwarfs','comets','activity','wind','populations','dust','heliosphere','oort'].map(id => {
     const group = new THREE.Group(); group.name = `macro-${id}`; scene.add(group); return [id, group];
   })) as Record<string, THREE.Group>;
-  const overlay = document.createElement('div'); overlay.className='macro-world-labels'; overlay.setAttribute('aria-hidden','true'); host.appendChild(overlay);
+  const overlay = document.createElement('div'); overlay.className='macro-world-labels'; host.appendChild(overlay);
   const labels: THREE.Object3D[] = [];
-  const labelElements = new Map<THREE.Object3D, {text:HTMLDivElement; line:HTMLSpanElement}>();
-  function label(text: string, color = '#c6dfed') {
+  const labelElements = new Map<THREE.Object3D, {text:HTMLElement; line:HTMLSpanElement}>();
+  function label(text: string, color = '#c6dfed', memberId?:string) {
     const anchor = new THREE.Object3D();
-    const element=document.createElement('div');element.className='macro-world-label';element.textContent=text;element.style.setProperty('--label-color',color);
+    const element=document.createElement(memberId?'button':'div');
+    if(memberId){element.setAttribute('type','button');element.setAttribute('aria-label',`定位${text}`);element.classList.add('selectable');element.onclick=()=>onSelect(memberId);}else element.setAttribute('aria-hidden','true');element.classList.add('macro-world-label');element.textContent=text;element.style.setProperty('--label-color',color);
     const leader=document.createElement('span');leader.className='macro-label-leader';leader.style.background=color;
     overlay.append(leader,element);labels.push(anchor);labelElements.set(anchor,{text:element,line:leader});return anchor;
   }
@@ -81,12 +83,12 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   const sheath=label('两边界之间：日鞘', '#b8cde0'); sheath.position.set(0,macroRadius(105)+.5,0); groups.heliosphere.add(sheath);
   const outside=label('外侧：星际介质', '#afbccd'); outside.position.set(0,-macroRadius(140),0); groups.heliosphere.add(outside);
 
-  const dwarfMeshes = ['ceres','pluto'].map((id,index) => {
+  const dwarfMeshes = REGION_MEMBERS.map(body => {
     const group = new THREE.Group(); groups.dwarfs.add(group); group.visible=false;
-    const marker=ball(.13,index ? '#c4d2e1' : '#e0b287'); group.add(marker);
-    const annotation=label(index ? '冥王星 / 卡戎系统' : '谷神星',index ? '#c4d2e1' : '#e0b287'); group.add(annotation);
-    const orbit=line([],index ? '#b1bddf' : '#ceac84',.58); group.add(orbit);
-    return {id,group,marker,annotation,orbit};
+    const marker=ball(.13,body.color); marker.userData.memberId=body.id; group.add(marker);
+    const annotation=label(body.name,body.color,body.id);group.add(annotation);
+    const orbit=line([],body.color,.25);group.add(orbit);
+    return {id:body.id,group,marker,annotation,orbit,orbitTime:NaN};
   });
   const cometMeshes = COMETS.map(body => {
     const group=new THREE.Group(); groups.comets.add(group); group.visible=false;
@@ -97,9 +99,8 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   });
   let lastCometOrbitTime=NaN;
   let lastTracks:CometTracks|null=null;
-  let lastOrbitTime=NaN;
   return {
-    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false) {
+    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false, selectedMember: string | null = null) {
       for (const [id, group] of Object.entries(groups)) group.visible=enabled[id as MacroLayerId] && (macroDetailVisible(id as MacroLayerId,distance) || family===id || (id==='populations' && family==='centaurs'));
       groups.activity.visible=enabled.comets && showActivity;
       for (const annotation of labels) annotation.visible = annotation.userData.overview ? distance >= 42 : distance < 42;
@@ -142,14 +143,18 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
         if(!state || !frame) continue;
         item.marker.position.set(...macroEcliptic(state.position.map((v,i)=>(v-frame.positions[i])/AU_KM)));
         item.annotation.position.copy(item.marker.position);
-        item.annotation.visible=distance<36;
-        if(!Number.isFinite(lastOrbitTime) || Math.abs(frame.time-lastOrbitTime)>21600) {
+        item.annotation.visible=distance<42 || item.id===selectedMember;
+        item.annotation.userData.selected=item.id===selectedMember;
+        item.marker.scale.setScalar(item.id===selectedMember?1.5:1);
+        item.orbit.material.opacity=item.id===selectedMember?.85:.22;
+        labelElements.get(item.annotation)!.text.setAttribute('aria-pressed',String(item.id===selectedMember));
+        if(!Number.isFinite(item.orbitTime) || Math.abs(frame.time-item.orbitTime)>21600) {
           const sun:ObjectState={id:'sun',position:[frame.positions[0],frame.positions[1],frame.positions[2]],velocity:[frame.velocities[0],frame.velocities[1],frame.velocities[2]]};
           const points=dwarfReferenceOrbit(state,sun,BODIES[0].gm).map(p=>{const d=p.length();return d ? p.multiplyScalar(macroRadius(d)/d):p;});
           item.orbit.geometry.dispose(); item.orbit.geometry=new THREE.BufferGeometry().setFromPoints(points);
+          item.orbitTime=frame.time;
         }
       }
-      if(compatible && (!Number.isFinite(lastOrbitTime)||Math.abs(frame!.time-lastOrbitTime)>21600)) lastOrbitTime=frame!.time;
     },
     layoutLabels(camera: THREE.PerspectiveCamera, width: number, height: number, visible: boolean) {
       camera.updateMatrixWorld();
@@ -171,6 +176,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
         if(p.z < -1 || p.z > 1) return [];
         return [{id:String(index),x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:elements.text.offsetWidth,height:elements.text.offsetHeight}];
       });
+      candidates.sort((a,b)=>Number(!!labels[Number(b.id)].userData.selected)-Number(!!labels[Number(a.id)].userData.selected));
       for(const box of placeMacroLabels(candidates,width,height,height<550?65:75,height<550?95:115,obstacles)) {
         const el=labelElements.get(labels[Number(box.id)])!;
         el.text.style.transform=`translate(${box.x}px, ${box.y}px)`;el.text.style.visibility='visible';

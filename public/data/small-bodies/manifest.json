@@ -1,0 +1,276 @@
+{
+  "version": "horizons-small-bodies-2026-2027-v1",
+  "source": "NASA/JPL Horizons",
+  "sourceUrl": "https://ssd.jpl.nasa.gov/horizons/manual.html",
+  "generatedAt": "2026-09-24T03:51:12.800512+00:00",
+  "startUtc": "2026-01-01T00:00:00Z",
+  "endUtc": "2028-01-01T00:00:00Z",
+  "startTdb": 820497669.18392,
+  "endTdb": 883569669.183905,
+  "frame": "ECLIPJ2000 (ICRF, ecliptic of J2000.0)",
+  "origin": "Solar System Barycenter (NAIF 0)",
+  "units": "km, km/s",
+  "timeScale": "TDB seconds past J2000",
+  "aberration": "NONE: geometric states; no light-time correction",
+  "bodyIds": [
+    "vesta",
+    "haumea",
+    "makemake",
+    "eris"
+  ],
+  "stepSeconds": 21600,
+  "interpolation": "Cubic Hermite with analytic velocity derivative",
+  "targets": [
+    {
+      "id": "vesta",
+      "command": "4;",
+      "targetSource": "Target body name: 4 Vesta (A807 FA)               {source: JPL#36}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/small-bodies/vesta-2026-2027-3h.txt.gz",
+      "rawSha256": "22cfdb79dacebe8b0957521faa42d80d4ae973464adab3f2504847a92b7ca1bb",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%274%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "haumea",
+      "command": "136108;",
+      "targetSource": "Target body name: 136108 Haumea (2003 EL61)       {source: JPL#132}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/small-bodies/haumea-2026-2027-3h.txt.gz",
+      "rawSha256": "339b4326774bba8f173b7d0141f66db5d9d5f1d8cad794b6dbe0b43c8fd73bac",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27136108%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "makemake",
+      "command": "136472;",
+      "targetSource": "Target body name: 136472 Makemake (2005 FY9)      {source: JPL#130}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/small-bodies/makemake-2026-2027-3h.txt.gz",
+      "rawSha256": "a16ac2b29cafe08355a33e9f9a05ad09aec6a3b33c7a6ff5fb81a32e61e16c4b",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27136472%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "eris",
+      "command": "136199;",
+      "targetSource": "Target body name: 136199 Eris (2003 UB313)        {source: JPL#103}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/small-bodies/eris-2026-2027-3h.txt.gz",
+      "rawSha256": "71a05aee1781cb867665e0cddb59470054880d32712c81c16ed4d8e167a2be87",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27136199%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    }
+  ],
+  "chunks": [
+    {
+      "file": "2026-01.json",
+      "startTdb": 820497669.18392,
+      "endTdb": 823176069.184785,
+      "bytes": 58007,
+      "sha256": "05070bcc75235b1d180fbf344a832fe7226e5cec57912f9cb4d30c49dcfdca06"
+    },
+    {
+      "file": "2026-02.json",
+      "startTdb": 823176069.184785,
+      "endTdb": 825595269.1853772,
+      "bytes": 52981,
+      "sha256": "d2a2c9a389ce7a3e9fe1cd5f7d569e1074cc55c950a1227c59ddbdd90b3d43f6"
+    },
+    {
+      "file": "2026-03.json",
+      "startTdb": 825595269.1853772,
+      "endTdb": 828273669.1856546,
+      "bytes": 58477,
+      "sha256": "c7e9f3843fb5c4e184d2650e95fc9fadaf01d44c9993af253ee73d01d27a738c"
+    },
+    {
+      "file": "2026-04.json",
+      "startTdb": 828273669.1856546,
+      "endTdb": 830865669.185484,
+      "bytes": 56634,
+      "sha256": "3d0fc5715d98f3e73e212f1715c42fe8e34fe117cde09679cdb7d2cb0ae043af"
+    },
+    {
+      "file": "2026-05.json",
+      "startTdb": 830865669.185484,
+      "endTdb": 833544069.1849113,
+      "bytes": 58410,
+      "sha256": "b61145f9ae0eabfddb7fae9b02dfb27f2c115a0c47b1636e556ef3dd8c0a842d"
+    },
+    {
+      "file": "2026-06.json",
+      "startTdb": 833544069.1849113,
+      "endTdb": 836136069.1841229,
+      "bytes": 56591,
+      "sha256": "8fbdd072f03b783a016074d11e0f4a80888a608c3ccc2baf8bf44bffedb4b9bb"
+    },
+    {
+      "file": "2026-07.json",
+      "startTdb": 836136069.1841229,
+      "endTdb": 838814469.1832788,
+      "bytes": 58540,
+      "sha256": "260e44822bd06efa4614dc6d6fb8c3afeee7b19544b196897b2407e528a13ce4"
+    },
+    {
+      "file": "2026-08.json",
+      "startTdb": 838814469.1832788,
+      "endTdb": 841492869.1826266,
+      "bytes": 58642,
+      "sha256": "ce30e7b88803dbf6a558ed6ce2dfb0d647765fa4b466fe13f125342c652c3cbe"
+    },
+    {
+      "file": "2026-09.json",
+      "startTdb": 841492869.1826266,
+      "endTdb": 844084869.1823484,
+      "bytes": 56787,
+      "sha256": "cab538cff5a4cdaf8e88fc55868ecaa583d8030ca13dc34bf68c499acd876dae"
+    },
+    {
+      "file": "2026-10.json",
+      "startTdb": 844084869.1823484,
+      "endTdb": 846763269.1825113,
+      "bytes": 58530,
+      "sha256": "b3640ba7017d423a5584d55f2843a26058db01370be9bb699dfcac19f2af52b7"
+    },
+    {
+      "file": "2026-11.json",
+      "startTdb": 846763269.1825113,
+      "endTdb": 849355269.183072,
+      "bytes": 56629,
+      "sha256": "b827aea810bbdbd55c69f23b3174053928a113db3ac99aa45c2c9cdfc44b4fad"
+    },
+    {
+      "file": "2026-12.json",
+      "startTdb": 849355269.183072,
+      "endTdb": 852033669.1839125,
+      "bytes": 58457,
+      "sha256": "356ca5f5993be9fa35f5e354beba28ee6946657ea6e06272008e259e915ffbf9"
+    },
+    {
+      "file": "2027-01.json",
+      "startTdb": 852033669.1839125,
+      "endTdb": 854712069.1847785,
+      "bytes": 58404,
+      "sha256": "e44fd8d011919a012afd938ef5f4adf91b12e0dcd88a70650957bdc271e181f3"
+    },
+    {
+      "file": "2027-02.json",
+      "startTdb": 854712069.1847785,
+      "endTdb": 857131269.1853731,
+      "bytes": 52870,
+      "sha256": "fe8c7d355b85b8319cc93312c7d3cca1d24d17cee562b41d2414f7d63b262231"
+    },
+    {
+      "file": "2027-03.json",
+      "startTdb": 857131269.1853731,
+      "endTdb": 859809669.1856543,
+      "bytes": 58351,
+      "sha256": "4c6842d5fa917d20a3b8e1a41c4db828304185e2851a086077c8f2c249c61aa7"
+    },
+    {
+      "file": "2027-04.json",
+      "startTdb": 859809669.1856543,
+      "endTdb": 862401669.1854873,
+      "bytes": 56508,
+      "sha256": "f1b4d70043dd73006be3fe0ce7ed07a970add685f925826c051951c0681cfc7d"
+    },
+    {
+      "file": "2027-05.json",
+      "startTdb": 862401669.1854873,
+      "endTdb": 865080069.1849173,
+      "bytes": 58317,
+      "sha256": "356fcf6e49bbdc46ee4cd3015e4b8b401457def3c9b370b325d4c2318e6c02cf"
+    },
+    {
+      "file": "2027-06.json",
+      "startTdb": 865080069.1849173,
+      "endTdb": 867672069.1841302,
+      "bytes": 56498,
+      "sha256": "5cbbd683edccf56471bf88021f7a010c4ddc34aa15c73928440ecbb8e00d7f98"
+    },
+    {
+      "file": "2027-07.json",
+      "startTdb": 867672069.1841302,
+      "endTdb": 870350469.1832854,
+      "bytes": 58342,
+      "sha256": "e1bfc1c3278ccc94244f6f7869ae7ec8a906cb8a17f935c0c566edd68ab16c60"
+    },
+    {
+      "file": "2027-08.json",
+      "startTdb": 870350469.1832854,
+      "endTdb": 873028869.1826308,
+      "bytes": 58596,
+      "sha256": "13fb7817dfde3da28236c018da3e9a102d3e6acd7e0407c92a69a91c5255ff16"
+    },
+    {
+      "file": "2027-09.json",
+      "startTdb": 873028869.1826308,
+      "endTdb": 875620869.182349,
+      "bytes": 56749,
+      "sha256": "921bc704ac66433b64bbacd7012c7c02461c4be0aa0cedf69398ac22acdf485b"
+    },
+    {
+      "file": "2027-10.json",
+      "startTdb": 875620869.182349,
+      "endTdb": 878299269.1825081,
+      "bytes": 58455,
+      "sha256": "7ee02cff138a07b1fdd4d097759140a5a5fcbe76de099b70caf4ab963fa32f16"
+    },
+    {
+      "file": "2027-11.json",
+      "startTdb": 878299269.1825081,
+      "endTdb": 880891269.1830658,
+      "bytes": 56634,
+      "sha256": "d4af817788ba75b86210060864dcf3583febf5507c46b5b0e7602cd586c356a2"
+    },
+    {
+      "file": "2027-12.json",
+      "startTdb": 880891269.1830658,
+      "endTdb": 883569669.183905,
+      "bytes": 57990,
+      "sha256": "20b6e8d987d0088bc91f591b160b253f067622a1a00bb0ee99e4293561e70536"
+    }
+  ],
+  "validation": {
+    "checks": [
+      {
+        "id": "vesta",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 3.2022467343051347e-06,
+        "rmsPositionErrorKm": 1.6163855028721073e-06,
+        "maxVelocityErrorKmS": 2.0156606200880137e-11,
+        "passed": true
+      },
+      {
+        "id": "haumea",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 3.504023183989303e-06,
+        "rmsPositionErrorKm": 1.2999726768614389e-06,
+        "maxVelocityErrorKmS": 2.3591285896576686e-10,
+        "passed": true
+      },
+      {
+        "id": "makemake",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 2.9102696456274276e-06,
+        "rmsPositionErrorKm": 1.187332977862397e-06,
+        "maxVelocityErrorKmS": 2.1789877954691281e-10,
+        "passed": true
+      },
+      {
+        "id": "eris",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 1.164107858250971e-05,
+        "rmsPositionErrorKm": 4.098567058986348e-06,
+        "maxVelocityErrorKmS": 9.886964027254642e-10,
+        "passed": true
+      }
+    ],
+    "maxPositionErrorKm": 1.164107858250971e-05,
+    "maxVelocityErrorKmS": 9.886964027254642e-10,
+    "positionThresholdKm": 1,
+    "velocityThresholdKmS": 0.0001,
+    "meaning": "Held-out source-sample difference, not absolute orbit uncertainty"
+  }
+}

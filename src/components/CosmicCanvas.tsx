@@ -51,7 +51,8 @@ function galaxy(scene: THREE.Scene, center: [number, number, number], size: numb
   glow(scene, center, color, .12 * size);
 }
 
-export function CosmicCanvas({ level }: { level: CosmicLevelId }) {
+export function CosmicCanvas({ level,active=true }: { level: CosmicLevelId;active?:boolean }) {
+  const activeRef=useRef(active);activeRef.current=active;
   const host = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const element = host.current;
@@ -115,7 +116,7 @@ export function CosmicCanvas({ level }: { level: CosmicLevelId }) {
     };
     const observer = new ResizeObserver(resize); observer.observe(element); resize();
     let handle = 0, last = 0;
-    const render = (now: number) => { handle = requestAnimationFrame(render); if (now - last < 30) return; last = now; controls.update(); renderer.render(scene, camera); };
+    const render = (now: number) => { handle = requestAnimationFrame(render); if(!activeRef.current){last=now;return;} if (now - last < 30) return; last = now; controls.update(); renderer.render(scene, camera); };
     handle = requestAnimationFrame(render);
     return () => {
       cancelAnimationFrame(handle); observer.disconnect(); controls.dispose();

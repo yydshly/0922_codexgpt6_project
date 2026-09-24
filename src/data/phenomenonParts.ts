@@ -1,0 +1,11 @@
+import type {IntegratedId} from './integratedScene';
+export const PHENOMENON_PARTS=[
+ {id:'corona',group:'solar',name:'日冕'}, {id:'flare',group:'solar',name:'耀斑亮斑'}, {id:'cme',group:'solar',name:'CME 物质云团'},
+ {id:'magnet',group:'environment',name:'磁层与边界'}, {id:'dipole',group:'environment',name:'磁场参考线'}, {id:'aurora',group:'environment',name:'极光'},
+ {id:'innerBelt',group:'belts',name:'内辐射带'}, {id:'outerBelt',group:'belts',name:'外辐射带'}, {id:'plasmasphere',group:'belts',name:'等离子体层'},
+ {id:'stream',group:'dust',name:'碎屑流'}, {id:'meteor',group:'dust',name:'地球旁流星示例'},
+ {id:'sheath',group:'helio',name:'日鞘'}, {id:'medium',group:'helio',name:'外部星际介质'}, {id:'neutrals',group:'helio',name:'中性原子示例'},
+] as const satisfies readonly {id:string;group:IntegratedId;name:string}[];
+export type PhenomenonPart=typeof PHENOMENON_PARTS[number]['id'];
+export type PhenomenonParts=Record<PhenomenonPart,boolean>;
+export const defaultPhenomenonParts=():PhenomenonParts=>Object.fromEntries(PHENOMENON_PARTS.map(p=>[p.id,true])) as PhenomenonParts;

@@ -8,13 +8,13 @@ export function createPlanetOrbits(scene:THREE.Scene){
  return {update(frame:StateFrame|null,options:PlanetOrbitOptions,enabled:boolean,selected:PrimaryId|null,positions:Record<string,THREE.Vector3>,height:1|10){
   root.visible=enabled&&!!frame;
   for(const item of items){
-   const state=planetRelativeState(frame,item.id),chosen=!selected||selected===item.id;
+   const state=planetRelativeState(frame,item.id),chosen=true;
    item.line.visible=enabled&&!!state&&options.orbits&&chosen;item.arrow.visible=enabled&&!!state&&options.direction&&chosen;
    if(!state)continue;
    if(item.line.visible&&(!Number.isFinite(item.epoch)||Math.abs(frame!.time-item.epoch)>=21600||item.height!==height)){
     item.line.geometry.dispose();item.line.geometry=new THREE.BufferGeometry().setFromPoints(planetReferencePoints(frame,item.id,height));item.epoch=frame!.time;item.height=height;
    }
-   item.line.material.opacity=selected===item.id?.7:.35;
+   item.line.material.opacity=selected===item.id?.7:selected?.06:.35;
    if(item.arrow.visible){const direction=planetDisplayDirection(state.position,state.velocity,height);if(direction){item.arrow.position.copy(positions[item.id]);item.arrow.setDirection(new THREE.Vector3(...direction));}else item.arrow.visible=false;}
   }
  }};

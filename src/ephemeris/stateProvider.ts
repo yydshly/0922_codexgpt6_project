@@ -102,7 +102,7 @@ export class LocalMonthlyStateProvider {
   private chunks = new Map<string, MonthlyChunk>();
   private pending = new Map<string, Promise<MonthlyChunk>>();
 
-  constructor(private readonly directory: string, private readonly expectedIds: readonly string[]) {}
+  constructor(private readonly directory: string, private readonly expectedIds: readonly string[], private readonly coverageLabel = '2026—2027 年（UTC）') {}
 
   async loadManifest(): Promise<MonthlyManifest> {
     if (!this.manifestRequest) this.manifestRequest = this.readJson<MonthlyManifest>('manifest.json').then(data => {
@@ -135,7 +135,7 @@ export class LocalMonthlyStateProvider {
 
   private descriptor(timeTdb: number, manifest: MonthlyManifest): MonthlyDescriptor {
     if (!Number.isFinite(timeTdb) || timeTdb < manifest.startTdb || timeTdb > manifest.endTdb)
-      throw new RangeError('扩展天体历表覆盖 2026—2027 年（UTC）');
+      throw new RangeError(`扩展天体历表覆盖 ${this.coverageLabel}`);
     const descriptor = manifest.chunks.find(chunk => timeTdb >= chunk.startTdb &&
       (timeTdb < chunk.endTdb || timeTdb === manifest.endTdb && timeTdb === chunk.endTdb));
     if (!descriptor) throw new Error('当前月份缺少扩展天体历表');

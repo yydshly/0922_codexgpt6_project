@@ -38,14 +38,14 @@ def tdb(utc):
     return value
 
 
-def query(body_id, command, contact):
+def query(body_id, command, contact, start='2026-01-01', stop='2028-01-01 06:00', cache_label='2026-2027', minimum_rows=5800):
     params = dict(format='text', COMMAND=command, EPHEM_TYPE='VECTORS', CENTER='500@0',
-                  START_TIME='2026-01-01', STOP_TIME='2028-01-01 06:00', STEP_SIZE='3h',
+                  START_TIME=start, STOP_TIME=stop, STEP_SIZE='3h',
                   OUT_UNITS='KM-S', REF_PLANE='ECLIPTIC', REF_SYSTEM='ICRF',
                   VEC_TABLE='2', VEC_CORR='NONE', CSV_FORMAT='YES', TIME_TYPE='TDB')
     url = 'https://ssd.jpl.nasa.gov/api/horizons.api?' + urllib.parse.urlencode(
         {key: value if key == 'format' else "'" + value + "'" for key, value in params.items()})
-    cache_path = CACHE / f'{body_id}-2026-2027-3h.txt.gz'
+    cache_path = CACHE / f'{body_id}-{cache_label}-3h.txt.gz'
     if cache_path.exists():
         raw = gzip.decompress(cache_path.read_bytes())
     else:
@@ -83,7 +83,7 @@ def query(body_id, command, contact):
         if len(row) != 7 or not all(math.isfinite(value) for value in row):
             raise ValueError(f'Invalid vector row for {body_id}')
         rows.append(row)
-    if len(rows) < 5800 or any(abs(rows[i][0] - rows[i-1][0] - RAW_STEP) > .01 for i in range(1, len(rows))):
+    if len(rows) < minimum_rows or any(abs(rows[i][0] - rows[i-1][0] - RAW_STEP) > .01 for i in range(1, len(rows))):
         raise ValueError(f'Incomplete or nonuniform Horizons sampling for {body_id}')
     target_line = re.search(r'^Target body name:.*$', header, re.M)
     return rows, dict(id=body_id, command=command, targetSource=target_line.group(0).strip(),

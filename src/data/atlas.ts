@@ -1,3 +1,5 @@
+import { R02_ATLAS } from './r02Members';
+import { R01_ATLAS } from './r01Members';
 import type { BodyId, CameraView } from '../types';
 
 /** Educational atlas metadata. Three entries now also have an independent
@@ -21,7 +23,7 @@ export interface AtlasBody {
   sourceUrl: string;
 }
 
-export const ATLAS_NOTICE = '真实观测覆盖太阳、八大行星、选定卫星，以及谷神星、冥王星与卡戎。图鉴预览仅说明外观；带有历表的成员可进入动态观测，灶神星、妊神星、鸟神星、阋神星与 67P 的历表在宏观页展示，可从相关入口查看。扩展对象不参与当前十体引力验证。';
+export const ATLAS_NOTICE = '真实观测覆盖太阳、八大行星、选定卫星，以及谷神星、冥王星与卡戎。图鉴预览仅说明外观；带有历表的成员可进入动态观测，区域小天体、海王星外成员与 67P 的历表在宏观页展示，可从相关入口查看。扩展对象不参与当前十体引力验证。';
 
 export const ATLAS_BODIES: AtlasBody[] = [
   {
@@ -213,6 +215,7 @@ export const ATLAS_BODIES: AtlasBody[] = [
     features:['首颗被航天器环绕并着陆的彗星','木星的引力曾显著改变它的轨道','彗核中的冰、尘埃和有机物保存着太阳系早期线索'],
     sourceUrl:'https://science.nasa.gov/solar-system/comets/67p-churyumov-gerasimenko/',
   },
+  ...R02_ATLAS, ...R01_ATLAS,
 ];
 
 export interface SolarLesson {

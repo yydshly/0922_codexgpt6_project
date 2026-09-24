@@ -12,7 +12,8 @@ export interface MacroTimeControls {
   onSeek: (time:number) => void;
   onToggle: () => void; onPlay: () => void; onNow: () => void;
 }
-export function CometPanel({frame,batch,loading,error,onRetry,time,showActivity,onActivity,trackError,scene}: {
+export function CometPanel({frame,batch,loading,error,onRetry,time,showActivity,onActivity,trackError,scene,onHistory}: {
+  onHistory?:()=>void;
   scene?:CometDisplay&{enabled:boolean;date:string;onFocus:(id:CometId)=>void;onDemo:()=>void;onPaths:()=>void;onOrbits:()=>void;onDirection:()=>void};
   frame:StateFrame|null; batch:StateBatch|null; loading:boolean; error:string; onRetry:()=>void;
   time:MacroTimeControls; showActivity:boolean; onActivity:()=>void; trackError:string;
@@ -22,7 +23,7 @@ export function CometPanel({frame,batch,loading,error,onRetry,time,showActivity,
   const available=!!frame&&(!scene||scene.enabled);
   return <section className="comet-panel" aria-label="彗星日期与状态">
     <h3>让彗星随日期运行</h3>
-    <p>两颗彗核采用 JPL 历表位置。亮线是 2026—2027 年逐日路径，淡线是当前状态对应的完整参考椭圆。</p>
+    <p>三颗彗核采用 JPL 历表位置。亮线是 2026—2027 年逐日路径，淡线是当前状态对应的完整参考椭圆。</p>
     {scene&&<><div className="panorama-family-links">{COMETS.map(body=><button key={body.id} disabled={!scene.enabled||!states.some(s=>s.id===body.id)} aria-pressed={scene.selected===body.id} onClick={()=>scene.onFocus(body.id)}>定位{body.name}</button>)}</div>
     {!scene.enabled&&<p>阶段 02 已隐藏，请在阶段导览中开启。</p>}
     <div className="panorama-family-toggles"><label><input type="checkbox" checked={scene.paths} disabled={!scene.enabled} onChange={scene.onPaths}/>显示两年历表路径（亮线）</label><label><input type="checkbox" checked={scene.orbits} disabled={!scene.enabled} onChange={scene.onOrbits}/>显示瞬时参考椭圆（淡线）</label><label><input type="checkbox" checked={scene.direction} disabled={!scene.enabled} onChange={scene.onDirection}/>显示背日方向箭头</label></div>
@@ -47,10 +48,12 @@ export function CometPanel({frame,batch,loading,error,onRetry,time,showActivity,
       const state=states.find(s=>s.id===body.id), metrics=state ? cometMetrics(state) : null;
       return <article key={body.id}><strong style={{color:body.color}}>{body.name}</strong><span>{metrics ? `${metrics.distanceAu.toFixed(3)} AU · ${metrics.speedKmS.toFixed(3)} km/s` : '等待同一时刻的历表'}</span></article>;
     })}</div>
+    <p>海尔—波普于 1997 年经过近日点，公转周期为数千年量级。短短两年的亮线路径只是一小段；当前距太阳的数值由历表计算。</p><a href="https://science.nasa.gov/solar-system/comets/c-1995-o1-hale-bopp/" target="_blank" rel="noreferrer">NASA：海尔—波普介绍 ↗</a>
+    {onHistory&&<button onClick={onHistory}>星际访客 · 2I/Borisov 历史窗口</button>}
     <a href={publicAsset('/data/comets/manifest.json')} target="_blank" rel="noreferrer">JPL 历表来源、版本与单位 ↗</a>
-    {trackError && <p role="alert">{trackError}；彗核仍按历表定位。</p>}
+    {trackError && <p role="alert">{trackError}；彗核仍按历表定位。<button onClick={onRetry}>重试轨迹</button></p>}
     <button disabled={!available} aria-pressed={showActivity} onClick={onActivity}>{showActivity ? '隐藏彗尾原理示意' : '显示彗尾原理示意'}</button>
     {scene&&<button disabled={!scene.enabled} onClick={scene.onDemo}>定位彗尾原理示例</button>}
-    <p>彗尾示例固定在近太阳处，与两颗当前彗核分开；不代表当天亮度、活动强度或真实尾长。仅宏观页新增这两颗彗星，主观测页仍为 32 个动态天体。</p>
+    <p>彗尾示例固定在近太阳处，与当前三颗彗核分开；不代表当天亮度、活动强度或真实尾长。当前位置已接入全景主页；海尔—波普是长周期彗星，不表示它此刻正接近太阳。</p>
   </section>;
 }

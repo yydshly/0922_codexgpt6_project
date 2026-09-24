@@ -1,8 +1,8 @@
 {
-  "version": "horizons-comets-2026-2027-v1",
+  "version": "horizons-comets-2026-2027-v2",
   "source": "NASA/JPL Horizons",
   "sourceUrl": "https://ssd.jpl.nasa.gov/horizons/manual.html",
-  "generatedAt": "2026-09-24T03:27:00.046511+00:00",
+  "generatedAt": "2026-09-24T14:44:34.028493+00:00",
   "startUtc": "2026-01-01T00:00:00Z",
   "endUtc": "2028-01-01T00:00:00Z",
   "startTdb": 820497669.18392,
@@ -14,7 +14,8 @@
   "aberration": "NONE: geometric states; no light-time correction",
   "bodyIds": [
     "halley",
-    "67p"
+    "67p",
+    "hale-bopp"
   ],
   "stepSeconds": 21600,
   "interpolation": "Cubic Hermite with analytic velocity derivative",
@@ -38,6 +39,16 @@
       "rawFile": "data-sources/comets/67p-2026-2027-3h.txt.gz",
       "rawSha256": "ecd353187306aeee3acc2bd6480e10812c52eb88c7e45107cc87e126196a0f1d",
       "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27DES%3D67P%3BCAP%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "hale-bopp",
+      "command": "DES=C/1995 O1;CAP;",
+      "targetSource": "Target body name: Hale-Bopp (C/1995 O1)           {source: JPL#226}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/comets/hale-bopp-2026-2027-3h.txt.gz",
+      "rawSha256": "1d7511f200985aecee0ea1a0e9ea0cc9cbd55df8f961873ddcfb0de2ace31b36",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27DES%3DC%2F1995+O1%3BCAP%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
     }
   ],
   "chunks": [
@@ -45,169 +56,169 @@
       "file": "2026-01.json",
       "startTdb": 820497669.18392,
       "endTdb": 823176069.184785,
-      "bytes": 29181,
-      "sha256": "d433f82fd1d4e2f4378c95fad8574356e73c5873dfec7683a18789f77fd716b6"
+      "bytes": 43772,
+      "sha256": "9188c8e1760efd5e45b5794f2b99c7108ebf8c74337b474fbd37779f532bd0cb"
     },
     {
       "file": "2026-02.json",
       "startTdb": 823176069.184785,
       "endTdb": 825595269.1853772,
-      "bytes": 26662,
-      "sha256": "a3de8260d2a8c91cc42d277efbd278ceacd408539dd9ad20121be154d642ffc2"
+      "bytes": 39994,
+      "sha256": "47f73f7e12b9091034bafebf148f76a1e19678c5c2e3000f42f69134dd99815f"
     },
     {
       "file": "2026-03.json",
       "startTdb": 825595269.1853772,
       "endTdb": 828273669.1856546,
-      "bytes": 29429,
-      "sha256": "d9c64042c0d4bb9ee267e1ef2473c523211ac4e42ae44910b565c1658cd44248"
+      "bytes": 44112,
+      "sha256": "24aa9491a15374a47d305b8ed1fc7145dc0bf58a040ef3ec29579e645ddc760b"
     },
     {
       "file": "2026-04.json",
       "startTdb": 828273669.1856546,
       "endTdb": 830865669.185484,
-      "bytes": 28517,
-      "sha256": "1eed1d0d7582bb1494fb56343453cdd48188003f846605fc4d653cdd04c12ec8"
+      "bytes": 42761,
+      "sha256": "d8e674d3d638ff2c68721974a63fd4baa4585324f8bb4566413377e95444d0ab"
     },
     {
       "file": "2026-05.json",
       "startTdb": 830865669.185484,
       "endTdb": 833544069.1849113,
-      "bytes": 29403,
-      "sha256": "bd5f7cf403a5cfd345ad7f956a0a9d654754067ac2abdf7476f6da6f2b5711bd"
+      "bytes": 44099,
+      "sha256": "183a34dff947f2a5c9e714bd0af7c73e6847e52a0e2f10ecd4f59c0461ca895f"
     },
     {
       "file": "2026-06.json",
       "startTdb": 833544069.1849113,
       "endTdb": 836136069.1841229,
-      "bytes": 28493,
-      "sha256": "08c544247ddb1e43eec747e527d5eeb70982b60de6aaf72e7ec4dd5ad70e16d0"
+      "bytes": 42750,
+      "sha256": "e55b8e1e7eed8b0b2d14107e153abc28b8a8848940a7a622a43ff54cfc848729"
     },
     {
       "file": "2026-07.json",
       "startTdb": 836136069.1841229,
       "endTdb": 838814469.1832788,
-      "bytes": 29479,
-      "sha256": "18c5a90cd018cb39e0bb52a7d45e7dcad512bd04d4c2498141a9f5eb958d8be6"
+      "bytes": 44171,
+      "sha256": "8d6b5c72b20e61648fb37258c4d7a890fa565e325df82ab46a15966774ce59cd"
     },
     {
       "file": "2026-08.json",
       "startTdb": 838814469.1832788,
       "endTdb": 841492869.1826266,
-      "bytes": 29506,
-      "sha256": "65c7f6b9e62f83baa8075c25169994437fd74556fe01b980bc7c00c06b3f7b9a"
+      "bytes": 44219,
+      "sha256": "c1726a9c56f8fa6c711e12bc029baffd24dfd5ee2d03ca6250a375059a842784"
     },
     {
       "file": "2026-09.json",
       "startTdb": 841492869.1826266,
       "endTdb": 844084869.1823484,
-      "bytes": 28674,
-      "sha256": "5dfb494648f1823aa4c1abbb4123a5705adca2d98c3c2cf0a60f4d0f2389a4a9"
+      "bytes": 42915,
+      "sha256": "be717c07fe2cc5674eabfee87947dfb4c84f92bdde9a12dbd1c4b45dd6394827"
     },
     {
       "file": "2026-10.json",
       "startTdb": 844084869.1823484,
       "endTdb": 846763269.1825113,
-      "bytes": 29328,
-      "sha256": "28fabbe2df91c1524e476a8fe52e18bbc2c67e6d2745baddfb7c88fbf912a5fc"
+      "bytes": 44028,
+      "sha256": "48754b5e5c0d15a63af61cd904324fbdcc6afccce5bd66bbc2982f02a7272fd3"
     },
     {
       "file": "2026-11.json",
       "startTdb": 846763269.1825113,
       "endTdb": 849355269.183072,
-      "bytes": 28379,
-      "sha256": "877be9c0d6dcc4c650535be25b5c6e5fe708daa634dbb567a32e3ee0949bc2a2"
+      "bytes": 42629,
+      "sha256": "d91422e5b48a60e15a8c7c17f209918eaefd7d1d72bb77e837273abcb74ebef1"
     },
     {
       "file": "2026-12.json",
       "startTdb": 849355269.183072,
       "endTdb": 852033669.1839125,
-      "bytes": 29171,
-      "sha256": "643bcdeed6dd8b45bef2aff07555965e7b2204d3e3a32cd7e8e10d96a6ed160b"
+      "bytes": 43870,
+      "sha256": "35baedac80dbc940b39567fd1e1918cbfd768da0ee94411355633ed1dfbfe2b4"
     },
     {
       "file": "2027-01.json",
       "startTdb": 852033669.1839125,
       "endTdb": 854712069.1847785,
-      "bytes": 29141,
-      "sha256": "660916dfbbc2f276d5af74be77c9f1f4e9f41a7248d6bb54bf76e3e2765cb9bc"
+      "bytes": 43830,
+      "sha256": "8187a59ec6827574b6ea136f3eee9b8494b2c363ad3fc6f7eb9136d9a0f729d7"
     },
     {
       "file": "2027-02.json",
       "startTdb": 854712069.1847785,
       "endTdb": 857131269.1853731,
-      "bytes": 26409,
-      "sha256": "4e4a44722b70a1cd8643080b08c28711b0e6f1a310aabd4fcf79463ab69923d6"
+      "bytes": 39746,
+      "sha256": "22faf77287da0027eed122a5a7026fbc8be4d227d64adc77ed787941b55e11ae"
     },
     {
       "file": "2027-03.json",
       "startTdb": 857131269.1853731,
       "endTdb": 859809669.1856543,
-      "bytes": 29146,
-      "sha256": "2070c6ca78543fa517b4f96bc9fa3cc896c53babfdfa1e11559d8aa28c608afc"
+      "bytes": 43837,
+      "sha256": "8f09a95ec0192d6d7fa7482e7ddeafb042de422057aab20f1c56c89f260e8159"
     },
     {
       "file": "2027-04.json",
       "startTdb": 859809669.1856543,
       "endTdb": 862401669.1854873,
-      "bytes": 28135,
-      "sha256": "9452c93f3dc1ebacfc106edfe3168536216a447cb60247f51e71291836aef5c9"
+      "bytes": 42377,
+      "sha256": "d69b21cc3ace0dcf393afd372494b1433c07189193448dafa60db09358835525"
     },
     {
       "file": "2027-05.json",
       "startTdb": 862401669.1854873,
       "endTdb": 865080069.1849173,
-      "bytes": 29033,
-      "sha256": "f017c213f1548a4abc3e8ef8ab3ae065449ebdd54f12ffa7bddac23682e443c5"
+      "bytes": 43723,
+      "sha256": "0696cb9aff49721355ee3767db8ce23608ad2f92681702b32724fbae0f9cfa5e"
     },
     {
       "file": "2027-06.json",
       "startTdb": 865080069.1849173,
       "endTdb": 867672069.1841302,
-      "bytes": 28121,
-      "sha256": "0e6521e1f158017cf91d3c9062e764f93bd1b016ed3b1ca9c86a2e03c51a8c32"
+      "bytes": 42353,
+      "sha256": "dd848257e39dfac22b54b5029dbaf62a8274a66d4aebb9bf41cfc26924f23c6a"
     },
     {
       "file": "2027-07.json",
       "startTdb": 867672069.1841302,
       "endTdb": 870350469.1832854,
-      "bytes": 29023,
-      "sha256": "e57e85404cb51491b296872dd9a3cabd1ae5671dbc97b3d7a1fefa501d6db802"
+      "bytes": 43716,
+      "sha256": "3caa3f8c8e90dfe2833350affaece8c716d9243298e119be5beba4acd5239406"
     },
     {
       "file": "2027-08.json",
       "startTdb": 870350469.1832854,
       "endTdb": 873028869.1826308,
-      "bytes": 29029,
-      "sha256": "16da5374a6cbd46c18cae5f3e5d3ce4234d671903ed1e24be35a5d433b91338e"
+      "bytes": 43734,
+      "sha256": "649912ec76775c2c74486c770d22a91c7c3e8bd727b986a8fbd45ebde2ec7cc0"
     },
     {
       "file": "2027-09.json",
       "startTdb": 873028869.1826308,
       "endTdb": 875620869.182349,
-      "bytes": 28243,
-      "sha256": "269e37d8aebce3d822c3f462b671ed536a22b92299007c9d9e6daf1034accaf3"
+      "bytes": 42480,
+      "sha256": "808321c417771ce9f2aeaaf0772e64b7da8e71c71853636c98e802e2dc4cc69a"
     },
     {
       "file": "2027-10.json",
       "startTdb": 875620869.182349,
       "endTdb": 878299269.1825081,
-      "bytes": 29008,
-      "sha256": "ed9bab92a13a095fb450ab0147241bd4ea79161fb0e851a5b23db972ad33f8fc"
+      "bytes": 43701,
+      "sha256": "a0e33e20eed2b8ded0abce00e026ed5fd09582924c12cd71c5b236bf70933a49"
     },
     {
       "file": "2027-11.json",
       "startTdb": 878299269.1825081,
       "endTdb": 880891269.1830658,
-      "bytes": 28287,
-      "sha256": "7d985bb851a27aef22e76b301793cb65d89f20a5e28b9a04507c392472dc6930"
+      "bytes": 42525,
+      "sha256": "a83bc7e04c32b004086cf53836995907f4e9332bb55010922d215ccbeeb68b84"
     },
     {
       "file": "2027-12.json",
       "startTdb": 880891269.1830658,
       "endTdb": 883569669.183905,
-      "bytes": 28944,
-      "sha256": "7d6f2f8e6d12ea90301a318a2f9abcf651f55076f912a8e2444d16af7b6438f6"
+      "bytes": 43531,
+      "sha256": "ae7f850bcb685ab98899eb25480cb040f22340b849ba8bf39a961ddbc787cd6d"
     }
   ],
   "validation": {
@@ -227,6 +238,14 @@
         "rmsPositionErrorKm": 6.988814548413049e-06,
         "maxVelocityErrorKmS": 2.443531384579686e-11,
         "passed": true
+      },
+      {
+        "id": "hale-bopp",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 3.932099938981686e-06,
+        "rmsPositionErrorKm": 1.134052491787024e-06,
+        "maxVelocityErrorKmS": 2.1673154018333362e-10,
+        "passed": true
       }
     ],
     "maxPositionErrorKm": 3.5701742450687446e-05,
@@ -237,8 +256,8 @@
   },
   "tracks": {
     "file": "tracks.json",
-    "sha256": "50ac42847e3913549b9c85172553ef5c6c89cd2d74d246ac0255ecabb34b261d",
-    "bytes": 110544,
+    "sha256": "884f51ffcee3937a96ccf073422d336e5e93e671ff24b59d804eb12d86916e56",
+    "bytes": 164840,
     "sunSource": {
       "id": "sun",
       "command": "10",

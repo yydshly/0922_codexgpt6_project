@@ -11,9 +11,9 @@ builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
 builder.CACHE = builder.ROOT / 'data-sources' / 'comets'
 builder.OUT = builder.ROOT / 'public' / 'data' / 'comets'
-builder.TARGETS = {'halley': 'DES=1P;CAP;', '67p': 'DES=67P;CAP;'}
-builder.EXPECTED_NAMES = {'halley': '1P/Halley', '67p': '67P/Churyumov-Gerasimenko'}
-builder.VERSION = 'horizons-comets-2026-2027-v1'
+builder.TARGETS = {'halley': 'DES=1P;CAP;', '67p': 'DES=67P;CAP;', 'hale-bopp':'DES=C/1995 O1;CAP;'}
+builder.EXPECTED_NAMES = {'halley': '1P/Halley', '67p': '67P/Churyumov-Gerasimenko', 'hale-bopp':'Hale-Bopp'}
+builder.VERSION = 'horizons-comets-2026-2027-v2'
 
 if __name__ == '__main__':
     builder.main()

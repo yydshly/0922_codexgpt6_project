@@ -15,7 +15,7 @@ import { dwarfReferenceOrbit } from './dwarfOrbit';
 /** Explanatory geometry lives outside scientific state; animated wind has its own clock. */
 export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture, host: HTMLDivElement, onSelect: (id:string)=>void) {
   const groups = Object.fromEntries(['dwarfs','comets','activity','wind','populations','dust','heliosphere','oort'].map(id => {
-    const group = new THREE.Group(); group.name = `macro-${id}`; scene.add(group); return [id, group];
+    const group = new THREE.Group(); group.name = `macro-${id}`; group.userData.sceneElement=id==='activity'?'comets':id; scene.add(group); return [id, group];
   })) as Record<string, THREE.Group>;
   groups.activity.userData.integrated=true; // Keep the teaching tails readable while surrounding context is dimmed.
   const overlay = document.createElement('div'); overlay.className='macro-world-labels phenomena-world-labels'; host.appendChild(overlay);
@@ -106,7 +106,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   let lastTracks:CometTracks|null=null;
   return {
     update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false, selectedMember: string | null = null, plutoExpanded = false, cometDisplay:CometDisplay={selected:null,paths:true,orbits:true,direction:false}) {
-      for (const [id, group] of Object.entries(groups)) group.visible=enabled[id as MacroLayerId] && (macroDetailVisible(id as MacroLayerId,distance) || family===id || (id==='populations' && family==='centaurs'));
+      for (const [id, group] of Object.entries(groups)) group.visible=enabled[id as MacroLayerId] && (macroDetailVisible(id as MacroLayerId,distance) || family===id || (id==='dwarfs' && ['asteroids','centaurs'].includes(family??'')) || (id==='populations' && family==='centaurs'));
       groups.activity.visible=enabled.comets && showActivity;
       for (const annotation of labels) annotation.visible = annotation.userData.overview ? distance >= 42 : distance < 42;
       const position=wind.geometry.getAttribute('position') as THREE.BufferAttribute;
@@ -150,7 +150,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
       for(const item of dwarfMeshes) {
         const state=compatible ? batch.states.find(s=>s.id===item.id) : undefined;
         const point=macroMemberAnchor(frame,batch,item.id);
-        item.group.visible=!!point&&!(plutoExpanded&&item.id==='pluto')&&(!selectedMember||item.id===selectedMember);
+        item.group.visible=!!point&&!(plutoExpanded&&item.id==='pluto');
         if(!state || !frame || !point) continue;
         item.marker.position.set(...point);
         item.annotation.position.copy(item.marker.position);
@@ -168,7 +168,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
         }
       }
     },
-    layoutLabels(camera: THREE.PerspectiveCamera, width: number, height: number, visible: boolean,focusedComet:string|null=null) {
+    layoutLabels(camera: THREE.PerspectiveCamera, width: number, height: number, visible: boolean,_focusedComet:string|null=null) {
       camera.updateMatrixWorld();
       const hostRect=host.getBoundingClientRect();
       const obstacles: {x:number;y:number;width:number;height:number}[] = [...host.querySelectorAll<HTMLElement>('.macro-world-labels:not(.phenomena-world-labels) .macro-world-label')].filter(b=>b.style.visibility==='visible').map(b=>{const r=b.getBoundingClientRect();return {x:r.x-hostRect.x,y:r.y-hostRect.y,width:r.width,height:r.height};});
@@ -184,7 +184,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
         let object:THREE.Object3D|null=anchor;let enabled=visible;
         while(object) { enabled=enabled && object.visible;object=object.parent; }
         const elements=labelElements.get(anchor)!;elements.text.style.visibility='hidden';elements.line.style.visibility='hidden';
-        if(!enabled||(focusedComet&&(anchor.userData.cometId??anchor.userData.memberId)!==focusedComet)) return [];
+        if(!enabled) return [];
         const p=anchor.getWorldPosition(new THREE.Vector3()).project(camera);
         if(p.z < -1 || p.z > 1) return [];
         return [{id:String(index),x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:elements.text.offsetWidth,height:elements.text.offsetHeight,radius:anchor.userData.anchorRadius?anchor.userData.anchorRadius*height/(2*Math.tan(camera.fov*Math.PI/360)*anchor.getWorldPosition(new THREE.Vector3()).distanceTo(camera.position))+5:undefined}];

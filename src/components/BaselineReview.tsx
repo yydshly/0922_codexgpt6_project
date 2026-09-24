@@ -25,6 +25,6 @@ export function BaselineReview({onVisit,onCoverage}:{onVisit:(entry:CoverageEntr
  <label className="baseline-note-label">问题或补充说明<textarea rows={2} maxLength={2000} value={marks[step.id]?.note??''} onChange={e=>update(step.id,{note:e.target.value})} placeholder="例如：切换侧视后，地球仍被标签遮挡"/></label>
  </li>)}</ol>
  <div className="baseline-links"><button onClick={download}>导出我的检查记录</button><a href={releaseUrl} download="当前版本变更与验收说明.md">下载本批变更说明</a><a href={auditUrl} download="学习流程检查报告.md">下载已有流程检查报告</a></div>
- <p>完成这批验收后，下一步是宏观区域层次与真实恒星背景。当前记录仅覆盖本批界面和观察流程，不把既有 166 项测试当作所有科学内容已验收的证明。</p>
+ <p>R01 的四个小天体代表已接入本地，需先验收定位、日期与参数；下一批 R02 补远缘与跨区域对象；真实恒星背景安排在 R08。当前记录仅覆盖本批界面和观察流程，不把既有 166 项测试当作所有科学内容已验收的证明。</p>
  </section>;
 }

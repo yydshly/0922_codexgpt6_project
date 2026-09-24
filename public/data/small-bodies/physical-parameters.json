@@ -1,0 +1,358 @@
+{
+  "version": "sbdb-r01-v1",
+  "records": [
+    {
+      "id": "eros",
+      "number": "433",
+      "name": "433 Eros (A898 PA)",
+      "orbitClass": "AMO",
+      "sourceUrl": "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=433&phys-par=1&full-prec=1",
+      "lookupUrl": "https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=433",
+      "snapshotFile": "data-sources/small-bodies/eros-sbdb.json",
+      "rawSha256": "c21ddfa775ec0d6950ca638fa27502cb468219fe3d8796c2d1427010a2a60425",
+      "snapshotSavedAt": "2026-09-24T13:57:00.079978+00:00",
+      "apiVersion": "1.3",
+      "orbitSolution": "659",
+      "solutionDate": "2021-05-24 17:55:05",
+      "epochJdTdb": 2461200.5,
+      "diameter": {
+        "sigma": "0.06",
+        "desc": "effective body diameter",
+        "name": "diameter",
+        "units": "km",
+        "title": "diameter",
+        "value": "16.84",
+        "ref": "Yeomans et al. (2000) Science v.289,pp.2085-2088",
+        "notes": "sphere having the measured volume of 2503 +/- 25 km^3"
+      },
+      "rotation": {
+        "value": "5.27",
+        "title": "rotation period",
+        "units": "h",
+        "name": "rot_per",
+        "desc": "body rotation period (synodic)",
+        "sigma": null,
+        "notes": "REFERENCE LIST:[Campa, M. (1938) Mem. Soc. Astron. Ital. 11, 285-301.], [Beyer, M. (1953) Astron. Nachr. 281, 121-130.], [Cailliate, C. (1956) Publ. Observ. Lyon 3, fasc. 28.], [Cristescu, C. (1976) Icarus 28, 39-42.], [Dunlap, J.L. (1976) Icarus 28, 69-78.], [Millis, R.L.; Bowell, E.; Thompson, D.T. (1976) Icarus 28, 53-67.], [Scaltriti, F.; Zappala, V. (1976) Icarus 28, 29-35.], [Taylor, R.C. (1985) Icarus 61, 3, 490-496.], [Hicks, M.; Buratti, B.J.; Rabinowitz, D.L.; Genevier, G. (1999) Icarus 141, 411-414.], [Yeomans, D.K.; Antreasian, P.G.; Bariiot, J.-P.; Chesley, S.R.; et al. (2000) Science 289, 2085-2087.], [Kaasalainen, M.; Torppa, J.; Muinonen, K. (2001) Icarus 153, 37-51.], [Miller, J.K.; Konopliv, A.S.; Antreasian, P.G.; Bordi, J.J.; et al. (2002) Icarus 155, 3-17.], [Wolters, S.D.; Green, S.F.; McBride, N.; Davies, J.K. (2008) Icarus 193, 535-552.], [Behrend, R. (2009) Observatoire de Geneve web site, http://obswww.unige.ch/~behrend/page_cou.html], [Koehn, B.W.; Bowell, E.L.G.; Skiff, B.A.; Sanborn, J.J.; et al. (2014) Minor Planet Bull. 41, 286-300.], [Warner, B.D. (2017) Minor Planet Bull. 44, 22-36.], [Aznar, A.M.; Predatu, M.; Vaduvescu, O.; Oey, J. (2018) arXiv:1801.09420. Romanian J. Phys. 62, 904 (2017).], [Hasegawa, S.; Kuroda, D.; Kitazato, K.; Kasuga, T.; et al. (2018) Pub. Astron. Soc. Japan 70, A114.], [Skiff, B.A.; McLelland, K.P.; Sanborn, J.J.; Pravec, P.; Koehn, B.W. (2019) Minor Planet Bull. 46, 238-265.], [Warner, B.D.; Stephens, R.D. (2019) Minor Planet Bull. 46, 27-40.]",
+        "ref": "LCDB (Rev. 2023-October); Warner et al., 2009"
+      },
+      "gm": {
+        "name": "GM",
+        "units": "km^3/s^2",
+        "title": "GM",
+        "value": "4.463e-04",
+        "sigma": "0.001e-04",
+        "desc": "standard gravitational parameter: product of the mass (M) and gravitational constant (G)",
+        "ref": "Yeomans et al. (2000) Science v.289,pp.2085-2088",
+        "notes": null
+      },
+      "elements": [
+        {
+          "sigma": "1.5185E-10",
+          "label": "a",
+          "name": "a",
+          "units": "au",
+          "title": "semi-major axis",
+          "value": "1.458243716760167"
+        },
+        {
+          "sigma": "9.3902E-9",
+          "value": ".2228779627700761",
+          "title": "eccentricity",
+          "units": null,
+          "name": "e",
+          "label": "e"
+        },
+        {
+          "sigma": "1.158E-6",
+          "name": "i",
+          "label": "i",
+          "units": "deg",
+          "title": "inclination; angle with respect to x-y ecliptic plane",
+          "value": "10.82854410314273"
+        },
+        {
+          "title": "perihelion distance",
+          "value": "1.133233327946397",
+          "label": "q",
+          "name": "q",
+          "units": "au",
+          "sigma": "1.3695E-8"
+        },
+        {
+          "name": "ad",
+          "label": "Q",
+          "units": "au",
+          "title": "aphelion distance",
+          "value": "1.783254105573937",
+          "sigma": "1.8569E-10"
+        },
+        {
+          "sigma": "1.0047E-7",
+          "title": "sidereal orbital period",
+          "value": "643.1963890927677",
+          "label": "period",
+          "name": "per",
+          "units": "d"
+        }
+      ]
+    },
+    {
+      "id": "achilles",
+      "number": "588",
+      "name": "588 Achilles (A906 DN)",
+      "orbitClass": "TJN",
+      "sourceUrl": "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=588&phys-par=1&full-prec=1",
+      "lookupUrl": "https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=588",
+      "snapshotFile": "data-sources/small-bodies/achilles-sbdb.json",
+      "rawSha256": "f99205f882dc22aa7e9f45a8999ab931566297de634d6051e13cfa53da5ad291",
+      "snapshotSavedAt": "2026-09-24T13:57:01.209115+00:00",
+      "apiVersion": "1.3",
+      "orbitSolution": "117",
+      "solutionDate": "2026-06-05 03:47:59",
+      "epochJdTdb": 2461200.5,
+      "diameter": {
+        "desc": "effective body diameter",
+        "sigma": "0.554",
+        "notes": null,
+        "title": "diameter",
+        "ref": "urn:nasa:pds:neowise_diameters_albedos::2.0[jupiter_trojans] (http://adsabs.harvard.edu/abs/2012ApJ...759...49G)",
+        "units": "km",
+        "name": "diameter",
+        "value": "130.099"
+      },
+      "rotation": {
+        "units": "h",
+        "name": "rot_per",
+        "value": "7.306",
+        "ref": "LCDB (Rev. 2023-October); Warner et al., 2009",
+        "title": "rotation period",
+        "notes": "REFERENCE LIST:[Angeli, C.A.; Lazzaro, D.; Florczak, A.; Betzler, A.S.; Carvano, J.M. (1999) Planet. Space Sci. 47, 699-714.], [Shevchenko, V.G.; Krugly, Yu.N.; Bel'skaya, N.; Chirony, V.G.; et al. (2009) Lunar & Planetary Sci. XL, #1391.], [Stephens, R.D. (2010) Minor Planet Bull. 37, 47-48.], [Mottola, S.; Di Martino, M.; Erikson, A.; Gonano-Beurer, M.; et al. (2011) Astron. J. 141, A170.], [Shevchenko, V.G.; Belskya, I.N.; Slyusarev, L.G.; Krugly, Yu.N.; et al. (2012) Icarus 217, 202-208.], [Durech, J.; Hanus, J.; Vanco, R. (2019) Astron. Astrophys 631, A2.]",
+        "sigma": null,
+        "desc": "body rotation period (synodic)"
+      },
+      "gm": null,
+      "elements": [
+        {
+          "title": "semi-major axis",
+          "sigma": "2.724E-8",
+          "label": "a",
+          "units": "au",
+          "value": "5.215906988352895",
+          "name": "a"
+        },
+        {
+          "units": null,
+          "value": ".148117524873686",
+          "name": "e",
+          "label": "e",
+          "title": "eccentricity",
+          "sigma": "5.2157E-9"
+        },
+        {
+          "sigma": "7.6322E-8",
+          "title": "inclination; angle with respect to x-y ecliptic plane",
+          "label": "i",
+          "name": "i",
+          "value": "10.31507282705955",
+          "units": "deg"
+        },
+        {
+          "sigma": "5.0107E-8",
+          "title": "perihelion distance",
+          "label": "q",
+          "name": "q",
+          "value": "4.443339755266702",
+          "units": "au"
+        },
+        {
+          "label": "Q",
+          "name": "ad",
+          "value": "5.988474221439088",
+          "units": "au",
+          "sigma": "3.1274E-8",
+          "title": "aphelion distance"
+        },
+        {
+          "title": "sidereal orbital period",
+          "sigma": "3.4085E-5",
+          "units": "d",
+          "name": "per",
+          "value": "4351.041086857272",
+          "label": "period"
+        }
+      ]
+    },
+    {
+      "id": "aneas",
+      "number": "1172",
+      "name": "1172 Aneas (1930 UA)",
+      "orbitClass": "TJN",
+      "sourceUrl": "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=1172&phys-par=1&full-prec=1",
+      "lookupUrl": "https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=1172",
+      "snapshotFile": "data-sources/small-bodies/aneas-sbdb.json",
+      "rawSha256": "430766185d3304c7e9bac297272c9209bc3050adfc51edaab338fbdff5ff7d9c",
+      "snapshotSavedAt": "2026-09-24T13:57:02.225710+00:00",
+      "apiVersion": "1.3",
+      "orbitSolution": "128",
+      "solutionDate": "2026-06-05 04:36:06",
+      "epochJdTdb": 2461200.5,
+      "diameter": {
+        "units": "km",
+        "name": "diameter",
+        "value": "118.020",
+        "title": "diameter",
+        "sigma": "0.806",
+        "desc": "effective body diameter",
+        "notes": null,
+        "ref": "urn:nasa:pds:neowise_diameters_albedos::2.0[jupiter_trojans] (http://adsabs.harvard.edu/abs/2012ApJ...759...49G)"
+      },
+      "rotation": {
+        "ref": "LCDB (Rev. 2023-October); Warner et al., 2009",
+        "notes": "REFERENCE LIST:[Behrend, R. (2011) Observatoire de Geneve web site, http://obswww.unige.ch/~behrend/page_cou.html], [French, L.M.; Stephens, R.D.; Lederer, S.M.; Coley, D.R.; Rohl, D.A. (2011) Minor Planet Bull. 38, 116-120.], [Mottola, S.; Di Martino, M.; Erikson, A.; Gonano-Beurer, M.; et al. (2011) Astron. J. 141, A170.], [Stephens, R.D.; Coley, D.R.; French, L.M. (2015) Minor Planet Bull. 42, 216-224.], [Stephens, R.D.; Coley, D.R.; French, L.M. (2016) Minor Planet Bull. 43, 265-270.], [Stephens, R.D. (2017) Minor Planet Bull. 44, 123-125.], [Durech, J.; Hanus, J.; Ali-Lagoa, V. (2018) Astron. Astrophys. 617, A57.], [Durech, J.; Tonry, J.; Erasmus, N.; Denneau, L.; et al. (2020) Astron. Astrophys. 643, A59.], [Pal, A.; Szakats, R.; Kiss, C.; Bodi, A.; et al. (2020) Ap. J. Supl. Ser. 247, id.26.], [McNeill, A.; Erasmus, N.; Trilling, D.E.; Emery, J.P.; et al. (2021) Plan. Sci. J. 2, id.6.], [Behrend, R. (2022) Observatoire de Geneve web site, http://obswww.unige.ch/~behrend/page_cou.html], [Stephens, R.D.; Coley, D.R.; Warner, B.D. (2022) Minor Planet Bull. 49, 287-288.]",
+        "name": "rot_per",
+        "units": "h",
+        "title": "rotation period",
+        "value": "8.705",
+        "sigma": null,
+        "desc": "body rotation period (synodic)"
+      },
+      "gm": null,
+      "elements": [
+        {
+          "sigma": "2.1518E-8",
+          "label": "a",
+          "name": "a",
+          "units": "au",
+          "title": "semi-major axis",
+          "value": "5.239819829244679"
+        },
+        {
+          "sigma": "4.054E-9",
+          "name": "e",
+          "label": "e",
+          "units": null,
+          "title": "eccentricity",
+          "value": ".1049477967945077"
+        },
+        {
+          "sigma": "5.5204E-8",
+          "value": "16.65110128098933",
+          "title": "inclination; angle with respect to x-y ecliptic plane",
+          "units": "deg",
+          "name": "i",
+          "label": "i"
+        },
+        {
+          "sigma": "3.9324E-8",
+          "units": "au",
+          "label": "q",
+          "name": "q",
+          "value": "4.689912282565277",
+          "title": "perihelion distance"
+        },
+        {
+          "label": "Q",
+          "name": "ad",
+          "units": "au",
+          "title": "aphelion distance",
+          "value": "5.789727375924082",
+          "sigma": "2.3777E-8"
+        },
+        {
+          "sigma": "2.6987E-5",
+          "value": "4380.997021990164",
+          "title": "sidereal orbital period",
+          "units": "d",
+          "name": "per",
+          "label": "period"
+        }
+      ]
+    },
+    {
+      "id": "chariklo",
+      "number": "10199",
+      "name": "10199 Chariklo (1997 CU26)",
+      "orbitClass": "CEN",
+      "sourceUrl": "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=10199&phys-par=1&full-prec=1",
+      "lookupUrl": "https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=10199",
+      "snapshotFile": "data-sources/small-bodies/chariklo-sbdb.json",
+      "rawSha256": "adef6d4c55803be1a3852257390e36b96b4dd1e791717ea47b38e589527756a5",
+      "snapshotSavedAt": "2026-09-24T13:57:02.896817+00:00",
+      "apiVersion": "1.3",
+      "orbitSolution": "61",
+      "solutionDate": "2025-11-06 06:24:01",
+      "epochJdTdb": 2461200.5,
+      "diameter": {
+        "units": "km",
+        "name": "diameter",
+        "value": "302",
+        "ref": "Earth, Moon, and Planets, v. 89, Issue 1, p. 117-134 (2002)",
+        "title": "diameter",
+        "notes": null,
+        "desc": "effective body diameter",
+        "sigma": "30"
+      },
+      "rotation": {
+        "sigma": null,
+        "desc": "body rotation period (synodic)",
+        "notes": "[Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Fornasier, S.; Lazzaro, D.; Alvarez-Candal, A.; Snodgrass, C.; et al. (2014) Astron. Astrophys. 568, L11.], [Leiva, R.; Sicardy, B.; Camargo, J.I.B.; Desmars, J.; et al. (2017) Astron. J. 154, A159.]",
+        "title": "rotation period",
+        "ref": "LCDB (Rev. 2023-October); Warner et al., 2009",
+        "name": "rot_per",
+        "value": "7.004",
+        "units": "h"
+      },
+      "gm": null,
+      "elements": [
+        {
+          "units": "au",
+          "name": "a",
+          "value": "15.73437332078415",
+          "label": "a",
+          "title": "semi-major axis",
+          "sigma": "1.052E-6"
+        },
+        {
+          "units": null,
+          "name": "e",
+          "value": ".1708195854003942",
+          "label": "e",
+          "title": "eccentricity",
+          "sigma": "3.8005E-8"
+        },
+        {
+          "units": "deg",
+          "value": "23.43190431353433",
+          "name": "i",
+          "label": "i",
+          "title": "inclination; angle with respect to x-y ecliptic plane",
+          "sigma": "3.1018E-7"
+        },
+        {
+          "units": "au",
+          "name": "q",
+          "value": "13.04663419359278",
+          "label": "q",
+          "title": "perihelion distance",
+          "sigma": "7.0237E-7"
+        },
+        {
+          "units": "au",
+          "name": "ad",
+          "value": "18.42211244797553",
+          "label": "Q",
+          "title": "aphelion distance",
+          "sigma": "1.2318E-6"
+        },
+        {
+          "title": "sidereal orbital period",
+          "sigma": ".0022864",
+          "units": "d",
+          "value": "22796.73244821369",
+          "name": "per",
+          "label": "period"
+        }
+      ]
+    }
+  ]
+}

@@ -3,13 +3,13 @@ import { macroRadius } from './macroStructure';
 
 export const MACRO_LAYERS = [
   { id: 'planetary', name: '行星与参考线', color: '#99d9e1', note: '历表位置 · 轨道与尺度环分别控制' },
-  { id: 'dwarfs', name: '区域代表成员（6 个）', color: '#f1bd82', note: '5 颗矮行星 + 灶神星 · 可点选' },
+  { id: 'dwarfs', name: '区域代表成员（12 个）', color: '#f1bd82', note: '5 颗矮行星 + 7 颗小天体 · 可点选' },
   { id: 'moons', name: '已收录卫星', color: '#9cdbd2', note: '历表相对位置 · 局部距离缩放' },
   { id: 'asteroid', name: '小行星主带', color: '#d2ab78', note: '种群范围示意' },
   { id: 'populations', name: '半人马族与特洛伊群', color: '#d6a3d7', note: '种群范围示意 · 靠近可见' },
   { id: 'kuiper', name: '柯伊伯带', color: '#8cc7d7', note: '种群范围示意' },
   { id: 'scattered', name: '散射盘与离散天体', color: '#b7a3ed', note: '种群范围示意' },
-  { id: 'comets', name: '哈雷与 67P 彗星', color: '#9ee8e7', note: '当日历表位置 · 两年路径与参考轨道' },
+  { id: 'comets', name: '三颗彗星 · 含长周期代表', color: '#9ee8e7', note: '当日历表位置 · 两年路径与参考轨道' },
   { id: 'dust', name: '行星际尘埃', color: '#c9ad86', note: '分布示意 · 靠近可见' },
   { id: 'wind', name: '太阳风', color: '#e8b86d', note: '流动动画示意 · 非实测速度' },
   { id: 'heliosphere', name: '日球层分区', color: '#6cacf0', note: '边界轮廓示意 · 非固定球壳' },

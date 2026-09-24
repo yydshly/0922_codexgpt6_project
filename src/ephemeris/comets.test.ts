@@ -1,9 +1,10 @@
+import {COMETS} from './comets';
 import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 import { interpolateMonthlyChunk, type MonthlyChunk } from './stateProvider';
-import { heliocentricComets, cometMetrics } from './cometState';
+import { heliocentricComets, cometMetrics,validCometTracks } from './cometState';
 import type { StateFrame } from '../types';
 import manifest from '../../public/data/comets/manifest.json';
 import tracks from '../../public/data/comets/tracks.json';
@@ -16,7 +17,7 @@ function sample(time:number){const i=manifest.chunks.findIndex(c=>time>=c.startT
 describe('彗星真实供数',()=>{
   it('校验每个月数据、原始响应与真实轨迹的完整性',()=>{
     expect(manifest.chunks).toHaveLength(24);
-    expect(manifest.bodyIds).toEqual(['halley','67p']);
+    expect(manifest.bodyIds).toEqual(COMETS.map(c=>c.id));
     for(const descriptor of [...manifest.chunks,manifest.tracks]){
       const bytes=read(descriptor.file);
       expect(bytes.length).toBe(descriptor.bytes);
@@ -37,11 +38,11 @@ describe('彗星真实供数',()=>{
     }
   });
   it('跨月连续并能读取起止时刻',()=>{
-    expect(sample(manifest.startTdb).states).toHaveLength(2);expect(sample(manifest.endTdb).states).toHaveLength(2);
+    expect(sample(manifest.startTdb).states).toHaveLength(COMETS.length);expect(sample(manifest.endTdb).states).toHaveLength(COMETS.length);
     for(let i=0;i<packs.length-1;i++){
       const t=manifest.chunks[i].endTdb;
       const left=interpolateMonthlyChunk(packs[i],t,manifest.version),right=interpolateMonthlyChunk(packs[i+1],t,manifest.version);
-      for(let j=0;j<2;j++){
+      for(let j=0;j<COMETS.length;j++){
         expect(Math.hypot(...left.states[j].position.map((v,k)=>v-right.states[j].position[k]))).toBeLessThan(1e-5);
         expect(Math.hypot(...left.states[j].velocity.map((v,k)=>v-right.states[j].velocity[k]))).toBeLessThan(1e-12);
       }
@@ -71,6 +72,14 @@ describe('彗星真实供数',()=>{
     expect(heliocentricComets(frame,b)).toEqual([]);
     expect(heliocentricComets(null,a)).toEqual([]);
     expect(heliocentricComets(frame,{...a,originId:'earth'})).toEqual([]);
-    for(let i=0;i<2;i++)expect(Math.hypot(...a.states[i].position.map((v,k)=>v-b.states[i].position[k]))).toBeGreaterThan(100000);
+    for(let i=0;i<COMETS.length;i++)expect(Math.hypot(...a.states[i].position.map((v,k)=>v-b.states[i].position[k]))).toBeGreaterThan(100000);
   });
+});
+
+it('accepts every registered comet path and rejects missing, duplicate or malformed paths',()=>{
+ expect(validCometTracks(tracks)).toBe(true);
+ expect(validCometTracks({...tracks,tracks:tracks.tracks.slice(0,2)})).toBe(false);
+ expect(validCometTracks({...tracks,origin:'earth'})).toBe(false);
+ expect(validCometTracks({...tracks,tracks:tracks.tracks.map(()=>tracks.tracks[0])})).toBe(false);
+ const broken=structuredClone(tracks);broken.tracks[0].points[1][0]=broken.tracks[0].points[0][0];expect(validCometTracks(broken)).toBe(false);
 });

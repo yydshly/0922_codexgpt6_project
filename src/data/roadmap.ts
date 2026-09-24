@@ -19,7 +19,7 @@ export const ROADMAP_BASELINE = {
   dynamicCount: OBSERVATION_COUNTS.dynamic,
   knowledgeCount: OBSERVATION_COUNTS.knowledgeOnly,
   physicsCount: 10,
-  summary: `主观测有 ${OBSERVATION_COUNTS.dynamic} 个动态目标；宏观另有灶神星、三颗远缘矮行星与两颗彗星，项目合计 38 个不同目标，历表覆盖 2026—2027 年。图鉴不另加到总数；物理验证使用独立十体模型。`,
+  summary: `主观测有 ${OBSERVATION_COUNTS.dynamic} 个动态目标；宏观另有 ${OBSERVATION_COUNTS.macroAdditional} 个，项目合计 ${OBSERVATION_COUNTS.allDynamic} 个不同目标（含 R01 本地新增四个），历表覆盖 2026—2027 年。图鉴不另加到总数；物理验证使用独立十体模型。`,
 };
 export const ROADMAP_FOUNDATION = {
   title: '共同底座：每个天体都能说明它从哪里来',

@@ -9,9 +9,9 @@ import {placeMacroLabels} from './macroLabelLayout';
 
 export interface FamilySceneOptions {enabled:boolean;moons:boolean;rings:boolean;enhanced:boolean;orbits:boolean;selected:string|null;onSelect:(id:string)=>void;onFocus:(id:MacroFamilyId)=>void;states:MacroMoon[]}
 export function createMacroFamilies(scene:THREE.Scene,host:HTMLElement,onSelect:(id:string)=>void,onFocus:(id:MacroFamilyId)=>void){
- const root=new THREE.Group();root.userData.integrated=true;root.name='macro-real-families';scene.add(root);
+ const root=new THREE.Group();root.userData.integrated=true;root.name='macro-real-families';root.userData.sceneElement='moons';scene.add(root);
  const families=MACRO_FAMILIES.map(id=>{
-  const group=new THREE.Group(),ringTilt=new THREE.Group(),radius=familyPlanetRadius(id);group.add(ringTilt);root.add(group);
+  const group=new THREE.Group(),ringTilt=new THREE.Group(),radius=familyPlanetRadius(id);ringTilt.userData.sceneElement='rings';group.add(ringTilt);root.add(group);
   if(id==='saturn')for(const band of ringProfile(id)!.bands){const [inner,outer]=ringDisplayBounds(band,bodyById[id].radiusKm,false);const ring=new THREE.Mesh(new THREE.RingGeometry(inner*radius,outer*radius,160),new THREE.MeshBasicMaterial({color:'#dbc69e',side:THREE.DoubleSide,transparent:true,opacity:band.opacity,depthWrite:false}));ring.rotation.x=-Math.PI/2;ringTilt.add(ring);}
   else ringTilt.add(makeFaintRings(bodyById[id],radius));
   return {id,group,ringTilt};
@@ -29,7 +29,7 @@ export function createMacroFamilies(scene:THREE.Scene,host:HTMLElement,onSelect:
    if(!frame){for(const m of moons.values()){m.mesh.visible=false;m.orbit.visible=false;}return;}
    for(const f of families){
     f.group.position.copy(anchors[f.id]);
-    const detail=target?target===f.id:camera.position.distanceTo(f.group.position)<12;
+    const detail=target===f.id||camera.position.distanceTo(f.group.position)<12;
     f.group.visible=lastEnabled&&detail;f.ringTilt.visible=options.rings;f.ringTilt.quaternion.copy(satelliteParentAttitude(bodyById[f.id],frame.time));updateFaintRings(f.ringTilt,options.rings,options.enhanced,frame.time);
    }
    for(const m of moons.values()){m.mesh.visible=false;m.orbit.visible=false;}
@@ -47,8 +47,8 @@ export function createMacroFamilies(scene:THREE.Scene,host:HTMLElement,onSelect:
   },
   layout(camera:THREE.PerspectiveCamera,width:number,height:number,visible:boolean){
    const candidates=[];for(const [id,b] of labels){b.style.visibility='hidden';if(!visible||!lastEnabled)continue;const family=families.find(f=>f.id===id),moon=moons.get(id);let position:THREE.Vector3;
-    if(family){if(focused&&focused!==id)continue;position=family.group.position.clone();}
-    else {if(!moon||!moon.mesh.visible||!families.find(f=>f.id===moon.parent)!.group.visible||focused!==moon.parent)continue;position=moon.mesh.getWorldPosition(new THREE.Vector3());}
+    if(family){position=family.group.position.clone();}
+    else {if(!moon||!moon.mesh.visible||!families.find(f=>f.id===moon.parent)!.group.visible)continue;position=moon.mesh.getWorldPosition(new THREE.Vector3());}
     const radiusWorld=family?familyPlanetRadius(family.id)*(family.id==='saturn'?2.5:1):moon?.mesh.geometry.parameters.radius??0;const radius=radiusWorld*height/(2*Math.tan(camera.fov*Math.PI/360)*position.distanceTo(camera.position))+5;const p=position.project(camera);if(p.z<-1||p.z>1)continue;candidates.push({id,x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:b.offsetWidth,height:b.offsetHeight,radius});
    }
    const hostRect=host.getBoundingClientRect(),obstacles=[...host.querySelectorAll<HTMLElement>('.macro-world-labels:not(.family-world-labels) .macro-world-label')].filter(b=>b.style.visibility==='visible').map(b=>{const r=b.getBoundingClientRect();return {x:r.x-hostRect.x,y:r.y-hostRect.y,width:r.width,height:r.height};});

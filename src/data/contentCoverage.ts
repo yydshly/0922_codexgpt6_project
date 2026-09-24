@@ -28,19 +28,19 @@ export const COVERAGE_DATASETS = {
     "endUtc": "2028-01-01T00:00:00Z"
   },
   "smallBodies": {
-    "path": "data/small-bodies/manifest.json",
-    "version": "horizons-small-bodies-2026-2027-v1",
-    "generatedAt": "2026-09-24T03:51:12.800512+00:00",
-    "startUtc": "2026-01-01T00:00:00Z",
-    "endUtc": "2028-01-01T00:00:00Z"
-  },
+  "path": "data/small-bodies/manifest.json",
+  "version": "horizons-small-bodies-2026-2027-v3",
+  "generatedAt": "2026-09-24T14:43:27.722122+00:00",
+  "startUtc": "2026-01-01T00:00:00Z",
+  "endUtc": "2028-01-01T00:00:00Z"
+},
   "comets": {
-    "path": "data/comets/manifest.json",
-    "version": "horizons-comets-2026-2027-v1",
-    "generatedAt": "2026-09-24T03:27:00.046511+00:00",
-    "startUtc": "2026-01-01T00:00:00Z",
-    "endUtc": "2028-01-01T00:00:00Z"
-  }
+  "path": "data/comets/manifest.json",
+  "version": "horizons-comets-2026-2027-v2",
+  "generatedAt": "2026-09-24T14:44:34.028493+00:00",
+  "startUtc": "2026-01-01T00:00:00Z",
+  "endUtc": "2028-01-01T00:00:00Z"
+}
 } as const;
 export const CONTENT_COVERAGE:CoverageItem[] = [
   {
@@ -48,7 +48,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "title": "太阳本体与活动",
     "status": "已有基础",
     "current": "本体历表、参数、参考自转及日冕/活动示意",
-    "target": "统一表面与活动层；活动模型和当日状态分别说明",
+    "target": "统一表面与活动层；补光球、色球、日冕及黑子、日珥解释，区分模型与当日状态",
     "phase": "M3 / M4",
     "evidence": "历表位置 + 参考参数 + 活动示意",
     "datasets": [
@@ -73,7 +73,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "title": "八大行星与外观",
     "status": "已有基础",
     "current": "真实历表、球体、轨道参考、参数；地球有云层与大气",
-    "target": "逐体核对姿态、光照、材质和大气边界",
+    "target": "逐体核对姿态、光照、材质和大气边界；补代表性表面或内部结构说明",
     "phase": "M3",
     "evidence": "历表位置 + 静态贴图与程序大气",
     "datasets": [
@@ -98,7 +98,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "title": "天然卫星与家族",
     "status": "已有基础",
     "current": "21 颗选定卫星；六个行星家族与冥王星双体",
-    "target": "冥王星余下四卫星及至少一个其他矮行星卫星系统",
+    "target": "补冥王星余下四卫星、另一矮行星卫星系统及小天体卫星/双体代表；关联喷流等特征",
     "phase": "M3",
     "evidence": "卫星历表 + 局部显示缩放",
     "datasets": [
@@ -128,7 +128,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "title": "行星与小天体环",
     "status": "示意为主",
     "current": "四大巨行星代表环系",
-    "target": "细化环段与尺度；小天体环提供有来源的代表说明",
+    "target": "细化巨行星代表环段与尺度；加入至少一个小天体环的资料或示意",
     "phase": "M3",
     "evidence": "文献参考环段 + 增强显示",
     "datasets": [],
@@ -181,7 +181,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "title": "小行星主带",
     "status": "示意为主",
     "current": "主带点云；谷神星、灶神星真实代表",
-    "target": "有依据的分布与样本区分、目录关联",
+    "target": "区分区域样本与真实成员；补不规则形状、双小行星/小天体卫星代表",
     "phase": "M2 / M3",
     "evidence": "随机区域点云 + 具名成员历表",
     "datasets": [
@@ -208,81 +208,96 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
   {
     "id": "E07",
     "title": "近地小行星",
-    "status": "待接入",
-    "current": "已有分类文字，没有代表对象动态观察",
-    "target": "至少一个通过数据验证的代表对象及与地球轨道关系",
+    "status": "已有代表",
+    "current": "爱神星真实历表、当前地心距离和近地分类说明",
+    "target": "至少一个可靠近地代表及地球轨道关系；补共轨或准卫星认识案例",
     "phase": "M3",
-    "evidence": "分类资料；缺少近地动态代表",
-    "datasets": [],
+    "evidence": "JPL 几何历表 + SBDB 参数快照 + 明确标注的外观示意",
+    "datasets": [
+      "core",
+      "smallBodies"
+    ],
     "modules": [
-      "src/data/cosmicContext.ts"
+      "src/data/r01Members.ts",
+      "src/data/regionMembers.ts",
+      "src/components/R01MemberParameters.tsx"
     ],
     "entry": {
       "kind": "family",
       "id": "asteroids"
     },
-    "stages": [],
-    "how": "当前只能阅读分类；主带代表不等于近地小行星。",
-    "validation": "未接入代表对象，尚无该类动态验证。",
-    "release": "已有分类或示意；目标能力未发布",
-    "acceptance": "现有说明待验收；动态能力待接入"
+    "stages": [
+      "members"
+    ],
+    "how": "近地小行星 → 爱神星；查看日心/地心参数，前后 30 天对比。",
+    "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
+    "release": "R01 本地已实现，未发布",
+    "acceptance": "待用户验收；本类其余目标仍按总路线执行"
   },
   {
     "id": "E08",
     "title": "特洛伊群",
-    "status": "示意为主",
-    "current": "类别说明和示意点群",
+    "status": "已有代表",
+    "current": "阿喀琉斯 L4 与埃涅阿斯 L5 真实历表；背景点群仍为示意",
     "target": "L4/L5 各一真实代表，解释相对行星分布",
     "phase": "M2 / M3",
-    "evidence": "资料分类 + 随机种群示意",
-    "datasets": [],
+    "evidence": "JPL 几何历表 + SBDB 参数快照 + 明确标注的外观示意",
+    "datasets": [
+      "core",
+      "smallBodies"
+    ],
     "modules": [
-      "src/data/cosmicContext.ts",
-      "src/components/macroPhenomena.ts"
+      "src/data/r01Members.ts",
+      "src/data/regionMembers.ts",
+      "src/components/R01MemberParameters.tsx"
     ],
     "entry": {
       "kind": "family",
       "id": "centaurs"
     },
     "stages": [
-      "structure"
+      "members"
     ],
-    "how": "阅读半人马族与特洛伊群，辨认种群示意。",
-    "validation": "无 L4/L5 真实代表历表；示意层仍待集中视觉验收。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "how": "半人马族与特洛伊群 → 分别定位 L4/L5，比较相对木星方位。",
+    "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
+    "release": "R01 本地已实现，未发布",
+    "acceptance": "待用户验收；本类其余目标仍按总路线执行"
   },
   {
     "id": "E09",
     "title": "半人马族",
-    "status": "示意为主",
-    "current": "巨行星之间的分类与点群示意",
+    "status": "已有代表",
+    "current": "女凯龙星真实历表、轨道与来源参数；巨行星区域点群为示意",
     "target": "至少一个真实代表及跨区域轨道",
     "phase": "M3",
-    "evidence": "资料分类 + 随机种群示意",
-    "datasets": [],
+    "evidence": "JPL 几何历表 + SBDB 参数快照 + 明确标注的外观示意",
+    "datasets": [
+      "core",
+      "smallBodies"
+    ],
     "modules": [
-      "src/data/cosmicContext.ts",
-      "src/components/macroPhenomena.ts"
+      "src/data/r01Members.ts",
+      "src/data/regionMembers.ts",
+      "src/components/R01MemberParameters.tsx"
     ],
     "entry": {
       "kind": "family",
       "id": "centaurs"
     },
     "stages": [
-      "structure"
+      "members"
     ],
-    "how": "阅读半人马族；与特洛伊群共用分类入口。",
-    "validation": "无真实代表轨道，尚无逐体精度验证。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "how": "半人马族与特洛伊群 → 女凯龙星；观察高度、轨道及环的文字说明。",
+    "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
+    "release": "R01 本地已实现，未发布",
+    "acceptance": "待用户验收；本类其余目标仍按总路线执行"
   },
   {
     "id": "E10",
     "title": "柯伊伯带",
-    "status": "示意为主",
-    "current": "区域点云，部分矮行星位置",
-    "target": "厚度、分布及代表成员对照",
+    "status": "本地已接入 / 待验收",
+    "current": "经典族夸奥尔、共振族冥王星等具名成员；四类轨道解释",
+    "target": "区分经典与共振群体，补厚度、分布及代表成员对照",
     "phase": "M2 / M3",
     "evidence": "区域点云 + 部分成员历表",
     "datasets": [
@@ -298,21 +313,21 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
       "id": "kuiper"
     },
     "stages": [
-      "structure"
+      "members"
     ],
-    "how": "侧视厚度，再进入具名远缘天体。",
+    "how": "全景内容总表进入；展开四类轨道说明对照夸奥尔与冥王星。",
     "validation": "成员有数据包验证；区域分布的统一表达待 M2.2。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
+    "release": "R02 本地实现 / 未发布",
     "acceptance": "待用户验收"
   },
   {
     "id": "E11",
     "title": "散射盘与离散天体",
-    "status": "示意为主",
-    "current": "合并点云及阋神星代表",
+    "status": "本地已接入 / 待验收",
+    "current": "脱离轨道代表塞德娜、远伸轨道阋神星及分布示意",
     "target": "分清两类概念；加入离散轨道代表，不用统一圆环代替",
     "phase": "M2 / M3",
-    "evidence": "合并区域示意 + 阋神星历表",
+    "evidence": "分布示意 + 塞德娜与阋神星历表",
     "datasets": [
       "smallBodies"
     ],
@@ -325,18 +340,18 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
       "id": "scattered"
     },
     "stages": [
-      "structure"
+      "members"
     ],
-    "how": "对照区域散点和阋神星参数。",
+    "how": "全景内容总表定位塞德娜；查看黄道高度、日期变化及分类依据。",
     "validation": "代表成员有数据验证；两类分布尚未分别实现。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
+    "release": "R02 本地实现 / 未发布",
     "acceptance": "待用户验收"
   },
   {
     "id": "E12",
     "title": "彗星",
-    "status": "已有基础",
-    "current": "哈雷与 67P 历表、两年路径、双尾示例",
+    "status": "本地已接入 / 待验收",
+    "current": "哈雷、67P 与长周期海尔—波普三颗彗核历表、两年路径和参数",
     "target": "长周期代表与活动边界；彗尾不等同轨迹",
     "phase": "M3 / M4",
     "evidence": "历表与两年路径 + 双尾原理示意",
@@ -354,9 +369,9 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [
       "comets"
     ],
-    "how": "选择哈雷或 67P；区分路径和彗尾。",
+    "how": "内容总表 → 彗星 → 海尔—波普；可切换三颗彗星。",
     "validation": "数据包内有留出样本误差；活动示例不作当日状态验证。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
+    "release": "R02 本地实现 / 未发布",
     "acceptance": "待用户验收"
   },
   {
@@ -389,7 +404,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "title": "尘埃、流星体与流星",
     "status": "示意为主",
     "current": "尘埃、碎屑流、进入大气演示",
-    "target": "补黄道光和流星雨关联，明确观测条件与统计性质",
+    "target": "串联尘埃、黄道光、流星雨和喷流补给，明确统计性质与非当日实况",
     "phase": "M4",
     "evidence": "统计区域与原理演示",
     "datasets": [],
@@ -414,7 +429,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "title": "太阳风与日球层",
     "status": "示意为主",
     "current": "太阳风、激波、日鞘、边界及星际介质",
-    "target": "分层关联与方向/时间可变边界说明",
+    "target": "完善日球层分层与可变边界；补行星际磁场、电流片和中性粒子解释",
     "phase": "M2 / M4",
     "evidence": "分层边界和粒子流动示意",
     "datasets": [],
@@ -439,7 +454,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "title": "磁层、辐射带与极光",
     "status": "示意为主",
     "current": "地球环境和近地粒子区域",
-    "target": "以木星作环境对照，完善太阳活动关联",
+    "target": "以木星环境作对照；完善太阳活动、光与粒子辐射的联系",
     "phase": "M4",
     "evidence": "磁层和粒子区域原理示意",
     "datasets": [],
@@ -465,7 +480,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "title": "运行关系与天象",
     "status": "部分讲解",
     "current": "运动比较、参考周期和部分锁定/共振文字",
-    "target": "四组运行课程、日月食及遮掩案例验证",
+    "target": "四组运行课程、共轨参照系案例，以及日月食和卫星遮掩案例验证",
     "phase": "M4",
     "evidence": "历表速度对比 + 参考周期讲解",
     "datasets": [
@@ -534,18 +549,25 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
   {
     "id": "E20",
     "title": "星际访客",
-    "status": "待接入",
-    "current": "尚无动态代表对象",
+    "status": "本地已接入 / 待验收",
+    "current": "2I/Borisov：2019—2020 独立历史轨迹与参数",
     "target": "一例通过来源、轨道质量和有效时间检查的代表；与长期束缚成员区分",
     "phase": "M3",
-    "evidence": "规划候选，暂无动态数据",
+    "evidence": "历史 JPL 几何历表；不计入当前数量",
     "datasets": [],
-    "modules": [],
-    "entry": null,
+    "modules": [
+      "src/components/HistoricalVisitor.tsx",
+      "src/ephemeris/borisov.ts",
+      "public/data/borisov/manifest.json"
+    ],
+    "entry": {
+      "kind": "family",
+      "id": "comets"
+    },
     "stages": [],
-    "how": "尚无观测入口；后续按可靠数据与有效日期选择代表。",
-    "validation": "未接入，无可验证的代表对象。",
-    "release": "未实现 / 未发布",
-    "acceptance": "未实现，尚不进入功能验收"
+    "how": "内容总表 → 星际访客直接进入；彗星面板也提供历史窗口。",
+    "validation": "原始数据与分包哈希、独立检查点插值及历史窗口进出检查；不代表绝对轨道精度。",
+    "release": "R02 本地实现 / 未发布",
+    "acceptance": "待用户验收"
   }
 ];

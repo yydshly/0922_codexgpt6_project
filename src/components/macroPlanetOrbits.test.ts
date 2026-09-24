@@ -10,7 +10,7 @@ it('gates rendered orbit and arrow objects independently and drops them when the
  for(const body of ORBIT_PLANETS){const i=BODY_IDS.indexOf(body.id)*3;frame.positions[i]=AU_KM;frame.velocities[i+1]=Math.sqrt((bodyById.sun.gm+body.gm)/AU_KM);}
  const line=scene.getObjectByName('reference-orbit-earth') as THREE.Line,arrow=scene.getObjectByName('motion-direction-earth')!;
  display.update(frame,{orbits:true,scales:false,direction:false},true,null,positions,1);expect(line.visible).toBe(true);expect(line.geometry.attributes.position.count).toBe(361);expect(arrow.visible).toBe(false);
- display.update(frame,{orbits:false,scales:true,direction:true},true,'earth',positions,1);expect(line.visible).toBe(false);expect(arrow.visible).toBe(true);expect(scene.getObjectByName('motion-direction-mars')!.visible).toBe(false);
- display.update(frame,{orbits:true,scales:false,direction:true},true,'sun',positions,1);expect(line.visible).toBe(false);expect(arrow.visible).toBe(false);
+ display.update(frame,{orbits:false,scales:true,direction:true},true,'earth',positions,1);expect(line.visible).toBe(false);expect(arrow.visible).toBe(true);expect(scene.getObjectByName('motion-direction-mars')!.visible).toBe(true);
+ display.update(frame,{orbits:true,scales:false,direction:true},true,'sun',positions,1);expect(line.visible).toBe(true);expect(arrow.visible).toBe(true);
  display.update(null,{orbits:true,scales:false,direction:true},true,null,positions,1);expect(scene.getObjectByName('macro-planet-reference-orbits')!.visible).toBe(false);expect(arrow.visible).toBe(false);
 });

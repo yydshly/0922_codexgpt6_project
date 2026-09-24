@@ -17,7 +17,7 @@ export const defaultIntegratedFlags=():IntegratedFlags=>({solar:true,environment
 export function integratedFlags(flags:IntegratedFlags,stages:StageFlags,hasFrame:boolean):IntegratedFlags{
  return Object.fromEntries(INTEGRATED_ITEMS.map(item=>[item.id,flags[item.id]&&stages[item.stage]&&(item.target!=='earth'||hasFrame)])) as IntegratedFlags;
 }
-export const INTEGRATED_FOCUS_DISTANCE:Record<IntegratedTarget,number>={'body:sun':3,'body:mercury':1.3,'body:venus':1.3,'body:earth':.75,'body:mars':1.3,'body:jupiter':2,'body:saturn':2,'body:uranus':2,'body:neptune':2,'comet-demo':8,halley:3.2,'67p':3.2,'pluto-system':6.5,sun:6,earth:3.4,dust:13,helio:29,mars:2.8,jupiter:2.7,saturn:2.7,uranus:2.7,neptune:2.7};
+export const INTEGRATED_FOCUS_DISTANCE:Record<IntegratedTarget,number>={'body:sun':3,'body:mercury':1.3,'body:venus':1.3,'body:earth':.75,'body:mars':1.3,'body:jupiter':2,'body:saturn':2,'body:uranus':2,'body:neptune':2,'comet-demo':8,'hale-bopp':3.2,halley:3.2,'67p':3.2,'pluto-system':6.5,sun:6,earth:3.4,dust:13,helio:29,mars:2.8,jupiter:2.7,saturn:2.7,uranus:2.7,neptune:2.7};
 export function integratedDetailVisible(target:PhenomenonTarget,distance:number,focused:IntegratedTarget|null){
  return focused===target||distance<({sun:13,earth:8,dust:22,helio:45}[target]);
 }

@@ -14,14 +14,16 @@ const sample=(time:number)=>interpolateMonthlyChunk(packs[manifest.chunks.findIn
 
 describe('区域代表成员真实历表',()=>{
  it('区域映射保留分类差异，并且每个标记有外观和来源',()=>{
-   expect(REGION_MEMBERS).toHaveLength(6);
-   expect(OBSERVATION_COUNTS.dynamic).toBe(32);expect(OBSERVATION_COUNTS.macroAdditional).toBe(6);expect(OBSERVATION_COUNTS.allDynamic).toBe(38);
+   expect(REGION_MEMBERS).toHaveLength(12);
+   expect(OBSERVATION_COUNTS.dynamic).toBe(32);expect(OBSERVATION_COUNTS.macroAdditional).toBe(13);expect(OBSERVATION_COUNTS.allDynamic).toBe(45);
    expect(membersForRegion('asteroid').map(b=>b.id)).toEqual(['ceres','vesta']);
-   expect(membersForRegion('kuiper').map(b=>b.id)).toEqual(['pluto','haumea','makemake']);
-   expect(membersForRegion('scattered').map(b=>b.id)).toEqual(['eris']);
+   expect(membersForRegion('kuiper').map(b=>b.id)).toEqual(['pluto','haumea','makemake','quaoar']);
+   expect(membersForRegion('scattered').map(b=>b.id)).toEqual(['sedna','eris']);
    expect(membersForRegion('all','dwarfs')).toHaveLength(5);
+   expect(membersForRegion('all','asteroids').map(b=>b.id)).toEqual(['eros','ceres','vesta']);
+   expect(membersForRegion('all','centaurs').map(b=>b.id)).toEqual(['achilles','aneas','chariklo']);
    expect(membersForRegion('oort')).toHaveLength(0);
-   expect(REGION_MEMBERS.every(b=>b.sourceUrl.startsWith('https://science.nasa.gov/') && b.description && b.relation)).toBe(true);
+   expect(REGION_MEMBERS.every(b=>/^https:\/\/(science\.nasa\.gov|ssd\.jpl\.nasa\.gov)\//.test(b.sourceUrl) && b.description && b.relation)).toBe(true);
    expect(manifest.bodyIds).toEqual(NEW_MEMBER_IDS);
  });
  it('验证 24 月数据和原始 JPL 响应哈希',()=>{
@@ -45,18 +47,18 @@ describe('区域代表成员真实历表',()=>{
    }
  });
  it('跨月连续且读取覆盖期两端，成员实际随日期移动',()=>{
-   expect(sample(manifest.startTdb).states).toHaveLength(4);expect(sample(manifest.endTdb).states).toHaveLength(4);
+   expect(sample(manifest.startTdb).states).toHaveLength(NEW_MEMBER_IDS.length);expect(sample(manifest.endTdb).states).toHaveLength(NEW_MEMBER_IDS.length);
    for(let i=0;i<23;i++){
      const t=manifest.chunks[i].endTdb,a=interpolateMonthlyChunk(packs[i],t,'a'),b=interpolateMonthlyChunk(packs[i+1],t,'b');
-     for(let j=0;j<4;j++)expect(Math.hypot(...a.states[j].position.map((v,k)=>v-b.states[j].position[k]))).toBeLessThan(1e-5);
+     for(let j=0;j<NEW_MEMBER_IDS.length;j++)expect(Math.hypot(...a.states[j].position.map((v,k)=>v-b.states[j].position[k]))).toBeLessThan(1e-5);
    }
    const a=sample(manifest.startTdb),b=sample(manifest.startTdb+30*86400);
-   for(let j=0;j<4;j++)expect(Math.hypot(...a.states[j].position.map((v,k)=>v-b.states[j].position[k]))).toBeGreaterThan(100000);
+   for(let j=0;j<NEW_MEMBER_IDS.length;j++)expect(Math.hypot(...a.states[j].position.map((v,k)=>v-b.states[j].position[k]))).toBeGreaterThan(100000);
  });
  it('慢数据包不阻塞已加载成员，拒绝旧日期和错误参照',()=>{
    const a=sample(manifest.startTdb),frame={time:a.timeTdb} as StateFrame;
-   expect(matchingMemberBatch(frame,a,null)?.states).toHaveLength(4);
-   expect(matchingMemberBatch(frame,a,{...a,timeTdb:a.timeTdb-1})?.states).toHaveLength(4);
+   expect(matchingMemberBatch(frame,a,null)?.states).toHaveLength(NEW_MEMBER_IDS.length);
+   expect(matchingMemberBatch(frame,a,{...a,timeTdb:a.timeTdb-1})?.states).toHaveLength(NEW_MEMBER_IDS.length);
    expect(matchingMemberBatch(frame,{...a,originId:'earth'})).toBeNull();
    expect(matchingMemberBatch(null,a)).toBeNull();
    expect(()=>matchingMemberBatch(frame,a,a)).toThrow('重复');

@@ -1,3 +1,4 @@
+import {COMETS} from './comets';
 import { AU_KM } from '../data/catalog';
 import type { StateFrame } from '../types';
 import type { StateBatch, ObjectState } from './stateProvider';
@@ -13,3 +14,17 @@ export function heliocentricComets(frame: StateFrame | null, batch: StateBatch |
 }
 export const cometMetrics = (state: ObjectState) => ({ distanceAu:Math.hypot(...state.position)/AU_KM, speedKmS:Math.hypot(...state.velocity) });
 export interface CometTracks { tracks: {id:string;points:number[][]}[] }
+
+/** Registry-based validation prevents a new comet being rejected by a stale count. */
+export function validCometTracks(value:unknown):value is CometTracks {
+ if(!value||typeof value!=='object')return false;
+ const data=value as {frame?:unknown;origin?:unknown;units?:unknown;tracks?:unknown};
+ if(data.frame!=='ECLIPJ2000'||data.origin!=='sun'||data.units!=='km'||!Array.isArray(data.tracks)||data.tracks.length!==COMETS.length)return false;
+ const ids=new Set<string>();
+ for(const item of data.tracks){if(!item||typeof item!=='object')return false;const track=item as {id?:unknown;points?:unknown};
+  if(typeof track.id!=='string'||!COMETS.some(c=>c.id===track.id)||ids.has(track.id)||!Array.isArray(track.points)||track.points.length<2)return false;
+  ids.add(track.id);let previous=-Infinity;
+  for(const point of track.points){if(!Array.isArray(point)||point.length!==4||!point.every(v=>typeof v==='number'&&Number.isFinite(v))||point[0]<=previous)return false;previous=point[0];}
+ }
+ return true;
+}

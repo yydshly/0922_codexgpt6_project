@@ -1,3 +1,4 @@
+import {macroVisualHierarchy,primaryVisibleInCloseup} from '../data/macroVisualHierarchy';
 import {MacroMotionPanel} from './MacroMotionPanel';
 import {SizeComparison} from './SizeComparison';
 import {MacroContentsNav} from './MacroContentsNav';
@@ -168,7 +169,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       const direction = shellPoint(65, 82)(next);
       return direction.normalize().multiplyScalar(70 + next() * 12);
     }), new THREE.PointsMaterial({ color: '#9bb6c4', map: particleTexture, size: .12, transparent: true, opacity: .38, depthWrite: false }));
-    scene.add(stars);
+    stars.userData.background=true;scene.add(stars);
 
     const sun = new THREE.Mesh(new THREE.SphereGeometry(.34, 28, 20), new THREE.MeshBasicMaterial({ color: '#ffe1a1' }));
     sun.userData.primaryId='sun'; sun.userData.labelRadius = .34; scene.add(sun);
@@ -245,7 +246,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       raycaster.setFromCamera(new THREE.Vector2((event.clientX-bounds.left)/bounds.width*2-1,1-(event.clientY-bounds.top)/bounds.height*2),camera);
       const markers:THREE.Object3D[]=[];
       scene.traverse(object=>{if(!object.userData.memberId&&!object.userData.familyMoon&&!object.userData.binaryId)return;let p:THREE.Object3D|null=object;while(p){if(!p.visible)return;p=p.parent;}markers.push(object);});
-      const hit=raycaster.intersectObjects([...markers,...planets.filter(p=>p.visible),sun],false)[0];
+      const hit=raycaster.intersectObjects([...markers,...planets.filter(p=>p.visible),...(sun.visible?[sun]:[])],false)[0];
       if(hit?.object.userData.binaryId)displayRef.current.integrated.binary.onSelect(hit.object.userData.binaryId);
       else if(hit?.object.userData.familyMoon)displayRef.current.integrated.families.onSelect(hit.object.userData.familyMoon);
       else if(hit?.object.userData.primaryId)displayRef.current.integrated.onFocus(primaryTarget(hit.object.userData.primaryId));
@@ -319,6 +320,10 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
         const delta=memberPosition.clone().sub(previousMember);camera.position.add(delta);controls.target.add(delta);previousMember.copy(memberPosition);
       }
       const primary=primaryId(integration.target);
+      const isolatedPrimary=primary??(isMacroFamily(integration.target)?integration.target:null);
+      sun.visible=primaryVisibleInCloseup('sun',isolatedPrimary);sunGlow.visible=sun.visible;
+      planets.forEach(mesh=>{mesh.visible=!!current&&displayRef.current.layers.planetary&&primaryVisibleInCloseup(mesh.userData.primaryId as PrimaryId,isolatedPrimary);});
+      if(isolatedPrimary){plane.visible=false;guides.forEach(g=>{g.visible=false;});}
       if(cloudRetry!==integration.earth.retry){cloudRetry=integration.earth.retry;earthEffects.retry();}
       earthEffects.update(integration.earth);
       const earthPosition=current?planets[2].position:null;
@@ -349,15 +354,19 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       if (Math.abs(cameraDistance-lastDistance) > .1) { lastDistance=cameraDistance; onDistance(cameraDistance); }
       phenomena.update(current, displayRef.current.batch, displayRef.current.layers, camera.position.distanceTo(controls.target), demoSeconds, family, displayRef.current.cometBatch, displayRef.current.cometTracks, displayRef.current.showActivity, displayRef.current.selectedMember,binaryScene.visible,integration.comets);
       scene.updateMatrixWorld(true);
-      primaryLabels.clear();
+      // Clear all old placements before any module reads same-frame obstacles.
+      for(const label of element.querySelectorAll<HTMLElement>('.macro-world-label,.macro-label-leader'))label.style.visibility='hidden';
+      const hierarchy=macroVisualHierarchy(cameraDistance,integration.target,focus.selectedMember);
+      element.dataset.labelLevel=hierarchy.regionLabels?'regions':'bodies';
+      stars.position.copy(camera.position);
+      primaryLabels.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!!current&&(!integration.target||!!primary)&&!focus.selectedMember,primary,hierarchy.regionLabels);
       phenomena.layoutLabels(camera, element.clientWidth, element.clientHeight, showLabels&&(!integration.target||isCometId(integration.target)||integration.target==='comet-demo'),isCometId(integration.target)||integration.target==='comet-demo'?integration.target:focus.selectedMember);
       const softenContext=!!integration.target||!!focus.selectedMember;
-      if(softenContext){scene.traverse(object=>{if(!(object instanceof THREE.Points||object instanceof THREE.Line))return;let parent:THREE.Object3D|null=object;while(parent){if(parent.userData.integrated)return;parent=parent.parent;}for(const material of Array.isArray(object.material)?object.material:[object.material]){if(!contextMaterials.has(material))contextMaterials.set(material,{opacity:material.opacity,...(material instanceof THREE.PointsMaterial?{size:material.size,attenuation:material.sizeAttenuation}:{})});const original=contextMaterials.get(material)!;material.opacity=original.opacity*.3;if(material instanceof THREE.PointsMaterial){material.size=2;if(material.sizeAttenuation){material.sizeAttenuation=false;material.needsUpdate=true;}}}});}
+      if(softenContext){scene.traverse(object=>{if(object.userData.background||!(object instanceof THREE.Points||object instanceof THREE.Line))return;let parent:THREE.Object3D|null=object;while(parent){if(parent.userData.integrated)return;parent=parent.parent;}for(const material of Array.isArray(object.material)?object.material:[object.material]){if(!contextMaterials.has(material))contextMaterials.set(material,{opacity:material.opacity,...(material instanceof THREE.PointsMaterial?{size:material.size,attenuation:material.sizeAttenuation}:{})});const original=contextMaterials.get(material)!;material.opacity=original.opacity*.3;if(material instanceof THREE.PointsMaterial){material.size=2;if(material.sizeAttenuation){material.sizeAttenuation=false;material.needsUpdate=true;}}}});}
       else if(contextMaterials.size)restoreContext();
-      integratedScene.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!primary);
-      familyScene.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!primary&&!integration.planetFocus);
-      binaryScene.layout(camera,element.clientWidth,element.clientHeight,showLabels);
-      primaryLabels.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!!current&&(!integration.target||!!primary)&&!focus.selectedMember,primary);
+      integratedScene.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!primary&&!hierarchy.regionLabels&&!focus.selectedMember&&(!integration.target||['sun','earth','dust','helio'].includes(integration.target)));
+      familyScene.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!primary&&!integration.planetFocus&&!hierarchy.regionLabels);
+      binaryScene.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!hierarchy.regionLabels&&!primary);
       renderer.render(scene, camera);
     };
     animation = requestAnimationFrame(draw);
@@ -548,7 +557,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
         {scope === 'solar' && solarTab === 'families' && <div className="macro-family-key">{integratedTarget==='pluto-system'?'两颗球体随 JPL 日期运动 · 绿色十字是双体质心':familyId === 'dwarfs' ? '谷神星 / 冥王星：历表位置与瞬时参考轨道；卡戎可在全景现象中靠近展开' : familyId === 'moons' ? '卫星使用当日历表相对位置 · 球体与局部距离作展示缩放' : familyId === 'comets' ? '哈雷 / 67P：当日历表位置 · 亮线为两年路径，淡线为参考椭圆' : familyId === 'centaurs' ? '巨行星区域与特洛伊群为种群范围示意' : familyId === 'dust' ? '太阳附近尘埃点仅示意分布，不表示实测密度' : '主带点数、大小与位置均不代表真实小行星'}</div>}
         {scope === 'solar' && <div className="macro-depth-controls" aria-label="三维观察方式"><div role="group" aria-label="宏观镜头角度">{([['oblique','斜视'],['edge','侧视'],['top','俯视']] as const).map(([id,label]) => <button key={id} className={cameraView === id ? 'active' : ''} onClick={() => setCameraView(id)} aria-pressed={cameraView === id}>{label}</button>)}</div><button className={showPlane ? 'active' : ''} onClick={() => setShowPlane(value => !value)} aria-pressed={showPlane}>黄道面 / 高度线</button>{solarTab === 'zones' && selected === 'planetary' && <button className={heightScale === 10 ? 'active enhanced' : ''} onClick={() => setHeightScale(value => value === 1 ? 10 : 1)} aria-pressed={heightScale === 10}>{heightScale === 1 ? '行星高度 ×10' : '行星高度 ×10 · 示意'}</button>}</div>}
         {scope === 'solar' && <button className="macro-reset" onClick={() => setResetCount(count => count + 1)} aria-label="复位宏观镜头" title="复位镜头"><RotateCcw size={15}/></button>}
-        <div className="macro-scale-warning">{primaryId(integratedTarget)?'本体位置与运动来自历表 · 球体放大 / 距离压缩 · 静态贴图非实时影像':selectedMember?'当前成员按历表随日期运行 · 球体放大 / 距离压缩 · 细线为参考椭圆':integratedTarget==='comet-demo'?'固定近太阳教学示例 · 不代表当前哈雷或 67P 的位置、尾长与活动':isCometId(integratedTarget)?'彗核位置来自历表 · 球体放大 / 距离压缩 · 金色箭头仅为背日方向':integratedTarget==='pluto-system' ? '冥王星—卡戎局部：半径与间距同一比例 · 到太阳的距离仍压缩' : scope === 'cosmic' ? '拖动旋转 / 滚轮缩放 · 星系和恒星的画面尺寸与方位为示意' : solarTab === 'zones' && selected === 'planetary' && heightScale === 10 ? '行星黄道高度已放大 10 倍，仅为辨识；点击“行星高度 ×10”恢复真实高度' : solarTab === 'families' ? '距离对数压缩 · 天体位置见来源状态 · 彗尾、太阳风、种群点云为示意' : selected === 'scattered' ? '紫色点只示意远伸且有纵向厚度的分布 · 一点不等于一颗已发现天体' : selected === 'oort' ? '圆点示意可能的冰质小天体群；每个点都不是已观测天体，点数、位置与大小不对应实测' : selected === 'heliosphere' ? '三维轮廓表示太阳风影响区 · 实际边界并非规则球面' : selected === 'kuiper' || selected === 'asteroid' ? '点云展示环带厚度 · 点位与密度为示意，非逐体历表' : '拖动旋转 / 滚轮缩放 · 距离采用对数映射 · 行星黄道高度来自历表'}</div>
+        <div className="macro-scale-warning">{primaryId(integratedTarget)?'近景突出当前天体 · 背景球体暂时收起 · 位置来自历表 / 外观非实时影像':isMacroFamily(integratedTarget)?'系统近景突出母星、卫星与环 · 其他太阳与行星球体暂时收起':selectedMember?'当前成员按历表随日期运行 · 球体放大 / 距离压缩 · 细线为参考椭圆':integratedTarget==='comet-demo'?'固定近太阳教学示例 · 不代表当前哈雷或 67P 的位置、尾长与活动':isCometId(integratedTarget)?'彗核位置来自历表 · 球体放大 / 距离压缩 · 金色箭头仅为背日方向':integratedTarget==='pluto-system' ? '冥王星—卡戎局部：半径与间距同一比例 · 到太阳的距离仍压缩' : scope === 'cosmic' ? '拖动旋转 / 滚轮缩放 · 星系和恒星的画面尺寸与方位为示意' : solarTab === 'zones' && selected === 'planetary' && heightScale === 10 ? '行星黄道高度已放大 10 倍，仅为辨识；点击“行星高度 ×10”恢复真实高度' : solarTab === 'families' ? '距离对数压缩 · 天体位置见来源状态 · 彗尾、太阳风、种群点云为示意' : selected === 'scattered' ? '紫色点只示意远伸且有纵向厚度的分布 · 一点不等于一颗已发现天体' : selected === 'oort' ? '圆点示意可能的冰质小天体群；每个点都不是已观测天体，点数、位置与大小不对应实测' : selected === 'heliosphere' ? '三维轮廓表示太阳风影响区 · 实际边界并非规则球面' : selected === 'kuiper' || selected === 'asteroid' ? '点云展示环带厚度 · 点位与密度为示意，非逐体历表' : (cameraDistance>=42?'远景优先区域标注 · 靠近展开天体名称 · 距离对数压缩':'拖动旋转 / 滚轮缩放 · 距离对数压缩 · 行星黄道高度来自历表')}</div>
         {scope === 'cosmic' && <div className="macro-cosmic-legend">{cosmicId === 'neighbors' ? '太阳 · 半人马座 α / 比邻星 · TRAPPIST-1' : cosmicId === 'milkyway' ? '银河系旋臂 · 猎户臂支中的太阳' : '银河系 · 大麦哲伦云 · 仙女座星系'}</div>}
       </div>
       <aside className="macro-info">

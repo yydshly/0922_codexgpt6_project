@@ -36,9 +36,11 @@
 
 **行星运动比较（本地待验收）：** 全景目录可比较八大行星的同刻日心速度、参考公转周期与自转周期，并切换日期或定位行星。见 [实现与验收](docs/PANORAMA-MOTION.md)。
 
+**全景视觉整理（本地待验收）：** 远近标注分层、跨模块同帧避让、稳定星空、本体与卫星系统近景突出。见 [实现与验收](docs/PANORAMA-VISUAL-HIERARCHY.md)。
+
 ## 当前版本交付
 
-最近确认的远端功能版本为 `0ac5ff8`，包含第一至第九批、综合全景、天体点选、地球外观、行星轨道、专注行星、内容目录与双球大小比较。[部署成功记录](https://github.com/yydshly/0922_codexgpt6_project/actions/runs/35983680949)。本地另新增行星运动比较，尚未推送。最新状态以 [建设记录](docs/PRODUCT-PROGRESS.md) 为准。[早期能力基线](docs/CURRENT-BASELINE.md) 保留历史范围，不代表当前发布版本。当前优先补全整体内容；探测器待定，地月分步导览后移。
+最近确认的远端功能版本为 `0ac5ff8`，包含第一至第九批、综合全景、天体点选、地球外观、行星轨道、专注行星、内容目录与双球大小比较。[部署成功记录](https://github.com/yydshly/0922_codexgpt6_project/actions/runs/35983680949)。本地另新增行星运动比较与全景视觉整理，尚未推送。最新状态以 [建设记录](docs/PRODUCT-PROGRESS.md) 为准。[早期能力基线](docs/CURRENT-BASELINE.md) 保留历史范围，不代表当前发布版本。当前优先补全整体内容；探测器待定，地月分步导览后移。
 
 ## GitHub Pages 部署
 

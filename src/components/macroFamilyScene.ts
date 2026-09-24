@@ -49,7 +49,7 @@ export function createMacroFamilies(scene:THREE.Scene,host:HTMLElement,onSelect:
    const candidates=[];for(const [id,b] of labels){b.style.visibility='hidden';if(!visible||!lastEnabled)continue;const family=families.find(f=>f.id===id),moon=moons.get(id);let position:THREE.Vector3;
     if(family){if(focused&&focused!==id)continue;position=family.group.position.clone();}
     else {if(!moon||!moon.mesh.visible||!families.find(f=>f.id===moon.parent)!.group.visible||focused!==moon.parent)continue;position=moon.mesh.getWorldPosition(new THREE.Vector3());}
-    const p=position.project(camera);if(p.z<-1||p.z>1)continue;candidates.push({id,x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:b.offsetWidth,height:b.offsetHeight});
+    const radiusWorld=family?familyPlanetRadius(family.id)*(family.id==='saturn'?2.5:1):moon?.mesh.geometry.parameters.radius??0;const radius=radiusWorld*height/(2*Math.tan(camera.fov*Math.PI/360)*position.distanceTo(camera.position))+5;const p=position.project(camera);if(p.z<-1||p.z>1)continue;candidates.push({id,x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:b.offsetWidth,height:b.offsetHeight,radius});
    }
    const hostRect=host.getBoundingClientRect(),obstacles=[...host.querySelectorAll<HTMLElement>('.macro-world-labels:not(.family-world-labels) .macro-world-label')].filter(b=>b.style.visibility==='visible').map(b=>{const r=b.getBoundingClientRect();return {x:r.x-hostRect.x,y:r.y-hostRect.y,width:r.width,height:r.height};});
    for(const box of placeMacroLabels(candidates,width,height,70,110,obstacles)){const b=labels.get(box.id)!;b.style.transform=`translate(${box.x}px,${box.y}px)`;b.style.visibility='visible';}

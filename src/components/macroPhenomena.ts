@@ -18,7 +18,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
     const group = new THREE.Group(); group.name = `macro-${id}`; scene.add(group); return [id, group];
   })) as Record<string, THREE.Group>;
   groups.activity.userData.integrated=true; // Keep the teaching tails readable while surrounding context is dimmed.
-  const overlay = document.createElement('div'); overlay.className='macro-world-labels'; host.appendChild(overlay);
+  const overlay = document.createElement('div'); overlay.className='macro-world-labels phenomena-world-labels'; host.appendChild(overlay);
   const labels: THREE.Object3D[] = [];
   const labelElements = new Map<THREE.Object3D, {text:HTMLElement; line:HTMLSpanElement}>();
   function label(text: string, color = '#c6dfed', memberId?:string) {
@@ -170,7 +170,8 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
     },
     layoutLabels(camera: THREE.PerspectiveCamera, width: number, height: number, visible: boolean,focusedComet:string|null=null) {
       camera.updateMatrixWorld();
-      const obstacles: {x:number;y:number;width:number;height:number}[] = [];
+      const hostRect=host.getBoundingClientRect();
+      const obstacles: {x:number;y:number;width:number;height:number}[] = [...host.querySelectorAll<HTMLElement>('.macro-world-labels:not(.phenomena-world-labels) .macro-world-label')].filter(b=>b.style.visibility==='visible').map(b=>{const r=b.getBoundingClientRect();return {x:r.x-hostRect.x,y:r.y-hostRect.y,width:r.width,height:r.height};});
       scene.traverse(object => {
         if (!object.userData.labelRadius) return;
         let parent:THREE.Object3D|null=object;while(parent){if(!parent.visible)return;parent=parent.parent;}

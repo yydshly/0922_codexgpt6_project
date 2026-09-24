@@ -15,7 +15,7 @@ export function MacroFamilyPanel(p:Props){
  const moons=p.states.filter(m=>m.parentId===p.active),ready=p.enabled&&!!p.frame;
  return <section className="panorama-families" aria-label="全景卫星与环系">
   <h3>卫星与环系 · 同场景</h3>
-  <p>沿着母星找到它的卫星。位置随观测日期变化；球体大小和局部距离已放大、压缩，不能据画面测量真实比例。</p>
+  <p>沿着母星找到它的卫星。系统近景暂时收起其他太阳与行星球体、参考平面及高度线，返回后恢复。位置随观测日期变化；球体大小和局部距离已放大、压缩，不能据画面测量真实比例。</p>
   <div className="panorama-family-links">{MACRO_FAMILIES.map(id=><button key={id} disabled={!ready} aria-pressed={p.active===id} onClick={()=>p.onFocus(id)}>定位{id==='earth'?'地月':bodyById[id].name}系统</button>)}</div>
   <p role="status">{!p.enabled?'阶段 04 已隐藏，请从阶段导览开启。':!p.frame?'等待真实太阳系历表。':p.error?'部分卫星历表未加载；已加载成员仍可查看。':p.loading?'正在同步卫星历表…':`已同步 ${p.states.length} 颗已收录卫星（含月球），不是全部已知卫星。`}</p>
   {p.error&&<><p role="alert">{p.error}</p><button onClick={p.onRetry}>重试卫星历表</button></>}

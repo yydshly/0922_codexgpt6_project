@@ -96,3 +96,9 @@
 @media(max-width:800px){.macro-info{height:320px;min-height:320px}.macro-contents-nav{padding:6px 14px;gap:3px 8px}}
 
 .motion-comparison-rows{list-style:none;padding:0;margin:14px 0;display:grid;gap:12px}.motion-comparison-rows li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 8px;align-items:center}.motion-comparison-rows li>span{text-align:right;font-size:11px;font-variant-numeric:tabular-nums;color:#d8eee3}.motion-comparison-rows small{display:block;color:#e0c198;font-size:10px}.motion-value-track{grid-column:1/-1;height:5px;background:#25404a;overflow:hidden;border-radius:2px}.motion-value-track i{display:block;height:100%}.panorama-integration .panorama-motion li button{min-height:28px;padding:3px 8px}.motion-metric-note{border-left:2px solid #7fbaa3;padding-left:8px}
+
+/* Body names stay distinct from region annotations and phenomenon entry points. */
+.primary-world-labels .macro-world-label{background:#10232bdb;border-color:#5b798470;border-left-color:var(--label-color);box-shadow:0 2px 7px #0004}
+.family-world-labels .macro-world-label,.binary-world-labels .macro-world-label{color:#b4cfdc;background:#102330d9;border-color:#42637299}
+.integrated-world-labels .macro-world-label{background:#16392de0;border-color:#669e8299;color:#c6e9d4}
+.primary-world-labels .macro-label-leader{opacity:.35;pointer-events:none}

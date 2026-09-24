@@ -10,9 +10,9 @@ import type { StateFrame } from '../types';
 import type { StateBatch } from '../ephemeris/stateProvider';
 import type { MacroTimeControls } from './CometPanel';
 
-export function RegionMembers({includeNewMembers=true,zone,family,selectedId,onSelect,onReturn,onLocate,onRegion,frame,batch,loading,error,onRetry,time}: {
+export function RegionMembers({includeNewMembers=true,zone,family,selectedId,onSelect,onReturn,onLocate,onRegion,onBinary,frame,batch,loading,error,onRetry,time}: {
  includeNewMembers?:boolean; zone:MacroZoneId; family?:SolarFamilyId; selectedId:string|null; onSelect:(id:string)=>void;
- onReturn:()=>void; onLocate:()=>void; onRegion:()=>void;
+ onBinary?:()=>void; onReturn:()=>void; onLocate:()=>void; onRegion:()=>void;
  frame:StateFrame|null; batch:StateBatch|null; loading:boolean; error:string; onRetry:()=>void; time:MacroTimeControls;
 }){
  const [preview,setPreview]=useState(false);
@@ -35,6 +35,7 @@ export function RegionMembers({includeNewMembers=true,zone,family,selectedId,onS
      <h3>{selected.name}<small>{selected.englishName}</small></h3><p>{selected.relation}</p>
      <div className="region-member-actions"><button onClick={onRegion}>查看所属区域</button><button disabled={!state} onClick={onLocate}>定位此天体</button><button onClick={onReturn}>返回区域全景</button></div>
      <dl><div><dt>当前距太阳</dt><dd>{metrics?`${metrics.distanceAu.toFixed(3)} AU`:'等待历表'}</dd></div><div><dt>相对太阳速度</dt><dd>{metrics?`${metrics.speedKmS.toFixed(3)} km/s`:'等待历表'}</dd></div><div><dt>黄道面高度（相对太阳）</dt><dd>{state?`${(state.position[2]/AU_KM).toFixed(3)} AU`:'等待历表'}</dd></div><div><dt>参考半径</dt><dd>{selected.radiusKm===null?'长椭球形，不使用单一半径':`${selected.radiusKm.toLocaleString('zh-CN')} km`}</dd></div></dl>
+     {selected.id==='pluto'&&onBinary&&<button disabled={!state} onClick={onBinary}>在全景观察冥王星—卡戎</button>}
      <p>{selected.radiusNote}</p><p>{selected.description}</p>
      <div className="region-member-actions"><button disabled={!state||time.loading} onClick={time.onToggle}>{time.playing?'暂停日期':'继续日期'}</button><button disabled={!state||time.loading||!frame||frame.time>=time.end} onClick={()=>time.onSeek(Math.min(time.end,frame!.time+30*86400))}>后 30 天</button><button aria-expanded={preview} onClick={()=>setPreview(v=>!v)}>{preview?'收起外观近景':'展开外观近景'}</button></div>
      {preview && <div className="region-member-preview"><AtlasPreview key={selected.id} body={selected}/><p>独立取景的外观示意；拖动旋转，不代表实时影像、精确地形或真实自转。宏观定位仍使用历表。</p></div>}

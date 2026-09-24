@@ -100,7 +100,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   let lastCometOrbitTime=NaN;
   let lastTracks:CometTracks|null=null;
   return {
-    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false, selectedMember: string | null = null) {
+    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false, selectedMember: string | null = null, plutoExpanded = false) {
       for (const [id, group] of Object.entries(groups)) group.visible=enabled[id as MacroLayerId] && (macroDetailVisible(id as MacroLayerId,distance) || family===id || (id==='populations' && family==='centaurs'));
       groups.activity.visible=enabled.comets && showActivity;
       for (const annotation of labels) annotation.visible = annotation.userData.overview ? distance >= 42 : distance < 42;
@@ -139,7 +139,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
       const compatible=frame && batch && Math.abs(frame.time-batch.timeTdb)<1e-5 && batch.originId==='ssb';
       for(const item of dwarfMeshes) {
         const state=compatible ? batch.states.find(s=>s.id===item.id) : undefined;
-        item.group.visible=!!state;
+        item.group.visible=!!state&&!(plutoExpanded&&item.id==='pluto');
         if(!state || !frame) continue;
         item.marker.position.set(...macroEcliptic(state.position.map((v,i)=>(v-frame.positions[i])/AU_KM)));
         item.annotation.position.copy(item.marker.position);

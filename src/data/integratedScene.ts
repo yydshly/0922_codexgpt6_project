@@ -9,13 +9,13 @@ export const INTEGRATED_ITEMS=[
 ] as const;
 export type IntegratedId=typeof INTEGRATED_ITEMS[number]['id'];
 export type PhenomenonTarget=typeof INTEGRATED_ITEMS[number]['target'];
-export type IntegratedTarget=PhenomenonTarget|MacroFamilyId;
+export type IntegratedTarget=PhenomenonTarget|MacroFamilyId|'pluto-system';
 export type IntegratedFlags=Record<IntegratedId,boolean>;
 export const defaultIntegratedFlags=():IntegratedFlags=>({solar:true,environment:true,belts:true,dust:true,helio:true});
 export function integratedFlags(flags:IntegratedFlags,stages:StageFlags,hasFrame:boolean):IntegratedFlags{
  return Object.fromEntries(INTEGRATED_ITEMS.map(item=>[item.id,flags[item.id]&&stages[item.stage]&&(item.target!=='earth'||hasFrame)])) as IntegratedFlags;
 }
-export const INTEGRATED_FOCUS_DISTANCE:Record<IntegratedTarget,number>={sun:6,earth:3.4,dust:13,helio:29,mars:2.8,jupiter:2.7,saturn:2.7,uranus:2.7,neptune:2.7};
+export const INTEGRATED_FOCUS_DISTANCE:Record<IntegratedTarget,number>={'pluto-system':6.5,sun:6,earth:3.4,dust:13,helio:29,mars:2.8,jupiter:2.7,saturn:2.7,uranus:2.7,neptune:2.7};
 export function integratedDetailVisible(target:PhenomenonTarget,distance:number,focused:IntegratedTarget|null){
  return focused===target||distance<({sun:13,earth:8,dust:22,helio:45}[target]);
 }

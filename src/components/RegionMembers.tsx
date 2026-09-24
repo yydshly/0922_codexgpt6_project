@@ -10,15 +10,15 @@ import type { StateFrame } from '../types';
 import type { StateBatch } from '../ephemeris/stateProvider';
 import type { MacroTimeControls } from './CometPanel';
 
-export function RegionMembers({date,includeNewMembers=true,zone,family,selectedId,onSelect,onReturn,onLocate,onRegion,onBinary,frame,batch,loading,error,onRetry,time}: {
- date:string; includeNewMembers?:boolean; zone:MacroZoneId; family?:SolarFamilyId; selectedId:string|null; onSelect:(id:string)=>void;
+export function RegionMembers({autoReveal=true,date,includeNewMembers=true,zone,family,selectedId,onSelect,onReturn,onLocate,onRegion,onBinary,frame,batch,loading,error,onRetry,time}: {
+ autoReveal?:boolean; date:string; includeNewMembers?:boolean; zone:MacroZoneId; family?:SolarFamilyId; selectedId:string|null; onSelect:(id:string)=>void;
  onBinary?:()=>void; onReturn:()=>void; onLocate:()=>void; onRegion:()=>void;
  frame:StateFrame|null; batch:StateBatch|null; loading:boolean; error:string; onRetry:()=>void; time:MacroTimeControls;
 }){
  const [preview,setPreview]=useState(false);
  const [listExpanded,setListExpanded]=useState(false);
  const detail=useRef<HTMLElement>(null);
- useEffect(()=>{setPreview(false);if(selectedId)detail.current?.scrollIntoView({block:'nearest'});},[selectedId]);
+ useEffect(()=>{setPreview(false);if(selectedId&&autoReveal)detail.current?.scrollIntoView({block:'nearest'});},[selectedId,autoReveal]);
  const selected=regionMemberById(selectedId);
  const candidates=membersForRegion(zone,family).filter(b=>includeNewMembers||['ceres','pluto'].includes(b.id));
  const members=candidates.length||!selected?candidates:membersForRegion(selected.zone).filter(b=>includeNewMembers||['ceres','pluto'].includes(b.id));

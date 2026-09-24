@@ -1,5 +1,5 @@
 import {describe,it,expect} from 'vitest';
-import {emptyHistory,recordObservation,traverseObservation,relocateBookmark,type CameraBookmark} from './observationHistory';
+import {emptyHistory,recordObservation,traverseObservation,relocateBookmark,orientBookmark,type CameraBookmark} from './observationHistory';
 describe('observation history',()=>{
  it('walks back and forward without reversing or duplicating destinations',()=>{
   let h=recordObservation(recordObservation(emptyHistory<string>(),'overview'),'earth');
@@ -23,4 +23,10 @@ describe('observation history',()=>{
   expect(relocateBookmark(view,[10,20,30]).position).toEqual(view.position);
   expect(relocateBookmark(view,null)).toEqual(view);
  });
+ it('changes viewing angle around the same followed object without changing its zoom or mutating history',()=>{
+  const saved:CameraBookmark={position:[13,24,30],target:[10,20,30],up:[0,1,0],anchor:[10,20,30],minDistance:.4};
+  for(const angle of ['edge','top','oblique'] as const){const changed=orientBookmark(saved,angle);expect(changed.target).toEqual(saved.target);expect(changed.anchor).toEqual(saved.anchor);expect(Math.hypot(...changed.position.map((v,i)=>v-changed.target[i]))).toBeCloseTo(5);expect(changed.minDistance).toBe(.4);const later=relocateBookmark(changed,[20,30,40]);expect(later.target).toEqual([20,30,40]);}
+  expect(orientBookmark(saved,'top').up).toEqual([0,0,-1]);expect(saved.position).toEqual([13,24,30]);
+ });
+
 });

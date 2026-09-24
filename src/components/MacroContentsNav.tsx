@@ -19,7 +19,8 @@ const readingSections = [
  {id:'demo',name:'示意进度 · 播放与暂停',selector:'.panorama-demo'},
  {id:'reading',name:'独立详解与来源',selector:'.panorama-reading'},
 ];
-const groups = [{name:'天体与运动',items:bodySections},{name:'空间现象',items:phenomenonSections},{name:'演示与阅读',items:readingSections}];
+const pick=(ids:string[])=>ids.map(id=>bodySections.find(item=>item.id===id)!);
+const groups = [{name:'1 · 整体与尺度',items:pick(['distances','sizes','orbits'])},{name:'2 · 恒星与行星',items:pick(['primary','motion','earth'])},{name:'3 · 卫星家族',items:pick(['families','binary'])},{name:'4 · 区域与小天体',items:pick(['members','comets'])},{name:'5 · 空间现象（延伸）',items:phenomenonSections},{name:'6 · 演示与来源',items:readingSections}];
 
 export function MacroContentsNav({scroller,stages}:{scroller:RefObject<HTMLDivElement|null>;stages:StageFlags}) {
  const id=useId();
@@ -44,11 +45,11 @@ export function MacroContentsNav({scroller,stages}:{scroller:RefObject<HTMLDivEl
   target.focus({preventScroll:true});
  };
  return <nav className="macro-contents-nav" aria-label="全景内容目录">
-  <label htmlFor={id}>内容目录</label>
+  <label htmlFor={id}>自由浏览</label>
   <select id={id} value="" onChange={event=>jump(event.target.value)} aria-describedby={`${id}-hint`}>
-   <option value="" disabled>跳转到模块…</option><option value="start">回到全景介绍</option>
+   <option value="" disabled>按层级查找模块…</option><option value="start">回到全景介绍</option>
    {groups.map(group=><optgroup key={group.name} label={group.name}>{group.items.map(item=><option key={item.id} value={item.id}>{item.name}{available(item.id)?'':'（阶段未开启）'}</option>)}</optgroup>)}
   </select>
-  <p id={`${id}-hint`}>只跳转介绍与控制；点击模块内“定位”再移动镜头。</p>
+  <p id={`${id}-hint`}>这里是自由查阅，不是学习顺序；按主线请用“学习路线”。</p>
  </nav>;
 }

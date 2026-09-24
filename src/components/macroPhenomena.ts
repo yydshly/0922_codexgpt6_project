@@ -150,7 +150,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
       for(const item of dwarfMeshes) {
         const state=compatible ? batch.states.find(s=>s.id===item.id) : undefined;
         const point=macroMemberAnchor(frame,batch,item.id);
-        item.group.visible=!!point&&!(plutoExpanded&&item.id==='pluto');
+        item.group.visible=!!point&&!(plutoExpanded&&item.id==='pluto')&&(!selectedMember||item.id===selectedMember);
         if(!state || !frame || !point) continue;
         item.marker.position.set(...point);
         item.annotation.position.copy(item.marker.position);

@@ -5,9 +5,9 @@ import {isMacroFamily,type MacroFamilyId} from '../data/macroFamilies';
 import {publicAsset} from '../data/publicAsset';
 import type {StateFrame} from '../types';
 import type {MacroTimeControls} from './CometPanel';
-export function MacroPrimaryPanel({active,frame,date,time,onFocus,onFamily,familiesEnabled}:{active:PrimaryId|null;frame:StateFrame|null;date:string;time:MacroTimeControls;onFocus:(id:PrimaryId)=>void;onFamily:(id:MacroFamilyId)=>void;familiesEnabled:boolean}){
+export function MacroPrimaryPanel({autoReveal=true,active,frame,date,time,onFocus,onFamily,familiesEnabled}:{autoReveal?:boolean;active:PrimaryId|null;frame:StateFrame|null;date:string;time:MacroTimeControls;onFocus:(id:PrimaryId)=>void;onFamily:(id:MacroFamilyId)=>void;familiesEnabled:boolean}){
  const detail=useRef<HTMLDivElement>(null);
- useEffect(()=>{if(active)detail.current?.scrollIntoView({block:'nearest'});},[active]);
+ useEffect(()=>{if(active&&autoReveal)detail.current?.scrollIntoView({block:'nearest'});},[active,autoReveal]);
  const body=active?bodyById[active]:null,metrics=active?primaryMetrics(frame,active):null;
  return <section className="panorama-families panorama-primary" aria-label="太阳与八大行星观察">
   <h3>太阳与八大行星</h3><p>点击球体或名称定位；从同一全景查看参数，再进入已有卫星家族。</p>

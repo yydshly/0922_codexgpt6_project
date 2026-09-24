@@ -1,3 +1,4 @@
+import {createSolarFlare} from './solarFlare';
 import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
@@ -21,7 +22,7 @@ function ActivityCanvas({layers,progress,reset}:{layers:SolarActivityLayers;prog
   const dotMaterial=(color:string,size:number,opacity:number)=>new THREE.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{color:{value:new THREE.Color(color)},opacity:{value:opacity},size:{value:size}},vertexShader:'uniform float size;void main(){gl_PointSize=size;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform vec3 color;uniform float opacity;void main(){float d=length(gl_PointCoord-.5);if(d>.5)discard;gl_FragColor=vec4(color,opacity*(1.-2.*d));}'});
   const windGeometry=new THREE.BufferGeometry(),windPositions=new Float32Array(360*3);windGeometry.setAttribute('position',new THREE.BufferAttribute(windPositions,3));const wind=new THREE.Points(windGeometry,dotMaterial('#edc792',3,.65));scene.add(wind);
   const flare=new THREE.Group();flare.position.set(-3.2,.55,.8);scene.add(flare);
-  const flash=new THREE.Mesh(new THREE.SphereGeometry(.28,24,20),new THREE.MeshBasicMaterial({color:'#fff3c8',transparent:true,opacity:.9}));flare.add(flash);
+  const flash=createSolarFlare(2,new THREE.Vector3(1,.3,.4));sun.add(flash.patch);
   const rays=new THREE.Group();flare.add(rays);for(let i=0;i<9;i++){const direction=new THREE.Vector3(1,(i-4)*.10,Math.sin(i)*.15).normalize();const curve=[new THREE.Vector3(),direction.multiplyScalar(5)];rays.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve),new THREE.LineBasicMaterial({color:'#fff0b7',transparent:true,opacity:.32,depthWrite:false})));}
   const cme=new THREE.Group();scene.add(cme);cme.add(new THREE.Mesh(new THREE.SphereGeometry(1,40,28),new THREE.MeshBasicMaterial({color:'#f18e76',transparent:true,opacity:.035,side:THREE.DoubleSide,depthWrite:false})));
   for(let j=0;j<7;j++){const curve=[];for(let i=0;i<=100;i++){const a=i/100*Math.PI*2,b=j/7*Math.PI;curve.push(new THREE.Vector3(Math.cos(a)*Math.sin(b),Math.sin(a),Math.cos(a)*Math.cos(b)));}cme.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve),new THREE.LineBasicMaterial({color:'#ed9a7f',transparent:true,opacity:.28,depthWrite:false})));}
@@ -31,7 +32,7 @@ function ActivityCanvas({layers,progress,reset}:{layers:SolarActivityLayers;prog
   const draw=()=>{raf=requestAnimationFrame(draw);const current=latest.current,state=solarDemoState(current.progress);
    if(lastReset!==current.reset){controls.enableDamping=false;controls.update();controls.target.set(.3,0,0);camera.position.set(1,8,Math.max(24,24/camera.aspect));controls.update();controls.enableDamping=true;lastReset=current.reset;}
    corona.visible=current.layers.corona;wind.visible=current.layers.wind;flare.visible=current.layers.flare&&state.flare>0;cme.visible=current.layers.cme&&state.cmeVisible;
-   flash.scale.setScalar(.5+state.flare*1.5);flash.material.opacity=state.flare;rays.scale.setScalar(state.radiationTravel);rays.children.forEach(line=>((line as THREE.Line).material as THREE.LineBasicMaterial).opacity=state.flare*.35);
+   flash.update(current.layers.flare?state.flare:0);rays.scale.setScalar(state.radiationTravel);rays.children.forEach(line=>((line as THREE.Line).material as THREE.LineBasicMaterial).opacity=state.flare*.35);
    cme.position.set(state.cmeX,state.cmeY,0);cme.scale.setScalar(state.cmeRadius);
    for(let i=0;i<360;i++){const y=1-2*(i+.5)/360,a=i*2.399963,rad=Math.sqrt(1-y*y),r=2.5+((i*.381966+state.progress*2)%1)*11;windPositions.set([-5+r*rad*Math.cos(a),r*y,r*rad*Math.sin(a)],i*3);}windGeometry.attributes.position.needsUpdate=true;
    controls.update();for(const data of labelData){if(data.id==='cme')data.point.copy(cme.position).add(new THREE.Vector3(0,-state.cmeRadius-.8,0));const p=data.point.clone().project(camera),visible=data.id==='sun'||data.id==='cme'?data.id==='sun'||cme.visible:data.id==='flare'?flare.visible:corona.visible;data.label.style.display=visible&&p.z>-1&&p.z<1&&Math.abs(p.x)<.91&&Math.abs(p.y)<.9?'block':'none';data.label.style.left=`${(p.x*.5+.5)*width}px`;data.label.style.top=`${(-p.y*.5+.5)*height}px`;}

@@ -15,3 +15,11 @@ export function relocateBookmark(view:CameraBookmark,anchor:Vec3|null):CameraBoo
  return {...view,position:view.position.map((v,i)=>v+delta[i]) as Vec3,target:view.target.map((v,i)=>v+delta[i]) as Vec3,up:[...view.up],anchor:anchor?[...anchor]:null};
 }
 export interface CameraHistoryBridge{capture:(()=>CameraBookmark)|null;pending:CameraBookmark|null;pendingKey:string;route:string}
+
+/** Reorient around the current target; keep distance and follow anchor unchanged. */
+export function orientBookmark(view:CameraBookmark,angle:'oblique'|'edge'|'top'):CameraBookmark{
+ const distance=Math.hypot(...view.position.map((v,i)=>v-view.target[i]));
+ const direction=angle==='top'?[0,1,0]:angle==='edge'?[.28,.13,.94]:[.56,.58,.63];
+ const length=Math.hypot(...direction);
+ return {...view,position:view.target.map((v,i)=>v+direction[i]/length*distance) as Vec3,target:[...view.target],up:angle==='top'?[0,0,-1]:[0,1,0],anchor:view.anchor?[...view.anchor]:null};
+}

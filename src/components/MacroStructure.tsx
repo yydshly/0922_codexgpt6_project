@@ -1,3 +1,6 @@
+import {primaryId,primaryTarget,type PrimaryId} from '../data/macroPrimary';
+import {MacroPrimaryPanel} from './MacroPrimaryPanel';
+import {createPrimaryLabels} from './macroPrimaryLabels';
 import {macroMemberAnchor} from '../data/macroMemberState';
 import {macroCometAnchor,COMET_DEMO_ANCHOR,type CometDisplay} from '../data/macroComets';
 import {macroBinaryState} from '../data/macroBinary';
@@ -159,7 +162,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
     scene.add(stars);
 
     const sun = new THREE.Mesh(new THREE.SphereGeometry(.34, 28, 20), new THREE.MeshBasicMaterial({ color: '#ffe1a1' }));
-    sun.userData.labelRadius = .34; scene.add(sun);
+    sun.userData.primaryId='sun'; sun.userData.labelRadius = .34; scene.add(sun);
     const sunGlow = new THREE.Mesh(new THREE.SphereGeometry(.53, 24, 16), new THREE.MeshBasicMaterial({ color: '#ffc876', transparent: true, opacity: .12, depthWrite: false }));
     scene.add(sunGlow);
 
@@ -177,10 +180,12 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
     });
     const planets = BODIES.filter(body => body.kind === 'planet').map((body, index) => {
       const mesh = new THREE.Mesh(new THREE.SphereGeometry(index > 3 ? .13 : .09, 48, 32), new THREE.MeshStandardMaterial({ color: body.color, roughness: .8, metalness: 0 }));
-      mesh.userData.labelRadius = index > 3 ? .13 : .09; scene.add(mesh);
+      mesh.userData.primaryId=body.id; mesh.userData.labelRadius = index > 3 ? .13 : .09; scene.add(mesh);
       return mesh;
     });
 
+    const primaryMeshes=Object.fromEntries([['sun',sun],...BODIES.filter(b=>b.kind==='planet').map((b,i)=>[b.id,planets[i]])]) as Record<PrimaryId,THREE.Mesh>;
+    const primaryLabels=createPrimaryLabels(element,primaryMeshes,id=>displayRef.current.integrated.onFocus(primaryTarget(id)));
     const textureLoader=new THREE.TextureLoader();
     for(const [mesh,path] of [[sun,bodyById.sun.texture!] as const,...BODIES.filter(b=>b.kind==='planet').map((b,i)=>[planets[i],b.texture!] as const)])textureLoader.load(path,map=>{if(disposed){map.dispose();return;}map.colorSpace=THREE.SRGBColorSpace;mesh.material.map=map;mesh.material.color.set('white');mesh.material.needsUpdate=true;});
 
@@ -230,6 +235,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       const hit=raycaster.intersectObjects([...markers,...planets.filter(p=>p.visible),sun],false)[0];
       if(hit?.object.userData.binaryId)displayRef.current.integrated.binary.onSelect(hit.object.userData.binaryId);
       else if(hit?.object.userData.familyMoon)displayRef.current.integrated.families.onSelect(hit.object.userData.familyMoon);
+      else if(hit?.object.userData.primaryId)displayRef.current.integrated.onFocus(primaryTarget(hit.object.userData.primaryId));
       else if(hit?.object.userData.memberId)displayRef.current.onSelectMember(hit.object.userData.memberId);
     };
     renderer.domElement.addEventListener('pointerdown',pointerDown);
@@ -299,22 +305,23 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       }else if(memberPosition&&previousMember){
         const delta=memberPosition.clone().sub(previousMember);camera.position.add(delta);controls.target.add(delta);previousMember.copy(memberPosition);
       }
+      const primary=primaryId(integration.target);
       const earthPosition=current?planets[2].position:null;
       const parentPositions=Object.fromEntries(BODIES.filter(b=>b.kind==='planet').map((b,i)=>[b.id,planets[i].position]));
-      binaryScene.update({...integration.binary,enabled:integration.binary.enabled&&!focus.selectedMember},camera,integration.target);
+      binaryScene.update({...integration.binary,enabled:integration.binary.enabled&&!focus.selectedMember&&!primary},camera,integration.target);
       const cometPoint=isCometId(integration.target)?macroCometAnchor(current,displayRef.current.cometBatch,integration.target):null;
-      const followsBody=isMacroFamily(integration.target)||integration.target==='pluto-system'||isCometId(integration.target);
-      const followingPosition=isCometId(integration.target)?(cometPoint?new THREE.Vector3(...cometPoint):null):integration.target==='pluto-system'?(integration.binary.state?binaryScene.anchor:null):current&&isMacroFamily(integration.target)?parentPositions[integration.target]:null;
-      familyScene.update(current,{...integration.families,enabled:integration.families.enabled&&!focus.selectedMember&&integration.target!=='pluto-system'&&!isCometId(integration.target)},camera,isMacroFamily(integration.target)?integration.target:null,parentPositions);
+      const followsBody=!!primary||isMacroFamily(integration.target)||integration.target==='pluto-system'||isCometId(integration.target);
+      const followingPosition=primary?(current?primaryMeshes[primary].position:null):isCometId(integration.target)?(cometPoint?new THREE.Vector3(...cometPoint):null):integration.target==='pluto-system'?(integration.binary.state?binaryScene.anchor:null):current&&isMacroFamily(integration.target)?parentPositions[integration.target]:null;
+      familyScene.update(current,{...integration.families,moons:integration.families.moons&&!primary,enabled:integration.families.enabled&&!focus.selectedMember&&(!primary||isMacroFamily(primary))&&integration.target!=='pluto-system'&&!isCometId(integration.target)},camera,isMacroFamily(primary)?primary:isMacroFamily(integration.target)?integration.target:null,parentPositions);
       integratedScene.update(integration.flags,earthPosition,camera,integration.target,integration.progress);
       if(integration.restore!==lastIntegratedRestore){if(integratedSaved){controls.enableDamping=false;controls.update();camera.position.copy(integratedSaved.position);camera.up.copy(integratedSaved.up);controls.target.copy(integratedSaved.target);controls.enableDamping=true;}integratedSaved=null;previousParent=null;lastIntegratedRestore=integration.restore;}
       if(!integration.target){integratedSaved=null;previousParent=null;controls.minDistance=3;}
       if(integration.target&&integration.request!==lastIntegratedRequest&&(!followsBody||followingPosition)){
         if(!integratedSaved)integratedSaved={position:camera.position.clone(),target:controls.target.clone(),up:camera.up.clone()};
-        const target=integration.target==='comet-demo'?new THREE.Vector3(...COMET_DEMO_ANCHOR):isCometId(integration.target)?followingPosition!:integration.target==='pluto-system'?binaryScene.anchor:isMacroFamily(integration.target)?familyScene.anchors[integration.target]:integratedScene.anchors[integration.target];
+        const target=primary?followingPosition!:integration.target==='comet-demo'?new THREE.Vector3(...COMET_DEMO_ANCHOR):isCometId(integration.target)?followingPosition!:integration.target==='pluto-system'?binaryScene.anchor:isMacroFamily(integration.target)?familyScene.anchors[integration.target]:integratedScene.anchors[integration.target as keyof typeof integratedScene.anchors];
         controls.enableDamping=false;controls.update();controls.minDistance=.4;camera.up.set(0,1,0);
         const members=isCometId(integration.target)?heliocentricComets(current,displayRef.current.cometBatch).filter(s=>s.id===integration.target):integration.target==='pluto-system'&&integration.binary.state?[{position:integration.binary.state.relative,velocity:integration.binary.state.velocity}]:isMacroFamily(integration.target)?integration.families.states.filter(s=>s.parentId===integration.target):[];
-        const direction=integration.target==='comet-demo'?new THREE.Vector3(...COMET_DEMO_ANCHOR).cross(new THREE.Vector3(0,1,0)).normalize().add(new THREE.Vector3(0,.5,0)).normalize():members.length&&integration.target!=='earth'?satelliteOverviewDirection(members,target.clone().negate()):new THREE.Vector3(.55,.38,.74).normalize();
+        const direction=primary&&primary!=='sun'?target.clone().negate().normalize().multiplyScalar(.35).add(new THREE.Vector3(0,.85,0)).normalize():integration.target==='comet-demo'?new THREE.Vector3(...COMET_DEMO_ANCHOR).cross(new THREE.Vector3(0,1,0)).normalize().add(new THREE.Vector3(0,.5,0)).normalize():members.length&&integration.target!=='earth'?satelliteOverviewDirection(members,target.clone().negate()):new THREE.Vector3(.55,.38,.74).normalize();
         const offset=direction.multiplyScalar(INTEGRATED_FOCUS_DISTANCE[integration.target]);
         controls.target.copy(target);camera.position.copy(target).add(offset);controls.update();controls.enableDamping=true;
         previousParent=followingPosition?followingPosition.clone():null;lastIntegratedRequest=integration.request;
@@ -324,13 +331,15 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       if (Math.abs(cameraDistance-lastDistance) > .1) { lastDistance=cameraDistance; onDistance(cameraDistance); }
       phenomena.update(current, displayRef.current.batch, displayRef.current.layers, camera.position.distanceTo(controls.target), demoSeconds, family, displayRef.current.cometBatch, displayRef.current.cometTracks, displayRef.current.showActivity, displayRef.current.selectedMember,binaryScene.visible,integration.comets);
       scene.updateMatrixWorld(true);
+      primaryLabels.clear();
       phenomena.layoutLabels(camera, element.clientWidth, element.clientHeight, showLabels&&(!integration.target||isCometId(integration.target)||integration.target==='comet-demo'),isCometId(integration.target)||integration.target==='comet-demo'?integration.target:focus.selectedMember);
       const softenContext=!!integration.target||!!focus.selectedMember;
       if(softenContext){scene.traverse(object=>{if(!(object instanceof THREE.Points||object instanceof THREE.Line))return;let parent:THREE.Object3D|null=object;while(parent){if(parent.userData.integrated)return;parent=parent.parent;}for(const material of Array.isArray(object.material)?object.material:[object.material]){if(!contextMaterials.has(material))contextMaterials.set(material,{opacity:material.opacity,...(material instanceof THREE.PointsMaterial?{size:material.size,attenuation:material.sizeAttenuation}:{})});const original=contextMaterials.get(material)!;material.opacity=original.opacity*.3;if(material instanceof THREE.PointsMaterial){material.size=2;if(material.sizeAttenuation){material.sizeAttenuation=false;material.needsUpdate=true;}}}});}
       else if(contextMaterials.size)restoreContext();
-      integratedScene.layout(camera,element.clientWidth,element.clientHeight,showLabels);
-      familyScene.layout(camera,element.clientWidth,element.clientHeight,showLabels);
+      integratedScene.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!primary);
+      familyScene.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!primary);
       binaryScene.layout(camera,element.clientWidth,element.clientHeight,showLabels);
+      primaryLabels.layout(camera,element.clientWidth,element.clientHeight,showLabels&&!!current&&(!integration.target||!!primary)&&!focus.selectedMember,primary);
       renderer.render(scene, camera);
     };
     animation = requestAnimationFrame(draw);
@@ -344,7 +353,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
           (Array.isArray(material) ? material : [material]).forEach(item => {if('map' in item&&(item.map as THREE.Texture|null)!==particleTexture)(item.map as THREE.Texture|null)?.dispose();item.dispose();});
         }
       });
-      phenomena.dispose();integratedScene.dispose();familyScene.dispose();binaryScene.dispose();
+      primaryLabels.dispose();phenomena.dispose();integratedScene.dispose();familyScene.dispose();binaryScene.dispose();
       particleTexture.dispose();
       renderer.dispose(); renderer.domElement.remove();
     };
@@ -390,7 +399,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
   const [integratedProgress,setIntegratedProgress]=useState(.32),[integratedPlaying,setIntegratedPlaying]=useState(false);
   useEffect(()=>{if(!integratedPlaying)return;let raf=0,last=performance.now();const tick=(now:number)=>{const dt=(now-last)/1000;last=now;setIntegratedProgress(p=>(p+dt/20)%1);raf=requestAnimationFrame(tick);};raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);},[integratedPlaying]);
   const effectiveIntegrated=integratedFlags(integratedChoices,stageFlags,!!frame&&isEphemeris);
-  const focusIntegrated=(target:IntegratedTarget)=>{setScope('solar');setSelectedMember(null);setIntegratedChoices(v=>({...v,...Object.fromEntries(INTEGRATED_ITEMS.filter(i=>i.target===target).map(i=>[i.id,true]))}));setPanelTab('integrated');setIntegratedTarget(target);setIntegratedRequest(n=>n+1);};
+  const focusIntegrated=(target:IntegratedTarget)=>{setScope('solar');if(primaryId(target))setLayers(v=>({...v,planetary:true}));setSelectedMember(null);setIntegratedChoices(v=>({...v,...Object.fromEntries(INTEGRATED_ITEMS.filter(i=>i.target===target).map(i=>[i.id,true]))}));setPanelTab('integrated');setIntegratedTarget(target);setIntegratedRequest(n=>n+1);};
   const leaveIntegrated=()=>{setIntegratedTarget(null);setIntegratedRestore(n=>n+1);};
   const [familyRings,setFamilyRings]=useState(true),[familyEnhanced,setFamilyEnhanced]=useState(true),[familyOrbits,setFamilyOrbits]=useState(false),[familySelected,setFamilySelected]=useState<string|null>(null);
   const familyData=useOverviewSatellites(frame?.time,isEphemeris&&stageFlags.families);
@@ -444,7 +453,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
   useEffect(()=>{const key=`${selected}/${solarTab}/${familyId}/${cameraView}/${resetCount}`;if(previousRegion.current!==key){setSelectedMember(null);previousRegion.current=key;}},[selected,solarTab,familyId,cameraView,resetCount]);
   const effectiveLayers=stagedLayers(layers,stageFlags);
   useEffect(()=>{setIntegratedTarget(null);},[selected,solarTab,familyId,cameraView,resetCount]);
-  useEffect(()=>{if(integratedTarget&&!((isCometId(integratedTarget)||(integratedTarget==='comet-demo'&&showActivity))&&effectiveLayers.comets)&&!(integratedTarget==='pluto-system'&&binaryOptions.enabled)&&!(isMacroFamily(integratedTarget)&&stageFlags.families&&effectiveLayers.planetary)&&!INTEGRATED_ITEMS.some(i=>i.target===integratedTarget&&effectiveIntegrated[i.id]))leaveIntegrated();},[integratedTarget,effectiveIntegrated.solar,effectiveIntegrated.environment,effectiveIntegrated.belts,effectiveIntegrated.dust,effectiveIntegrated.helio,stageFlags.families,effectiveLayers.planetary,binaryOptions.enabled,effectiveLayers.comets,showActivity]);
+  useEffect(()=>{if(integratedTarget&&!(primaryId(integratedTarget)&&(primaryId(integratedTarget)==='sun'||effectiveLayers.planetary))&&!((isCometId(integratedTarget)||(integratedTarget==='comet-demo'&&showActivity))&&effectiveLayers.comets)&&!(integratedTarget==='pluto-system'&&binaryOptions.enabled)&&!(isMacroFamily(integratedTarget)&&stageFlags.families&&effectiveLayers.planetary)&&!INTEGRATED_ITEMS.some(i=>i.target===integratedTarget&&effectiveIntegrated[i.id]))leaveIntegrated();},[integratedTarget,effectiveIntegrated.solar,effectiveIntegrated.environment,effectiveIntegrated.belts,effectiveIntegrated.dust,effectiveIntegrated.helio,stageFlags.families,effectiveLayers.planetary,binaryOptions.enabled,effectiveLayers.comets,showActivity]);
   useEffect(()=>{if(selectedMember && (!effectiveLayers.dwarfs || (!stageFlags.members && ['vesta','haumea','makemake','eris'].includes(selectedMember)))){setSelectedMember(null);setRestoreRequest(v=>v+1);}},[stageFlags.members,effectiveLayers.dwarfs,selectedMember]);
   const focusedFamily = solarTab === 'families' ? familyId : undefined;
   const layerStatus = (id: MacroLayerId) => {
@@ -510,7 +519,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
         {scope === 'solar' && solarTab === 'families' && <div className="macro-family-key">{integratedTarget==='pluto-system'?'两颗球体随 JPL 日期运动 · 绿色十字是双体质心':familyId === 'dwarfs' ? '谷神星 / 冥王星：历表位置与瞬时参考轨道；卡戎可在全景现象中靠近展开' : familyId === 'moons' ? '卫星使用当日历表相对位置 · 球体与局部距离作展示缩放' : familyId === 'comets' ? '哈雷 / 67P：当日历表位置 · 亮线为两年路径，淡线为参考椭圆' : familyId === 'centaurs' ? '巨行星区域与特洛伊群为种群范围示意' : familyId === 'dust' ? '太阳附近尘埃点仅示意分布，不表示实测密度' : '主带点数、大小与位置均不代表真实小行星'}</div>}
         {scope === 'solar' && <div className="macro-depth-controls" aria-label="三维观察方式"><div role="group" aria-label="宏观镜头角度">{([['oblique','斜视'],['edge','侧视'],['top','俯视']] as const).map(([id,label]) => <button key={id} className={cameraView === id ? 'active' : ''} onClick={() => setCameraView(id)} aria-pressed={cameraView === id}>{label}</button>)}</div><button className={showPlane ? 'active' : ''} onClick={() => setShowPlane(value => !value)} aria-pressed={showPlane}>黄道面 / 高度线</button>{solarTab === 'zones' && selected === 'planetary' && <button className={heightScale === 10 ? 'active enhanced' : ''} onClick={() => setHeightScale(value => value === 1 ? 10 : 1)} aria-pressed={heightScale === 10}>{heightScale === 1 ? '行星高度 ×10' : '行星高度 ×10 · 示意'}</button>}</div>}
         {scope === 'solar' && <button className="macro-reset" onClick={() => setResetCount(count => count + 1)} aria-label="复位宏观镜头" title="复位镜头"><RotateCcw size={15}/></button>}
-        <div className="macro-scale-warning">{selectedMember?'当前成员按历表随日期运行 · 球体放大 / 距离压缩 · 细线为参考椭圆':integratedTarget==='comet-demo'?'固定近太阳教学示例 · 不代表当前哈雷或 67P 的位置、尾长与活动':isCometId(integratedTarget)?'彗核位置来自历表 · 球体放大 / 距离压缩 · 金色箭头仅为背日方向':integratedTarget==='pluto-system' ? '冥王星—卡戎局部：半径与间距同一比例 · 到太阳的距离仍压缩' : scope === 'cosmic' ? '拖动旋转 / 滚轮缩放 · 星系和恒星的画面尺寸与方位为示意' : solarTab === 'zones' && selected === 'planetary' && heightScale === 10 ? '行星黄道高度已放大 10 倍，仅为辨识；点击“行星高度 ×10”恢复真实高度' : solarTab === 'families' ? '距离对数压缩 · 天体位置见来源状态 · 彗尾、太阳风、种群点云为示意' : selected === 'scattered' ? '紫色点只示意远伸且有纵向厚度的分布 · 一点不等于一颗已发现天体' : selected === 'oort' ? '圆点示意可能的冰质小天体群；每个点都不是已观测天体，点数、位置与大小不对应实测' : selected === 'heliosphere' ? '三维轮廓表示太阳风影响区 · 实际边界并非规则球面' : selected === 'kuiper' || selected === 'asteroid' ? '点云展示环带厚度 · 点位与密度为示意，非逐体历表' : '拖动旋转 / 滚轮缩放 · 距离采用对数映射 · 行星黄道高度来自历表'}</div>
+        <div className="macro-scale-warning">{primaryId(integratedTarget)?'本体位置与运动来自历表 · 球体放大 / 距离压缩 · 静态贴图非实时影像':selectedMember?'当前成员按历表随日期运行 · 球体放大 / 距离压缩 · 细线为参考椭圆':integratedTarget==='comet-demo'?'固定近太阳教学示例 · 不代表当前哈雷或 67P 的位置、尾长与活动':isCometId(integratedTarget)?'彗核位置来自历表 · 球体放大 / 距离压缩 · 金色箭头仅为背日方向':integratedTarget==='pluto-system' ? '冥王星—卡戎局部：半径与间距同一比例 · 到太阳的距离仍压缩' : scope === 'cosmic' ? '拖动旋转 / 滚轮缩放 · 星系和恒星的画面尺寸与方位为示意' : solarTab === 'zones' && selected === 'planetary' && heightScale === 10 ? '行星黄道高度已放大 10 倍，仅为辨识；点击“行星高度 ×10”恢复真实高度' : solarTab === 'families' ? '距离对数压缩 · 天体位置见来源状态 · 彗尾、太阳风、种群点云为示意' : selected === 'scattered' ? '紫色点只示意远伸且有纵向厚度的分布 · 一点不等于一颗已发现天体' : selected === 'oort' ? '圆点示意可能的冰质小天体群；每个点都不是已观测天体，点数、位置与大小不对应实测' : selected === 'heliosphere' ? '三维轮廓表示太阳风影响区 · 实际边界并非规则球面' : selected === 'kuiper' || selected === 'asteroid' ? '点云展示环带厚度 · 点位与密度为示意，非逐体历表' : '拖动旋转 / 滚轮缩放 · 距离采用对数映射 · 行星黄道高度来自历表'}</div>
         {scope === 'cosmic' && <div className="macro-cosmic-legend">{cosmicId === 'neighbors' ? '太阳 · 半人马座 α / 比邻星 · TRAPPIST-1' : cosmicId === 'milkyway' ? '银河系旋臂 · 猎户臂支中的太阳' : '银河系 · 大麦哲伦云 · 仙女座星系'}</div>}
       </div>
       <aside className="macro-info">
@@ -520,7 +529,8 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
         {scope==='solar'&&<section className="panorama-integration" hidden={panelTab!=='integrated'} aria-label="全景现象控制">
           <h2>在同一片空间中观察</h2><p>这些效果已画入当前全景。点击场景标记或下方定位，镜头在同一画布中靠近；远景保留位置标记，近景展开细节。</p>
           <p className="panorama-scale-note">天体锚点采用当前历表；周围现象为放大示意，不是当天事件。距离仍压缩，局部尺寸不能与天体距离直接比较。</p>
-          {integratedTarget&&<div className="panorama-current"><strong>当前定位：{(integratedTarget==='comet-demo'?'彗尾原理示例（非当日活动）':isCometId(integratedTarget)?COMETS.find(c=>c.id===integratedTarget)!.name:integratedTarget==='pluto-system'?'冥王星—卡戎':isMacroFamily(integratedTarget)?bodyById[integratedTarget].name+'系统':({sun:'太阳活动',dust:'行星际碎屑',helio:'日球层环境'}[integratedTarget]))}</strong><button onClick={leaveIntegrated}>返回定位前视角</button></div>}
+          {integratedTarget&&<div className="panorama-current"><strong>当前定位：{(primaryId(integratedTarget)?bodyById[primaryId(integratedTarget)!].name+'本体':integratedTarget==='comet-demo'?'彗尾原理示例（非当日活动）':isCometId(integratedTarget)?COMETS.find(c=>c.id===integratedTarget)!.name:integratedTarget==='pluto-system'?'冥王星—卡戎':isMacroFamily(integratedTarget)?bodyById[integratedTarget].name+'系统':({sun:'太阳活动',dust:'行星际碎屑',helio:'日球层环境'}[integratedTarget as 'sun'|'dust'|'helio']))}</strong><button onClick={leaveIntegrated}>返回定位前视角</button></div>}
+          <MacroPrimaryPanel active={primaryId(integratedTarget)} frame={scientificFrame} date={displayDate} time={timeControls} onFocus={id=>focusIntegrated(primaryTarget(id))} onFamily={focusFamily} familiesEnabled={stageFlags.families}/>
           <div className="panorama-members">
         {scope==='solar' && panelTab==='integrated' && (stageFlags.structure||stageFlags.members) && <RegionMembers date={displayDate} onBinary={stageFlags.families?focusBinary:undefined} includeNewMembers={stageFlags.members} zone="all" selectedId={selectedMember} onSelect={chooseMember} onLocate={()=>setFocusRequest(v=>v+1)} onReturn={()=>{setSelectedMember(null);setRestoreRequest(v=>v+1);}} onRegion={()=>{const body=regionMemberById(selectedMember);if(body){setPanelTab('learn');setSolarTab('zones');setSelected(body.zone);setLayers(v=>({...v,[body.zone]:true}));setSelectedMember(null);setResetCount(v=>v+1);}}} frame={scientificFrame} batch={memberBatch} loading={dwarfData.loading||smallBodyData.loading} error={dwarfData.error||smallBodyData.error} onRetry={()=>{dwarfData.retry();smallBodyData.retry();}} time={timeControls}/>}
           </div>

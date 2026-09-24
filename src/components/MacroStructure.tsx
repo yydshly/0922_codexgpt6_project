@@ -1,5 +1,6 @@
 import {macroVisualHierarchy,primaryVisibleInCloseup} from '../data/macroVisualHierarchy';
 import {MacroMotionPanel} from './MacroMotionPanel';
+import {DistanceComparison} from './DistanceComparison';
 import {SizeComparison} from './SizeComparison';
 import {MacroContentsNav} from './MacroContentsNav';
 import {planetFocusLayers,planetFocusPhenomena} from '../data/macroFocus';
@@ -421,6 +422,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
 
 export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, onOpenSolarActivity, onOpenDust, onOpenHeliosphere, initialZone, onOpenFamily, initialFamily, initialMemberId, timeControls, frame, displayDate, isEphemeris = true, onClose, onOpenReadingGuide, onObservePlanets, onExploreObject }: Props) {
   const [sizeComparisonOpen,setSizeComparisonOpen]=useState(false);
+  const [distanceComparisonOpen,setDistanceComparisonOpen]=useState(false);
   const infoScroll=useRef<HTMLDivElement>(null);
   const [planetFocus,setPlanetFocus]=useState(false);
   const [planetOrbitOptions,setPlanetOrbitOptions]=useState<PlanetOrbitOptions>({orbits:true,scales:false,direction:false});
@@ -573,6 +575,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
           <MacroOrbitPanel focused={planetFocus} canFocus={!!scientificFrame&&layers.planetary&&!selectedMember&&(!integratedTarget||!!primaryId(integratedTarget))&&solarTab==='zones'&&['all','planetary'].includes(selected)} onFocusToggle={()=>setPlanetFocus(v=>!v)} options={planetOrbitOptions} enabled={!!scientificFrame} onChange={key=>setPlanetOrbitOptions(v=>({...v,[key]:!v[key]}))} onOverview={()=>{setScope('solar');setSolarTab('zones');setSelected('planetary');setCameraView('oblique');setHeightScale(1);setLayers(v=>({...v,planetary:true}));setResetCount(n=>n+1);}} onEdge={()=>{setScope('solar');setSolarTab('zones');setSelected('planetary');setCameraView('edge');setHeightScale(1);setShowPlane(true);setLayers(v=>({...v,planetary:true}));setResetCount(n=>n+1);}}/>
           <MacroMotionPanel frame={scientificFrame} date={displayDate} time={timeControls} onFocus={id=>focusIntegrated(primaryTarget(id))}/>
           <MacroPrimaryPanel active={primaryId(integratedTarget)} frame={scientificFrame} date={displayDate} time={timeControls} onFocus={id=>focusIntegrated(primaryTarget(id))} onFamily={focusFamily} familiesEnabled={stageFlags.families}/>
+          <section className="panorama-families panorama-distances"><h3>尺度与距离 · 空间有多空旷？</h3><p>把两颗天体的大小和真实距离放在同一把尺上，再对照八大行星的真实距离与全景压缩方式。</p><button disabled={!scientificFrame||timeControls.loading||!!timeControls.error} onClick={()=>setDistanceComparisonOpen(true)}>打开尺度与距离比较</button>{(!scientificFrame||timeControls.loading||!!timeControls.error)&&<p>等待当前观测日期的有效历表；请先完成加载或返回真实太阳系模式。</p>}</section>
           <section className="panorama-families panorama-sizes"><h3>天体大小 · 用同一把尺比较</h3><p>全景球体经过放大，不宜直接比较。打开参考直径统一比例的双球窗口，选择太阳、行星或月球。</p><button onClick={()=>setSizeComparisonOpen(true)}>打开天体大小比较</button></section>
           <MacroEarthPanel options={earthAppearance} status={cloudStatus} enabled={!!scientificFrame} onClouds={()=>setEarthAppearance(v=>({...v,clouds:!v.clouds}))} onAtmosphere={()=>setEarthAppearance(v=>({...v,atmosphere:!v.atmosphere}))} onRetry={()=>setCloudRetry(v=>v+1)} onFocus={()=>focusIntegrated(primaryTarget('earth'))}/>
           <div className="panorama-members">
@@ -630,6 +633,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
         </div></div>
       </aside>
     </div>
+    {distanceComparisonOpen&&<DistanceComparison frame={scientificFrame} onClose={()=>setDistanceComparisonOpen(false)}/>}
     {sizeComparisonOpen&&<SizeComparison onClose={()=>setSizeComparisonOpen(false)}/>}
     <footer className="macro-footer"><Compass size={13}/>{scope === 'cosmic' ? 'AU 是太阳系内尺度；光年用于恒星和星系距离。不同镜头独立取景，画面尺寸、方位与点数不表示真实比例或实测位置；背景星点为绘制示意。' : '太阳系包含行星、卫星、矮行星、小天体、尘埃与太阳风。行星、6 个区域代表成员与两颗彗星采用历表位置；淡色椭圆是瞬时参考轨道。点云、可选双尾、风与边界是示意，奥尔特云是推断；背景星点不是实测星位。'}</footer>
   </section>;

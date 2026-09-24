@@ -3,6 +3,7 @@ import {INTEGRATED_ITEMS} from '../data/integratedScene';
 import type {StageFlags} from '../data/stages';
 
 const bodySections = [
+ {id:'distances',name:'尺度与距离 · 真实与压缩对照',selector:'.panorama-distances'},
  {id:'motion',name:'行星运动 · 速度与周期',selector:'.panorama-motion'},
  {id:'sizes',name:'天体大小 · 统一比例比较',selector:'.panorama-sizes'},
  {id:'orbits',name:'行星轨道 · 尺度与方向',selector:'.panorama-orbits'},

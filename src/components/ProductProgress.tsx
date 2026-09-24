@@ -9,9 +9,11 @@ const completed = [
 ];
 
 const improvements = [
-  { title: '第一批：全景视觉整理（本地验收）', detail: '远景优先区域名称，靠近展开天体与系统入口；标签改用同帧避让，减少拥挤和跳动，土星名称避开环的外缘。本体与卫星系统近景暂时收起背景球体和参考平面，返回恢复原选择。示意星空保持远景，不新增天体或改变轨道。' },
-  { title: '全景行星运动比较（本地验收）', detail: '在同一全景比较八大行星的当前日心速度、参考公转周期和参考自转周期。速度随观测日期更新，周期独立标注参考值；金星与天王星保留逆行标记。可前后 30 天比较，点击行星定位。图表采用共同线性比例，不代表运动轨迹。' },
-  { title: '五轮观察改进已发布', detail: '0ac5ff8 已推送并部署成功：包含地球云层与大气、行星参考轨道、专注行星、全景内容目录和统一比例双球比较。GitHub 自动检查、构建与发布均通过；后续运动比较留在本地验收。' },
+  { title: '第二批：尺度与距离理解（本地验收）', detail: '新增历表快照的双体距离尺：太阳、八大行星与月球可自由配对，直径与中心距共用线性比例，小球不单独放大。并列对照八大行星真实日心距离和全景压缩距离，解释各视图可读范围。目录现有 17 个入口；不改变原日期播放、镜头和图层。剩余两批为观察路径串联、第一版综合验收。' },
+  { title: '运动比较与视觉整理已发布', detail: '114bd40 已推送至 GitHub，自动检查、构建和 Pages 部署成功，线上入口验证通过。第一批视觉整理仍请用户确认效果；本地第二批距离比较单独验收，尚未推送。' },
+  { title: '第一批：全景视觉整理（已发布）', detail: '远景优先区域名称，靠近展开天体与系统入口；标签改用同帧避让，减少拥挤和跳动，土星名称避开环的外缘。本体与卫星系统近景暂时收起背景球体和参考平面，返回恢复原选择。示意星空保持远景，不新增天体或改变轨道。' },
+  { title: '全景行星运动比较（已发布）', detail: '在同一全景比较八大行星的当前日心速度、参考公转周期和参考自转周期。速度随观测日期更新，周期独立标注参考值；金星与天王星保留逆行标记。可前后 30 天比较，点击行星定位。图表采用共同线性比例，不代表运动轨迹。' },
+  { title: '五轮观察改进已发布', detail: '0ac5ff8 已推送并部署成功：包含地球云层与大气、行星参考轨道、专注行星、全景内容目录和统一比例双球比较。GitHub 自动检查、构建与发布均通过；后续发布范围见上方较新记录。' },
   { title: '统一比例双球比较（已发布）', detail: '从全景目录打开天体大小比较，任选太阳、八大行星或月球两两对照，查看参考直径和比例。正交投影保持共同尺度，小球不单独放大；表面为静态贴图，间距与光照为排版。关闭返回原全景，补充 JPL / IAU 参数出处。' },
   { title: '全景内容目录（已发布）', detail: '新增常驻目录，按天体与运动、空间现象、演示与阅读组织 14 个入口。跳转只滚动说明面板，不改变镜头、日期或图层；阶段未开启仍可阅读原因。支持键盘聚焦和返回介绍，窄窗口保留操作空间。' },
   { title: '专注行星与一键恢复（已发布）', detail: '全景可暂时隐藏卫星、其他区域和现象，保留太阳、行星及已开启的环和参考线。原图层选择、镜头和时间保持不变，侧栏始终提供恢复入口；定位彗星、卫星家族或其他区域时自动退出。隐藏状态与主动关闭分别说明，不新增天体或数据。' },
@@ -52,7 +54,7 @@ export function ProductProgress({ onClose }: { onClose: () => void }) {
         <p className="product-progress-intro">我们将真实数据、物理近似和视觉示意分别标注。每轮先提交可运行的基线，再记录问题、优化和验证结果，便于对照验收。</p>
         <section><div className="product-progress-section-heading"><CheckCircle2 size={16}/><h3>已有能力 · 基线已提交</h3></div><div className="product-progress-list">{completed.map(item => <article key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></article>)}</div></section>
         <section><div className="product-progress-section-heading"><Clock3 size={16}/><h3>近期更新 · 发布与本地验收</h3></div><ol className="product-progress-steps">{improvements.map(item => <li key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></li>)}</ol></section>
-        <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>先从主页打开“综合全景 → 全景现象”，定位土星或天王星系统，点选卫星并前进一天，核对参数与位置一起变化；再依次定位太阳活动、地球磁层和日球层环境。应在同一画布内靠近，返回原视角后仍看到整体结构；改变观测日期时近地效果随地球移动。独立详解需明确点击阅读入口。示意进度不改变观测日期，放大现象不是当日实测。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
+        <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>本轮先打开“综合全景 → 内容目录 → 尺度与距离”。依次切换地月、日地和日海王星，观察共同尺度下的空旷程度；向下对照真实与压缩距离。关闭后改观测日期再打开，核对新快照。窗口中的圆形是球体截面，虚线只是中心标记；放开距离不会把行星轨道改成球状。</p><p>先从主页打开“综合全景 → 全景现象”，定位土星或天王星系统，点选卫星并前进一天，核对参数与位置一起变化；再依次定位太阳活动、地球磁层和日球层环境。应在同一画布内靠近，返回原视角后仍看到整体结构；改变观测日期时近地效果随地球移动。独立详解需明确点击阅读入口。示意进度不改变观测日期，放大现象不是当日实测。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
         <nav className="product-progress-links" aria-label="建设记录相关资料"><a href="https://github.com/yydshly/0922_codexgpt6_project/commits/main/" target="_blank" rel="noreferrer"><GitCommitHorizontal size={14}/>查看提交记录<ArrowUpRight size={13}/></a><a href="https://github.com/yydshly/0922_codexgpt6_project/blob/main/docs/PRODUCT-PROGRESS.md" target="_blank" rel="noreferrer">查看完整建设记录<ArrowUpRight size={13}/></a></nav>
       </div>
     </section>

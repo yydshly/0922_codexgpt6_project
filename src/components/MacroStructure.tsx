@@ -1,3 +1,5 @@
+import {createIntegratedScene} from './macroIntegrated';
+import {INTEGRATED_ITEMS,INTEGRATED_FOCUS_DISTANCE,defaultIntegratedFlags,integratedFlags,type IntegratedFlags,type IntegratedTarget} from '../data/integratedScene';
 import { STAGES,stagedLayers,type StageFlags } from '../data/stages';
 import { RingFamilies } from './RingLearning';
 import type { RingPlanetId } from '../data/rings';
@@ -95,13 +97,15 @@ function orbitRing(au: number) {
   return new THREE.BufferGeometry().setFromPoints(vertices);
 }
 
-function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequest, cometBatch, cometTracks, showActivity, frame, selected, resetCount, family, cameraView, heightScale, showPlane, layers, batch, animate, showLabels, onDistance }: { selectedMember:string|null; onSelectMember:(id:string)=>void; focusRequest:number; restoreRequest:number; cometBatch: StateBatch | null; cometTracks: CometTracks | null; showActivity: boolean; frame: StateFrame | null; selected: MacroZoneId; resetCount: number; family?: SolarFamilyId; cameraView: MacroCameraView; heightScale: 1 | 10; showPlane: boolean; layers: MacroLayerVisibility; batch: StateBatch | null; animate: boolean; showLabels: boolean; onDistance: (distance: number) => void }) {
+interface IntegratedOptions {flags:IntegratedFlags;target:IntegratedTarget|null;request:number;restore:number;progress:number;onFocus:(target:IntegratedTarget)=>void}
+
+function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest, restoreRequest, cometBatch, cometTracks, showActivity, frame, selected, resetCount, family, cameraView, heightScale, showPlane, layers, batch, animate, showLabels, onDistance }: { integrated:IntegratedOptions; selectedMember:string|null; onSelectMember:(id:string)=>void; focusRequest:number; restoreRequest:number; cometBatch: StateBatch | null; cometTracks: CometTracks | null; showActivity: boolean; frame: StateFrame | null; selected: MacroZoneId; resetCount: number; family?: SolarFamilyId; cameraView: MacroCameraView; heightScale: 1 | 10; showPlane: boolean; layers: MacroLayerVisibility; batch: StateBatch | null; animate: boolean; showLabels: boolean; onDistance: (distance: number) => void }) {
   const host = useRef<HTMLDivElement>(null);
   const frameRef = useRef(frame);
-  const sceneRef = useRef<{ camera: THREE.PerspectiveCamera; controls: OrbitControls; materials: Partial<Record<MacroZoneId, ZoneMaterial[]>>; plane: THREE.Mesh; guides: THREE.Line[]; savedView?: { position:THREE.Vector3; target:THREE.Vector3; up:THREE.Vector3 } } | null>(null);
+  const sceneRef = useRef<{ camera: THREE.PerspectiveCamera; controls: OrbitControls; materials: Partial<Record<MacroZoneId, ZoneMaterial[]>>; plane: THREE.Mesh; guides: THREE.Line[]; restoreContext:()=>void; savedView?: { position:THREE.Vector3; target:THREE.Vector3; up:THREE.Vector3 } } | null>(null);
   frameRef.current = frame;
-  const displayRef = useRef({ selectedMember, onSelectMember, focusRequest, restoreRequest, cometBatch, cometTracks, showActivity, layers, batch, animate, showPlane, heightScale, family, showLabels, onDistance });
-  displayRef.current = { selectedMember, onSelectMember, focusRequest, restoreRequest, cometBatch, cometTracks, showActivity, layers, batch, animate, showPlane, heightScale, family, showLabels, onDistance };
+  const displayRef = useRef({ integrated, selectedMember, onSelectMember, focusRequest, restoreRequest, cometBatch, cometTracks, showActivity, layers, batch, animate, showPlane, heightScale, family, showLabels, onDistance });
+  displayRef.current = { integrated, selectedMember, onSelectMember, focusRequest, restoreRequest, cometBatch, cometTracks, showActivity, layers, batch, animate, showPlane, heightScale, family, showLabels, onDistance };
 
   useEffect(() => {
     const element = host.current;
@@ -112,6 +116,7 @@ function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequ
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     element.appendChild(renderer.domElement);
+    let disposed=false;
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#0a1621');
     scene.add(new THREE.HemisphereLight('#b6d8ef', '#1d3040', 1.0));
@@ -166,6 +171,9 @@ function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequ
       return mesh;
     });
 
+    const textureLoader=new THREE.TextureLoader();
+    for(const [mesh,path] of [[sun,'/textures/sun.jpg'],[planets[2],'/textures/earth.jpg']] as const)textureLoader.load(publicAsset(path),map=>{if(disposed){map.dispose();return;}map.colorSpace=THREE.SRGBColorSpace;mesh.material.map=map;mesh.material.color.set('white');mesh.material.needsUpdate=true;});
+
     // Category markers deliberately enlarge local phenomena; their positions are conceptual, not ephemerides.
     const moonGroups: { index: number; group: THREE.Group }[] = [];
     {
@@ -192,6 +200,7 @@ function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequ
     addCloud('scattered', makeCloud(720, 627194, discPoint(50, 1000, .86)), '#d4baff', .075, .48);
     addCloud('oort', makeCloud(2600, 175002, shellPoint(2000, 100000)), '#cfeaff', .15, .62);
     const phenomena = createMacroPhenomena(scene, particleTexture, element, id=>displayRef.current.onSelectMember(id));
+    const integratedScene=createIntegratedScene(scene,particleTexture,element,target=>displayRef.current.integrated.onFocus(target));
 
     const bubble = new THREE.Mesh(new THREE.SphereGeometry(macroRadius(120), 42, 24), remember('heliosphere', new THREE.MeshBasicMaterial({ color: '#4b9fd7', transparent: true, opacity: .018, side: THREE.BackSide, depthWrite: false })));
     scene.add(bubble);
@@ -209,7 +218,9 @@ function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequ
     };
     const observer = new ResizeObserver(resize);
     observer.observe(element); resize();
-    sceneRef.current = { camera, controls, materials, plane, guides };
+    const contextMaterials=new Map<THREE.Material,{opacity:number;size?:number;attenuation?:boolean}>();
+    const restoreContext=()=>{for(const [material,original] of contextMaterials){material.opacity=original.opacity;if(material instanceof THREE.PointsMaterial){material.size=original.size!;material.sizeAttenuation=original.attenuation!;material.needsUpdate=true;}}contextMaterials.clear();};
+    sceneRef.current = { camera, controls, materials, plane, guides,restoreContext };
     const raycaster=new THREE.Raycaster();
     let down:{x:number;y:number}|null=null;
     const pointerDown=(event:PointerEvent)=>{if(event.button===0)down={x:event.clientX,y:event.clientY};};
@@ -225,6 +236,9 @@ function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequ
     };
     renderer.domElement.addEventListener('pointerdown',pointerDown);
     renderer.domElement.addEventListener('pointerup',pointerUp);
+    let lastIntegratedRequest=0,lastIntegratedRestore=0;
+    let integratedSaved:{position:THREE.Vector3;target:THREE.Vector3;up:THREE.Vector3}|null=null;
+    let previousEarth:THREE.Vector3|null=null;
     let lastFocusRequest=0;
     let lastRestoreRequest=0;
     let animation = 0;
@@ -280,26 +294,43 @@ function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequ
           controls.target.copy(target);camera.position.copy(target).add(offset);lastFocusRequest=focus.focusRequest;
         }
       }
+      const integration=displayRef.current.integrated;
+      const earthPosition=current?planets[2].position:null;
+      integratedScene.update(integration.flags,earthPosition,camera,integration.target,integration.progress);
+      if(integration.restore!==lastIntegratedRestore){if(integratedSaved){controls.enableDamping=false;controls.update();camera.position.copy(integratedSaved.position);camera.up.copy(integratedSaved.up);controls.target.copy(integratedSaved.target);controls.enableDamping=true;}integratedSaved=null;previousEarth=null;lastIntegratedRestore=integration.restore;}
+      if(!integration.target){integratedSaved=null;previousEarth=null;controls.minDistance=3;}
+      if(integration.target&&integration.request!==lastIntegratedRequest&&(integration.target!=='earth'||earthPosition)){
+        if(!integratedSaved)integratedSaved={position:camera.position.clone(),target:controls.target.clone(),up:camera.up.clone()};
+        const target=integratedScene.anchors[integration.target];
+        controls.enableDamping=false;controls.update();controls.minDistance=.4;camera.up.set(0,1,0);
+        const offset=new THREE.Vector3(.55,.38,.74).normalize().multiplyScalar(INTEGRATED_FOCUS_DISTANCE[integration.target]);
+        controls.target.copy(target);camera.position.copy(target).add(offset);controls.update();controls.enableDamping=true;
+        previousEarth=integration.target==='earth'&&earthPosition?earthPosition.clone():null;lastIntegratedRequest=integration.request;
+      }else if(integration.target==='earth'&&earthPosition&&previousEarth){const delta=earthPosition.clone().sub(previousEarth);camera.position.add(delta);controls.target.add(delta);previousEarth.copy(earthPosition);}
       controls.update();
       const cameraDistance = camera.position.distanceTo(controls.target);
       if (Math.abs(cameraDistance-lastDistance) > .1) { lastDistance=cameraDistance; onDistance(cameraDistance); }
       phenomena.update(current, displayRef.current.batch, displayRef.current.layers, camera.position.distanceTo(controls.target), demoSeconds, family, displayRef.current.cometBatch, displayRef.current.cometTracks, displayRef.current.showActivity, displayRef.current.selectedMember);
       scene.updateMatrixWorld(true);
-      phenomena.layoutLabels(camera, element.clientWidth, element.clientHeight, showLabels);
+      phenomena.layoutLabels(camera, element.clientWidth, element.clientHeight, showLabels&&!integration.target);
+      const softenContext=!!integration.target;
+      if(softenContext){scene.traverse(object=>{if(!(object instanceof THREE.Points||object instanceof THREE.Line))return;let parent:THREE.Object3D|null=object;while(parent){if(parent.userData.integrated)return;parent=parent.parent;}for(const material of Array.isArray(object.material)?object.material:[object.material]){if(!contextMaterials.has(material))contextMaterials.set(material,{opacity:material.opacity,...(material instanceof THREE.PointsMaterial?{size:material.size,attenuation:material.sizeAttenuation}:{})});const original=contextMaterials.get(material)!;material.opacity=original.opacity*.3;if(material instanceof THREE.PointsMaterial){material.size=2;if(material.sizeAttenuation){material.sizeAttenuation=false;material.needsUpdate=true;}}}});}
+      else if(contextMaterials.size)restoreContext();
+      integratedScene.layout(camera,element.clientWidth,element.clientHeight,showLabels);
       renderer.render(scene, camera);
     };
     animation = requestAnimationFrame(draw);
     return () => {
       renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointerup',pointerUp);
-      cancelAnimationFrame(animation); observer.disconnect(); controls.dispose(); sceneRef.current = null;
+      disposed=true;cancelAnimationFrame(animation); observer.disconnect(); controls.dispose(); sceneRef.current = null;
       scene.traverse(object => {
         if (object instanceof THREE.Mesh || object instanceof THREE.Points || object instanceof THREE.Line) {
           object.geometry.dispose();
           const material = object.material;
-          (Array.isArray(material) ? material : [material]).forEach(item => item.dispose());
+          (Array.isArray(material) ? material : [material]).forEach(item => {if('map' in item&&(item.map as THREE.Texture|null)!==particleTexture)(item.map as THREE.Texture|null)?.dispose();item.dispose();});
         }
       });
-      phenomena.dispose();
+      phenomena.dispose();integratedScene.dispose();
       particleTexture.dispose();
       renderer.dispose(); renderer.domElement.remove();
     };
@@ -308,7 +339,7 @@ function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequ
   useEffect(() => {
     const context = sceneRef.current;
     if (!context) return;
-    context.savedView=undefined;
+    context.restoreContext();context.savedView=undefined;
     const distance = family === 'dwarfs' ? 20 : CAMERA_DISTANCE[selected];
     context.camera.up.set(0, cameraView === 'top' ? 0 : 1, cameraView === 'top' ? -1 : 0);
     if (cameraView === 'top') context.camera.position.set(.001, distance, .001);
@@ -338,7 +369,15 @@ function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequ
 }
 
 export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, onOpenSolarActivity, onOpenDust, onOpenHeliosphere, initialZone, onOpenFamily, initialFamily, initialMemberId, timeControls, frame, displayDate, isEphemeris = true, onClose, onOpenReadingGuide, onObservePlanets, onExploreObject }: Props) {
-  const [panelTab, setPanelTab] = useState<'learn' | 'layers' | 'sources'>('learn');
+  const [panelTab, setPanelTab] = useState<'integrated' | 'learn' | 'layers' | 'sources'>('integrated');
+  const [integratedChoices,setIntegratedChoices]=useState(defaultIntegratedFlags);
+  const [integratedTarget,setIntegratedTarget]=useState<IntegratedTarget|null>(null);
+  const [integratedRequest,setIntegratedRequest]=useState(0),[integratedRestore,setIntegratedRestore]=useState(0);
+  const [integratedProgress,setIntegratedProgress]=useState(.32),[integratedPlaying,setIntegratedPlaying]=useState(false);
+  useEffect(()=>{if(!integratedPlaying)return;let raf=0,last=performance.now();const tick=(now:number)=>{const dt=(now-last)/1000;last=now;setIntegratedProgress(p=>(p+dt/20)%1);raf=requestAnimationFrame(tick);};raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);},[integratedPlaying]);
+  const effectiveIntegrated=integratedFlags(integratedChoices,stageFlags,!!frame&&isEphemeris);
+  const focusIntegrated=(target:IntegratedTarget)=>{setScope('solar');setSelectedMember(null);setIntegratedChoices(v=>({...v,...Object.fromEntries(INTEGRATED_ITEMS.filter(i=>i.target===target).map(i=>[i.id,true]))}));setPanelTab('integrated');setIntegratedTarget(target);setIntegratedRequest(n=>n+1);};
+  const leaveIntegrated=()=>{setIntegratedTarget(null);setIntegratedRestore(n=>n+1);};
   const [showLabels, setShowLabels] = useState(true);
   const [cameraDistance, setCameraDistance] = useState(62);
   const [layers, setLayers] = useState(defaultMacroLayers);
@@ -365,7 +404,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
   const [restoreRequest,setRestoreRequest]=useState(0);
   const [focusRequest,setFocusRequest]=useState(initialMemberId?1:0);
   const memberBatch=useMemo(()=>matchingMemberBatch(scientificFrame,dwarfData.batch,smallBodyData.batch),[scientificFrame,dwarfData.batch,smallBodyData.batch]);
-  const chooseMember=(id:string)=>{setSelectedMember(id);setPanelTab('learn');setLayers(v=>({...v,dwarfs:true}));setFocusRequest(v=>v+1);};
+  const chooseMember=(id:string)=>{setIntegratedTarget(null);setSelectedMember(id);setPanelTab('learn');setLayers(v=>({...v,dwarfs:true}));setFocusRequest(v=>v+1);};
 
   const [familyId, setFamilyId] = useState<SolarFamilyId>(initialFamily??'moons');
   const [cosmicId, setCosmicId] = useState<CosmicLevelId>('neighbors');
@@ -376,6 +415,8 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
   const previousRegion=useRef(`${selected}/${solarTab}/${familyId}`);
   useEffect(()=>{const key=`${selected}/${solarTab}/${familyId}`;if(previousRegion.current!==key){setSelectedMember(null);previousRegion.current=key;}},[selected,solarTab,familyId]);
   const effectiveLayers=stagedLayers(layers,stageFlags);
+  useEffect(()=>{setIntegratedTarget(null);},[selected,solarTab,familyId,cameraView,resetCount]);
+  useEffect(()=>{if(integratedTarget&&!INTEGRATED_ITEMS.some(i=>i.target===integratedTarget&&effectiveIntegrated[i.id]))leaveIntegrated();},[integratedTarget,effectiveIntegrated.solar,effectiveIntegrated.environment,effectiveIntegrated.belts,effectiveIntegrated.dust,effectiveIntegrated.helio]);
   useEffect(()=>{if(selectedMember && (!effectiveLayers.dwarfs || (!stageFlags.members && ['vesta','haumea','makemake','eris'].includes(selectedMember)))){setSelectedMember(null);setRestoreRequest(v=>v+1);}},[stageFlags.members,effectiveLayers.dwarfs,selectedMember]);
   const focusedFamily = solarTab === 'families' ? familyId : undefined;
   const layerStatus = (id: MacroLayerId) => {
@@ -410,9 +451,9 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
   }, []);
   const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); onClose(); return; }
-    if (event.key === ' ') event.stopPropagation();
+    event.stopPropagation();
     if (event.key !== 'Tab') return;
-    const focusable = Array.from(dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), summary, a[href], [tabindex="0"]') ?? []).filter(element => element.getClientRects().length > 0);
+    const focusable = Array.from(dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), summary, a[href], [tabindex="0"]') ?? []).filter(element => element.getClientRects().length > 0 && (!element.closest('details:not([open])') || element.matches('summary')));
     const first = focusable[0], last = focusable[focusable.length - 1];
     if (!first || !last) return;
     if (event.shiftKey && (document.activeElement === first || !dialog.current?.contains(document.activeElement))) { event.preventDefault(); last.focus(); }
@@ -420,12 +461,12 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
   };
 
   return <section ref={dialog} className="macro-structure" role="dialog" aria-modal="true" aria-labelledby="macro-title" onKeyDown={onKeyDown}>
-    <header className="macro-header"><div><span className="macro-eyebrow">FROM OUR SOLAR SYSTEM TO OTHER GALAXIES</span><h1 id="macro-title">从太阳系，看见更大的宇宙</h1><p>结构导览 · 返回观测恢复原镜头；右上角「宏观结构」可再次进入。</p></div><div className="macro-header-actions">{stageFlags.dustExplorer&&<button className="macro-reading-button" onClick={onOpenDust}>尘埃与流星</button>}{stageFlags.solarActivity&&<button className="macro-reading-button" onClick={onOpenSolarActivity}>太阳活动</button>}{(stageFlags.environment||stageFlags.nearEarth)&&<button className="macro-reading-button" onClick={onOpenEnvironment}>近地空间</button>}<button className="macro-reading-button" onClick={onOpenStages}>阶段导览</button><button className="macro-reading-button" onClick={onOpenReadingGuide}><Sparkles size={15}/>星点与环怎么看</button><button ref={closeButton} className="macro-back" title="关闭结构图，返回原有观测镜头与时间轴设置" onClick={onClose}><ArrowLeft size={16}/>返回观测</button></div></header>
+    <header className="macro-header"><div><span className="macro-eyebrow">FROM OUR SOLAR SYSTEM TO OTHER GALAXIES</span><h1 id="macro-title">从太阳系，看见更大的宇宙</h1><p>结构导览 · 返回观测恢复原镜头；主页「综合全景」可再次进入。</p></div><div className="macro-header-actions">{stageFlags.dustExplorer&&<button className="macro-reading-button" onClick={()=>focusIntegrated('dust')}>尘埃与流星</button>}{stageFlags.solarActivity&&<button className="macro-reading-button" onClick={()=>focusIntegrated('sun')}>太阳活动</button>}{(stageFlags.environment||stageFlags.nearEarth)&&<button className="macro-reading-button" onClick={()=>focusIntegrated('earth')}>近地空间</button>}<button className="macro-reading-button" onClick={onOpenStages}>阶段导览</button><button className="macro-reading-button" onClick={onOpenReadingGuide}><Sparkles size={15}/>星点与环怎么看</button><button ref={closeButton} className="macro-back" title="关闭结构图，返回原有观测镜头与时间轴设置" onClick={onClose}><ArrowLeft size={16}/>返回观测</button></div></header>
     <div className="macro-scope-tabs" role="tablist" aria-label="宇宙观察范围"><button role="tab" aria-selected={scope === 'solar'} className={scope === 'solar' ? 'active' : ''} onClick={() => setScope('solar')}><Orbit size={14}/>太阳系 · 区域与成员</button><button role="tab" aria-selected={scope === 'cosmic'} className={scope === 'cosmic' ? 'active' : ''} onClick={() => setScope('cosmic')}><Sparkles size={14}/>恒星系统与其他星系</button><span>AU → 光年 → 星系尺度</span></div>
     {scope === 'solar' && <div className="macro-preset-bar">          <div className="macro-presets" aria-label="宏观取景预设">
-            <button aria-pressed={!selectedMember && solarTab === 'zones' && selected === 'all' && Object.values(effectiveLayers).every(Boolean)} onClick={() => { setResetCount(n => n + 1); setCameraView('oblique'); setHeightScale(1); setLayers(defaultMacroLayers()); setSolarTab('zones'); setSelected('all'); }}>综合全景</button>
-            <button aria-pressed={!selectedMember && solarTab === 'zones' && selected === 'planetary' && MACRO_LAYERS.every(l => effectiveLayers[l.id] === !['oort','heliosphere','wind'].includes(l.id))} onClick={() => { setResetCount(n => n + 1); setCameraView('oblique'); setHeightScale(1); setLayers({ ...defaultMacroLayers(), oort: false, heliosphere: false, wind: false }); setSolarTab('zones'); setSelected('planetary'); }}>天体与轨道</button>
-            <button aria-pressed={!selectedMember && solarTab === 'zones' && selected === 'heliosphere' && MACRO_LAYERS.every(l => effectiveLayers[l.id] === ['planetary','asteroid','kuiper','wind','heliosphere'].includes(l.id))} onClick={() => { setResetCount(n => n + 1); setCameraView('oblique'); setHeightScale(1); setLayers({ ...defaultMacroLayers(), oort: false, populations: false, dust: false, scattered: false, comets: false, moons: false, dwarfs: false }); setSolarTab('zones'); setSelected('heliosphere'); }}>太阳风环境</button>
+            <button aria-pressed={!integratedTarget && !selectedMember && solarTab === 'zones' && selected === 'all' && Object.values(effectiveLayers).every(Boolean)} onClick={() => { setResetCount(n => n + 1); setCameraView('oblique'); setHeightScale(1); setLayers(defaultMacroLayers()); setSolarTab('zones'); setSelected('all'); }}>综合全景</button>
+            <button aria-pressed={!integratedTarget && !selectedMember && solarTab === 'zones' && selected === 'planetary' && MACRO_LAYERS.every(l => effectiveLayers[l.id] === !['oort','heliosphere','wind'].includes(l.id))} onClick={() => { setResetCount(n => n + 1); setCameraView('oblique'); setHeightScale(1); setLayers({ ...defaultMacroLayers(), oort: false, heliosphere: false, wind: false }); setSolarTab('zones'); setSelected('planetary'); }}>天体与轨道</button>
+            <button aria-pressed={!integratedTarget && !selectedMember && solarTab === 'zones' && selected === 'heliosphere' && MACRO_LAYERS.every(l => effectiveLayers[l.id] === ['planetary','asteroid','kuiper','wind','heliosphere'].includes(l.id))} onClick={() => { setResetCount(n => n + 1); setCameraView('oblique'); setHeightScale(1); setLayers({ ...defaultMacroLayers(), oort: false, populations: false, dust: false, scattered: false, comets: false, moons: false, dwarfs: false }); setSolarTab('zones'); setSelected('heliosphere'); }}>太阳风环境</button>
           </div>
 <span>先选取景，再开关图层 · 滚轮靠近</span></div>}
     <div className="macro-main">
@@ -433,10 +474,10 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
         {scope === 'solar' ? <>
           <div className="macro-list-tabs" role="group" aria-label="太阳系观察内容"><button className={solarTab === 'zones' ? 'active' : ''} onClick={() => setSolarTab('zones')}>空间区域</button><button className={solarTab === 'families' ? 'active' : ''} onClick={() => setSolarTab('families')}>天体与物质</button></div>
           <div className="macro-section-title">{solarTab === 'zones' ? '由内向外 · 结构层次' : '成员类别 · 不按同心层排列'}</div><span className="macro-scroll-cue">左右滑动<br/>查看更多区域 →</span>
-          {solarTab === 'zones' ? <><button className={`macro-zone ${selected === 'all' ? 'active' : ''}`} onClick={() => setSelected('all')} aria-pressed={selected === 'all'}><span className="macro-zone-icon"><Maximize2 size={15}/></span><span><strong>整体形态</strong><small>行星薄盘 → 远缘球壳</small></span></button>{MACRO_ZONES.map(item => <button key={item.id} className={`macro-zone ${selected === item.id ? 'active' : ''}`} onClick={() => { setSelected(item.id); setLayers(v => ({ ...v, [item.id]: true })); }} aria-pressed={selected === item.id}><i style={{ background: item.color }}/><span><strong>{item.name}</strong><small>{item.range}</small></span></button>)}</> : SOLAR_FAMILIES.map(item => <button key={item.id} className={`macro-zone ${familyId === item.id ? 'active' : ''}`} onClick={() => { setFamilyId(item.id); const layer = item.id === 'centaurs' ? 'populations' : item.id === 'asteroids' ? 'asteroid' : item.id; setLayers(v => ({ ...v, [layer]: true })); }} aria-pressed={familyId === item.id}><i style={{ background: '#d5bd9a' }}/><span><strong>{item.name}</strong><small>{item.keyFact}</small></span></button>)}
+          {solarTab === 'zones' ? <><button className={`macro-zone ${selected === 'all' ? 'active' : ''}`} onClick={() => {setPanelTab('integrated');setSelected('all');}} aria-pressed={selected === 'all'}><span className="macro-zone-icon"><Maximize2 size={15}/></span><span><strong>整体形态</strong><small>行星薄盘 → 远缘球壳</small></span></button>{MACRO_ZONES.map(item => <button key={item.id} className={`macro-zone ${selected === item.id ? 'active' : ''}`} onClick={() => { setPanelTab('learn');setSelected(item.id); setLayers(v => ({ ...v, [item.id]: true })); }} aria-pressed={selected === item.id}><i style={{ background: item.color }}/><span><strong>{item.name}</strong><small>{item.range}</small></span></button>)}</> : SOLAR_FAMILIES.map(item => <button key={item.id} className={`macro-zone ${familyId === item.id ? 'active' : ''}`} onClick={() => { setFamilyId(item.id); const layer = item.id === 'centaurs' ? 'populations' : item.id === 'asteroids' ? 'asteroid' : item.id; setLayers(v => ({ ...v, [layer]: true })); }} aria-pressed={familyId === item.id}><i style={{ background: '#d5bd9a' }}/><span><strong>{item.name}</strong><small>{item.keyFact}</small></span></button>)}
         </> : <><div className="macro-section-title">离开太阳系 · 三个不同尺度</div>{COSMIC_LEVELS.map((item, index) => <button key={item.id} className={`macro-zone ${cosmicId === item.id ? 'active' : ''}`} onClick={() => setCosmicId(item.id)} aria-pressed={cosmicId === item.id}><span className="macro-cosmic-index">0{index + 1}</span><span><strong>{item.name}</strong><small>{item.keyFact}</small></span></button>)}<p className="macro-side-note">“恒星系统”是一颗或多颗恒星及其成员；“星系”是包含大量恒星的更大结构。太阳系属于银河系。</p></>}
       </nav>
-      <div className="macro-stage">{scope === 'solar' ? <MacroCanvas selectedMember={selectedMember} onSelectMember={chooseMember} focusRequest={focusRequest} restoreRequest={restoreRequest} cometBatch={cometData.batch} cometTracks={cometTracks} showActivity={showActivity} showLabels={showLabels} onDistance={setCameraDistance} frame={scientificFrame} layers={effectiveLayers} batch={memberBatch} animate={animate} selected={solarTab === 'zones' ? selected : familyId === 'asteroids' ? 'asteroid' : familyId === 'dwarfs' ? 'all' : familyId === 'centaurs' ? 'scattered' : 'planetary'} resetCount={resetCount} family={solarTab === 'families' ? familyId : undefined} cameraView={cameraView} heightScale={solarTab === 'zones' && selected === 'planetary' ? heightScale : 1} showPlane={showPlane}/> : <CosmicCanvas level={cosmicId}/>}
+      <div className="macro-stage">{scope === 'solar' ? <MacroCanvas integrated={{flags:effectiveIntegrated,target:integratedTarget,request:integratedRequest,restore:integratedRestore,progress:integratedProgress,onFocus:focusIntegrated}} selectedMember={selectedMember} onSelectMember={chooseMember} focusRequest={focusRequest} restoreRequest={restoreRequest} cometBatch={cometData.batch} cometTracks={cometTracks} showActivity={showActivity} showLabels={showLabels} onDistance={setCameraDistance} frame={scientificFrame} layers={effectiveLayers} batch={memberBatch} animate={animate} selected={solarTab === 'zones' ? selected : familyId === 'asteroids' ? 'asteroid' : familyId === 'dwarfs' ? 'all' : familyId === 'centaurs' ? 'scattered' : 'planetary'} resetCount={resetCount} family={solarTab === 'families' ? familyId : undefined} cameraView={cameraView} heightScale={solarTab === 'zones' && selected === 'planetary' ? heightScale : 1} showPlane={showPlane}/> : <CosmicCanvas level={cosmicId}/>}
         <div className="macro-stage-label"><span className="macro-live-dot"/>{scope === 'cosmic' ? '宇宙邻域 · 形态示意' : solarTab === 'families' ? '太阳系成员 · 分层展示' : '太阳系宏观全景'} <span>·</span> {scope === 'solar' && !isEphemeris ? '当前为物理模式 · 实测天体已隐藏' : scope === 'solar' && displayDate ? `观测时刻 ${displayDate.replace('T', ' ')}（北京时间）` : scope === 'solar' ? '历表加载中' : '非真实相对方位'}</div>
         {scope === 'solar' && solarTab === 'families' && <div className="macro-family-key">{familyId === 'dwarfs' ? '谷神星 / 冥王星：历表位置与瞬时参考轨道；卡戎在此尺度不可分辨' : familyId === 'moons' ? '近旁小圈为卫星系统视觉标记，不表示真实比例与轨道' : familyId === 'comets' ? '哈雷 / 67P：当日历表位置 · 亮线为两年路径，淡线为参考椭圆' : familyId === 'centaurs' ? '巨行星区域与特洛伊群为种群范围示意' : familyId === 'dust' ? '太阳附近尘埃点仅示意分布，不表示实测密度' : '主带点数、大小与位置均不代表真实小行星'}</div>}
         {scope === 'solar' && <div className="macro-depth-controls" aria-label="三维观察方式"><div role="group" aria-label="宏观镜头角度">{([['oblique','斜视'],['edge','侧视'],['top','俯视']] as const).map(([id,label]) => <button key={id} className={cameraView === id ? 'active' : ''} onClick={() => setCameraView(id)} aria-pressed={cameraView === id}>{label}</button>)}</div><button className={showPlane ? 'active' : ''} onClick={() => setShowPlane(value => !value)} aria-pressed={showPlane}>黄道面 / 高度线</button>{solarTab === 'zones' && selected === 'planetary' && <button className={heightScale === 10 ? 'active enhanced' : ''} onClick={() => setHeightScale(value => value === 1 ? 10 : 1)} aria-pressed={heightScale === 10}>{heightScale === 1 ? '行星高度 ×10' : '行星高度 ×10 · 示意'}</button>}</div>}
@@ -445,9 +486,17 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
         {scope === 'cosmic' && <div className="macro-cosmic-legend">{cosmicId === 'neighbors' ? '太阳 · 半人马座 α / 比邻星 · TRAPPIST-1' : cosmicId === 'milkyway' ? '银河系旋臂 · 猎户臂支中的太阳' : '银河系 · 大麦哲伦云 · 仙女座星系'}</div>}
       </div>
       <aside className="macro-info">
-        {scope === 'solar' && <><div className="macro-panel-tabs" role="group" aria-label="宏观侧栏内容">{([['learn','认识这里'],['layers','图层'],['sources','来源']] as const).map(([id,name]) => <button key={id} aria-pressed={panelTab===id} onClick={() => setPanelTab(id)}>{name}{id==='layers' && <small>{Object.values(effectiveLayers).filter(Boolean).length}</small>}</button>)}</div>
+        {scope === 'solar' && <><div className="macro-panel-tabs" role="group" aria-label="宏观侧栏内容">{([['integrated','全景现象'],['learn','认识这里'],['layers','图层'],['sources','来源']] as const).map(([id,name]) => <button key={id} aria-pressed={panelTab===id} onClick={() => setPanelTab(id)}>{name}{id==='layers' && <small>{Object.values(effectiveLayers).filter(Boolean).length}</small>}</button>)}</div>
         <div className="macro-layer-summary"><span>{expandedCount} 类已展开</span><span>{MACRO_LAYERS.filter(l=>layerStatus(l.id)==='靠近显示').length} 类靠近显示</span><button aria-pressed={showLabels} onClick={()=>setShowLabels(v=>!v)}>{showLabels ? '隐藏标注' : '显示标注'}</button></div></>}
         <div className="macro-info-scroll">
+        {scope==='solar'&&<section className="panorama-integration" hidden={panelTab!=='integrated'} aria-label="全景现象控制">
+          <h2>在同一片空间中观察</h2><p>这些效果已画入当前全景。点击场景标记或下方定位，镜头在同一画布中靠近；远景保留位置标记，近景展开细节。</p>
+          <p className="panorama-scale-note">天体锚点采用当前历表；周围现象为放大示意，不是当天事件。距离仍压缩，局部尺寸不能与天体距离直接比较。</p>
+          {integratedTarget&&<div className="panorama-current"><strong>当前定位：{({sun:'太阳活动',earth:'地球周围',dust:'行星际碎屑',helio:'日球层环境'}[integratedTarget])}</strong><button onClick={leaveIntegrated}>返回定位前视角</button></div>}
+          <div className="panorama-choices">{INTEGRATED_ITEMS.map(item=><article key={item.id}><label><input type="checkbox" checked={integratedChoices[item.id]} disabled={!stageFlags[item.stage]} onChange={e=>setIntegratedChoices(v=>({...v,[item.id]:e.target.checked}))}/><strong>{item.title}</strong></label><small>{!stageFlags[item.stage]?'阶段已隐藏':item.target==='earth'&&!scientificFrame?'等待真实地球位置':effectiveIntegrated[item.id]?'已接入全景 · 靠近展开':'已关闭'}</small><p>{item.detail}</p><button disabled={!stageFlags[item.stage]||(item.target==='earth'&&!scientificFrame)} onClick={()=>focusIntegrated(item.target)}>定位{item.title}</button>{item.id==='dust'&&<button disabled={!stageFlags.dustExplorer||!scientificFrame} onClick={()=>focusIntegrated('earth')}>定位地球旁流星示例</button>}</article>)}</div>
+          <div className="panorama-demo"><h3>现象示意进度</h3><p>默认暂停；仅控制 CME、流星短迹与中性原子示例。不同现象没有因果或同日关联；真实观测日期与原太阳风动画仍独立控制。</p><input type="range" aria-label="全景现象进度" min="0" max="1" step=".001" value={integratedProgress} onChange={e=>{setIntegratedPlaying(false);setIntegratedProgress(Number(e.target.value));}}/><button aria-pressed={integratedPlaying} onClick={()=>setIntegratedPlaying(v=>!v)}>{integratedPlaying?'暂停现象示意':'播放现象示意'}</button><button onClick={()=>{setIntegratedPlaying(false);setIntegratedProgress(.32);}}>复位现象</button></div>
+          <details><summary>继续阅读独立详解与来源</summary><p>下面会打开单独的教学镜头；上方定位与开关始终留在当前全景。</p>{stageFlags.solarActivity&&<button onClick={onOpenSolarActivity}>太阳活动独立详解</button>}{(stageFlags.environment||stageFlags.nearEarth)&&<button onClick={onOpenEnvironment}>近地空间独立详解</button>}{stageFlags.dustExplorer&&<button onClick={onOpenDust}>尘埃与流星独立详解</button>}{stageFlags.heliosphereExplorer&&<button onClick={onOpenHeliosphere}>日球层独立详解</button>}<p>沿用各详解模块的 NASA 来源；本轮不增加历表目标、实测事件、粒子通量或模型预测。</p></details>
+        </section>}
         {scope==='solar'&&<div className="stage-filter-note">已开启阶段：{STAGES.filter(s=>stageFlags[s.id]).map(s=>s.title.slice(5)).join('、')||'基础行星'}。<button onClick={onOpenStages}>按阶段控制与理解</button></div>}
         {scope==='solar'&&panelTab==='learn'&&stageFlags.families&&focusedFamily==='moons'&&<RingFamilies onOpen={onOpenFamily}/>}
 

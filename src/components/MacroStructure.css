@@ -86,3 +86,5 @@
 .panorama-comets>.comet-panel{border:0;padding:0;margin:0;background:transparent}
 
 .panorama-members .region-members{margin:12px 0;border:1px solid #284751;border-radius:12px;padding:14px;background:#0d2029;}
+
+.macro-focus-banner{flex:none;display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:10px 14px;background:#193b34;border-bottom:1px solid #568d78;color:#c8edda;font-size:11px;line-height:1.5}.macro-focus-banner button{border:1px solid #759e8d;border-radius:4px;background:#244e41;color:#e1f4e9;padding:5px 8px;cursor:pointer}

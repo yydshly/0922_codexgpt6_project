@@ -1,9 +1,10 @@
 import {publicAsset} from '../data/publicAsset';
 import type {PlanetOrbitOptions} from '../data/macroPlanetOrbits';
-export function MacroOrbitPanel({options,enabled,onChange,onOverview,onEdge}:{options:PlanetOrbitOptions;enabled:boolean;onChange:(key:keyof PlanetOrbitOptions)=>void;onOverview:()=>void;onEdge:()=>void}){
+export function MacroOrbitPanel({focused,canFocus,onFocusToggle,options,enabled,onChange,onOverview,onEdge}:{focused:boolean;canFocus:boolean;onFocusToggle:()=>void;options:PlanetOrbitOptions;enabled:boolean;onChange:(key:keyof PlanetOrbitOptions)=>void;onOverview:()=>void;onEdge:()=>void}){
  return <section className="panorama-families panorama-orbits" aria-label="行星轨道与尺度圆环">
   <h3>行星如何绕太阳运行</h3><p>彩色曲线是当期状态推算的参考轨道；灰蓝圆环只帮助比较距离，两者可以分开看。</p>
   <div className="panorama-family-links"><button onClick={onOverview}>总览行星轨道</button><button onClick={onEdge}>侧看轨道倾角</button></div>
+  <button aria-pressed={focused} disabled={!focused&&!canFocus} onClick={onFocusToggle}>{focused?'退出专注行星':'专注行星 · 隐藏其他内容'}</button><p>{focused?'当前只显示太阳、行星及已开启的环和参考线；镜头与日期保持不变。原有图层选择保留，退出即可恢复。':canFocus?'可暂时隐藏其他区域、成员与现象，减少轨道重叠；不会重置你的图层选择。':'请先总览行星轨道，再开启专注观察。'}</p>
   <div className="panorama-family-toggles"><label><input type="checkbox" checked={options.orbits} onChange={()=>onChange('orbits')}/>显示行星参考轨道</label><label><input type="checkbox" checked={options.scales} onChange={()=>onChange('scales')}/>显示距离参照圆环</label><label><input type="checkbox" checked={options.direction} onChange={()=>onChange('direction')}/>显示运动方向箭头</label></div>
   {!enabled&&<p role="status">等待真实行星历表；不显示推算轨道与方向。</p>}
   <p>这里的开关只控制八大行星；彗星和其他成员的轨道在各自模块控制。定位某颗行星时，只突出它的轨道和箭头。浅绿箭头长度固定，表示当前运动方向，不表示速度大小；速度请看行星参数。</p>

@@ -1,3 +1,4 @@
+import {cometAntiSolar,type CometDisplay} from '../data/macroComets';
 import * as THREE from 'three';
 import { placeMacroLabels } from './macroLabelLayout';
 import { AU_KM, BODIES } from '../data/catalog';
@@ -15,6 +16,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   const groups = Object.fromEntries(['dwarfs','comets','activity','wind','populations','dust','heliosphere','oort'].map(id => {
     const group = new THREE.Group(); group.name = `macro-${id}`; scene.add(group); return [id, group];
   })) as Record<string, THREE.Group>;
+  groups.activity.userData.integrated=true; // Keep the teaching tails readable while surrounding context is dimmed.
   const overlay = document.createElement('div'); overlay.className='macro-world-labels'; host.appendChild(overlay);
   const labels: THREE.Object3D[] = [];
   const labelElements = new Map<THREE.Object3D, {text:HTMLElement; line:HTMLSpanElement}>();
@@ -42,7 +44,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
     }), '#dfc097', .19));
   }
   groups.activity.add(line([nucleus, nucleus.clone().addScaledVector(outward, 3.2)], '#72caff', .9));
-  const tailLabel = label('彗发与双尾 · 固定示意', '#b7e2d9'); tailLabel.position.copy(nucleus).addScaledVector(outward, 2.7).add(new THREE.Vector3(0, .7, 0)); groups.activity.add(tailLabel);
+  const tailLabel = label('彗发与双尾 · 固定示意', '#b7e2d9');tailLabel.userData.cometId='comet-demo'; tailLabel.position.copy(nucleus).addScaledVector(outward, 2.7).add(new THREE.Vector3(0, .7, 0)); groups.activity.add(tailLabel);
 
   let seed = 73441;
   const rand = () => { seed = (Math.imul(seed,1664525)+1013904223) >>> 0; return seed/4294967296; };
@@ -92,15 +94,17 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   });
   const cometMeshes = COMETS.map(body => {
     const group=new THREE.Group(); groups.comets.add(group); group.visible=false;
-    const marker=ball(.115,body.color), annotation=label(`${body.name} · 当日位置`,body.color);
+    const marker=ball(.115,body.color), annotation=label(`${body.name} · 当日位置`,body.color,body.id);
+    marker.userData.memberId=body.id;annotation.userData.cometId=body.id;annotation.userData.anchorRadius=.115;
+    const away=new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),.9,'#f0cf8d',.14,.075);group.add(away);
     const orbit=line([],body.color,.2), track=line([],body.color,.95);
     group.add(marker,annotation,orbit); groups.comets.add(track);
-    return {...body,group,marker,annotation,orbit,track};
+    return {...body,group,marker,annotation,orbit,track,away};
   });
   let lastCometOrbitTime=NaN;
   let lastTracks:CometTracks|null=null;
   return {
-    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false, selectedMember: string | null = null, plutoExpanded = false) {
+    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false, selectedMember: string | null = null, plutoExpanded = false, cometDisplay:CometDisplay={selected:null,paths:true,orbits:true,direction:false}) {
       for (const [id, group] of Object.entries(groups)) group.visible=enabled[id as MacroLayerId] && (macroDetailVisible(id as MacroLayerId,distance) || family===id || (id==='populations' && family==='centaurs'));
       groups.activity.visible=enabled.comets && showActivity;
       for (const annotation of labels) annotation.visible = annotation.userData.overview ? distance >= 42 : distance < 42;
@@ -124,11 +128,16 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
       for(const item of cometMeshes) {
         const state=cometStates.find(s=>s.id===item.id);
         item.group.visible=!!state;
-        item.track.visible=!!frame && !!tracks;
+        item.track.visible=!!frame && !!tracks && cometDisplay.paths;
+        item.orbit.visible=cometDisplay.orbits;
+        item.away.visible=!!state&&cometDisplay.direction&&cometDisplay.selected===item.id;
         if(!state) continue;
         item.marker.position.set(...macroEcliptic(state.position.map(v=>v/AU_KM)));
         item.annotation.position.copy(item.marker.position);
-        item.annotation.visible=distance<42 || family==='comets';
+        item.annotation.visible=distance<42 || family==='comets'||cometDisplay.selected===item.id;
+        item.annotation.userData.selected=cometDisplay.selected===item.id;
+        labelElements.get(item.annotation)!.text.setAttribute('aria-pressed',String(cometDisplay.selected===item.id));
+        const direction=cometAntiSolar(state.position);item.away.position.copy(item.marker.position);if(direction)item.away.setDirection(new THREE.Vector3(...direction));else item.away.visible=false;
         if(updateOrbit) {
           const sun:ObjectState={id:'sun',position:[0,0,0],velocity:[0,0,0]};
           const points=dwarfReferenceOrbit(state,sun,BODIES[0].gm).map(p=>{const d=p.length();return d?p.multiplyScalar(macroRadius(d)/d):p;});
@@ -156,7 +165,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
         }
       }
     },
-    layoutLabels(camera: THREE.PerspectiveCamera, width: number, height: number, visible: boolean) {
+    layoutLabels(camera: THREE.PerspectiveCamera, width: number, height: number, visible: boolean,focusedComet:string|null=null) {
       camera.updateMatrixWorld();
       const obstacles: {x:number;y:number;width:number;height:number}[] = [];
       scene.traverse(object => {
@@ -171,10 +180,10 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
         let object:THREE.Object3D|null=anchor;let enabled=visible;
         while(object) { enabled=enabled && object.visible;object=object.parent; }
         const elements=labelElements.get(anchor)!;elements.text.style.visibility='hidden';elements.line.style.visibility='hidden';
-        if(!enabled) return [];
+        if(!enabled||(focusedComet&&anchor.userData.cometId!==focusedComet)) return [];
         const p=anchor.getWorldPosition(new THREE.Vector3()).project(camera);
         if(p.z < -1 || p.z > 1) return [];
-        return [{id:String(index),x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:elements.text.offsetWidth,height:elements.text.offsetHeight}];
+        return [{id:String(index),x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:elements.text.offsetWidth,height:elements.text.offsetHeight,radius:anchor.userData.anchorRadius?anchor.userData.anchorRadius*height/(2*Math.tan(camera.fov*Math.PI/360)*anchor.getWorldPosition(new THREE.Vector3()).distanceTo(camera.position))+5:undefined}];
       });
       candidates.sort((a,b)=>Number(!!labels[Number(b.id)].userData.selected)-Number(!!labels[Number(a.id)].userData.selected));
       for(const box of placeMacroLabels(candidates,width,height,height<550?65:75,height<550?95:115,obstacles)) {

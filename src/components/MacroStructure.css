@@ -82,3 +82,5 @@
 .panorama-families a{display:inline-block;color:#9dddc8;font-size:12px;margin:7px 0;text-decoration:underline;text-underline-offset:3px}
 .panorama-family-date{color:#b7e6d8!important;font-variant-numeric:tabular-nums}
 .panorama-families details{margin-top:14px}.panorama-families summary{font-size:12px;cursor:pointer;line-height:1.7}
+
+.panorama-comets>.comet-panel{border:0;padding:0;margin:0;background:transparent}

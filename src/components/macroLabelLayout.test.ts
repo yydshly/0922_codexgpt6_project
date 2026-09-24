@@ -20,3 +20,9 @@ describe('screen-space macro annotations',()=>{
     expect(placeMacroLabels(anchors,700,600)).toEqual(placeMacroLabels(anchors,700,600));
   });
 });
+
+// Close-up bodies should not suppress their own names merely by growing in screen space.
+it('places close-up labels outside the projected body radius',()=>{
+ const boxes=placeMacroLabels([{id:'comet',x:400,y:300,width:150,height:28,radius:45}],800,600,60,60,[{x:355,y:255,width:90,height:90}]);
+ expect(boxes).toHaveLength(1);expect(boxes[0].x).toBeGreaterThan(445);
+});

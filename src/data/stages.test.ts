@@ -10,6 +10,14 @@ describe('stage presentation filters',()=>{
   expect(stagedLayers(layers,onlyStage('families')).moons).toBe(true);
   expect(stagedLayers(layers,allStages())).toEqual(layers);
  });
+ it('isolates the environment module without enabling other additions',()=>{
+  const flags=onlyStage('environment');
+  expect(Object.values(flags).filter(Boolean)).toHaveLength(1);
+  expect(flags.environment).toBe(true);
+  const layers=stagedLayers(defaultMacroLayers(),flags);
+  expect(Object.entries(layers).filter(([,visible])=>visible).map(([id])=>id)).toEqual(['planetary']);
+  expect(Object.values(allStages()).every(Boolean)).toBe(true);
+ });
  it('never re-enables a manually hidden layer when its stage is enabled',()=>{
   const layers={...defaultMacroLayers(),comets:false,moons:false};
   expect(stagedLayers(layers,allStages())).toEqual(layers);

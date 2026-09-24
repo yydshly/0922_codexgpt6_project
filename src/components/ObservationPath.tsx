@@ -1,0 +1,8 @@
+import './ObservationPath.css';
+export function ObservationPath({title,hint,back,forward,backReason,forwardReason,onBack,onForward,onGuide,canObserve,canFamily}:{title:string;hint:string;back?:string;forward?:string;backReason:string;forwardReason:string;onBack:()=>void;onForward:()=>void;onGuide:(step:'overview'|'region'|'earth'|'family')=>void;canObserve:boolean;canFamily:boolean}){
+ return <nav className="observation-path" aria-label="全景观察路径">
+  <div className="observation-path-heading"><div className="observation-path-buttons"><button disabled={!back||!!backReason} title={backReason||back||'还没有更早的观察位置'} onClick={onBack}>← 上一步</button><button disabled={!forward||!!forwardReason} title={forwardReason||forward||'已是最新观察位置'} onClick={onForward}>下一步 →</button></div><strong aria-live="polite">当前位置 · {title}</strong></div>
+  <p>{hint}</p>{(backReason||forwardReason)&&<p role="status">{backReason&&`上一步：${backReason}。`}{forwardReason&&`下一步：${forwardReason}。`}</p>}
+  <details><summary>推荐观察顺序与返回规则</summary><div className="observation-path-guide"><button onClick={()=>onGuide('overview')}>1 · 整体结构</button><span>→</span><button onClick={()=>onGuide('region')}>2 · 行星区域</button><span>→</span><button disabled={!canObserve} onClick={()=>onGuide('earth')}>3 · 地球本体</button><span>→</span><button disabled={!canObserve||!canFamily} onClick={()=>onGuide('family')}>4 · 地月系统</button></div><p>先认区域，再看轨道，最后靠近球体与卫星。真实位置、参考轨道、放大外观与结构示意，请结合各模块说明区分。地月入口需要开启阶段 04。</p><p>上一步 / 下一步恢复离开时的视图与基础图层选择，不回退日期、播放状态或阶段开关；跟随天体按当前日期重新对准。拖动、缩放和读说明不会新增一步，离开前的镜头会被记住。本次太阳系全景内最多保留 12 个过去位置；转到其他星系或关闭全景后清空。原有“返回原视角”仍可直接退出定位。</p></details>
+ </nav>;
+}

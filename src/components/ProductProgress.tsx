@@ -9,9 +9,9 @@ const completed = [
 ];
 
 const improvements = [
-  { title: '宏观全景 · 12 类可开关图层', detail: '整合天体、种群、尘埃与空间环境；提供综合全景、天体与轨道、太阳风环境三个取景入口，靠近时展开局部细节。' },
-  { title: '代表天体与彗星参考轨道', detail: '谷神星与冥王星接入宏观历表位置；哈雷使用 JPL 指定历元根数画参考轨道，近太阳双尾为固定活动示意。动态天体仍为 32 个。' },
-  { title: '太阳风与日球层分区', detail: '增加可暂停的径向流动示意，以及终止激波、日鞘和日球层顶标注；不将边界轮廓或动画速度当作实测值。' },
+  { title: '区域介绍优先，图层与来源分开', detail: '宏观页默认展示当前区域介绍。右侧可切换认识这里、图层和来源；三种取景预设固定在顶部，并显示准确的选中状态。' },
+  { title: '标注可读，缩放状态明确', detail: '文字以屏幕尺寸绘制，带指向线，避开其他标注、球体和控制区。图层明确显示已展开、靠近显示或已关闭；标注可单独隐藏。' },
+  { title: '保留手动镜头与科学状态', detail: '开关黄道面、标注、图层或高度示意不再重建场景；取景预设可主动复位。球体展示光照和点云清晰度增强，不改变历表与物理模型。' },
 ];
 
 export function ProductProgress({ onClose }: { onClose: () => void }) {
@@ -30,7 +30,7 @@ export function ProductProgress({ onClose }: { onClose: () => void }) {
         <p className="product-progress-intro">我们将真实数据、物理近似和视觉示意分别标注。每轮先提交可运行的基线，再记录问题、优化和验证结果，便于对照验收。</p>
         <section><div className="product-progress-section-heading"><CheckCircle2 size={16}/><h3>已有能力 · 基线已提交</h3></div><div className="product-progress-list">{completed.map(item => <article key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></article>)}</div></section>
         <section><div className="product-progress-section-heading"><Clock3 size={16}/><h3>本轮优化 · 待验收</h3></div><ol className="product-progress-steps">{improvements.map(item => <li key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></li>)}</ol></section>
-        <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>打开“宏观结构”，依次查看综合全景、天体与轨道、太阳风环境；开关图层、靠近展开细节、暂停太阳风，再查看新增元素的来源。地月分步导览已后移，本轮先补整体画面。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
+        <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>打开“宏观结构”，检查首屏区域介绍；切换图层和来源、缩放观察状态变化；拖动镜头后开关黄道面，视角应保持；再切天体与轨道检查文字避让。地月课程仍后移。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
         <nav className="product-progress-links" aria-label="建设记录相关资料"><a href="https://github.com/yydshly/0922_codexgpt6_project/commits/main/" target="_blank" rel="noreferrer"><GitCommitHorizontal size={14}/>查看提交记录<ArrowUpRight size={13}/></a><a href="https://github.com/yydshly/0922_codexgpt6_project/blob/main/docs/PRODUCT-PROGRESS.md" target="_blank" rel="noreferrer">查看完整建设记录<ArrowUpRight size={13}/></a></nav>
       </div>
     </section>

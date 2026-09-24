@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { placeMacroLabels } from './macroLabelLayout';
 import { AU_KM, BODIES } from '../data/catalog';
 import { halleyPoint, macroEcliptic, macroDetailVisible, type MacroLayerId, type MacroLayerVisibility } from '../data/macroLayers';
 import { macroRadius } from '../data/macroStructure';
@@ -7,26 +8,24 @@ import type { StateFrame } from '../types';
 import { dwarfReferenceOrbit } from './dwarfOrbit';
 
 /** Explanatory geometry lives outside scientific state; animated wind has its own clock. */
-export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture) {
+export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture, host: HTMLDivElement) {
   const groups = Object.fromEntries(['dwarfs','comets','wind','populations','dust','heliosphere','oort'].map(id => {
     const group = new THREE.Group(); group.name = `macro-${id}`; scene.add(group); return [id, group];
   })) as Record<string, THREE.Group>;
-  const textures: THREE.Texture[] = [];
-  const labels: THREE.Sprite[] = [];
+  const overlay = document.createElement('div'); overlay.className='macro-world-labels'; overlay.setAttribute('aria-hidden','true'); host.appendChild(overlay);
+  const labels: THREE.Object3D[] = [];
+  const labelElements = new Map<THREE.Object3D, {text:HTMLDivElement; line:HTMLSpanElement}>();
   function label(text: string, color = '#c6dfed') {
-    const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 80;
-    const context = canvas.getContext('2d')!;
-    context.font = '28px sans-serif'; context.textAlign = 'center'; context.fillStyle = '#07131ee8';
-    context.fillRect(0, 0, 512, 80); context.fillStyle = color; context.fillText(text, 256, 49);
-    const map = new THREE.CanvasTexture(canvas); map.colorSpace = THREE.SRGBColorSpace; textures.push(map);
-    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map, transparent: true, depthWrite: false, sizeAttenuation: false }));
-    sprite.scale.set(.19, .03, 1); labels.push(sprite); return sprite;
+    const anchor = new THREE.Object3D();
+    const element=document.createElement('div');element.className='macro-world-label';element.textContent=text;element.style.setProperty('--label-color',color);
+    const leader=document.createElement('span');leader.className='macro-label-leader';leader.style.background=color;
+    overlay.append(leader,element);labels.push(anchor);labelElements.set(anchor,{text:element,line:leader});return anchor;
   }
   const line = (points: THREE.Vector3[], color: string, opacity: number) => new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false }));
-  const ball = (size: number, color: string) => new THREE.Mesh(new THREE.SphereGeometry(size, 18, 12), new THREE.MeshBasicMaterial({ color }));
+  const ball = (size: number, color: string) => { const mesh = new THREE.Mesh(new THREE.SphereGeometry(size, 18, 12), new THREE.MeshStandardMaterial({ color, roughness: .8 })); mesh.userData.labelRadius=size; return mesh; };
   const halley = Array.from({ length: 721 }, (_, n) => new THREE.Vector3(...macroEcliptic(halleyPoint(n / 720 * Math.PI * 2))));
   groups.comets.add(line(halley, '#82d2dc', .8));
-  const orbitLabel = label('哈雷 · JPL 参考轨道'); orbitLabel.position.copy(halley[360]).add(new THREE.Vector3(0, .65, 0)); groups.comets.add(orbitLabel);
+  const orbitLabel = label('哈雷 · JPL 参考轨道'); orbitLabel.position.copy(halley[360]).add(new THREE.Vector3(0, .1, 0)); groups.comets.add(orbitLabel);
   // The perihelion activity vignette is fixed; it is deliberately not a current Halley marker.
   const nucleus = new THREE.Vector3(...macroEcliptic(halleyPoint(.35)));
   const outward = nucleus.clone().normalize();
@@ -42,7 +41,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture)
     }), '#dfc097', .19));
   }
   groups.comets.add(line([nucleus, nucleus.clone().addScaledVector(outward, 3.2)], '#72caff', .9));
-  const tailLabel = label('近太阳彗发 / 双尾 · 示意', '#b7e2d9'); tailLabel.position.copy(nucleus).addScaledVector(outward, 2.7).add(new THREE.Vector3(0, .7, 0)); groups.comets.add(tailLabel);
+  const tailLabel = label('彗发与双尾 · 固定示意', '#b7e2d9'); tailLabel.position.copy(nucleus).addScaledVector(outward, 2.7).add(new THREE.Vector3(0, .7, 0)); groups.comets.add(tailLabel);
 
   let seed = 73441;
   const rand = () => { seed = (Math.imul(seed,1664525)+1013904223) >>> 0; return seed/4294967296; };
@@ -108,7 +107,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture)
         item.group.visible=!!state;
         if(!state || !frame) continue;
         item.marker.position.set(...macroEcliptic(state.position.map((v,i)=>(v-frame.positions[i])/AU_KM)));
-        item.annotation.position.copy(item.marker.position).add(new THREE.Vector3(0,.65,0));
+        item.annotation.position.copy(item.marker.position);
         item.annotation.visible=distance<36;
         if(!Number.isFinite(lastOrbitTime) || Math.abs(frame.time-lastOrbitTime)>21600) {
           const sun:ObjectState={id:'sun',position:[frame.positions[0],frame.positions[1],frame.positions[2]],velocity:[frame.velocities[0],frame.velocities[1],frame.velocities[2]]};
@@ -118,6 +117,34 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture)
       }
       if(compatible && (!Number.isFinite(lastOrbitTime)||Math.abs(frame!.time-lastOrbitTime)>21600)) lastOrbitTime=frame!.time;
     },
-    dispose() { textures.forEach(t=>t.dispose()); },
+    layoutLabels(camera: THREE.PerspectiveCamera, width: number, height: number, visible: boolean) {
+      camera.updateMatrixWorld();
+      const obstacles: {x:number;y:number;width:number;height:number}[] = [];
+      scene.traverse(object => {
+        if (!object.userData.labelRadius) return;
+        let parent:THREE.Object3D|null=object;while(parent){if(!parent.visible)return;parent=parent.parent;}
+        const world=object.getWorldPosition(new THREE.Vector3()), point=world.clone().project(camera);
+        if(point.z < -1 || point.z > 1) return;
+        const radius=object.userData.labelRadius*height/(2*Math.tan(camera.fov*Math.PI/360)*world.distanceTo(camera.position))+5;
+        obstacles.push({x:(point.x+1)*width/2-radius,y:(1-point.y)*height/2-radius,width:radius*2,height:radius*2});
+      });
+      const candidates = labels.flatMap((anchor,index) => {
+        let object:THREE.Object3D|null=anchor;let enabled=visible;
+        while(object) { enabled=enabled && object.visible;object=object.parent; }
+        const elements=labelElements.get(anchor)!;elements.text.style.visibility='hidden';elements.line.style.visibility='hidden';
+        if(!enabled) return [];
+        const p=anchor.getWorldPosition(new THREE.Vector3()).project(camera);
+        if(p.z < -1 || p.z > 1) return [];
+        return [{id:String(index),x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:elements.text.offsetWidth,height:elements.text.offsetHeight}];
+      });
+      for(const box of placeMacroLabels(candidates,width,height,height<550?65:75,height<550?95:115,obstacles)) {
+        const el=labelElements.get(labels[Number(box.id)])!;
+        el.text.style.transform=`translate(${box.x}px, ${box.y}px)`;el.text.style.visibility='visible';
+        const x=Math.max(box.x,Math.min(box.anchorX,box.x+box.width)), y=Math.max(box.y,Math.min(box.anchorY,box.y+box.height));
+        const dx=x-box.anchorX, dy=y-box.anchorY;
+        el.line.style.width=`${Math.hypot(dx,dy)}px`;el.line.style.transform=`translate(${box.anchorX}px, ${box.anchorY}px) rotate(${Math.atan2(dy,dx)}rad)`;el.line.style.visibility='visible';
+      }
+    },
+    dispose() { overlay.remove(); },
   };
 }

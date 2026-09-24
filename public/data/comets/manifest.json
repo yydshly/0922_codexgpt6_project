@@ -1,0 +1,255 @@
+{
+  "version": "horizons-comets-2026-2027-v1",
+  "source": "NASA/JPL Horizons",
+  "sourceUrl": "https://ssd.jpl.nasa.gov/horizons/manual.html",
+  "generatedAt": "2026-09-24T03:27:00.046511+00:00",
+  "startUtc": "2026-01-01T00:00:00Z",
+  "endUtc": "2028-01-01T00:00:00Z",
+  "startTdb": 820497669.18392,
+  "endTdb": 883569669.183905,
+  "frame": "ECLIPJ2000 (ICRF, ecliptic of J2000.0)",
+  "origin": "Solar System Barycenter (NAIF 0)",
+  "units": "km, km/s",
+  "timeScale": "TDB seconds past J2000",
+  "aberration": "NONE: geometric states; no light-time correction",
+  "bodyIds": [
+    "halley",
+    "67p"
+  ],
+  "stepSeconds": 21600,
+  "interpolation": "Cubic Hermite with analytic velocity derivative",
+  "targets": [
+    {
+      "id": "halley",
+      "command": "DES=1P;CAP;",
+      "targetSource": "Target body name: 1P/Halley                       {source: JPL#75}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/comets/halley-2026-2027-3h.txt.gz",
+      "rawSha256": "0f1eec85483533c5011a2d65bd9b09163cb73cc16112a5bc4701ce92e3d96007",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27DES%3D1P%3BCAP%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "67p",
+      "command": "DES=67P;CAP;",
+      "targetSource": "Target body name: 67P/Churyumov-Gerasimenko       {source: JPL#K284/1}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/comets/67p-2026-2027-3h.txt.gz",
+      "rawSha256": "ecd353187306aeee3acc2bd6480e10812c52eb88c7e45107cc87e126196a0f1d",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27DES%3D67P%3BCAP%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    }
+  ],
+  "chunks": [
+    {
+      "file": "2026-01.json",
+      "startTdb": 820497669.18392,
+      "endTdb": 823176069.184785,
+      "bytes": 29181,
+      "sha256": "d433f82fd1d4e2f4378c95fad8574356e73c5873dfec7683a18789f77fd716b6"
+    },
+    {
+      "file": "2026-02.json",
+      "startTdb": 823176069.184785,
+      "endTdb": 825595269.1853772,
+      "bytes": 26662,
+      "sha256": "a3de8260d2a8c91cc42d277efbd278ceacd408539dd9ad20121be154d642ffc2"
+    },
+    {
+      "file": "2026-03.json",
+      "startTdb": 825595269.1853772,
+      "endTdb": 828273669.1856546,
+      "bytes": 29429,
+      "sha256": "d9c64042c0d4bb9ee267e1ef2473c523211ac4e42ae44910b565c1658cd44248"
+    },
+    {
+      "file": "2026-04.json",
+      "startTdb": 828273669.1856546,
+      "endTdb": 830865669.185484,
+      "bytes": 28517,
+      "sha256": "1eed1d0d7582bb1494fb56343453cdd48188003f846605fc4d653cdd04c12ec8"
+    },
+    {
+      "file": "2026-05.json",
+      "startTdb": 830865669.185484,
+      "endTdb": 833544069.1849113,
+      "bytes": 29403,
+      "sha256": "bd5f7cf403a5cfd345ad7f956a0a9d654754067ac2abdf7476f6da6f2b5711bd"
+    },
+    {
+      "file": "2026-06.json",
+      "startTdb": 833544069.1849113,
+      "endTdb": 836136069.1841229,
+      "bytes": 28493,
+      "sha256": "08c544247ddb1e43eec747e527d5eeb70982b60de6aaf72e7ec4dd5ad70e16d0"
+    },
+    {
+      "file": "2026-07.json",
+      "startTdb": 836136069.1841229,
+      "endTdb": 838814469.1832788,
+      "bytes": 29479,
+      "sha256": "18c5a90cd018cb39e0bb52a7d45e7dcad512bd04d4c2498141a9f5eb958d8be6"
+    },
+    {
+      "file": "2026-08.json",
+      "startTdb": 838814469.1832788,
+      "endTdb": 841492869.1826266,
+      "bytes": 29506,
+      "sha256": "65c7f6b9e62f83baa8075c25169994437fd74556fe01b980bc7c00c06b3f7b9a"
+    },
+    {
+      "file": "2026-09.json",
+      "startTdb": 841492869.1826266,
+      "endTdb": 844084869.1823484,
+      "bytes": 28674,
+      "sha256": "5dfb494648f1823aa4c1abbb4123a5705adca2d98c3c2cf0a60f4d0f2389a4a9"
+    },
+    {
+      "file": "2026-10.json",
+      "startTdb": 844084869.1823484,
+      "endTdb": 846763269.1825113,
+      "bytes": 29328,
+      "sha256": "28fabbe2df91c1524e476a8fe52e18bbc2c67e6d2745baddfb7c88fbf912a5fc"
+    },
+    {
+      "file": "2026-11.json",
+      "startTdb": 846763269.1825113,
+      "endTdb": 849355269.183072,
+      "bytes": 28379,
+      "sha256": "877be9c0d6dcc4c650535be25b5c6e5fe708daa634dbb567a32e3ee0949bc2a2"
+    },
+    {
+      "file": "2026-12.json",
+      "startTdb": 849355269.183072,
+      "endTdb": 852033669.1839125,
+      "bytes": 29171,
+      "sha256": "643bcdeed6dd8b45bef2aff07555965e7b2204d3e3a32cd7e8e10d96a6ed160b"
+    },
+    {
+      "file": "2027-01.json",
+      "startTdb": 852033669.1839125,
+      "endTdb": 854712069.1847785,
+      "bytes": 29141,
+      "sha256": "660916dfbbc2f276d5af74be77c9f1f4e9f41a7248d6bb54bf76e3e2765cb9bc"
+    },
+    {
+      "file": "2027-02.json",
+      "startTdb": 854712069.1847785,
+      "endTdb": 857131269.1853731,
+      "bytes": 26409,
+      "sha256": "4e4a44722b70a1cd8643080b08c28711b0e6f1a310aabd4fcf79463ab69923d6"
+    },
+    {
+      "file": "2027-03.json",
+      "startTdb": 857131269.1853731,
+      "endTdb": 859809669.1856543,
+      "bytes": 29146,
+      "sha256": "2070c6ca78543fa517b4f96bc9fa3cc896c53babfdfa1e11559d8aa28c608afc"
+    },
+    {
+      "file": "2027-04.json",
+      "startTdb": 859809669.1856543,
+      "endTdb": 862401669.1854873,
+      "bytes": 28135,
+      "sha256": "9452c93f3dc1ebacfc106edfe3168536216a447cb60247f51e71291836aef5c9"
+    },
+    {
+      "file": "2027-05.json",
+      "startTdb": 862401669.1854873,
+      "endTdb": 865080069.1849173,
+      "bytes": 29033,
+      "sha256": "f017c213f1548a4abc3e8ef8ab3ae065449ebdd54f12ffa7bddac23682e443c5"
+    },
+    {
+      "file": "2027-06.json",
+      "startTdb": 865080069.1849173,
+      "endTdb": 867672069.1841302,
+      "bytes": 28121,
+      "sha256": "0e6521e1f158017cf91d3c9062e764f93bd1b016ed3b1ca9c86a2e03c51a8c32"
+    },
+    {
+      "file": "2027-07.json",
+      "startTdb": 867672069.1841302,
+      "endTdb": 870350469.1832854,
+      "bytes": 29023,
+      "sha256": "e57e85404cb51491b296872dd9a3cabd1ae5671dbc97b3d7a1fefa501d6db802"
+    },
+    {
+      "file": "2027-08.json",
+      "startTdb": 870350469.1832854,
+      "endTdb": 873028869.1826308,
+      "bytes": 29029,
+      "sha256": "16da5374a6cbd46c18cae5f3e5d3ce4234d671903ed1e24be35a5d433b91338e"
+    },
+    {
+      "file": "2027-09.json",
+      "startTdb": 873028869.1826308,
+      "endTdb": 875620869.182349,
+      "bytes": 28243,
+      "sha256": "269e37d8aebce3d822c3f462b671ed536a22b92299007c9d9e6daf1034accaf3"
+    },
+    {
+      "file": "2027-10.json",
+      "startTdb": 875620869.182349,
+      "endTdb": 878299269.1825081,
+      "bytes": 29008,
+      "sha256": "ed9bab92a13a095fb450ab0147241bd4ea79161fb0e851a5b23db972ad33f8fc"
+    },
+    {
+      "file": "2027-11.json",
+      "startTdb": 878299269.1825081,
+      "endTdb": 880891269.1830658,
+      "bytes": 28287,
+      "sha256": "7d985bb851a27aef22e76b301793cb65d89f20a5e28b9a04507c392472dc6930"
+    },
+    {
+      "file": "2027-12.json",
+      "startTdb": 880891269.1830658,
+      "endTdb": 883569669.183905,
+      "bytes": 28944,
+      "sha256": "7d6f2f8e6d12ea90301a318a2f9abcf651f55076f912a8e2444d16af7b6438f6"
+    }
+  ],
+  "validation": {
+    "checks": [
+      {
+        "id": "halley",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 2.9102696456274276e-06,
+        "rmsPositionErrorKm": 1.0467337517108307e-06,
+        "maxVelocityErrorKmS": 2.425357024784042e-10,
+        "passed": true
+      },
+      {
+        "id": "67p",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 3.5701742450687446e-05,
+        "rmsPositionErrorKm": 6.988814548413049e-06,
+        "maxVelocityErrorKmS": 2.443531384579686e-11,
+        "passed": true
+      }
+    ],
+    "maxPositionErrorKm": 3.5701742450687446e-05,
+    "maxVelocityErrorKmS": 2.425357024784042e-10,
+    "positionThresholdKm": 1,
+    "velocityThresholdKmS": 0.0001,
+    "meaning": "Held-out source-sample difference, not absolute orbit uncertainty"
+  },
+  "tracks": {
+    "file": "tracks.json",
+    "sha256": "50ac42847e3913549b9c85172553ef5c6c89cd2d74d246ac0255ecabb34b261d",
+    "bytes": 110544,
+    "sunSource": {
+      "id": "sun",
+      "command": "10",
+      "targetSource": "Target body name: Sun (10)                        {source: DE441}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/comets/sun-2026-2027-3h.txt.gz",
+      "rawSha256": "5e9324b040c32e261ba77103826319dc2e5d1bc98e2c9168a94a581ff6aa3f25",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    "sampleSeconds": 86400,
+    "meaning": "Daily heliocentric positions over coverage, joined for display; not a complete orbital revolution"
+  }
+}

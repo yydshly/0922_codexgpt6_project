@@ -138,3 +138,7 @@ npm run validate:physics
 - [NASA/JPL Horizons](https://ssd.jpl.nasa.gov/horizons/manual.html)、[JPL 行星物理参数](https://ssd.jpl.nasa.gov/planets/phys_par.html)、[NAIF DE440 引力参数](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc)、[NASA 太阳系资料](https://science.nasa.gov/solar-system/solar-system-facts/)。
 - 行星贴图：**Solar System Scope / INOVE**，[原始来源](https://www.solarsystemscope.com/textures/)，采用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 授权，以 NASA 图像和高程资料为基础。原始 2K 文件未修改；运行时另行施加光照、大气与环效果。贴图含颜色调整或重建区域，是静态说明资料，不是实时影像。逐文件来源、校验值与授权见 `public/textures/sources.json`。
 - 字体采用本地系统回退，运行时无需访问 Google Fonts 或其他远程字体服务。
+
+## 宏观彗星接入（本地待验收）
+
+宏观页额外展示哈雷、67P 的 2026—2027 年真实历表位置、速度和两年路径。主观测页目录仍为 32 个目标；新增彗星暂不进入十体物理模型。入口：宏观结构 → 天体与物质 → 彗星。来源、限制与验收见 [接入记录](docs/COMET-EPHEMERIS.md)。

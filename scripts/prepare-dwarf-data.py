@@ -22,6 +22,8 @@ ROOT = Path(__file__).resolve().parents[1]
 CACHE = ROOT / 'data-sources' / 'dwarfs'
 OUT = ROOT / 'public' / 'data' / 'dwarfs'
 TARGETS = {'ceres': '1;', 'pluto': '999', 'charon': '901'}
+EXPECTED_NAMES = {'ceres': '1 Ceres', 'pluto': 'Pluto (999)', 'charon': 'Charon (901)'}
+VERSION = 'horizons-dwarfs-2026-2027-v1'
 J2000_UNIX = 946728000
 PUBLISHED_STEP = 21600
 RAW_STEP = 10800
@@ -68,8 +70,7 @@ def query(body_id, command, contact):
     response = raw.decode()
     header, remainder = response.split('$$SOE', 1)
     data_text = remainder.split('$$EOE', 1)[0]
-    expected_names = {'ceres': '1 Ceres', 'pluto': 'Pluto (999)', 'charon': 'Charon (901)'}
-    if (expected_names[body_id] not in header or
+    if (EXPECTED_NAMES[body_id] not in header or
         'Solar System Barycenter (0)' not in header or
         'Ecliptic of J2000.0' not in header or
         'GEOMETRIC cartesian states' not in header or
@@ -139,8 +140,9 @@ def main():
         records[body_id] = rows
         targets.append(provenance)
         checks.append(verify(rows, body_id))
-    start = records['ceres'][0][0]
-    if any(len(rows) != len(records['ceres']) or any(abs(row[0]-records['ceres'][i][0]) > .01 for i, row in enumerate(rows))
+    first_id = next(iter(TARGETS))
+    start = records[first_id][0][0]
+    if any(len(rows) != len(records[first_id]) or any(abs(row[0]-records[first_id][i][0]) > .01 for i, row in enumerate(rows))
            for rows in records.values()):
         raise ValueError('Target samples do not share the same TDB epochs')
 
@@ -151,7 +153,7 @@ def main():
             utc_start = f'{year}-{month:02}-01T00:00:00Z'
             utc_end = f'{next_year}-{next_month:02}-01T00:00:00Z'
             first = max(0, math.floor((tdb(utc_start)-start)/PUBLISHED_STEP)-1)
-            last = min((len(records['ceres'])-1)//2, math.ceil((tdb(utc_end)-start)/PUBLISHED_STEP)+1)
+            last = min((len(records[first_id])-1)//2, math.ceil((tdb(utc_end)-start)/PUBLISHED_STEP)+1)
             series = [dict(id=body_id, startTdb=records[body_id][first*2][0],
                            stepSeconds=PUBLISHED_STEP,
                            samples=[row[1:] for row in records[body_id][first*2:(last+1)*2:2]])
@@ -162,7 +164,7 @@ def main():
             chunks.append(dict(file=filename, startTdb=tdb(utc_start), endTdb=tdb(utc_end),
                                bytes=len(payload), sha256=hashlib.sha256(payload).hexdigest()))
 
-    manifest = dict(version='horizons-dwarfs-2026-2027-v1',
+    manifest = dict(version=VERSION,
                     source='NASA/JPL Horizons', sourceUrl='https://ssd.jpl.nasa.gov/horizons/manual.html',
                     generatedAt=datetime.now(timezone.utc).isoformat(),
                     startUtc='2026-01-01T00:00:00Z', endUtc='2028-01-01T00:00:00Z',

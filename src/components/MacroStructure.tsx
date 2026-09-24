@@ -12,11 +12,16 @@ import { useDwarfs } from '../hooks/useDwarfs';
 import type { StateBatch } from '../ephemeris/stateProvider';
 import { MACRO_LAYERS, defaultMacroLayers, macroDetailVisible, HALLEY_SOURCE, HALLEY_ORBIT, type MacroLayerVisibility, type MacroLayerId } from '../data/macroLayers';
 import { createMacroPhenomena } from './macroPhenomena';
+import { useMonthlyStates } from '../hooks/useMonthlyStates';
+import { cometProvider } from '../ephemeris/comets';
+import type { CometTracks } from '../ephemeris/cometState';
+import { CometPanel, type MacroTimeControls } from './CometPanel';
 import { publicAsset } from '../data/publicAsset';
 
 interface Props {
   frame: StateFrame | null;
   displayDate: string;
+  timeControls: MacroTimeControls;
   isEphemeris?: boolean;
   onClose: () => void;
   onOpenReadingGuide: () => void;
@@ -74,13 +79,13 @@ function orbitRing(au: number) {
   return new THREE.BufferGeometry().setFromPoints(vertices);
 }
 
-function MacroCanvas({ frame, selected, resetCount, family, cameraView, heightScale, showPlane, layers, batch, animate, showLabels, onDistance }: { frame: StateFrame | null; selected: MacroZoneId; resetCount: number; family?: SolarFamilyId; cameraView: MacroCameraView; heightScale: 1 | 10; showPlane: boolean; layers: MacroLayerVisibility; batch: StateBatch | null; animate: boolean; showLabels: boolean; onDistance: (distance: number) => void }) {
+function MacroCanvas({ cometBatch, cometTracks, showActivity, frame, selected, resetCount, family, cameraView, heightScale, showPlane, layers, batch, animate, showLabels, onDistance }: { cometBatch: StateBatch | null; cometTracks: CometTracks | null; showActivity: boolean; frame: StateFrame | null; selected: MacroZoneId; resetCount: number; family?: SolarFamilyId; cameraView: MacroCameraView; heightScale: 1 | 10; showPlane: boolean; layers: MacroLayerVisibility; batch: StateBatch | null; animate: boolean; showLabels: boolean; onDistance: (distance: number) => void }) {
   const host = useRef<HTMLDivElement>(null);
   const frameRef = useRef(frame);
   const sceneRef = useRef<{ camera: THREE.PerspectiveCamera; controls: OrbitControls; materials: Partial<Record<MacroZoneId, ZoneMaterial[]>>; plane: THREE.Mesh; guides: THREE.Line[] } | null>(null);
   frameRef.current = frame;
-  const displayRef = useRef({ layers, batch, animate, showPlane, heightScale, family, showLabels, onDistance });
-  displayRef.current = { layers, batch, animate, showPlane, heightScale, family, showLabels, onDistance };
+  const displayRef = useRef({ cometBatch, cometTracks, showActivity, layers, batch, animate, showPlane, heightScale, family, showLabels, onDistance });
+  displayRef.current = { cometBatch, cometTracks, showActivity, layers, batch, animate, showPlane, heightScale, family, showLabels, onDistance };
 
   useEffect(() => {
     const element = host.current;
@@ -228,7 +233,7 @@ function MacroCanvas({ frame, selected, resetCount, family, cameraView, heightSc
       controls.update();
       const cameraDistance = camera.position.distanceTo(controls.target);
       if (Math.abs(cameraDistance-lastDistance) > .1) { lastDistance=cameraDistance; onDistance(cameraDistance); }
-      phenomena.update(current, displayRef.current.batch, displayRef.current.layers, camera.position.distanceTo(controls.target), demoSeconds, family);
+      phenomena.update(current, displayRef.current.batch, displayRef.current.layers, camera.position.distanceTo(controls.target), demoSeconds, family, displayRef.current.cometBatch, displayRef.current.cometTracks, displayRef.current.showActivity);
       scene.updateMatrixWorld(true);
       phenomena.layoutLabels(camera, element.clientWidth, element.clientHeight, showLabels);
       renderer.render(scene, camera);
@@ -280,13 +285,25 @@ function MacroCanvas({ frame, selected, resetCount, family, cameraView, heightSc
   return <div className="macro-canvas" ref={host} role="img" aria-label="可拖动旋转、滚轮缩放的太阳系宏观结构三维示意"/>;
 }
 
-export function MacroStructure({ frame, displayDate, isEphemeris = true, onClose, onOpenReadingGuide, onObservePlanets, onExploreObject }: Props) {
+export function MacroStructure({ timeControls, frame, displayDate, isEphemeris = true, onClose, onOpenReadingGuide, onObservePlanets, onExploreObject }: Props) {
   const [panelTab, setPanelTab] = useState<'learn' | 'layers' | 'sources'>('learn');
   const [showLabels, setShowLabels] = useState(true);
   const [cameraDistance, setCameraDistance] = useState(62);
   const [layers, setLayers] = useState(defaultMacroLayers);
   const [animate, setAnimate] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const dwarfData = useDwarfs(frame?.time, isEphemeris);
+  const cometData = useMonthlyStates(cometProvider, frame?.time, isEphemeris);
+  const [cometTracks,setCometTracks]=useState<CometTracks|null>(null);
+  const [trackError,setTrackError]=useState('');
+  const [showActivity,setShowActivity]=useState(false);
+  useEffect(()=>{
+    const abort=new AbortController();
+    void fetch(publicAsset('/data/comets/tracks.json'),{signal:abort.signal}).then(r=>{if(!r.ok)throw new Error('轨迹文件读取失败');return r.json();}).then((data:CometTracks)=>{
+      if(!data.tracks || data.tracks.length!==2 || data.tracks.some(t=>!['halley','67p'].includes(t.id)||!t.points.length||t.points.some(p=>p.length!==4||!p.every(Number.isFinite))))throw new Error('轨迹文件格式不兼容');
+      if(!abort.signal.aborted)setCometTracks(data);
+    }).catch(()=>{if(!abort.signal.aborted)setTrackError('两年轨迹暂未加载，关闭并重新打开宏观结构可重试');});
+    return ()=>abort.abort();
+  },[]);
   const scientificFrame = isEphemeris ? frame : null;
   const [scope, setScope] = useState<'solar' | 'cosmic'>('solar');
   const [solarTab, setSolarTab] = useState<'zones' | 'families'>('zones');
@@ -301,6 +318,8 @@ export function MacroStructure({ frame, displayDate, isEphemeris = true, onClose
   const layerStatus = (id: MacroLayerId) => {
     if (!layers[id]) return '已关闭';
     if ((id === 'planetary' || id === 'moons') && !scientificFrame) return '缺少历表';
+    if (id === 'comets' && !isEphemeris) return '缺少历表';
+    if (id === 'comets' && !cometData.batch) return cometData.error ? '加载失败' : '等待历表';
     if (id === 'dwarfs' && !isEphemeris) return '缺少历表';
     if (id === 'dwarfs' && !dwarfData.batch) return dwarfData.error ? '加载失败' : '等待历表';
     const expanded = macroDetailVisible(id, cameraDistance) || focusedFamily === id || (id === 'populations' && focusedFamily === 'centaurs');
@@ -310,7 +329,7 @@ export function MacroStructure({ frame, displayDate, isEphemeris = true, onClose
   const closeButton = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLElement>(null);
   const zone = MACRO_ZONES.find(item => item.id === selected);
-  const zoneVisualMeaning = zone?.visualMeaning ?? '太阳、八大行星及谷神星、冥王星取当前历表位置；细圆环为尺度参考，哈雷曲线为指定历元参考轨道。彩色点云、彗星双尾、太阳风及边界是示意，奥尔特云是模型推断。';
+  const zoneVisualMeaning = zone?.visualMeaning ?? '太阳、八大行星、谷神星、冥王星及两颗彗星取当前历表位置。彗星亮线是两年历表路径，淡线是瞬时参考椭圆；细圆环为尺度参考。彩色点云、可选双尾、太阳风及边界是示意，奥尔特云是模型推断。';
   const highestPlanet = frame ? BODIES.filter(body => body.kind === 'planet').map(body => ({ name: body.name, heightAu: Math.abs(frame.positions[BODY_IDS.indexOf(body.id) * 3 + 2] - frame.positions[2]) / 149597870.7 })).reduce((highest, current) => current.heightAu > highest.heightAu ? current : highest) : null;
   const family = SOLAR_FAMILIES.find(item => item.id === familyId)!;
   const cosmic = COSMIC_LEVELS.find(item => item.id === cosmicId)!;
@@ -353,9 +372,9 @@ export function MacroStructure({ frame, displayDate, isEphemeris = true, onClose
           {solarTab === 'zones' ? <><button className={`macro-zone ${selected === 'all' ? 'active' : ''}`} onClick={() => setSelected('all')} aria-pressed={selected === 'all'}><span className="macro-zone-icon"><Maximize2 size={15}/></span><span><strong>整体形态</strong><small>行星薄盘 → 远缘球壳</small></span></button>{MACRO_ZONES.map(item => <button key={item.id} className={`macro-zone ${selected === item.id ? 'active' : ''}`} onClick={() => { setSelected(item.id); setLayers(v => ({ ...v, [item.id]: true })); }} aria-pressed={selected === item.id}><i style={{ background: item.color }}/><span><strong>{item.name}</strong><small>{item.range}</small></span></button>)}</> : SOLAR_FAMILIES.map(item => <button key={item.id} className={`macro-zone ${familyId === item.id ? 'active' : ''}`} onClick={() => { setFamilyId(item.id); const layer = item.id === 'centaurs' ? 'populations' : item.id === 'asteroids' ? 'asteroid' : item.id; setLayers(v => ({ ...v, [layer]: true })); }} aria-pressed={familyId === item.id}><i style={{ background: '#d5bd9a' }}/><span><strong>{item.name}</strong><small>{item.keyFact}</small></span></button>)}
         </> : <><div className="macro-section-title">离开太阳系 · 三个不同尺度</div>{COSMIC_LEVELS.map((item, index) => <button key={item.id} className={`macro-zone ${cosmicId === item.id ? 'active' : ''}`} onClick={() => setCosmicId(item.id)} aria-pressed={cosmicId === item.id}><span className="macro-cosmic-index">0{index + 1}</span><span><strong>{item.name}</strong><small>{item.keyFact}</small></span></button>)}<p className="macro-side-note">“恒星系统”是一颗或多颗恒星及其成员；“星系”是包含大量恒星的更大结构。太阳系属于银河系。</p></>}
       </nav>
-      <div className="macro-stage">{scope === 'solar' ? <MacroCanvas showLabels={showLabels} onDistance={setCameraDistance} frame={scientificFrame} layers={layers} batch={dwarfData.batch} animate={animate} selected={solarTab === 'zones' ? selected : familyId === 'asteroids' ? 'asteroid' : familyId === 'dwarfs' ? 'all' : familyId === 'centaurs' ? 'scattered' : 'planetary'} resetCount={resetCount} family={solarTab === 'families' ? familyId : undefined} cameraView={cameraView} heightScale={solarTab === 'zones' && selected === 'planetary' ? heightScale : 1} showPlane={showPlane}/> : <CosmicCanvas level={cosmicId}/>}
+      <div className="macro-stage">{scope === 'solar' ? <MacroCanvas cometBatch={cometData.batch} cometTracks={cometTracks} showActivity={showActivity} showLabels={showLabels} onDistance={setCameraDistance} frame={scientificFrame} layers={layers} batch={dwarfData.batch} animate={animate} selected={solarTab === 'zones' ? selected : familyId === 'asteroids' ? 'asteroid' : familyId === 'dwarfs' ? 'all' : familyId === 'centaurs' ? 'scattered' : 'planetary'} resetCount={resetCount} family={solarTab === 'families' ? familyId : undefined} cameraView={cameraView} heightScale={solarTab === 'zones' && selected === 'planetary' ? heightScale : 1} showPlane={showPlane}/> : <CosmicCanvas level={cosmicId}/>}
         <div className="macro-stage-label"><span className="macro-live-dot"/>{scope === 'cosmic' ? '宇宙邻域 · 形态示意' : solarTab === 'families' ? '太阳系成员 · 分层展示' : '太阳系宏观全景'} <span>·</span> {scope === 'solar' && !isEphemeris ? '当前为物理模式 · 实测天体已隐藏' : scope === 'solar' && displayDate ? `观测时刻 ${displayDate.replace('T', ' ')}（北京时间）` : scope === 'solar' ? '历表加载中' : '非真实相对方位'}</div>
-        {scope === 'solar' && solarTab === 'families' && <div className="macro-family-key">{familyId === 'dwarfs' ? '谷神星 / 冥王星：历表位置与瞬时参考轨道；卡戎在此尺度不可分辨' : familyId === 'moons' ? '近旁小圈为卫星系统视觉标记，不表示真实比例与轨道' : familyId === 'comets' ? '哈雷：JPL 根数参考轨道；近太阳双尾是固定活动示意，不表示当前所在位置' : familyId === 'centaurs' ? '巨行星区域与特洛伊群为种群范围示意' : familyId === 'dust' ? '太阳附近尘埃点仅示意分布，不表示实测密度' : '主带点数、大小与位置均不代表真实小行星'}</div>}
+        {scope === 'solar' && solarTab === 'families' && <div className="macro-family-key">{familyId === 'dwarfs' ? '谷神星 / 冥王星：历表位置与瞬时参考轨道；卡戎在此尺度不可分辨' : familyId === 'moons' ? '近旁小圈为卫星系统视觉标记，不表示真实比例与轨道' : familyId === 'comets' ? '哈雷 / 67P：当日历表位置 · 亮线为两年路径，淡线为参考椭圆' : familyId === 'centaurs' ? '巨行星区域与特洛伊群为种群范围示意' : familyId === 'dust' ? '太阳附近尘埃点仅示意分布，不表示实测密度' : '主带点数、大小与位置均不代表真实小行星'}</div>}
         {scope === 'solar' && <div className="macro-depth-controls" aria-label="三维观察方式"><div role="group" aria-label="宏观镜头角度">{([['oblique','斜视'],['edge','侧视'],['top','俯视']] as const).map(([id,label]) => <button key={id} className={cameraView === id ? 'active' : ''} onClick={() => setCameraView(id)} aria-pressed={cameraView === id}>{label}</button>)}</div><button className={showPlane ? 'active' : ''} onClick={() => setShowPlane(value => !value)} aria-pressed={showPlane}>黄道面 / 高度线</button>{solarTab === 'zones' && selected === 'planetary' && <button className={heightScale === 10 ? 'active enhanced' : ''} onClick={() => setHeightScale(value => value === 1 ? 10 : 1)} aria-pressed={heightScale === 10}>{heightScale === 1 ? '行星高度 ×10' : '行星高度 ×10 · 示意'}</button>}</div>}
         {scope === 'solar' && <button className="macro-reset" onClick={() => setResetCount(count => count + 1)} aria-label="复位宏观镜头" title="复位镜头"><RotateCcw size={15}/></button>}
         <div className="macro-scale-warning">{scope === 'cosmic' ? '拖动旋转 / 滚轮缩放 · 星系和恒星的画面尺寸与方位为示意' : solarTab === 'zones' && selected === 'planetary' && heightScale === 10 ? '行星黄道高度已放大 10 倍，仅为辨识；点击“行星高度 ×10”恢复真实高度' : solarTab === 'families' ? '距离对数压缩 · 天体位置见来源状态 · 彗尾、太阳风、种群点云为示意' : selected === 'scattered' ? '紫色点只示意远伸且有纵向厚度的分布 · 一点不等于一颗已发现天体' : selected === 'oort' ? '圆点示意可能的冰质小天体群；每个点都不是已观测天体，点数、位置与大小不对应实测' : selected === 'heliosphere' ? '三维轮廓表示太阳风影响区 · 实际边界并非规则球面' : selected === 'kuiper' || selected === 'asteroid' ? '点云展示环带厚度 · 点位与密度为示意，非逐体历表' : '拖动旋转 / 滚轮缩放 · 距离采用对数映射 · 行星黄道高度来自历表'}</div>
@@ -376,23 +395,31 @@ export function MacroStructure({ frame, displayDate, isEphemeris = true, onClose
           <button className="macro-animation" disabled={!layers.wind} aria-pressed={animate && layers.wind} onClick={() => setAnimate(v => !v)}>{!layers.wind ? '太阳风图层已关闭' : animate ? '暂停太阳风示意' : '播放太阳风示意'}</button>
           <p>动画只控制太阳风示意，不改变观测日期。细节随镜头接近出现；天体大小、尾长和流动速度均作展示增强。</p>
           <p role="status">{!isEphemeris ? '当前为物理推演：宏观图隐藏实测天体，返回真实太阳系后可读取历表。' : !frame ? '行星历表读取中' : dwarfData.error ? `扩展历表未就绪：${dwarfData.error}` : dwarfData.loading ? '正在读取谷神星与冥王星历表…' : '行星、谷神星与冥王星：当前时刻历表位置'}</p>
+          <p role="status">{cometData.error || (cometData.loading ? '正在读取哈雷与 67P 历表…' : cometData.batch ? '哈雷与 67P：当前时刻历表位置' : '彗星历表未启用')}</p>
+          {cometData.error && <button onClick={cometData.retry}>重试彗星历表</button>}
           {dwarfData.error && <button onClick={dwarfData.retry}>重试扩展历表</button>}
 
         </section>}
         {scope === 'solar' && <>          <section hidden={panelTab !== 'sources'} className="macro-source-panel"><h2>画面从哪里来</h2><p>绿色：历表位置；蓝色：观测支持的示意；紫色：模型推断。颜色用作分类，具体边界请看下方来源。</p>
-            <p>哈雷轨道：JPL 解 {HALLEY_SOURCE.solution}，历元 JD {HALLEY_SOURCE.epochJdTdb} TDB，J2000 黄道坐标。倾角 {HALLEY_ORBIT.i.toFixed(2)}°；仅展示该历元参考椭圆，不推算当前彗核位置。</p>
-            <a href={publicAsset('/data/macro/halley-sbdb.json')} target="_blank" rel="noreferrer">查看保存的 JPL 原始根数</a>
+            <p>哈雷与 67P 的位置、速度来自 NASA JPL Horizons，覆盖 2026—2027 年。统一采用 TDB 时间、J2000 黄道坐标与太阳系质心几何状态；展示时扣除同一时刻太阳的状态。</p>
+            <p>位置每 6 小时采样，使用速度参与插值；以未发布的 3 小时间隔检查点验证。插值差异不等于真实轨道的不确定度，当前不提供测轨误差范围。</p>
+            <p>两年亮线逐日连接真实历表位置，不是一整圈轨道；完整淡线由当前状态估算，是瞬时二体参考椭圆，不是未来预报。彗尾原理示例默认关闭。</p>
+            <a href={publicAsset('/data/comets/manifest.json')} target="_blank" rel="noreferrer">查看彗星来源、解版本与插值验证</a>
+            <a href="https://ssd.jpl.nasa.gov/horizons/manual.html" target="_blank" rel="noreferrer">JPL Horizons：历表计算说明</a>
+            <p>旧版哈雷解 {HALLEY_SOURCE.solution} / JD {HALLEY_SOURCE.epochJdTdb} 根数保留用于原理示例（倾角 {HALLEY_ORBIT.i.toFixed(2)}°），不用于当前彗核定位。</p>
+            <a href={publicAsset('/data/macro/halley-sbdb.json')} target="_blank" rel="noreferrer">查看原理示例的原始根数</a>
             <a href="https://science.nasa.gov/solar-system/comets/facts/" target="_blank" rel="noreferrer">NASA：彗发、尘埃尾与离子尾</a>
             <a href="https://science.nasa.gov/learn/heat/resource/components-of-the-heliosphere/" target="_blank" rel="noreferrer">NASA：太阳风与日球层分区</a>
             <p>90 / 120 AU 为边界量级示意，不是各方向上的固定距离。宏观谷神星与冥王星轨道由当前状态估计，不是未来历表路径。</p>
           </section></>}
         <div hidden={scope === 'solar' && panelTab !== 'learn'}>
         {scope === 'solar' && <div className="macro-evidence-key"><span>历表位置</span><span>结构示意</span><span>模型推断</span></div>}
+        {scope==='solar' && solarTab==='families' && familyId==='comets' && <CometPanel frame={scientificFrame} batch={cometData.batch} loading={cometData.loading} error={cometData.error} onRetry={cometData.retry} time={timeControls} showActivity={showActivity} onActivity={()=>setShowActivity(v=>!v)} trackError={trackError}/>}
         {scope === 'cosmic' ? <><div className="macro-info-eyebrow">{cosmic.english}</div><h2>{cosmic.name}</h2><p className="macro-info-lead">{cosmic.description}</p><div className="macro-visual-meaning"><span>画面符号</span><p>{cosmic.visualMeaning}</p></div><div className="macro-info-facts"><div><span>尺度</span><strong>{cosmicFacts[cosmicId][0]}</strong></div><div><span>关系</span><strong>{cosmicFacts[cosmicId][1]}</strong></div><div><span>画面性质</span><strong>概念结构图，非实测星图</strong></div></div><p className="macro-evidence">{cosmic.status}</p><a className="macro-source" href={cosmic.sourceUrl} target="_blank" rel="noreferrer">查看{cosmic.sourceLabel}<ArrowUpRight size={13}/></a>{cosmicId === 'neighbors' && <a className="macro-source macro-extra-source" href="https://science.nasa.gov/exoplanets/trappist1/" target="_blank" rel="noreferrer">NASA TRAPPIST-1 七行星资料<ArrowUpRight size={13}/></a>}{cosmicId === 'galaxies' && <a className="macro-source macro-extra-source" href="https://science.nasa.gov/image-detail/hubble-uncovers-a-celestial-fossil-2/" target="_blank" rel="noreferrer">NASA 大麦哲伦云距离资料<ArrowUpRight size={13}/></a>}<div className="macro-next"><span className="macro-info-eyebrow">RETURN TO OUR SYSTEM</span><button onClick={() => setScope('solar')}><Globe2 size={15}/>返回太阳系结构<ArrowUpRight size={13}/></button></div></> : solarTab === 'families' ? <><div className="macro-info-eyebrow">{family.english}</div><h2>{family.name}</h2><p className="macro-info-lead">{family.description}</p><div className="macro-visual-meaning"><span>画面符号</span><p>{family.visualMeaning}</p></div><div className="macro-info-facts"><div><span>运行关系</span><strong>{family.keyFact}</strong></div><div><span>当前接入</span><strong>{family.status}</strong></div></div><p className="macro-evidence">成员横跨不同区域，不能把此类对象的画面示意当成逐体实测位置。</p><a className="macro-source" href={family.sourceUrl} target="_blank" rel="noreferrer">查看{family.sourceLabel}<ArrowUpRight size={13}/></a><div className="macro-next"><span className="macro-info-eyebrow">EXPLORE AN EXAMPLE</span>{family.exampleId ? <button onClick={() => onExploreObject(family.exampleId!)}><Crosshair size={15}/>查看{family.exampleName}资料<ArrowUpRight size={13}/></button> : <button onClick={onObservePlanets}><Layers3 size={15}/>进入现有天体观测<ArrowUpRight size={13}/></button>}</div></> : <><div className="macro-info-eyebrow">{zone?.english ?? 'STRUCTURE OVERVIEW'}</div><h2>{zone?.name ?? '从盘到球的太阳系'}</h2><p className="macro-info-lead">{zone?.detail ?? '太阳系没有硬质外壳。中间的行星轨道接近薄盘；柯伊伯带是有厚度的环带，散射盘有高倾角成员，奥尔特云被推断为巨大球状壳层。请逐层点选并侧视观察，不能用一个画面比例看清所有尺度。'}</p><div className="macro-visual-meaning"><span>画面符号</span><p>{zoneVisualMeaning}</p></div><div className="macro-info-facts"><div><span>距太阳</span><strong>{zone?.range ?? '1–约 100,000 AU'}</strong></div><div><span>空间形态</span><strong>{zone?.shape ?? '多层结构，不是单一几何体'}</strong></div><div><span>证据级别</span><strong>{zone?.evidenceKind ?? '观测与模型并列'}</strong></div>{selected === 'planetary' && <div><span>最大黄道高度</span><strong>{highestPlanet ? `${highestPlanet.name} 约 ${highestPlanet.heightAu.toFixed(2)} AU（相对太阳）` : '历表加载中'}</strong></div>}</div><p className="macro-evidence">{zone?.evidence ?? '行星位置来自当期历表；外层点云、日球层轮廓与奥尔特云球壳仅说明已知或推测的区域形态。'}</p>{zone ? <a className="macro-source" href={zone.sourceUrl} target="_blank" rel="noreferrer">查看{zone.sourceLabel}<ArrowUpRight size={13}/></a> : <a className="macro-source" href="https://science.nasa.gov/solar-system/solar-system-facts/" target="_blank" rel="noreferrer">NASA 太阳系整体资料<ArrowUpRight size={13}/></a>}
         <div className="macro-next"><span className="macro-info-eyebrow">EXPLORE FURTHER</span>{selected === 'all' && <button onClick={() => { setSelected('planetary'); setCameraView('edge'); setHeightScale(10); setShowPlane(true); }}><Layers3 size={15}/>侧视纵向差异（×10 示意）</button>}{selected === 'all' && <button onClick={() => { setSelected('oort'); setCameraView('edge'); setShowPlane(false); }}><Globe2 size={15}/>看外层球状结构（模型）</button>}{selected === 'planetary' || selected === 'all' ? <button onClick={onObservePlanets}><Orbit size={15}/>进入真实行星观测<ArrowUpRight size={13}/></button> : selected === 'asteroid' || selected === 'kuiper' || selected === 'scattered' ? <button onClick={() => onExploreObject(selected === 'asteroid' ? 'ceres' : selected === 'kuiper' ? 'pluto' : 'eris')}><Crosshair size={15}/>查看已收录的代表天体<ArrowUpRight size={13}/></button> : selected === 'oort' ? <button onClick={() => { setSolarTab('families'); setFamilyId('comets'); }}><Sparkles size={15}/>了解彗星与外层冰质天体<ArrowUpRight size={13}/></button> : <p>日球层是太阳风影响区；流动粒子说明太阳风向外传播；终止激波与日球层顶之间是日鞘，边界随方向与时间变化。动画不代表实测速度或等离子体计算。</p>}</div></>}
         </div></div>
       </aside>
     </div>
-    <footer className="macro-footer"><Compass size={13}/>{scope === 'cosmic' ? 'AU 是太阳系内尺度；光年用于恒星和星系距离。不同镜头独立取景，画面尺寸、方位与点数不表示真实比例或实测位置；背景星点为绘制示意。' : '太阳系包含行星、卫星、矮行星、小天体、尘埃与太阳风。行星、谷神星和冥王星采用历表位置；哈雷轨道为指定历元参考椭圆。点云、双尾、风与边界是示意，奥尔特云是推断；背景星点不是实测星位。'}</footer>
+    <footer className="macro-footer"><Compass size={13}/>{scope === 'cosmic' ? 'AU 是太阳系内尺度；光年用于恒星和星系距离。不同镜头独立取景，画面尺寸、方位与点数不表示真实比例或实测位置；背景星点为绘制示意。' : '太阳系包含行星、卫星、矮行星、小天体、尘埃与太阳风。行星、谷神星、冥王星与两颗彗星采用历表位置；淡色椭圆是瞬时参考轨道。点云、可选双尾、风与边界是示意，奥尔特云是推断；背景星点不是实测星位。'}</footer>
   </section>;
 }

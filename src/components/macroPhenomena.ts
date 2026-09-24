@@ -5,11 +5,13 @@ import { halleyPoint, macroEcliptic, macroDetailVisible, type MacroLayerId, type
 import { macroRadius } from '../data/macroStructure';
 import type { StateBatch, ObjectState } from '../ephemeris/stateProvider';
 import type { StateFrame } from '../types';
+import { COMETS } from '../ephemeris/comets';
+import { heliocentricComets, type CometTracks } from '../ephemeris/cometState';
 import { dwarfReferenceOrbit } from './dwarfOrbit';
 
 /** Explanatory geometry lives outside scientific state; animated wind has its own clock. */
 export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture, host: HTMLDivElement) {
-  const groups = Object.fromEntries(['dwarfs','comets','wind','populations','dust','heliosphere','oort'].map(id => {
+  const groups = Object.fromEntries(['dwarfs','comets','activity','wind','populations','dust','heliosphere','oort'].map(id => {
     const group = new THREE.Group(); group.name = `macro-${id}`; scene.add(group); return [id, group];
   })) as Record<string, THREE.Group>;
   const overlay = document.createElement('div'); overlay.className='macro-world-labels'; overlay.setAttribute('aria-hidden','true'); host.appendChild(overlay);
@@ -23,25 +25,22 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   }
   const line = (points: THREE.Vector3[], color: string, opacity: number) => new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false }));
   const ball = (size: number, color: string) => { const mesh = new THREE.Mesh(new THREE.SphereGeometry(size, 18, 12), new THREE.MeshStandardMaterial({ color, roughness: .8 })); mesh.userData.labelRadius=size; return mesh; };
-  const halley = Array.from({ length: 721 }, (_, n) => new THREE.Vector3(...macroEcliptic(halleyPoint(n / 720 * Math.PI * 2))));
-  groups.comets.add(line(halley, '#82d2dc', .8));
-  const orbitLabel = label('哈雷 · JPL 参考轨道'); orbitLabel.position.copy(halley[360]).add(new THREE.Vector3(0, .1, 0)); groups.comets.add(orbitLabel);
   // The perihelion activity vignette is fixed; it is deliberately not a current Halley marker.
   const nucleus = new THREE.Vector3(...macroEcliptic(halleyPoint(.35)));
   const outward = nucleus.clone().normalize();
   const tangent = new THREE.Vector3(...macroEcliptic(halleyPoint(.36))).sub(nucleus).normalize();
-  groups.comets.add(ball(.07, '#f5edd4'));
-  groups.comets.children.at(-1)!.position.copy(nucleus);
+  groups.activity.add(ball(.07, '#f5edd4'));
+  groups.activity.children.at(-1)!.position.copy(nucleus);
   const coma = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, color: '#b0e6cf', transparent: true, opacity: .72, depthWrite: false, blending: THREE.AdditiveBlending }));
-  coma.position.copy(nucleus); coma.scale.setScalar(.62); groups.comets.add(coma);
+  coma.position.copy(nucleus); coma.scale.setScalar(.62); groups.activity.add(coma);
   for (let n = 0; n < 14; n++) {
     const spread = new THREE.Vector3(Math.sin(n*2.4), Math.cos(n*2.4), Math.sin(n*1.7));
-    groups.comets.add(line(Array.from({ length: 32 }, (_, k) => {
+    groups.activity.add(line(Array.from({ length: 32 }, (_, k) => {
       const t = k/31; return nucleus.clone().addScaledVector(outward, t*2.5).addScaledVector(tangent, -t*t*.65).addScaledVector(spread, t*.18);
     }), '#dfc097', .19));
   }
-  groups.comets.add(line([nucleus, nucleus.clone().addScaledVector(outward, 3.2)], '#72caff', .9));
-  const tailLabel = label('彗发与双尾 · 固定示意', '#b7e2d9'); tailLabel.position.copy(nucleus).addScaledVector(outward, 2.7).add(new THREE.Vector3(0, .7, 0)); groups.comets.add(tailLabel);
+  groups.activity.add(line([nucleus, nucleus.clone().addScaledVector(outward, 3.2)], '#72caff', .9));
+  const tailLabel = label('彗发与双尾 · 固定示意', '#b7e2d9'); tailLabel.position.copy(nucleus).addScaledVector(outward, 2.7).add(new THREE.Vector3(0, .7, 0)); groups.activity.add(tailLabel);
 
   let seed = 73441;
   const rand = () => { seed = (Math.imul(seed,1664525)+1013904223) >>> 0; return seed/4294967296; };
@@ -89,10 +88,20 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
     const orbit=line([],index ? '#b1bddf' : '#ceac84',.58); group.add(orbit);
     return {id,group,marker,annotation,orbit};
   });
+  const cometMeshes = COMETS.map(body => {
+    const group=new THREE.Group(); groups.comets.add(group); group.visible=false;
+    const marker=ball(.115,body.color), annotation=label(`${body.name} · 当日位置`,body.color);
+    const orbit=line([],body.color,.2), track=line([],body.color,.95);
+    group.add(marker,annotation,orbit); groups.comets.add(track);
+    return {...body,group,marker,annotation,orbit,track};
+  });
+  let lastCometOrbitTime=NaN;
+  let lastTracks:CometTracks|null=null;
   let lastOrbitTime=NaN;
   return {
-    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string) {
+    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false) {
       for (const [id, group] of Object.entries(groups)) group.visible=enabled[id as MacroLayerId] && (macroDetailVisible(id as MacroLayerId,distance) || family===id || (id==='populations' && family==='centaurs'));
+      groups.activity.visible=enabled.comets && showActivity;
       for (const annotation of labels) annotation.visible = annotation.userData.overview ? distance >= 42 : distance < 42;
       const position=wind.geometry.getAttribute('position') as THREE.BufferAttribute;
       for(let n=0;n<720;n++) { const r=.5+((n/720+seconds*.045)%1)*macroRadius(90); const d=windDirections[n%180]; position.setXYZ(n,d.x*r,d.y*r,d.z*r); } position.needsUpdate=true;
@@ -101,6 +110,31 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
         const index=BODIES.findIndex(b=>b.id==='jupiter')*3;
         trojans.rotation.y=Math.atan2(frame.positions[index+1]-frame.positions[1],frame.positions[index]-frame.positions[0]);
       }
+      if(tracks!==lastTracks) {
+        for(const item of cometMeshes) {
+          const data=tracks?.tracks.find(t=>t.id===item.id);
+          item.track.geometry.dispose();
+          item.track.geometry=new THREE.BufferGeometry().setFromPoints((data?.points ?? []).map(row=>new THREE.Vector3(...macroEcliptic(row.slice(1).map(v=>v/AU_KM)))));
+        }
+        lastTracks=tracks;
+      }
+      const cometStates=heliocentricComets(frame,cometBatch);
+      const updateOrbit=frame && (!Number.isFinite(lastCometOrbitTime)||Math.abs(frame.time-lastCometOrbitTime)>21600);
+      for(const item of cometMeshes) {
+        const state=cometStates.find(s=>s.id===item.id);
+        item.group.visible=!!state;
+        item.track.visible=!!frame && !!tracks;
+        if(!state) continue;
+        item.marker.position.set(...macroEcliptic(state.position.map(v=>v/AU_KM)));
+        item.annotation.position.copy(item.marker.position);
+        item.annotation.visible=distance<42 || family==='comets';
+        if(updateOrbit) {
+          const sun:ObjectState={id:'sun',position:[0,0,0],velocity:[0,0,0]};
+          const points=dwarfReferenceOrbit(state,sun,BODIES[0].gm).map(p=>{const d=p.length();return d?p.multiplyScalar(macroRadius(d)/d):p;});
+          item.orbit.geometry.dispose();item.orbit.geometry=new THREE.BufferGeometry().setFromPoints(points);
+        }
+      }
+      if(updateOrbit && cometStates.length) lastCometOrbitTime=frame!.time;
       const compatible=frame && batch && Math.abs(frame.time-batch.timeTdb)<1e-5 && batch.originId==='ssb';
       for(const item of dwarfMeshes) {
         const state=compatible ? batch.states.find(s=>s.id===item.id) : undefined;

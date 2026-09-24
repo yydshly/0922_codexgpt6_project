@@ -2,7 +2,7 @@ import halley from '../../public/data/macro/halley-sbdb.json';
 import { macroRadius } from './macroStructure';
 
 export const MACRO_LAYERS = [
-  { id: 'planetary', name: '行星与尺度环', color: '#99d9e1', note: '历表位置 · 环为尺度参考' },
+  { id: 'planetary', name: '行星与参考线', color: '#99d9e1', note: '历表位置 · 轨道与尺度环分别控制' },
   { id: 'dwarfs', name: '区域代表成员（6 个）', color: '#f1bd82', note: '5 颗矮行星 + 灶神星 · 可点选' },
   { id: 'moons', name: '已收录卫星', color: '#9cdbd2', note: '历表相对位置 · 局部距离缩放' },
   { id: 'asteroid', name: '小行星主带', color: '#d2ab78', note: '种群范围示意' },

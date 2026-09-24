@@ -19,10 +19,10 @@ export interface MacroZone {
 export const MACRO_ZONES: readonly MacroZone[] = [
   {
     id: 'planetary', name: '行星区域', english: 'PLANETARY SYSTEM', range: '0–30 AU', shape: '近黄道面的薄盘',
-    evidence: '太阳与八大行星采用当前 JPL 几何历表；圆环仅标示轨道尺度。', evidenceKind: '历表与观测',
+    evidence: '太阳与八大行星采用当前 JPL 几何历表；彩色曲线是当期二体参考轨道，可选灰蓝圆环仅标示距离尺度。', evidenceKind: '历表与观测',
     sourceLabel: 'NASA / JPL 行星轨道', sourceUrl: 'https://ssd.jpl.nasa.gov/planets/orbits.html', color: '#94cdd6',
     detail: '太阳和行星是球体，轨道却大致共享一个平面。这里是极其空旷的三维空间，不是一张实体圆盘。',
-    visualMeaning: '中央亮球是太阳，彩色小球是八大行星：位置随当前历表时间更新。细圆环仅标出轨道尺度，半透明面是黄道参考面；球体大小已放大。',
+    visualMeaning: '中央亮球是太阳，彩色小球是八大行星：位置随当前历表时间更新。彩色曲线为当期参考轨道，灰蓝圆环可选作距离参照，浅绿箭头仅示运动方向；半透明面是黄道参考面，球体大小已放大。',
   },
   {
     id: 'asteroid', name: '小行星主带', english: 'MAIN ASTEROID BELT', range: '约 2.2–3.2 AU', shape: '有厚度的稀疏环带',

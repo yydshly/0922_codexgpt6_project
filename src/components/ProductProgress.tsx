@@ -9,11 +9,12 @@ const completed = [
 ];
 
 const improvements = [
+  { title: '第七批：太阳活动 · 本地待验收', detail: '补日冕、太阳风、耀斑与 CME 的可控原理演示；可暂停、拖动和重播，独立开关四层，并关联地球磁层和真实太阳近景。不是当日事件或传播时间预测。' },
   { title: '第六批：近地粒子区域', detail: '新增内辐射带、外辐射带与等离子体层的三维点云和透明体积，支持独立开关、完整 / 剖示切换；可与第五批磁层、极光组合。形态和颜色为科普示意，不提供粒子通量或辐射剂量。' },
   { title: '第五批：地球磁层与极光', detail: '新增独立三维原理图，分层控制太阳风、弓形激波、磁层顶与磁尾、磁力线和极光。可侧看磁尾、靠近看极光，并关联真实地球近景。明确不是当日实测或等比例模型。' },
-  { title: '按阶段控制新增内容', detail: '顶部“阶段导览”按六批说明新增内容、画面含义和观察顺序；支持独立开关、只看一批和恢复全部阶段。01–03 筛选宏观页，04 控制新增环系与家族讲解，05 控制磁层与极光，06 控制辐射带与等离子体层。' },
+  { title: '按阶段控制新增内容', detail: '顶部“阶段导览”按七批说明新增内容、画面含义和观察顺序；支持独立开关、只看一批和恢复全部阶段。01–03 筛选宏观页，04 控制新增环系与家族讲解，05 控制磁层与极光，06 控制辐射带与等离子体层，07 控制太阳活动演示。' },
   { title: '四大巨行星的环与卫星', detail: '接通木星、土星、天王星、海王星家族，补三颗巨行星的暗淡环，保留土星环。细环宽度增强可关闭；来源、代表环段及未绘制范围明确列出。这一批没有新增卫星数量。' },
-  { title: '宏观优化已发布', detail: '本次发布包含第一至第六批：彗星、区域成员、环系、磁层、辐射带与等离子体层。部署结果可从下方提交记录进入 GitHub Actions 查看。' },
+  { title: '宏观优化已发布', detail: '第一至第六批已随 e3f9ef1 完成部署，含详细提交描述与第六批发布说明。第七批仅在本地验收，尚未推送。' },
   { title: '从区域找到成员', detail: '新增灶神星、妊神星、鸟神星和阋神星的两年 JPL 历表，与谷神星、冥王星组成 6 个可点选的代表成员。主带、柯伊伯带和远伸轨道区域各自关联清单。' },
   { title: '点选、参数与近景连起来', detail: '点击球体、名称或成员清单定位；查看距日距离、速度、黄道高度和来源，展开外观近景，再恢复区域镜头。图鉴可直达所属区域。' },
   { title: '接入范围明确', detail: '主观测页 32 个动态目标，宏观页另有 4 个区域成员与 2 颗彗星，合计 38 个不同对象；不是太阳系总数。点云仍为示意，十体物理模型保持独立。探测器待定。' },
@@ -35,7 +36,7 @@ export function ProductProgress({ onClose }: { onClose: () => void }) {
         <p className="product-progress-intro">我们将真实数据、物理近似和视觉示意分别标注。每轮先提交可运行的基线，再记录问题、优化和验证结果，便于对照验收。</p>
         <section><div className="product-progress-section-heading"><CheckCircle2 size={16}/><h3>已有能力 · 基线已提交</h3></div><div className="product-progress-list">{completed.map(item => <article key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></article>)}</div></section>
         <section><div className="product-progress-section-heading"><Clock3 size={16}/><h3>近期更新 · 发布与本地验收</h3></div><ol className="product-progress-steps">{improvements.map(item => <li key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></li>)}</ol></section>
-        <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>先打开“阶段导览”，点第六批的“只看这一批”。比较三类粒子区域，切换剖示与完整形态，再打开第五批查看它们在磁层中的关系。关闭第六批时，第五批仍可观察；两批都关闭后返回原观测。暂停的日期保持不变。探测器待定，地月课程后移。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
+        <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>先打开“阶段导览 → 07 → 只看这一批”。分别控制日冕、太阳风、耀斑和 CME，播放、暂停、拖动进度并重播，再接着看地球磁层或太阳近景。主页暂停的日期应保持不变；演示进度不表示真实传播时间。探测器待定，地月课程后移。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
         <nav className="product-progress-links" aria-label="建设记录相关资料"><a href="https://github.com/yydshly/0922_codexgpt6_project/commits/main/" target="_blank" rel="noreferrer"><GitCommitHorizontal size={14}/>查看提交记录<ArrowUpRight size={13}/></a><a href="https://github.com/yydshly/0922_codexgpt6_project/blob/main/docs/PRODUCT-PROGRESS.md" target="_blank" rel="noreferrer">查看完整建设记录<ArrowUpRight size={13}/></a></nav>
       </div>
     </section>

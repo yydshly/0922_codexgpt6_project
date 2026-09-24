@@ -28,6 +28,7 @@ interface Props {
   stageFlags:StageFlags;
   onOpenStages:()=>void;
   onOpenEnvironment:()=>void;
+  onOpenSolarActivity:()=>void;
   onOpenFamily:(id:RingPlanetId)=>void;
   initialFamily?:SolarFamilyId;
   initialMemberId?: string;
@@ -333,7 +334,7 @@ function MacroCanvas({ selectedMember, onSelectMember, focusRequest, restoreRequ
   return <div className="macro-canvas" ref={host} role="group" aria-label="可拖动旋转、滚轮缩放的太阳系宏观结构三维示意"/>;
 }
 
-export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, onOpenFamily, initialFamily, initialMemberId, timeControls, frame, displayDate, isEphemeris = true, onClose, onOpenReadingGuide, onObservePlanets, onExploreObject }: Props) {
+export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, onOpenSolarActivity, onOpenFamily, initialFamily, initialMemberId, timeControls, frame, displayDate, isEphemeris = true, onClose, onOpenReadingGuide, onObservePlanets, onExploreObject }: Props) {
   const [panelTab, setPanelTab] = useState<'learn' | 'layers' | 'sources'>('learn');
   const [showLabels, setShowLabels] = useState(true);
   const [cameraDistance, setCameraDistance] = useState(62);
@@ -416,7 +417,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
   };
 
   return <section ref={dialog} className="macro-structure" role="dialog" aria-modal="true" aria-labelledby="macro-title" onKeyDown={onKeyDown}>
-    <header className="macro-header"><div><span className="macro-eyebrow">FROM OUR SOLAR SYSTEM TO OTHER GALAXIES</span><h1 id="macro-title">从太阳系，看见更大的宇宙</h1><p>结构导览 · 返回观测恢复原镜头；右上角「宏观结构」可再次进入。</p></div><div className="macro-header-actions">{(stageFlags.environment||stageFlags.nearEarth)&&<button className="macro-reading-button" onClick={onOpenEnvironment}>近地空间</button>}<button className="macro-reading-button" onClick={onOpenStages}>阶段导览</button><button className="macro-reading-button" onClick={onOpenReadingGuide}><Sparkles size={15}/>星点与环怎么看</button><button ref={closeButton} className="macro-back" title="关闭结构图，返回原有观测镜头与时间轴设置" onClick={onClose}><ArrowLeft size={16}/>返回观测</button></div></header>
+    <header className="macro-header"><div><span className="macro-eyebrow">FROM OUR SOLAR SYSTEM TO OTHER GALAXIES</span><h1 id="macro-title">从太阳系，看见更大的宇宙</h1><p>结构导览 · 返回观测恢复原镜头；右上角「宏观结构」可再次进入。</p></div><div className="macro-header-actions">{stageFlags.solarActivity&&<button className="macro-reading-button" onClick={onOpenSolarActivity}>太阳活动</button>}{(stageFlags.environment||stageFlags.nearEarth)&&<button className="macro-reading-button" onClick={onOpenEnvironment}>近地空间</button>}<button className="macro-reading-button" onClick={onOpenStages}>阶段导览</button><button className="macro-reading-button" onClick={onOpenReadingGuide}><Sparkles size={15}/>星点与环怎么看</button><button ref={closeButton} className="macro-back" title="关闭结构图，返回原有观测镜头与时间轴设置" onClick={onClose}><ArrowLeft size={16}/>返回观测</button></div></header>
     <div className="macro-scope-tabs" role="tablist" aria-label="宇宙观察范围"><button role="tab" aria-selected={scope === 'solar'} className={scope === 'solar' ? 'active' : ''} onClick={() => setScope('solar')}><Orbit size={14}/>太阳系 · 区域与成员</button><button role="tab" aria-selected={scope === 'cosmic'} className={scope === 'cosmic' ? 'active' : ''} onClick={() => setScope('cosmic')}><Sparkles size={14}/>恒星系统与其他星系</button><span>AU → 光年 → 星系尺度</span></div>
     {scope === 'solar' && <div className="macro-preset-bar">          <div className="macro-presets" aria-label="宏观取景预设">
             <button aria-pressed={!selectedMember && solarTab === 'zones' && selected === 'all' && Object.values(effectiveLayers).every(Boolean)} onClick={() => { setResetCount(n => n + 1); setCameraView('oblique'); setHeightScale(1); setLayers(defaultMacroLayers()); setSolarTab('zones'); setSelected('all'); }}>综合全景</button>

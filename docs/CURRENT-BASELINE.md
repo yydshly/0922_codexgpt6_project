@@ -1,5 +1,7 @@
 # 当前版本交付清单与下一步
 
+发布更新（2026-09-24）：本页描述的能力已随 `82f8515` 推送并完成 GitHub Pages 部署；以下保留实施时的记录。
+
 整理日期：2026-09-23。功能基线为 [`3e847d4`](https://github.com/yydshly/0922_codexgpt6_project/commit/3e847d4db4876c5999e258d2fa6d44f4d5579f68)。本轮只整理资料，不新增观测功能；“已实现”不等于使用者已验收。
 
 [在线观测站](https://yydshly.github.io/0922_codexgpt6_project/) · [提交记录](https://github.com/yydshly/0922_codexgpt6_project/commits/main/) · [历史建设记录](PRODUCT-PROGRESS.md)

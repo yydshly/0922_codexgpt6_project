@@ -65,3 +65,20 @@
 .panorama-integration h2{font-size:18px;margin:0 0 12px}.panorama-integration p{font-size:11px;line-height:1.8;color:#abc6d1}.panorama-scale-note{padding:10px;background:#18332f;border-left:2px solid #83b59f}.panorama-choices article{border-bottom:1px solid #335361;padding:15px 0}.panorama-choices label{display:flex;gap:8px;align-items:center;font-size:12px;color:#dfede7}.panorama-choices input{accent-color:#9bd5bb;width:16px;height:16px}.panorama-choices small{display:block;font-size:10px;color:#9cc4bc;margin:8px 0}.panorama-integration button{padding:8px 10px;border:1px solid #446d64;border-radius:5px;color:#cde9dd;background:#17382f;font-size:11px;cursor:pointer;margin:4px 5px 4px 0}.panorama-integration button:disabled{opacity:.4;cursor:default}.panorama-current{padding:12px;background:#1c3545;border-radius:6px;font-size:12px}.panorama-current button{display:block}.panorama-demo{margin:20px 0}.panorama-demo h3{font-size:13px}.panorama-demo input{width:100%;accent-color:#b4d2ba}.panorama-integration details{font-size:12px;color:#c4dce0}.panorama-integration summary{cursor:pointer}.integrated-world-labels{z-index:3}.integrated-world-labels .macro-world-label{border-color:#91b5a3;color:#c5f0d9;background:#0e302bed}.panorama-integration :focus-visible{outline:2px solid #b1dec7;outline-offset:2px}
 
 @media(max-width:900px){.macro-header{height:auto;min-height:110px;flex-wrap:wrap;gap:10px}.macro-header>div:first-child{flex-basis:100%;width:100%}.macro-header h1{font-size:18px;margin:5px 0}.macro-header-actions{width:100%;justify-content:flex-start;flex-wrap:wrap}.macro-header-actions button{padding:7px 9px}.macro-header p{display:none}}
+
+.panorama-families{margin:18px 0;padding:15px;border:1px solid #527f805c;border-radius:12px;background:#0c222b99}
+.panorama-families h3{margin:0 0 9px;color:#c5efe0;font-size:15px}
+.panorama-family-links,.panorama-moon-list{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.panorama-integration .panorama-families button{margin:0;min-height:32px}
+.panorama-families button[aria-pressed=true]{border-color:#8ad3bd;background:#27584f;color:#e7fff5}
+.panorama-family-toggles{display:grid;gap:8px;margin:12px 0;font-size:12px;color:#c0d6db}
+.panorama-family-toggles label{display:flex;align-items:center;gap:7px}
+.panorama-family-toggles input{accent-color:#88cbb4}
+.panorama-family-detail{padding-top:13px;border-top:1px solid #49647266}
+.panorama-family-detail>strong,.panorama-ring-note>strong{font-size:13px;color:#e0eee8}
+.panorama-moon-parameters{font-size:12px;margin:12px 0;display:grid;gap:8px}
+.panorama-moon-parameters>div{display:flex;justify-content:space-between;gap:12px}
+.panorama-moon-parameters dt{color:#9fbbc6}.panorama-moon-parameters dd{margin:0;text-align:right;color:#e2efe9}
+.panorama-families a{display:inline-block;color:#9dddc8;font-size:12px;margin:7px 0;text-decoration:underline;text-underline-offset:3px}
+.panorama-family-date{color:#b7e6d8!important;font-variant-numeric:tabular-nums}
+.panorama-families details{margin-top:14px}.panorama-families summary{font-size:12px;cursor:pointer;line-height:1.7}

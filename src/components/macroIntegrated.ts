@@ -5,7 +5,7 @@ import {solarDemoState} from '../data/solarActivity';
 import {nearEarthPoint,type NearEarthLayer} from '../data/nearEarth';
 import {debrisPoint,meteorDemoState} from '../data/dust';
 import {placeMacroLabels} from './macroLabelLayout';
-import {integratedDetailVisible,type IntegratedFlags,type IntegratedTarget} from '../data/integratedScene';
+import {integratedDetailVisible,type IntegratedFlags,type IntegratedTarget,type PhenomenonTarget} from '../data/integratedScene';
 
 /** Educational objects inside the existing macro scene; never a separate canvas or a scientific state provider. */
 export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,host:HTMLElement,onFocus:(target:IntegratedTarget)=>void){
@@ -32,15 +32,15 @@ export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,ho
  helio.add(points(shell(1400,macroRadius(90),macroRadius(120)),'#c3acde',.05,.55),points(shell(800,macroRadius(125),macroRadius(280)),'#8da8ce',.045,.5));
  const neutrals=points(Array.from({length:90},()=>new THREE.Vector3()),'#98daba',.06,.7);neutrals.frustumCulled=false;helio.add(neutrals);
  const overlay=document.createElement('div');overlay.className='macro-world-labels integrated-world-labels';host.appendChild(overlay);
- const anchors:Record<IntegratedTarget,THREE.Vector3>={sun:new THREE.Vector3(),earth:new THREE.Vector3(),dust:new THREE.Vector3(-2.5,1,0),helio:new THREE.Vector3(macroRadius(120),2,0)};
+ const anchors:Record<PhenomenonTarget,THREE.Vector3>={sun:new THREE.Vector3(),earth:new THREE.Vector3(),dust:new THREE.Vector3(-2.5,1,0),helio:new THREE.Vector3(macroRadius(120),2,0)};
  const labels=(['sun','earth','dust','helio'] as const).map(id=>{const button=document.createElement('button');button.className='macro-world-label selectable';button.type='button';button.textContent=({sun:'太阳活动 · 靠近',earth:'近地空间 · 靠近',dust:'尘埃与碎屑 · 靠近',helio:'日球层环境 · 靠近'}[id]);button.setAttribute('aria-label',`在全景定位${button.textContent.split(' ·')[0]}`);button.onclick=()=>onFocus(id);overlay.appendChild(button);return {id,button};});
- let shown:Record<IntegratedTarget,boolean>={sun:false,earth:false,dust:false,helio:false};
+ let shown:Record<PhenomenonTarget,boolean>={sun:false,earth:false,dust:false,helio:false};
  return {
   anchors,
   update(flags:IntegratedFlags,earthPosition:THREE.Vector3|null,camera:THREE.PerspectiveCamera,focused:IntegratedTarget|null,progress:number){
    if(earthPosition){earth.position.copy(earthPosition);meteor.position.copy(earthPosition);anchors.earth.copy(earthPosition);magnet.quaternion.setFromUnitVectors(new THREE.Vector3(1,0,0),earthPosition.clone().normalize());}
    shown={sun:flags.solar,earth:!!earthPosition&&(flags.environment||flags.belts||flags.dust),dust:flags.dust,helio:flags.helio};
-   const detailed=(id:IntegratedTarget)=>focused?focused===id:integratedDetailVisible(id,camera.position.distanceTo(anchors[id]),focused);
+   const detailed=(id:PhenomenonTarget)=>focused?focused===id:integratedDetailVisible(id,camera.position.distanceTo(anchors[id]),focused);
    solar.visible=flags.solar&&detailed('sun');environment.visible=flags.environment&&!!earthPosition&&detailed('earth');belts.visible=flags.belts&&!!earthPosition&&detailed('earth');dust.visible=flags.dust&&detailed('dust');helio.visible=flags.helio&&detailed('helio');
    const state=solarDemoState(progress);cme.visible=state.cmeVisible;cme.position.set(.5+(state.cmeX+2.8)*.15,state.cmeY*.15,.2);cme.scale.setScalar(state.cmeRadius*.24);flare.visible=state.flare>0;flare.scale.setScalar(.5+state.flare);
    meteor.visible=!!earthPosition&&flags.dust&&detailed('earth');const m=meteorDemoState(progress);grain.position.set(m.x*.038,m.y*.038+.095,0);grain.visible=m.visible;glow.position.copy(grain.position);glow.visible=m.glow;trail.visible=m.glow;trail.geometry.setFromPoints([grain.position,grain.position.clone().add(new THREE.Vector3(-.045,.035,0))]);

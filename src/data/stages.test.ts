@@ -8,6 +8,7 @@ describe('stage presentation filters',()=>{
   expect(Object.values(layers).every(Boolean)).toBe(true);
   expect(stagedLayers(layers,{...flags,members:true}).dwarfs).toBe(true);
   expect(stagedLayers(layers,onlyStage('families')).moons).toBe(true);
+  expect(stagedLayers(layers,onlyStage('structure')).moons).toBe(false);
   expect(stagedLayers(layers,allStages())).toEqual(layers);
  });
  it('isolates the environment module without enabling other additions',()=>{

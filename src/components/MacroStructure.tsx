@@ -1,3 +1,8 @@
+import {createMacroFamilies,type FamilySceneOptions} from './macroFamilyScene';
+import {isMacroFamily,macroMoonStates,type MacroFamilyId} from '../data/macroFamilies';
+import {useOverviewSatellites} from '../hooks/useOverviewSatellites';
+import {satelliteParentAttitude,satelliteOverviewDirection} from './SatelliteSystem';
+import {MacroFamilyPanel} from './MacroFamilyPanel';
 import {createIntegratedScene} from './macroIntegrated';
 import {INTEGRATED_ITEMS,INTEGRATED_FOCUS_DISTANCE,defaultIntegratedFlags,integratedFlags,type IntegratedFlags,type IntegratedTarget} from '../data/integratedScene';
 import { STAGES,stagedLayers,type StageFlags } from '../data/stages';
@@ -7,7 +12,7 @@ import { useMemo, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { ArrowLeft, ArrowUpRight, Compass, Crosshair, Globe2, Layers3, Maximize2, Orbit, RotateCcw, Sparkles } from 'lucide-react';
-import { BODIES } from '../data/catalog';
+import { BODIES,bodyById } from '../data/catalog';
 import { MACRO_ZONES, macroRadius, type MacroZoneId } from '../data/macroStructure';
 import { COSMIC_LEVELS, SOLAR_FAMILIES, type CosmicLevelId, type SolarFamilyId } from '../data/cosmicContext';
 import { CosmicCanvas } from './CosmicCanvas';
@@ -97,7 +102,7 @@ function orbitRing(au: number) {
   return new THREE.BufferGeometry().setFromPoints(vertices);
 }
 
-interface IntegratedOptions {flags:IntegratedFlags;target:IntegratedTarget|null;request:number;restore:number;progress:number;onFocus:(target:IntegratedTarget)=>void}
+interface IntegratedOptions {families:FamilySceneOptions;flags:IntegratedFlags;target:IntegratedTarget|null;request:number;restore:number;progress:number;onFocus:(target:IntegratedTarget)=>void}
 
 function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest, restoreRequest, cometBatch, cometTracks, showActivity, frame, selected, resetCount, family, cameraView, heightScale, showPlane, layers, batch, animate, showLabels, onDistance }: { integrated:IntegratedOptions; selectedMember:string|null; onSelectMember:(id:string)=>void; focusRequest:number; restoreRequest:number; cometBatch: StateBatch | null; cometTracks: CometTracks | null; showActivity: boolean; frame: StateFrame | null; selected: MacroZoneId; resetCount: number; family?: SolarFamilyId; cameraView: MacroCameraView; heightScale: 1 | 10; showPlane: boolean; layers: MacroLayerVisibility; batch: StateBatch | null; animate: boolean; showLabels: boolean; onDistance: (distance: number) => void }) {
   const host = useRef<HTMLDivElement>(null);
@@ -166,30 +171,14 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       line.visible = false; line.renderOrder = 2; scene.add(line); return line;
     });
     const planets = BODIES.filter(body => body.kind === 'planet').map((body, index) => {
-      const mesh = new THREE.Mesh(new THREE.SphereGeometry(index > 3 ? .13 : .09, 12, 10), new THREE.MeshStandardMaterial({ color: body.color, roughness: .8, metalness: 0 }));
+      const mesh = new THREE.Mesh(new THREE.SphereGeometry(index > 3 ? .13 : .09, 48, 32), new THREE.MeshStandardMaterial({ color: body.color, roughness: .8, metalness: 0 }));
       mesh.userData.labelRadius = index > 3 ? .13 : .09; scene.add(mesh);
       return mesh;
     });
 
     const textureLoader=new THREE.TextureLoader();
-    for(const [mesh,path] of [[sun,'/textures/sun.jpg'],[planets[2],'/textures/earth.jpg']] as const)textureLoader.load(publicAsset(path),map=>{if(disposed){map.dispose();return;}map.colorSpace=THREE.SRGBColorSpace;mesh.material.map=map;mesh.material.color.set('white');mesh.material.needsUpdate=true;});
+    for(const [mesh,path] of [[sun,bodyById.sun.texture!] as const,...BODIES.filter(b=>b.kind==='planet').map((b,i)=>[planets[i],b.texture!] as const)])textureLoader.load(path,map=>{if(disposed){map.dispose();return;}map.colorSpace=THREE.SRGBColorSpace;mesh.material.map=map;mesh.material.color.set('white');mesh.material.needsUpdate=true;});
 
-    // Category markers deliberately enlarge local phenomena; their positions are conceptual, not ephemerides.
-    const moonGroups: { index: number; group: THREE.Group }[] = [];
-    {
-      for (const index of [2, 4, 5, 6, 7]) {
-        const group = new THREE.Group(); group.visible = false;
-        for (let orbit = 0; orbit < (index === 2 ? 1 : 3); orbit++) {
-          const radius = .20 + orbit * .105;
-          const ring = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(Array.from({ length: 72 }, (_, point) => new THREE.Vector3(Math.cos(point / 72 * Math.PI * 2) * radius, 0, Math.sin(point / 72 * Math.PI * 2) * radius))), new THREE.LineBasicMaterial({ color: '#8fc8d7', transparent: true, opacity: .46 }));
-          group.add(ring);
-          const angle = orbit * 2.19 + index;
-          const moon = new THREE.Mesh(new THREE.SphereGeometry(.038, 10, 8), new THREE.MeshBasicMaterial({ color: '#d4e5e4' }));
-          moon.position.set(Math.cos(angle) * radius, .025 * (orbit % 2), Math.sin(angle) * radius); group.add(moon);
-        }
-        scene.add(group); moonGroups.push({ index, group });
-      }
-    }
     const addCloud = (id: MacroZoneId, geometry: THREE.BufferGeometry, color: string, size: number, opacity: number) => {
       const material = remember(id, new THREE.PointsMaterial({ color, map: particleTexture, size, transparent: true, opacity, depthWrite: false, sizeAttenuation: true }));
       material.userData.baseSize = size;
@@ -200,6 +189,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
     addCloud('scattered', makeCloud(720, 627194, discPoint(50, 1000, .86)), '#d4baff', .075, .48);
     addCloud('oort', makeCloud(2600, 175002, shellPoint(2000, 100000)), '#cfeaff', .15, .62);
     const phenomena = createMacroPhenomena(scene, particleTexture, element, id=>displayRef.current.onSelectMember(id));
+    const familyScene=createMacroFamilies(scene,element,id=>displayRef.current.integrated.families.onSelect(id),id=>displayRef.current.integrated.families.onFocus(id));
     const integratedScene=createIntegratedScene(scene,particleTexture,element,target=>displayRef.current.integrated.onFocus(target));
 
     const bubble = new THREE.Mesh(new THREE.SphereGeometry(macroRadius(120), 42, 24), remember('heliosphere', new THREE.MeshBasicMaterial({ color: '#4b9fd7', transparent: true, opacity: .018, side: THREE.BackSide, depthWrite: false })));
@@ -230,15 +220,16 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       const bounds=renderer.domElement.getBoundingClientRect();
       raycaster.setFromCamera(new THREE.Vector2((event.clientX-bounds.left)/bounds.width*2-1,1-(event.clientY-bounds.top)/bounds.height*2),camera);
       const markers:THREE.Object3D[]=[];
-      scene.traverse(object=>{if(!object.userData.memberId)return;let p:THREE.Object3D|null=object;while(p){if(!p.visible)return;p=p.parent;}markers.push(object);});
-      const hit=raycaster.intersectObjects(markers,false)[0];
-      if(hit)displayRef.current.onSelectMember(hit.object.userData.memberId);
+      scene.traverse(object=>{if(!object.userData.memberId&&!object.userData.familyMoon)return;let p:THREE.Object3D|null=object;while(p){if(!p.visible)return;p=p.parent;}markers.push(object);});
+      const hit=raycaster.intersectObjects([...markers,...planets.filter(p=>p.visible),sun],false)[0];
+      if(hit?.object.userData.familyMoon)displayRef.current.integrated.families.onSelect(hit.object.userData.familyMoon);
+      else if(hit?.object.userData.memberId)displayRef.current.onSelectMember(hit.object.userData.memberId);
     };
     renderer.domElement.addEventListener('pointerdown',pointerDown);
     renderer.domElement.addEventListener('pointerup',pointerUp);
     let lastIntegratedRequest=0,lastIntegratedRestore=0;
     let integratedSaved:{position:THREE.Vector3;target:THREE.Vector3;up:THREE.Vector3}|null=null;
-    let previousEarth:THREE.Vector3|null=null;
+    let previousParent:THREE.Vector3|null=null;
     let lastFocusRequest=0;
     let lastRestoreRequest=0;
     let animation = 0;
@@ -265,6 +256,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
             const radius = macroRadius(distance / 149597870.7);
             // Keep horizontal coordinates fixed while enlarging vertical separation.
             planets[i].position.set(dx / distance * radius, dz / distance * radius * heightScale, -dy / distance * radius);
+            planets[i].quaternion.copy(satelliteParentAttitude(BODIES.filter(b=>b.kind==='planet')[i],current.time));
             const point = planets[i].position;
             const position = guides[i].geometry.getAttribute('position') as THREE.BufferAttribute;
             position.setXYZ(0, point.x, point.y, point.z); position.setXYZ(1, point.x, 0, point.z);
@@ -272,9 +264,9 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
             guides[i].visible = showPlane && displayRef.current.layers.planetary && Math.abs(point.y) > .015;
           }
         }
-        for (const { index, group } of moonGroups) { group.position.copy(planets[index].position); group.visible = displayRef.current.layers.moons && (camera.position.distanceTo(controls.target) < 30 || family === 'moons'); }
+
       }
-      if (!current) { moonGroups.forEach(item => { item.group.visible = false; }); guides.forEach(item => { item.visible = false; }); }
+      if (!current) { guides.forEach(item => { item.visible = false; }); }
       for (const [id, list] of Object.entries(materials)) for (const material of list) material.visible = displayRef.current.layers[id as MacroLayerId] ?? true;
       plane.visible = showPlane && displayRef.current.layers.planetary;
       const focus=displayRef.current;
@@ -296,17 +288,22 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       }
       const integration=displayRef.current.integrated;
       const earthPosition=current?planets[2].position:null;
+      const parentPositions=Object.fromEntries(BODIES.filter(b=>b.kind==='planet').map((b,i)=>[b.id,planets[i].position]));
+      const followingPosition=current&&isMacroFamily(integration.target)?parentPositions[integration.target]:null;
+      familyScene.update(current,integration.families,camera,isMacroFamily(integration.target)?integration.target:null,parentPositions);
       integratedScene.update(integration.flags,earthPosition,camera,integration.target,integration.progress);
-      if(integration.restore!==lastIntegratedRestore){if(integratedSaved){controls.enableDamping=false;controls.update();camera.position.copy(integratedSaved.position);camera.up.copy(integratedSaved.up);controls.target.copy(integratedSaved.target);controls.enableDamping=true;}integratedSaved=null;previousEarth=null;lastIntegratedRestore=integration.restore;}
-      if(!integration.target){integratedSaved=null;previousEarth=null;controls.minDistance=3;}
-      if(integration.target&&integration.request!==lastIntegratedRequest&&(integration.target!=='earth'||earthPosition)){
+      if(integration.restore!==lastIntegratedRestore){if(integratedSaved){controls.enableDamping=false;controls.update();camera.position.copy(integratedSaved.position);camera.up.copy(integratedSaved.up);controls.target.copy(integratedSaved.target);controls.enableDamping=true;}integratedSaved=null;previousParent=null;lastIntegratedRestore=integration.restore;}
+      if(!integration.target){integratedSaved=null;previousParent=null;controls.minDistance=3;}
+      if(integration.target&&integration.request!==lastIntegratedRequest&&(!isMacroFamily(integration.target)||followingPosition)){
         if(!integratedSaved)integratedSaved={position:camera.position.clone(),target:controls.target.clone(),up:camera.up.clone()};
-        const target=integratedScene.anchors[integration.target];
+        const target=isMacroFamily(integration.target)?familyScene.anchors[integration.target]:integratedScene.anchors[integration.target];
         controls.enableDamping=false;controls.update();controls.minDistance=.4;camera.up.set(0,1,0);
-        const offset=new THREE.Vector3(.55,.38,.74).normalize().multiplyScalar(INTEGRATED_FOCUS_DISTANCE[integration.target]);
+        const members=isMacroFamily(integration.target)?integration.families.states.filter(s=>s.parentId===integration.target):[];
+        const direction=members.length&&integration.target!=='earth'?satelliteOverviewDirection(members,target.clone().negate()):new THREE.Vector3(.55,.38,.74).normalize();
+        const offset=direction.multiplyScalar(INTEGRATED_FOCUS_DISTANCE[integration.target]);
         controls.target.copy(target);camera.position.copy(target).add(offset);controls.update();controls.enableDamping=true;
-        previousEarth=integration.target==='earth'&&earthPosition?earthPosition.clone():null;lastIntegratedRequest=integration.request;
-      }else if(integration.target==='earth'&&earthPosition&&previousEarth){const delta=earthPosition.clone().sub(previousEarth);camera.position.add(delta);controls.target.add(delta);previousEarth.copy(earthPosition);}
+        previousParent=followingPosition?followingPosition.clone():null;lastIntegratedRequest=integration.request;
+      }else if(followingPosition&&previousParent){const delta=followingPosition.clone().sub(previousParent);camera.position.add(delta);controls.target.add(delta);previousParent.copy(followingPosition);}
       controls.update();
       const cameraDistance = camera.position.distanceTo(controls.target);
       if (Math.abs(cameraDistance-lastDistance) > .1) { lastDistance=cameraDistance; onDistance(cameraDistance); }
@@ -317,6 +314,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
       if(softenContext){scene.traverse(object=>{if(!(object instanceof THREE.Points||object instanceof THREE.Line))return;let parent:THREE.Object3D|null=object;while(parent){if(parent.userData.integrated)return;parent=parent.parent;}for(const material of Array.isArray(object.material)?object.material:[object.material]){if(!contextMaterials.has(material))contextMaterials.set(material,{opacity:material.opacity,...(material instanceof THREE.PointsMaterial?{size:material.size,attenuation:material.sizeAttenuation}:{})});const original=contextMaterials.get(material)!;material.opacity=original.opacity*.3;if(material instanceof THREE.PointsMaterial){material.size=2;if(material.sizeAttenuation){material.sizeAttenuation=false;material.needsUpdate=true;}}}});}
       else if(contextMaterials.size)restoreContext();
       integratedScene.layout(camera,element.clientWidth,element.clientHeight,showLabels);
+      familyScene.layout(camera,element.clientWidth,element.clientHeight,showLabels);
       renderer.render(scene, camera);
     };
     animation = requestAnimationFrame(draw);
@@ -330,7 +328,7 @@ function MacroCanvas({ integrated, selectedMember, onSelectMember, focusRequest,
           (Array.isArray(material) ? material : [material]).forEach(item => {if('map' in item&&(item.map as THREE.Texture|null)!==particleTexture)(item.map as THREE.Texture|null)?.dispose();item.dispose();});
         }
       });
-      phenomena.dispose();integratedScene.dispose();
+      phenomena.dispose();integratedScene.dispose();familyScene.dispose();
       particleTexture.dispose();
       renderer.dispose(); renderer.domElement.remove();
     };
@@ -378,6 +376,13 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
   const effectiveIntegrated=integratedFlags(integratedChoices,stageFlags,!!frame&&isEphemeris);
   const focusIntegrated=(target:IntegratedTarget)=>{setScope('solar');setSelectedMember(null);setIntegratedChoices(v=>({...v,...Object.fromEntries(INTEGRATED_ITEMS.filter(i=>i.target===target).map(i=>[i.id,true]))}));setPanelTab('integrated');setIntegratedTarget(target);setIntegratedRequest(n=>n+1);};
   const leaveIntegrated=()=>{setIntegratedTarget(null);setIntegratedRestore(n=>n+1);};
+  const [familyRings,setFamilyRings]=useState(true),[familyEnhanced,setFamilyEnhanced]=useState(true),[familyOrbits,setFamilyOrbits]=useState(false),[familySelected,setFamilySelected]=useState<string|null>(null);
+  const familyData=useOverviewSatellites(frame?.time,isEphemeris&&stageFlags.families);
+  const familyStates=useMemo(()=>macroMoonStates(isEphemeris?frame:null,familyData.states),[frame,isEphemeris,familyData.states]);
+  const activeFamily=isMacroFamily(integratedTarget)?integratedTarget:null;
+  const focusFamily=(id:MacroFamilyId)=>{setLayers(v=>({...v,planetary:true,moons:true}));setFamilySelected(null);focusIntegrated(id);};
+  const selectFamilyMoon=(id:string)=>{const moon=familyStates.find(m=>m.id===id);if(!moon)return;focusFamily(moon.parentId);setFamilySelected(id);};
+  const selectedMoon=familyStates.find(m=>m.id===familySelected);
   const [showLabels, setShowLabels] = useState(true);
   const [cameraDistance, setCameraDistance] = useState(62);
   const [layers, setLayers] = useState(defaultMacroLayers);
@@ -416,7 +421,7 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
   useEffect(()=>{const key=`${selected}/${solarTab}/${familyId}`;if(previousRegion.current!==key){setSelectedMember(null);previousRegion.current=key;}},[selected,solarTab,familyId]);
   const effectiveLayers=stagedLayers(layers,stageFlags);
   useEffect(()=>{setIntegratedTarget(null);},[selected,solarTab,familyId,cameraView,resetCount]);
-  useEffect(()=>{if(integratedTarget&&!INTEGRATED_ITEMS.some(i=>i.target===integratedTarget&&effectiveIntegrated[i.id]))leaveIntegrated();},[integratedTarget,effectiveIntegrated.solar,effectiveIntegrated.environment,effectiveIntegrated.belts,effectiveIntegrated.dust,effectiveIntegrated.helio]);
+  useEffect(()=>{if(integratedTarget&&!(isMacroFamily(integratedTarget)&&stageFlags.families&&effectiveLayers.planetary)&&!INTEGRATED_ITEMS.some(i=>i.target===integratedTarget&&effectiveIntegrated[i.id]))leaveIntegrated();},[integratedTarget,effectiveIntegrated.solar,effectiveIntegrated.environment,effectiveIntegrated.belts,effectiveIntegrated.dust,effectiveIntegrated.helio,stageFlags.families,effectiveLayers.planetary]);
   useEffect(()=>{if(selectedMember && (!effectiveLayers.dwarfs || (!stageFlags.members && ['vesta','haumea','makemake','eris'].includes(selectedMember)))){setSelectedMember(null);setRestoreRequest(v=>v+1);}},[stageFlags.members,effectiveLayers.dwarfs,selectedMember]);
   const focusedFamily = solarTab === 'families' ? familyId : undefined;
   const layerStatus = (id: MacroLayerId) => {
@@ -477,9 +482,9 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
           {solarTab === 'zones' ? <><button className={`macro-zone ${selected === 'all' ? 'active' : ''}`} onClick={() => {setPanelTab('integrated');setSelected('all');}} aria-pressed={selected === 'all'}><span className="macro-zone-icon"><Maximize2 size={15}/></span><span><strong>整体形态</strong><small>行星薄盘 → 远缘球壳</small></span></button>{MACRO_ZONES.map(item => <button key={item.id} className={`macro-zone ${selected === item.id ? 'active' : ''}`} onClick={() => { setPanelTab('learn');setSelected(item.id); setLayers(v => ({ ...v, [item.id]: true })); }} aria-pressed={selected === item.id}><i style={{ background: item.color }}/><span><strong>{item.name}</strong><small>{item.range}</small></span></button>)}</> : SOLAR_FAMILIES.map(item => <button key={item.id} className={`macro-zone ${familyId === item.id ? 'active' : ''}`} onClick={() => { setFamilyId(item.id); const layer = item.id === 'centaurs' ? 'populations' : item.id === 'asteroids' ? 'asteroid' : item.id; setLayers(v => ({ ...v, [layer]: true })); }} aria-pressed={familyId === item.id}><i style={{ background: '#d5bd9a' }}/><span><strong>{item.name}</strong><small>{item.keyFact}</small></span></button>)}
         </> : <><div className="macro-section-title">离开太阳系 · 三个不同尺度</div>{COSMIC_LEVELS.map((item, index) => <button key={item.id} className={`macro-zone ${cosmicId === item.id ? 'active' : ''}`} onClick={() => setCosmicId(item.id)} aria-pressed={cosmicId === item.id}><span className="macro-cosmic-index">0{index + 1}</span><span><strong>{item.name}</strong><small>{item.keyFact}</small></span></button>)}<p className="macro-side-note">“恒星系统”是一颗或多颗恒星及其成员；“星系”是包含大量恒星的更大结构。太阳系属于银河系。</p></>}
       </nav>
-      <div className="macro-stage">{scope === 'solar' ? <MacroCanvas integrated={{flags:effectiveIntegrated,target:integratedTarget,request:integratedRequest,restore:integratedRestore,progress:integratedProgress,onFocus:focusIntegrated}} selectedMember={selectedMember} onSelectMember={chooseMember} focusRequest={focusRequest} restoreRequest={restoreRequest} cometBatch={cometData.batch} cometTracks={cometTracks} showActivity={showActivity} showLabels={showLabels} onDistance={setCameraDistance} frame={scientificFrame} layers={effectiveLayers} batch={memberBatch} animate={animate} selected={solarTab === 'zones' ? selected : familyId === 'asteroids' ? 'asteroid' : familyId === 'dwarfs' ? 'all' : familyId === 'centaurs' ? 'scattered' : 'planetary'} resetCount={resetCount} family={solarTab === 'families' ? familyId : undefined} cameraView={cameraView} heightScale={solarTab === 'zones' && selected === 'planetary' ? heightScale : 1} showPlane={showPlane}/> : <CosmicCanvas level={cosmicId}/>}
+      <div className="macro-stage">{scope === 'solar' ? <MacroCanvas integrated={{families:{enabled:stageFlags.families&&effectiveLayers.planetary,moons:effectiveLayers.moons,rings:familyRings,enhanced:familyEnhanced,orbits:familyOrbits,selected:familySelected,onSelect:selectFamilyMoon,onFocus:focusFamily,states:familyStates},flags:effectiveIntegrated,target:integratedTarget,request:integratedRequest,restore:integratedRestore,progress:integratedProgress,onFocus:focusIntegrated}} selectedMember={selectedMember} onSelectMember={chooseMember} focusRequest={focusRequest} restoreRequest={restoreRequest} cometBatch={cometData.batch} cometTracks={cometTracks} showActivity={showActivity} showLabels={showLabels} onDistance={setCameraDistance} frame={scientificFrame} layers={effectiveLayers} batch={memberBatch} animate={animate} selected={solarTab === 'zones' ? selected : familyId === 'asteroids' ? 'asteroid' : familyId === 'dwarfs' ? 'all' : familyId === 'centaurs' ? 'scattered' : 'planetary'} resetCount={resetCount} family={solarTab === 'families' ? familyId : undefined} cameraView={cameraView} heightScale={solarTab === 'zones' && selected === 'planetary' ? heightScale : 1} showPlane={showPlane}/> : <CosmicCanvas level={cosmicId}/>}
         <div className="macro-stage-label"><span className="macro-live-dot"/>{scope === 'cosmic' ? '宇宙邻域 · 形态示意' : solarTab === 'families' ? '太阳系成员 · 分层展示' : '太阳系宏观全景'} <span>·</span> {scope === 'solar' && !isEphemeris ? '当前为物理模式 · 实测天体已隐藏' : scope === 'solar' && displayDate ? `观测时刻 ${displayDate.replace('T', ' ')}（北京时间）` : scope === 'solar' ? '历表加载中' : '非真实相对方位'}</div>
-        {scope === 'solar' && solarTab === 'families' && <div className="macro-family-key">{familyId === 'dwarfs' ? '谷神星 / 冥王星：历表位置与瞬时参考轨道；卡戎在此尺度不可分辨' : familyId === 'moons' ? '近旁小圈为卫星系统视觉标记，不表示真实比例与轨道' : familyId === 'comets' ? '哈雷 / 67P：当日历表位置 · 亮线为两年路径，淡线为参考椭圆' : familyId === 'centaurs' ? '巨行星区域与特洛伊群为种群范围示意' : familyId === 'dust' ? '太阳附近尘埃点仅示意分布，不表示实测密度' : '主带点数、大小与位置均不代表真实小行星'}</div>}
+        {scope === 'solar' && solarTab === 'families' && <div className="macro-family-key">{familyId === 'dwarfs' ? '谷神星 / 冥王星：历表位置与瞬时参考轨道；卡戎在此尺度不可分辨' : familyId === 'moons' ? '卫星使用当日历表相对位置 · 球体与局部距离作展示缩放' : familyId === 'comets' ? '哈雷 / 67P：当日历表位置 · 亮线为两年路径，淡线为参考椭圆' : familyId === 'centaurs' ? '巨行星区域与特洛伊群为种群范围示意' : familyId === 'dust' ? '太阳附近尘埃点仅示意分布，不表示实测密度' : '主带点数、大小与位置均不代表真实小行星'}</div>}
         {scope === 'solar' && <div className="macro-depth-controls" aria-label="三维观察方式"><div role="group" aria-label="宏观镜头角度">{([['oblique','斜视'],['edge','侧视'],['top','俯视']] as const).map(([id,label]) => <button key={id} className={cameraView === id ? 'active' : ''} onClick={() => setCameraView(id)} aria-pressed={cameraView === id}>{label}</button>)}</div><button className={showPlane ? 'active' : ''} onClick={() => setShowPlane(value => !value)} aria-pressed={showPlane}>黄道面 / 高度线</button>{solarTab === 'zones' && selected === 'planetary' && <button className={heightScale === 10 ? 'active enhanced' : ''} onClick={() => setHeightScale(value => value === 1 ? 10 : 1)} aria-pressed={heightScale === 10}>{heightScale === 1 ? '行星高度 ×10' : '行星高度 ×10 · 示意'}</button>}</div>}
         {scope === 'solar' && <button className="macro-reset" onClick={() => setResetCount(count => count + 1)} aria-label="复位宏观镜头" title="复位镜头"><RotateCcw size={15}/></button>}
         <div className="macro-scale-warning">{scope === 'cosmic' ? '拖动旋转 / 滚轮缩放 · 星系和恒星的画面尺寸与方位为示意' : solarTab === 'zones' && selected === 'planetary' && heightScale === 10 ? '行星黄道高度已放大 10 倍，仅为辨识；点击“行星高度 ×10”恢复真实高度' : solarTab === 'families' ? '距离对数压缩 · 天体位置见来源状态 · 彗尾、太阳风、种群点云为示意' : selected === 'scattered' ? '紫色点只示意远伸且有纵向厚度的分布 · 一点不等于一颗已发现天体' : selected === 'oort' ? '圆点示意可能的冰质小天体群；每个点都不是已观测天体，点数、位置与大小不对应实测' : selected === 'heliosphere' ? '三维轮廓表示太阳风影响区 · 实际边界并非规则球面' : selected === 'kuiper' || selected === 'asteroid' ? '点云展示环带厚度 · 点位与密度为示意，非逐体历表' : '拖动旋转 / 滚轮缩放 · 距离采用对数映射 · 行星黄道高度来自历表'}</div>
@@ -492,7 +497,8 @@ export function MacroStructure({ stageFlags, onOpenStages, onOpenEnvironment, on
         {scope==='solar'&&<section className="panorama-integration" hidden={panelTab!=='integrated'} aria-label="全景现象控制">
           <h2>在同一片空间中观察</h2><p>这些效果已画入当前全景。点击场景标记或下方定位，镜头在同一画布中靠近；远景保留位置标记，近景展开细节。</p>
           <p className="panorama-scale-note">天体锚点采用当前历表；周围现象为放大示意，不是当天事件。距离仍压缩，局部尺寸不能与天体距离直接比较。</p>
-          {integratedTarget&&<div className="panorama-current"><strong>当前定位：{({sun:'太阳活动',earth:'地球周围',dust:'行星际碎屑',helio:'日球层环境'}[integratedTarget])}</strong><button onClick={leaveIntegrated}>返回定位前视角</button></div>}
+          {integratedTarget&&<div className="panorama-current"><strong>当前定位：{(isMacroFamily(integratedTarget)?bodyById[integratedTarget].name+'系统':({sun:'太阳活动',dust:'行星际碎屑',helio:'日球层环境'}[integratedTarget]))}</strong><button onClick={leaveIntegrated}>返回定位前视角</button></div>}
+          <MacroFamilyPanel enabled={stageFlags.families} frame={scientificFrame} date={displayDate} states={familyStates} active={activeFamily} selected={selectedMoon} loading={familyData.loading} error={familyData.error} onRetry={familyData.retry} onFocus={focusFamily} onSelect={selectFamilyMoon} moons={layers.moons} rings={familyRings} enhanced={familyEnhanced} orbits={familyOrbits} onMoons={()=>setLayers(v=>({...v,moons:!v.moons}))} onRings={()=>setFamilyRings(v=>!v)} onEnhanced={()=>setFamilyEnhanced(v=>!v)} onOrbits={()=>setFamilyOrbits(v=>!v)} time={timeControls}/>
           <div className="panorama-choices">{INTEGRATED_ITEMS.map(item=><article key={item.id}><label><input type="checkbox" checked={integratedChoices[item.id]} disabled={!stageFlags[item.stage]} onChange={e=>setIntegratedChoices(v=>({...v,[item.id]:e.target.checked}))}/><strong>{item.title}</strong></label><small>{!stageFlags[item.stage]?'阶段已隐藏':item.target==='earth'&&!scientificFrame?'等待真实地球位置':effectiveIntegrated[item.id]?'已接入全景 · 靠近展开':'已关闭'}</small><p>{item.detail}</p><button disabled={!stageFlags[item.stage]||(item.target==='earth'&&!scientificFrame)} onClick={()=>focusIntegrated(item.target)}>定位{item.title}</button>{item.id==='dust'&&<button disabled={!stageFlags.dustExplorer||!scientificFrame} onClick={()=>focusIntegrated('earth')}>定位地球旁流星示例</button>}</article>)}</div>
           <div className="panorama-demo"><h3>现象示意进度</h3><p>默认暂停；仅控制 CME、流星短迹与中性原子示例。不同现象没有因果或同日关联；真实观测日期与原太阳风动画仍独立控制。</p><input type="range" aria-label="全景现象进度" min="0" max="1" step=".001" value={integratedProgress} onChange={e=>{setIntegratedPlaying(false);setIntegratedProgress(Number(e.target.value));}}/><button aria-pressed={integratedPlaying} onClick={()=>setIntegratedPlaying(v=>!v)}>{integratedPlaying?'暂停现象示意':'播放现象示意'}</button><button onClick={()=>{setIntegratedPlaying(false);setIntegratedProgress(.32);}}>复位现象</button></div>
           <details><summary>继续阅读独立详解与来源</summary><p>下面会打开单独的教学镜头；上方定位与开关始终留在当前全景。</p>{stageFlags.solarActivity&&<button onClick={onOpenSolarActivity}>太阳活动独立详解</button>}{(stageFlags.environment||stageFlags.nearEarth)&&<button onClick={onOpenEnvironment}>近地空间独立详解</button>}{stageFlags.dustExplorer&&<button onClick={onOpenDust}>尘埃与流星独立详解</button>}{stageFlags.heliosphereExplorer&&<button onClick={onOpenHeliosphere}>日球层独立详解</button>}<p>沿用各详解模块的 NASA 来源；本轮不增加历表目标、实测事件、粒子通量或模型预测。</p></details>

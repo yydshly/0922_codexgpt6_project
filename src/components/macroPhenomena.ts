@@ -1,3 +1,4 @@
+import {macroMemberAnchor} from '../data/macroMemberState';
 import {cometAntiSolar,type CometDisplay} from '../data/macroComets';
 import * as THREE from 'three';
 import { placeMacroLabels } from './macroLabelLayout';
@@ -88,7 +89,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   const dwarfMeshes = REGION_MEMBERS.map(body => {
     const group = new THREE.Group(); groups.dwarfs.add(group); group.visible=false;
     const marker=ball(.13,body.color); marker.userData.memberId=body.id; group.add(marker);
-    const annotation=label(body.name,body.color,body.id);group.add(annotation);
+    const annotation=label(body.name,body.color,body.id);annotation.userData.memberId=body.id;group.add(annotation);
     const orbit=line([],body.color,.25);group.add(orbit);
     return {id:body.id,group,marker,annotation,orbit,orbitTime:NaN};
   });
@@ -148,13 +149,15 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
       const compatible=frame && batch && Math.abs(frame.time-batch.timeTdb)<1e-5 && batch.originId==='ssb';
       for(const item of dwarfMeshes) {
         const state=compatible ? batch.states.find(s=>s.id===item.id) : undefined;
-        item.group.visible=!!state&&!(plutoExpanded&&item.id==='pluto');
-        if(!state || !frame) continue;
-        item.marker.position.set(...macroEcliptic(state.position.map((v,i)=>(v-frame.positions[i])/AU_KM)));
+        const point=macroMemberAnchor(frame,batch,item.id);
+        item.group.visible=!!point&&!(plutoExpanded&&item.id==='pluto');
+        if(!state || !frame || !point) continue;
+        item.marker.position.set(...point);
         item.annotation.position.copy(item.marker.position);
         item.annotation.visible=distance<42 || item.id===selectedMember;
         item.annotation.userData.selected=item.id===selectedMember;
         item.marker.scale.setScalar(item.id===selectedMember?1.5:1);
+        item.annotation.userData.anchorRadius=.13*(item.id===selectedMember?1.5:1);
         item.orbit.material.opacity=item.id===selectedMember?.85:.22;
         labelElements.get(item.annotation)!.text.setAttribute('aria-pressed',String(item.id===selectedMember));
         if(!Number.isFinite(item.orbitTime) || Math.abs(frame.time-item.orbitTime)>21600) {
@@ -180,7 +183,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
         let object:THREE.Object3D|null=anchor;let enabled=visible;
         while(object) { enabled=enabled && object.visible;object=object.parent; }
         const elements=labelElements.get(anchor)!;elements.text.style.visibility='hidden';elements.line.style.visibility='hidden';
-        if(!enabled||(focusedComet&&anchor.userData.cometId!==focusedComet)) return [];
+        if(!enabled||(focusedComet&&(anchor.userData.cometId??anchor.userData.memberId)!==focusedComet)) return [];
         const p=anchor.getWorldPosition(new THREE.Vector3()).project(camera);
         if(p.z < -1 || p.z > 1) return [];
         return [{id:String(index),x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:elements.text.offsetWidth,height:elements.text.offsetHeight,radius:anchor.userData.anchorRadius?anchor.userData.anchorRadius*height/(2*Math.tan(camera.fov*Math.PI/360)*anchor.getWorldPosition(new THREE.Vector3()).distanceTo(camera.position))+5:undefined}];

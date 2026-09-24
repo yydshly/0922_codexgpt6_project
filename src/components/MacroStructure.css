@@ -84,3 +84,5 @@
 .panorama-families details{margin-top:14px}.panorama-families summary{font-size:12px;cursor:pointer;line-height:1.7}
 
 .panorama-comets>.comet-panel{border:0;padding:0;margin:0;background:transparent}
+
+.panorama-members .region-members{margin:12px 0;border:1px solid #284751;border-radius:12px;padding:14px;background:#0d2029;}

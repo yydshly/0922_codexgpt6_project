@@ -10,8 +10,8 @@ import type { StateFrame } from '../types';
 import type { StateBatch } from '../ephemeris/stateProvider';
 import type { MacroTimeControls } from './CometPanel';
 
-export function RegionMembers({includeNewMembers=true,zone,family,selectedId,onSelect,onReturn,onLocate,onRegion,onBinary,frame,batch,loading,error,onRetry,time}: {
- includeNewMembers?:boolean; zone:MacroZoneId; family?:SolarFamilyId; selectedId:string|null; onSelect:(id:string)=>void;
+export function RegionMembers({date,includeNewMembers=true,zone,family,selectedId,onSelect,onReturn,onLocate,onRegion,onBinary,frame,batch,loading,error,onRetry,time}: {
+ date:string; includeNewMembers?:boolean; zone:MacroZoneId; family?:SolarFamilyId; selectedId:string|null; onSelect:(id:string)=>void;
  onBinary?:()=>void; onReturn:()=>void; onLocate:()=>void; onRegion:()=>void;
  frame:StateFrame|null; batch:StateBatch|null; loading:boolean; error:string; onRetry:()=>void; time:MacroTimeControls;
 }){
@@ -32,12 +32,12 @@ export function RegionMembers({includeNewMembers=true,zone,family,selectedId,onS
    {(loading||error||!frame) && <p role="status">{!frame?'当前模式没有真实历表，请返回真实太阳系。':error||'部分成员历表加载中；已加载成员仍可观察。'}</p>}
    {error && <button onClick={onRetry}>重试成员历表</button>}
    {selected && <article ref={detail} className="region-member-detail" aria-label={`${selected.name}的区域与参数`}>
-     <h3>{selected.name}<small>{selected.englishName}</small></h3><p>{selected.relation}</p>
-     <div className="region-member-actions"><button onClick={onRegion}>查看所属区域</button><button disabled={!state} onClick={onLocate}>定位此天体</button><button onClick={onReturn}>返回区域全景</button></div>
+     <p className="panorama-family-date">{date.replace('T',' ')} · 北京时间</p><p role="status">{state?"镜头跟随当日位置；拖动和缩放仍可调整观察角度。":"正在等待同一日期的历表；不使用旧位置跟随。"}</p><h3>{selected.name}<small>{selected.englishName}</small></h3><p>{selected.relation}</p>
+     <div className="region-member-actions"><button onClick={onRegion}>查看所属区域</button><button disabled={!state} onClick={onLocate}>定位此天体</button><button onClick={onReturn}>返回定位前视角</button></div>
      <dl><div><dt>当前距太阳</dt><dd>{metrics?`${metrics.distanceAu.toFixed(3)} AU`:'等待历表'}</dd></div><div><dt>相对太阳速度</dt><dd>{metrics?`${metrics.speedKmS.toFixed(3)} km/s`:'等待历表'}</dd></div><div><dt>黄道面高度（相对太阳）</dt><dd>{state?`${(state.position[2]/AU_KM).toFixed(3)} AU`:'等待历表'}</dd></div><div><dt>参考半径</dt><dd>{selected.radiusKm===null?'长椭球形，不使用单一半径':`${selected.radiusKm.toLocaleString('zh-CN')} km`}</dd></div></dl>
      {selected.id==='pluto'&&onBinary&&<button disabled={!state} onClick={onBinary}>在全景观察冥王星—卡戎</button>}
      <p>{selected.radiusNote}</p><p>{selected.description}</p>
-     <div className="region-member-actions"><button disabled={!state||time.loading} onClick={time.onToggle}>{time.playing?'暂停日期':'继续日期'}</button><button disabled={!state||time.loading||!frame||frame.time>=time.end} onClick={()=>time.onSeek(Math.min(time.end,frame!.time+30*86400))}>后 30 天</button><button aria-expanded={preview} onClick={()=>setPreview(v=>!v)}>{preview?'收起外观近景':'展开外观近景'}</button></div>
+     <div className="region-member-actions"><button disabled={!state||time.loading||!frame||frame.time<=time.start} onClick={()=>time.onSeek(Math.max(time.start,frame!.time-30*86400))}>前 30 天</button><button disabled={!state||time.loading} onClick={time.onToggle}>{time.playing?'暂停日期':'继续日期'}</button><button disabled={!state||time.loading||!frame||frame.time>=time.end} onClick={()=>time.onSeek(Math.min(time.end,frame!.time+30*86400))}>后 30 天</button><button aria-expanded={preview} onClick={()=>setPreview(v=>!v)}>{preview?'收起外观近景':'展开外观近景'}</button></div>
      {preview && <div className="region-member-preview"><AtlasPreview key={selected.id} body={selected}/><p>独立取景的外观示意；拖动旋转，不代表实时影像、精确地形或真实自转。宏观定位仍使用历表。</p></div>}
      <p>细线是当期状态估算的二体参考轨道，不是未来历表路径。球体标记已放大；高度的正负表示黄道面两侧。</p>
      <a href={selected.sourceUrl} target="_blank" rel="noreferrer">NASA：天体介绍与物理资料 ↗</a>

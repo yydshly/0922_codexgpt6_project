@@ -1,0 +1,6 @@
+.dust-explorer .environment-canvas{top:108px;bottom:230px}
+.dust-explorer .environment-badge{top:74px;color:#dec99f;border-color:#605c47}
+.dust-view-switch{position:absolute;top:20px;left:22px;right:12px;display:flex;gap:8px;flex-wrap:wrap}
+.dust-explorer .environment-label{border-color:#b8cbbb}
+.dust-explorer .environment-facts button{margin-top:8px}
+@media(max-width:700px){.dust-explorer .environment-stage{height:660px}.dust-view-switch{left:12px}.dust-explorer .environment-caption{font-size:10px}.dust-explorer .environment-badge{font-size:10px}}

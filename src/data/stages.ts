@@ -7,6 +7,7 @@ export const STAGES = [
  {id:'environment',title:'05 · 地球磁层与极光',added:'从太阳风看地球周围的三维环境',description:'增加弓形激波、磁层顶、磁尾、磁力线与两极极光的结构示意，可分别开关，从侧面和近景观察。',evidence:'依据 NASA 科学说明绘制；不是当天实测。地球放大、磁尾截短，磁轴与光带方位为示意，不读取观测日期。',how:'进入结构图 → 分层开关 → 侧面看磁尾 → 靠近看极光 → 返回原观测。'},
  {id:'nearEarth',title:'06 · 辐射带与等离子体层',added:'走进磁层内部的粒子区域',description:'补内辐射带、外辐射带和等离子体层的三维体积分布示意，可分别开关，切开查看内部。',evidence:'NASA 科学说明支持形态与概念；点数、颜色、边界和缺口均为示意，不表示实测通量或辐射剂量。',how:'进入近地粒子区域 → 切开 / 恢复完整区域 → 单独开关三层 → 对比磁层与极光。'},
  {id:'solarActivity',title:'07 · 太阳活动与物质抛射',added:'区分太阳风、耀斑与 CME',description:'增加可暂停、拖动和重播的太阳活动原理演示，日冕、太阳风、耀斑、日冕物质抛射可分别开关，并关联地球磁层。',evidence:'依据 NASA 科学说明；纹理、光晕、云团和传播节奏为示意，不是当日事件或抵达时间预测。',how:'单独打开各层 → 播放或拖动进度 → 比较辐射与物质 → 接着看地球磁层。'},
+ {id:'dustExplorer',title:'08 · 行星际尘埃与流星',added:'从小颗粒分布到大气中的光迹',description:'展开尘埃云、倾斜碎屑流和地球参考路径，再独立观察流星体进入大气、发光和消融的示例。',evidence:'NASA 科学资料支持概念；点云、倾角、尺寸和速度为示意，不是当日尘埃密度、流星雨或撞击预报。',how:'侧看尘埃厚度 → 分层开关 → 切换进入大气 → 播放与拖动 → 接着看真实彗星。'},
 ] as const;
 export type StageId=typeof STAGES[number]['id'];
 export type StageFlags=Record<StageId,boolean>;

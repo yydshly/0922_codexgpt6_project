@@ -7,7 +7,7 @@ export const MASTER_PLAN = {
     {
       "id": "M0",
       "title": "冻结现有基线",
-      "status": "已有基础，待集中验收",
+      "status": "已上线基线与恢复修复；收尾台账已更新，用户验收待完成",
       "goal": "先把已经做出的能力变成可重复验收的稳定起点。",
       "dependency": "无；复用当前项目。",
       "packages": [
@@ -26,7 +26,7 @@ export const MASTER_PLAN = {
         {
           "id": "M0.3",
           "title": "形成可回退版本",
-          "scope": "完成旧四批中的最后一批验收，保留源码、资源、验证报告与部署记录。",
+          "scope": "保留当前候选版本的源码、资源、验证报告与部署记录，完成收尾验收。",
           "acceptance": "用户验收稳定基线；能从明确提交重建和回退。"
         }
       ]
@@ -34,7 +34,7 @@ export const MASTER_PLAN = {
     {
       "id": "M1",
       "title": "建立全量内容与数据规则",
-      "status": "20 类覆盖清单已关联入口；供数统一与样本预算待实现",
+      "status": "20 类入口、供数与证据已整理；资源预算 F02 未闭环",
       "goal": "以后任何新增内容都能在同一总图上找到位置。",
       "dependency": "M0.1；可与 M0 修复交错推进。",
       "packages": [
@@ -61,7 +61,7 @@ export const MASTER_PLAN = {
     {
       "id": "M2",
       "title": "补齐宏观整体与真实星空",
-      "status": "区域骨架已有，真实星表与统一层次待补",
+      "status": "宏观区域与独立星表已上线；主全景星表背景 F01 未关闭",
       "goal": "先让用户看懂整体空间中究竟有什么。",
       "dependency": "M1 数据合同与来源准入。",
       "packages": [
@@ -88,7 +88,7 @@ export const MASTER_PLAN = {
     {
       "id": "M3",
       "title": "补齐代表成员与天体家族",
-      "status": `已有 ${OBSERVATION_COUNTS.allDynamic} 个当前动态目标及 1 个独立历史案例，R03 约定代表已接入，待验收`,
+      "status": `已有 ${OBSERVATION_COUNTS.allDynamic} 个当前动态目标及 1 个独立历史案例，约定代表已上线，待用户验收`,
       "goal": "把只有类别或点云的内容落到可观察的真实对象。",
       "dependency": "M1 的数据准入；显示采用 M2 标准。",
       "packages": [
@@ -115,7 +115,7 @@ export const MASTER_PLAN = {
     {
       "id": "M4",
       "title": "补齐运动关系与空间现象",
-      "status": "部分原理示意已有，事件与关系演示待补",
+      "status": "14 节运动课、三例天象及环境联系已上线；待用户验收",
       "goal": "从“有哪些东西”推进到“它们怎样运行和相互作用”。",
       "dependency": "M1；涉及的真实对象通过 M3 或现有基线验证。",
       "packages": [
@@ -142,7 +142,7 @@ export const MASTER_PLAN = {
     {
       "id": "M5",
       "title": "完成从太阳系到宇宙的认识路径",
-      "status": "已有邻域概念图，空间坐标与完整导览待补",
+      "status": "32 个邻星样本、宇宙背景及六路线 27 步已上线；待用户验收",
       "goal": "理解太阳系所在的位置，同时知道每层尺度的证据边界。",
       "dependency": "M2 星空；M3/M4 对应内容。",
       "packages": [
@@ -169,7 +169,7 @@ export const MASTER_PLAN = {
     {
       "id": "M6",
       "title": "太阳系认知版正式验收",
-      "status": "待前述里程碑交付后集中验收",
+      "status": "科学与异常流程已有证据；实机性能与用户总验收未完成",
       "goal": "明确这一版何时真正完成，而不是无限追加元素。",
       "dependency": "M0–M5 对应验收项关闭。",
       "packages": [
@@ -249,9 +249,9 @@ export const MASTER_PLAN = {
       "use": "小天体身份、轨道解与参数；轨道根数不冒充长期精确传播。"
     },
     {
-      "title": "ESA Gaia DR3",
-      "url": "https://www.cosmos.esa.int/web/gaia/dr3",
-      "use": "规划采用的候选恒星数据版本；质量筛选、缺失值、历元、许可和距离推断须另行验证。"
+      "title": "ESA Hipparcos · 2007 新归算",
+      "url": "https://cdsarc.cds.unistra.fr/viz-bin/cat/I/311",
+      "use": "当前采用的 ICRS / J1991.25 星表，含亮星方向和筛选后的邻星距离样本；同任务版本交叉检查与局限见 R08/R09。Gaia 不是当前已采用数据。"
     }
   ]
 };

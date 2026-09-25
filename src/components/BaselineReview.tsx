@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {BASELINE_VERSION,type CoverageEntry} from '../data/contentCoverage';
 import {REVIEW_STEPS,REVIEW_STORAGE_KEY,parseReview,type ReviewMarks,type ReviewMark,type ReviewStatus} from '../data/baselineReview';
 import auditUrl from '../../docs/LEARNING-FLOW-AUDIT.md?url';
-import releaseUrl from '../../docs/BASELINE-REVIEW.md?url';
+import releaseUrl from '../../docs/FIRST-RELEASE-CLOSEOUT.md?url';
 export function BaselineReview({onVisit,onCoverage}:{onVisit:(entry:CoverageEntry)=>void;onCoverage:()=>void}) {
  const [marks,setMarks]=useState<ReviewMarks>(()=>{try{return parseReview(localStorage.getItem(REVIEW_STORAGE_KEY));}catch{return {};}});
  const [saveError,setSaveError]=useState('');
@@ -13,11 +13,11 @@ export function BaselineReview({onVisit,onCoverage}:{onVisit:(entry:CoverageEntr
  const count=(status:ReviewStatus)=>REVIEW_STEPS.filter(s=>(marks[s.id]?.status??'pending')===status).length;
  const download=()=>{const blob=new Blob([JSON.stringify({version:BASELINE_VERSION,recordedAt:new Date().toISOString(),meaning:'用户个人检查记录；不等于科学总验收或发布',marks},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='太阳系当前版本检查记录.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
  return <section className="baseline-review">
- <h3>当前版本 · 先检查这五件事</h3><p>当前交付版，待用户验收；部署状态以 GitHub 发布记录为准。本次整理包括整体规划、紧凑工具栏、太阳亮斑、学习主线和观察流程修复；没有新增天体或更改历表。</p>
- <div className="master-plan-note"><strong>M0.1 / M1.1 · 正在核对基础与覆盖</strong><p>覆盖清单已关联 20 类主题的入口、实现模块和五组数据包。这里只整理当前能力；真实性总验收、性能预算和六条专题路线仍待完成。</p><button onClick={onCoverage}>查看20类内容与缺口 →</button></div>
+ <h3>我的验收记录 · 五项操作检查</h3><p>本次检查基线：{BASELINE_VERSION}。记录只覆盖下列操作体验，不替代 20 类主题、5 项必补及性能总验收。</p>
+ <div className="master-plan-note"><strong>当前已交付能力与证据</strong><p>53 个动态目标、1 个历史案例、14 节运动课、六路线 27 步及数据/恢复报告已上线。用户验收仍由你逐项确认。</p><button onClick={onCoverage}>查看20类内容与缺口 →</button></div>
  <p>按下方顺序打开场景检查；使用场景右上角“返回整体规划”继续记录。不会自动修改日期、播放或阶段开关。</p>
  <div className="baseline-record-summary" role="status">待检查 {count('pending')} · 符合预期 {count('pass')} · 发现问题 {count('issue')}</div>
- <p className="baseline-record-note">检查结果由你选择，保存在当前浏览器，可随时修改；不代表系统已通过总验收，也不会触发提交或发布。</p>
+ <p className="baseline-record-note">本基线不继承旧版的通过标记，旧版浏览器存储保留；检查结果由你选择，保存在当前浏览器，可随时修改；不代表系统已通过总验收，也不会触发提交或发布。</p>
  {saveError&&<p role="alert">{saveError}</p>}
  <ol className="baseline-checklist">{REVIEW_STEPS.map(step=><li key={step.id}>
  <h4>{step.title}</h4><p><strong>操作：</strong>{step.action}</p><p><strong>预期：</strong>{step.expected}</p>
@@ -25,6 +25,6 @@ export function BaselineReview({onVisit,onCoverage}:{onVisit:(entry:CoverageEntr
  <label className="baseline-note-label">问题或补充说明<textarea rows={2} maxLength={2000} value={marks[step.id]?.note??''} onChange={e=>update(step.id,{note:e.target.value})} placeholder="例如：切换侧视后，地球仍被标签遮挡"/></label>
  </li>)}</ol>
  <div className="baseline-links"><button onClick={download}>导出我的检查记录</button><a href={releaseUrl} download="当前版本变更与验收说明.md">下载本批变更说明</a><a href={auditUrl} download="学习流程检查报告.md">下载已有流程检查报告</a></div>
- <p>R01 的四个小天体代表已接入本地，需先验收定位、日期与参数；下一批 R02 补远缘与跨区域对象；真实恒星背景安排在 R08。当前记录仅覆盖本批界面和观察流程，不把既有 166 项测试当作所有科学内容已验收的证明。</p>
+ <p>接下来的实现与总验收以“收尾进度”五步及未关闭事项为准；本页个人标记不会自动关闭全局工作包。</p>
  </section>;
 }

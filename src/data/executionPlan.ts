@@ -1,7 +1,7 @@
 /** Delivery ordering supplements the stable M0–M6 work packages; it does not enable scene layers. */
 export interface DeliveryBatch {id:string;title:string;packages:string[];topics:string[];after:string[];dependency:string;must:string[];acceptance:string[];boundary:string;status:string;}
 export interface ScopeAddition {id:string;title:string;level:string;topics:string[];batches:string[];scope:string;acceptance:string;deferred:string;sources:string[];status:string;}
-export const EXECUTION_VERSION='v2.7 · 2026-09-25';
+export const EXECUTION_VERSION='v3.0 · 2026-09-25 · 首版收尾';
 export const DELIVERY_BATCHES:DeliveryBatch[] = [
   {
     "id": "R01",
@@ -30,7 +30,7 @@ export const DELIVERY_BATCHES:DeliveryBatch[] = [
       "独立检查点验证通过，误差预算与轨道本身的不确定性分别记录。"
     ],
     "boundary": "候选数据不可靠时明确阻塞或记录替代方案；不以虚构坐标凑齐类别。",
-    "status": "四个代表已提交远端 / 用户验收独立记录"
+    "status": "代表已上线；数据/入口有核验记录，待用户验收"
   },
   {
     "id": "R02",
@@ -60,7 +60,7 @@ export const DELIVERY_BATCHES:DeliveryBatch[] = [
       "案例有可追溯轨道、有效日期及区域关系说明；独立历史窗口有明确切换和返回。"
     ],
     "boundary": "不虚构奥尔特云逐体坐标；跨时段案例不强行放进 2026—2027 年窗口。",
-    "status": "三个当前对象与一个历史案例已提交远端 / 用户验收独立记录"
+    "status": "远缘成员与历史访客已上线；待用户验收"
   },
   {
     "id": "R03",
@@ -88,7 +88,7 @@ export const DELIVERY_BATCHES:DeliveryBatch[] = [
       "局部尺度、实际尺寸、环宽增强与轨道参考线分别标明。"
     ],
     "boundary": "无可靠相对历表的候选不能标称真实动态双体；说明性模型独立标注。",
-    "status": "约定代表内容已本地实现：双环、矮行星家族、L5 双小行星与环段复核 / 待用户整批验收"
+    "status": "约定家族、双体与环代表已上线；待用户验收"
   },
   {
     "id": "R04",
@@ -119,7 +119,7 @@ export const DELIVERY_BATCHES:DeliveryBatch[] = [
       "表面、内部剖面、观测证据和内部结构推断分开，至少一个代表有可操作解释。"
     ],
     "boundary": "首版采用代表性近景、剖面或说明；不要求全表面高精度地形和流体求解。",
-    "status": "约定基础内容与一致性核对已实现 / 待用户整批验收；高精度外观缺口保留"
+    "status": "基础外观、形状和结构示意已上线；高精度深化不在本批完成声明内"
   },
   {
     "id": "R05",
@@ -150,7 +150,7 @@ export const DELIVERY_BATCHES:DeliveryBatch[] = [
       "三条主要联系可暂停、分步或重播；空间环境进度不更改观测日期。"
     ],
     "boundary": "没有实时通量和天气数据时不提供当日实况或辐射预测；场线不是物质轨道。",
-    "status": "约定教学联系、边界与整批回归已部署 9733805；用户验收待完成"
+    "status": "四类教学联系共 21 步已上线；待用户验收"
   },
   {
     "id": "R06",
@@ -181,7 +181,7 @@ export const DELIVERY_BATCHES:DeliveryBatch[] = [
       "事件关键时刻有资料对照与偏差记录，地面可见性注明地点和时间。"
     ],
     "boundary": "不凭动画速度冒充潮汐演化；空间几何对齐不能直接等同地面可见。",
-    "status": "日月食已发布 1995d1c；木卫一遮掩本地待验收，独立掩始偏差约 +87 秒；无卫星食亮度、地理路径或城市可见性，14 节课程操作联动回归通过，用户视觉验收待完成"
+    "status": "14 节运动课与三例事件已上线；误差与科学边界已记录，待用户验收"
   },
   {
     "id": "R07",
@@ -230,7 +230,7 @@ export const DELIVERY_BATCHES:DeliveryBatch[] = [
       "五条内部专题路线走通；现有六章十六节入门主线继续保留。"
     ],
     "boundary": "五条专题路线不等于已有六章主线；不为了空间感夸大真实轨道倾角而不标注。",
-    "status": "五条路线 22 步、53 个当前成员及 1 个历史案例的目录/定位/参数/来源/返回已本地核对；阶段门控与故障恢复通过。用户验收与发布待完成"
+    "status": "成员目录及五条内部路线 22 步已上线；第六路线归 R08，待用户验收"
   },
   {
     "id": "R08",
@@ -259,7 +259,7 @@ export const DELIVERY_BATCHES:DeliveryBatch[] = [
       "六条专题路线全部走通，银河模型不冒充全星表实测重建。"
     ],
     "boundary": "邻星与星系是宇宙背景，不计作太阳系内部新成员；无可靠距离不伪造纵深。",
-    "status": "进行中：星表、32 个邻星样本及第六路线已接入，六路线 27 步通过；5 星原版/新版交叉核对通过（同一观测任务） / 待用户验收"
+    "status": "独立星表、32 个邻星样本与第六路线已上线；主全景星表背景标准差距 F01 未关闭"
   },
   {
     "id": "R09",
@@ -315,7 +315,7 @@ export const DELIVERY_BATCHES:DeliveryBatch[] = [
       "参考桌面典型全景目标 ≥30 fps；20 次连续跨模块切换检查资源趋势，未达标先降载复测。"
     ],
     "boundary": "完成的是约定的主要构成与代表体验，不是所有对象、地形和历史事件；工期在数据与资源核查后估算。",
-    "status": "进行中：星表版本核对、绘制节奏及共享几何修复完成，40 次切换节点/监听稳定；313 包/核心插值及物理复验通过；三例事件重算与显示边界集中说明完成，未认证绝对精度；14 课、阶段依赖与三事件/日期/镜头回归完成；27 步专题及木星/土星跨月失败重试验收通过；实机/用户验收及发布待完成"
+    "status": "科学报告、异常恢复与参考环境检查已上线；资源预算、实机和用户总验收未完成"
   }
 ];
 export const SCOPE_ADDITIONS:ScopeAddition[] = [
@@ -335,7 +335,7 @@ export const SCOPE_ADDITIONS:ScopeAddition[] = [
     "scope": "不规则形状、双小行星、小天体卫星；接触形状与绕转双体分别说明。",
     "acceptance": "至少一个有依据的不规则形状和一个双体/小天体卫星系统，可共用对象。",
     "deferred": "全量精密形状、接触演化与碎石堆物理延期。",
-    "status": "双小行星与爱神星 PDS 不规则形状已接入；用户验收待完成",
+    "status": "爱神星 PDS 形状、Patroclus–Menoetius 双体已上线；待用户验收",
     "sources": [
       "https://science.nasa.gov/solar-system/asteroids/facts/"
     ]
@@ -359,7 +359,7 @@ export const SCOPE_ADDITIONS:ScopeAddition[] = [
     "scope": "准卫星、共轨关系，以及经典/共振/散射/离散群体。",
     "acceptance": "一个共轨或准卫星案例可比较参照系；经典和共振成员各有代表，已有样本可复用。",
     "deferred": "不要求重建每个共振族群和长期混沌演化。",
-    "status": "规划补项，未计为实现",
+    "status": "Kamoʻoalewa 双参照系与远缘群体分类已上线；待用户验收",
     "sources": [
       "https://science.nasa.gov/solar-system/kuiper-belt/facts/",
       "https://www.jpl.nasa.gov/news/small-asteroid-is-earths-constant-companion/"
@@ -379,7 +379,7 @@ export const SCOPE_ADDITIONS:ScopeAddition[] = [
     "scope": "光球、色球、日冕、黑子、日珥与已有耀斑/CME 的区别。",
     "acceptance": "每层/类有说明和来源；一个分层视图与可选择的活动示例，不标称当日实况。",
     "deferred": "实时太阳监测和完整磁流体计算延期。",
-    "status": "太阳大气分层与黑子/日珥主全景代表已接入，待用户验收；环境联系继续由 R05 完善",
+    "status": "太阳分层与活动区别、太阳—地球环境联系已上线；待用户验收",
     "sources": [
       "https://science.nasa.gov/sun/facts/"
     ]
@@ -400,7 +400,7 @@ export const SCOPE_ADDITIONS:ScopeAddition[] = [
     "scope": "地质活动、喷流、内部海洋及物质向环系补给的代表性关系。",
     "acceptance": "至少一个代表有近景、剖面或原理解释；土卫二可作候选，观测与内部推断分开。",
     "deferred": "所有天体内部结构、全球地形和连续地质演化延期。",
-    "status": "土卫二南极喷流、内部剖示与观测/推断说明已进入主全景，待用户验收；未模拟环粒子补给",
+    "status": "土卫二喷流、内部剖示与 E 环补给联系示意已上线；未求解环粒子动力学，待用户验收",
     "sources": [
       "https://science.nasa.gov/mission/cassini/science/enceladus/"
     ]
@@ -420,7 +420,7 @@ export const SCOPE_ADDITIONS:ScopeAddition[] = [
     "scope": "行星际磁场、电流片、光与粒子辐射、中性粒子。",
     "acceptance": "每项有来源和视觉含义；场结构与粒子示意可分开开关，不要求逐粒子模拟。",
     "deferred": "实时通量、精密辐射剂量和空间天气预报延期。",
-    "status": "规划补项，未计为实现",
+    "status": "行星际磁场、电流片、光、带电粒子、中性原子五类解释层已上线；待用户验收",
     "sources": [
       "https://science.nasa.gov/learn/heat/resource/components-of-the-heliosphere/",
       "https://www.nasa.gov/image-article/heliospheric-current-sheet/",

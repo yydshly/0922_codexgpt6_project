@@ -139,7 +139,7 @@ export default function App() {
   const [macroInitialFamily,setMacroInitialFamily]=useState<SolarFamilyId|undefined>();
   const [macroEntry,setMacroEntry]=useState(0);
   const [macroInitialCosmic,setMacroInitialCosmic]=useState<CosmicLevelId|undefined>();
-  const [planTab,setPlanTab]=useState<PlanTab>('baseline');
+  const [planTab,setPlanTab]=useState<PlanTab>('closeout');
   const [planScroll,setPlanScroll]=useState(0);
   const [planFilter,setPlanFilter]=useState('全部');
   const [returnToPlan,setReturnToPlan]=useState(false);

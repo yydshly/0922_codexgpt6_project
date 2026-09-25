@@ -1,7 +1,7 @@
 {
-  "version": "2026.09.25-r09.3",
+  "version": "2026.09.25-r09.4",
   "date": "2026-09-25",
-  "baselineCommit": "bf8cd40186c59a23aedaa4c3b84dbb7dc4cfc21a",
+  "baselineCommit": "7c3e706051478ddf663242a5cdf38d6880d6faed",
   "acceptance": "pending-user-review",
   "scope": [
     "R06 motion and events",
@@ -10,9 +10,10 @@
     "R09 validation and interaction fixes",
     "On-demand tool windows and load failure recovery",
     "Bounded ephemeris loading and retry at the requested date",
-    "Panorama texture status and selective recovery"
+    "Panorama texture status and selective recovery",
+    "Unified closeout plan and 25-item coverage evidence checklist"
   ],
-  "automatedTests": 326,
+  "automatedTests": 328,
   "topicSteps": 27,
   "motionLessons": 14
 }

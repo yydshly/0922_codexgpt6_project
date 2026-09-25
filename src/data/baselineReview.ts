@@ -9,7 +9,7 @@ export const REVIEW_STEPS:{id:string;title:string;action:string;expected:string;
 export type ReviewStatus='pending'|'pass'|'issue';
 export interface ReviewMark {status:ReviewStatus;note:string;}
 export type ReviewMarks=Record<string,ReviewMark>;
-export const REVIEW_STORAGE_KEY='orbit-baseline-review';
+export const REVIEW_STORAGE_KEY=`orbit-baseline-review:${BASELINE_VERSION}`;
 export function parseReview(raw:string|null):ReviewMarks {
  try {const value=JSON.parse(raw??'null');if(value?.version!==BASELINE_VERSION)return {};
  return Object.fromEntries(REVIEW_STEPS.flatMap(step=>{const mark=value.marks?.[step.id];return mark&&['pending','pass','issue'].includes(mark.status)&&typeof mark.note==='string'?[[step.id,{status:mark.status,note:mark.note.slice(0,2000)}]]:[];}));

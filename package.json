@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc -b && vite build",
+    "build": "npm run docs:check && tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
     "validate:physics": "tsx scripts/validate-physics.ts",
@@ -14,7 +14,9 @@
     "validate:occultation": "tsx scripts/validate-occultation.ts",
     "validate:stars": "tsx scripts/validate-stars.ts",
     "validate:science": "tsx scripts/validate-science.ts",
-    "validate:phenomena": "tsx scripts/validate-phenomena.ts"
+    "validate:phenomena": "tsx scripts/validate-phenomena.ts",
+    "docs:sync": "tsx scripts/sync-planning-docs.ts",
+    "docs:check": "tsx scripts/sync-planning-docs.ts --check"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.7.0",

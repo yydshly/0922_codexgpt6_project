@@ -1,0 +1,7 @@
+import {publicAsset} from '../data/publicAsset';
+import {COORBITAL_SOURCE,coorbitalNumbers,type CoorbitalMode} from '../data/coorbital';
+import type {StateBatch} from '../ephemeris/stateProvider';
+export function CoorbitalReadout({batch,now,mode,compact=false}:{batch:StateBatch|null;now:number|null;mode:CoorbitalMode;compact?:boolean}){
+ const n=now===null?null:coorbitalNumbers(batch,now);
+ return <section className={compact?'spin-orbit-inset':'spin-orbit-readout'} data-coorbital-readout={compact?'inset':'detail'}><strong>Kamoʻoalewa · 地球准卫星</strong><p>{mode==='coorbital-sun'?'日心视角 · 坐标轴不随地球转动':'地心旋转视角 · 坐标轴随日地投影方向转动'}</p>{!n?<p role="status">当前日期的准卫星历表尚未就绪，未显示旧位置。</p>:<dl><dt>距地球中心</dt><dd data-coorbital-distance>{Math.round(n.earthKm).toLocaleString('zh-CN')} km</dd><dt>距太阳中心</dt><dd>{n.sunAu.toFixed(4)} AU</dd>{!compact&&<><dt>相对地球速度（惯性轴）</dt><dd>{n.relativeKmS.toFixed(3)} km/s</dd></>}</dl>}{!compact&&<><p>它与地球都绕太阳运行，平均周期接近一年。在随地球公转而旋转的参照系中，路径呈环绕地球的形态；这不是月球式受地球束缚的卫星轨道，也不是地球自转造成的视角。</p><p>两视角使用同一组位置，切换不改日期。坐标距离各自线性缩放，球体和小行星定位标记放大；不表示实际半径、地形或当天影像。轨迹线为当年每两日历表点的折线，不强制闭合，也不据两年轨迹预测长期稳定性。</p><p>共轨是较广的类别，准卫星是其中一种关系；特洛伊、马蹄等构型不能由这一案例代表全部。</p><a href={COORBITAL_SOURCE} target="_blank" rel="noreferrer">NASA/JPL：为何称为准卫星 ↗</a> · <a href="https://ssd.jpl.nasa.gov/horizons/manual.html" target="_blank" rel="noreferrer">Horizons 状态来源 ↗</a> · <a href={publicAsset('/data/coorbital/manifest.json')} target="_blank" rel="noreferrer">本地数据版本与插值报告 ↗</a></>}</section>;
+}

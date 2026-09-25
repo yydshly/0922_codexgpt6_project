@@ -1,3 +1,4 @@
+import {COORBITAL_SOURCE,isCoorbital} from './coorbital';
 import {GANYMEDE_PERIOD,ORBIT_RESONANCE_SOURCE} from './tidalModule';
 import {LOCK_SOURCE} from './spinOrbit';
 import {SEASONS_SOURCE} from './seasons';
@@ -14,15 +15,17 @@ export const MOTION_LESSONS=[
  {id:'moon-lock',target:'earth',body:'earth',name:'月球同步自转',title:'潮汐锁定：同一面朝地球也在自转',text:'沿用当前地月历表与月球姿态。观察月球旁的粉色本体参考箭头：它在空间中转向，同时大致指向地球。青色箭头保持固定空间方向，帮助分清绕地球运动与自身转动。',note:'同步自转是平均自转周期与平均公转周期相同，不是不自转，也不是月球一半永远黑暗。实际轨道速度与朝向有变化，地球上会看到天平动；本课未做高精度天平动计算。',source:LOCK_SOURCE},
  {id:'mercury-resonance',target:'body:sun',body:'mercury',name:'水星 3:2 共振',title:'水星共振：自转三圈，绕日两圈',text:'同时观察太阳、水星参考轨道和固定在水星上的粉色方向标记。绿色箭头只示绕日运动方向，粉色箭头随本体自转，两者含义不同。按课程起点后的一个、两个平均公转周期比较自转计数；太阳居中，实际水星位置继续读取历表。',note:'3:2 说的是相同时间内自转与公转的次数比，周期比反过来是 2:3。水星不是同一面始终朝太阳；恒星自转周期约 59 天，平均太阳日约 176 天，两者不能混用。',source:'https://science.nasa.gov/mercury/facts/'},
  {id:'jupiter-resonance',target:'jupiter',body:'earth',name:'木星卫星轨道共振',title:'轨道共振：木卫一、二、三约 4:2:1',text:'在同一主画面只保留木星及木卫一、木卫二、木卫三。播放当前日期的卫星历表，比较内侧与外侧卫星的运动；再用一个木卫三平均公转周期进行计数对照。',note:'这是不同卫星之间的轨道共振，不是卫星自身的自转—公转比。轨道按真实历表运行，不为展示整数比而改成匀速圆轨道。',source:ORBIT_RESONANCE_SOURCE},
+ {id:'coorbital-sun',target:'body:sun',body:'earth',name:'准卫星 · 日心视角',title:'共轨与准卫星：先看它们都绕太阳',text:'蓝色地球与橙色 Kamoʻoalewa 沿同年历表轨迹运动，太阳固定在中心。先观察两者相近的绕日运行，再切换随地球公转的旋转视角。',note:'线为当年采样轨迹，不是实体环；球体是放大的定位符号，不表示真实大小比例。',source:COORBITAL_SOURCE},
+ {id:'coorbital-earth',target:'body:sun',body:'earth',name:'准卫星 · 地心旋转视角',title:'共轨与准卫星：旋转参照系中的伴随路径',text:'地球设为原点，坐标轴随日地连线在黄道面上的投影旋转。橙色曲线是同一组历表换参照系后的路径；金色箭头指示黄道面投影的太阳方向，太阳在局部画面外。',note:'旋转参照系不是地面观测视角；环绕形态不等于受地球束缚的卫星轨道。日期与日心视角完全相同。',source:COORBITAL_SOURCE},
 ] as const;
 export type MotionLessonId=typeof MOTION_LESSONS[number]['id'];
 export type MotionLesson=typeof MOTION_LESSONS[number];
 export function motionLessonForView(id:MotionLessonId|null,target:IntegratedTarget|null){return MOTION_LESSONS.find(s=>s.id===id&&s.target===target)??null;}
 export function spinPeriodSeconds(id:'earth'|'venus'|'mercury'){return 360/Math.abs(bodyById[id].rotationRateDegPerDay!)*86400;}
-export function motionStepSeconds(id:MotionLessonId){return id==='jupiter-resonance'?GANYMEDE_PERIOD/4:id==='moon-lock'?bodyById.moon.orbitalPeriodDays*86400/4:id==='mercury-resonance'?bodyById.mercury.orbitalPeriodDays*86400/2:id==='moon-phase'?3*86400:(id==='earth-orbit'||id==='earth-seasons')?30*86400:spinPeriodSeconds(id==='venus-spin'?'venus':'earth')/4;}
+export function motionStepSeconds(id:MotionLessonId){return isCoorbital(id)?30*86400:id==='jupiter-resonance'?GANYMEDE_PERIOD/4:id==='moon-lock'?bodyById.moon.orbitalPeriodDays*86400/4:id==='mercury-resonance'?bodyById.mercury.orbitalPeriodDays*86400/2:id==='moon-phase'?3*86400:(id==='earth-orbit'||id==='earth-seasons')?30*86400:spinPeriodSeconds(id==='venus-spin'?'venus':'earth')/4;}
 export function motionSeek(time:number,delta:number,start:number,end:number):number|null{const next=time+delta;return Number.isFinite(next)&&next>=start&&next<=end?next:null;}
 
 // Observation seconds per wall-clock second; these never alter the physical rates.
-export function motionPlaybackSpeed(id:MotionLessonId){return id==='jupiter-resonance'?21600:id==='moon-lock'||id==='moon-phase'?86400:id==='mercury-resonance'?5*86400:id==='earth-spin'?3600:10*86400;}
-export function motionCycleSeconds(id:MotionLessonId){return id==='jupiter-resonance'?GANYMEDE_PERIOD:id==='moon-lock'?bodyById.moon.orbitalPeriodDays*86400:id==='mercury-resonance'?2*bodyById.mercury.orbitalPeriodDays*86400:id==='moon-phase'?MEAN_PHASE_DAYS*86400:(id==='earth-orbit'||id==='earth-seasons')?bodyById.earth.orbitalPeriodDays*86400:spinPeriodSeconds(id==='venus-spin'?'venus':'earth');}
+export function motionPlaybackSpeed(id:MotionLessonId){return isCoorbital(id)?10*86400:id==='jupiter-resonance'?21600:id==='moon-lock'||id==='moon-phase'?86400:id==='mercury-resonance'?5*86400:id==='earth-spin'?3600:10*86400;}
+export function motionCycleSeconds(id:MotionLessonId){return isCoorbital(id)?365.25*86400:id==='jupiter-resonance'?GANYMEDE_PERIOD:id==='moon-lock'?bodyById.moon.orbitalPeriodDays*86400:id==='mercury-resonance'?2*bodyById.mercury.orbitalPeriodDays*86400:id==='moon-phase'?MEAN_PHASE_DAYS*86400:(id==='earth-orbit'||id==='earth-seasons')?bodyById.earth.orbitalPeriodDays*86400:spinPeriodSeconds(id==='venus-spin'?'venus':'earth');}
 export function motionSpeedLabel(speed:number){return speed===1?'实时 · 1 秒/秒':speed>=86400?`${(speed/86400).toLocaleString('zh-CN',{maximumFractionDigits:2})} 天/秒`:`${(speed/3600).toLocaleString('zh-CN',{maximumFractionDigits:2})} 小时/秒`;}

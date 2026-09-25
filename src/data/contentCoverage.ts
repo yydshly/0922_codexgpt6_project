@@ -6,6 +6,7 @@ export type PlanTab = 'baseline'|'route'|'coverage'|'data'|'delivery';
 export const BASELINE_VERSION = 'baseline-2026-09-25-r03-r04';
 export interface CoverageItem {id:string;title:string;status:string;current:string;target:string;phase:string;evidence:string;datasets:(keyof typeof COVERAGE_DATASETS)[];modules:string[];entry:CoverageEntry|null;stages:StageId[];how:string;validation:string;release:string;acceptance:string;}
 export const COVERAGE_DATASETS = {
+  coorbital:{"version": "horizons-coorbital-2026-2027-v1", "generatedAt": "2026-09-25T05:39:42.332209+00:00", "startUtc": "2026-01-01T00:00:00Z", "endUtc": "2028-01-01T00:00:00Z", "path": "data/coorbital/manifest.json"},
   patroclusSystem:{"version": "horizons-patroclus-menoetius-2026-2027-v1", "generatedAt": "2026-09-24T17:07:55.608032+00:00", "startUtc": "2026-01-01T00:00:00Z", "endUtc": "2028-01-01T00:00:00Z", "path": "data/patroclus-system/manifest.json"},
   erisSystem:{"version": "horizons-eris-dysnomia-2026-2027-v1", "generatedAt": "2026-09-24T16:26:14.479572+00:00", "startUtc": "2026-01-01T00:00:00Z", "endUtc": "2028-01-01T00:00:00Z", "path": "data/eris-system/manifest.json"},
   plutoMoons:{"version": "horizons-pluto-small-moons-2026-2027-v1", "generatedAt": "2026-09-24T16:08:58.867532+00:00", "startUtc": "2026-01-01T00:00:00Z", "endUtc": "2028-01-01T00:00:00Z", "path": "data/pluto-moons/manifest.json"},
@@ -215,16 +216,19 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "id": "E07",
     "title": "近地小行星",
     "status": "已有代表 / 待验收",
-    "current": "爱神星真实历表、地心距离、近地分类及 PDS 不规则形状对照",
+    "current": "爱神星形状与参数；Kamoʻoalewa 同日历表、全景标记及两种参照系对照（本地待验收）",
     "target": "至少一个可靠近地代表及地球轨道关系；补共轨或准卫星认识案例",
     "phase": "M3",
     "evidence": "JPL 几何历表 + SBDB 参数快照 + PDS NEAR 形状网格；材质与补光示意",
     "datasets": [
       "core",
-      "smallBodies"
+      "smallBodies",
+        "coorbital"
     ],
     "modules": [
-      "src/data/r01Members.ts",
+      "src/data/coorbital.ts",
+        "src/components/coorbitalScene.ts",
+        "src/data/r01Members.ts",
       "src/data/regionMembers.ts",
       "src/components/R01MemberParameters.tsx"
     ],
@@ -235,9 +239,9 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [
       "members"
     ],
-    "how": "近地小行星 → 爱神星；查看日心/地心参数，前后 30 天对比。",
+    "how": "全景目录 → 共轨与准卫星；日心/地心旋转视角切换，日期不变。爱神星原入口保留。",
     "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
-    "release": "R05 已部署 9733805，用户验收待完成；R06 运动第一课本地未发布",
+    "release": "潮汐锁定与共振已部署 4a87895；准卫星本地待验收",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -491,16 +495,20 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
   {
     "id": "E17",
     "title": "运行关系与天象",
-    "status": "部分讲解",
-    "current": "运动比较、参考周期和部分锁定/共振文字",
+    "status": "课程已接入 / 事件待补",
+    "current": "自转/公转、月相/季节及锁定/共振课程已发布；准卫星两视角本地待验收",
     "target": "四组运行课程、共轨参照系案例，以及日月食和卫星遮掩案例验证",
     "phase": "M4",
-    "evidence": "历表速度对比 + 参考周期讲解",
+    "evidence": "同日 JPL 状态 + NAIF 参考姿态 + NASA 机制解释",
     "datasets": [
-      "core"
+      "core",
+        "satellites",
+        "coorbital"
     ],
     "modules": [
-      "src/components/MacroMotionPanel.tsx",
+      "src/components/MotionLessonPanel.tsx",
+        "src/components/coorbitalScene.ts",
+        "src/components/MacroMotionPanel.tsx",
       "src/data/macroPlanetOrbits.ts"
     ],
     "entry": {
@@ -508,9 +516,9 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
       "id": "planetary"
     },
     "stages": [],
-    "how": "全景目录 → 行星运动；日月食尚无案例入口。",
-    "validation": "已有运动比较；四组课程和天象事件验证尚未完成。",
-    "release": "R05 已部署 9733805，用户验收待完成；R06 运动第一课本地未发布",
+    "how": "全景目录 → 运动课程、潮汐锁定与共振或共轨与准卫星；日月食尚无案例入口。",
+    "validation": "课程联动、参照系变换与数据插值已检查；不表示潮汐演化或长期共振验证，天象事件仍待补。",
+    "release": "潮汐锁定与共振已部署 4a87895；准卫星本地待验收",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {

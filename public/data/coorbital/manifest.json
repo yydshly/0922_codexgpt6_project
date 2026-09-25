@@ -1,0 +1,257 @@
+{
+  "version": "horizons-coorbital-2026-2027-v1",
+  "source": "NASA/JPL Horizons",
+  "sourceUrl": "https://ssd.jpl.nasa.gov/horizons/manual.html",
+  "generatedAt": "2026-09-25T05:39:42.332209+00:00",
+  "startUtc": "2026-01-01T00:00:00Z",
+  "endUtc": "2028-01-01T00:00:00Z",
+  "startTdb": 820497669.18392,
+  "endTdb": 883569669.183905,
+  "frame": "ECLIPJ2000 (ICRF, ecliptic of J2000.0)",
+  "origin": "Solar System Barycenter (NAIF 0)",
+  "units": "km, km/s",
+  "timeScale": "TDB seconds past J2000",
+  "aberration": "NONE: geometric states; no light-time correction",
+  "bodyIds": [
+    "sun",
+    "earth",
+    "kamo"
+  ],
+  "stepSeconds": 21600,
+  "interpolation": "Cubic Hermite with analytic velocity derivative",
+  "targets": [
+    {
+      "id": "sun",
+      "command": "10",
+      "targetSource": "Target body name: Sun (10)                        {source: DE441}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/coorbital/sun-2026-2027-3h.txt.gz",
+      "rawSha256": "afaf3a7847ac76887d6e66d722671f3a6312477193cea3534188c3355e906d64",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "earth",
+      "command": "399",
+      "targetSource": "Target body name: Earth (399)                     {source: DE441}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/coorbital/earth-2026-2027-3h.txt.gz",
+      "rawSha256": "61f0b9cde9a2a146f7ea05fcfbae8e9e67d0ce5ce079afa901f10aa010e0bb70",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27399%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "kamo",
+      "command": "469219;",
+      "targetSource": "Target body name: 469219 Kamo`oalewa (2016 HO3)   {source: JPL#37}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/coorbital/kamo-2026-2027-3h.txt.gz",
+      "rawSha256": "8b1c4a1261cd66e032807a5f983a4806a189f8839e446f70c078eaa78f674f07",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27469219%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    }
+  ],
+  "chunks": [
+    {
+      "file": "2026-01.json",
+      "startTdb": 820497669.18392,
+      "endTdb": 823176069.184785,
+      "bytes": 44724,
+      "sha256": "6bfd0141a7c7bfba7a45c06420a025ab2df4e0c9617bca20688e51b961d8ce25"
+    },
+    {
+      "file": "2026-02.json",
+      "startTdb": 823176069.184785,
+      "endTdb": 825595269.1853772,
+      "bytes": 40861,
+      "sha256": "6e9b94dcfef425332747753526aade16aa6a5ff5e2d4943fc29b2b39c1a379db"
+    },
+    {
+      "file": "2026-03.json",
+      "startTdb": 825595269.1853772,
+      "endTdb": 828273669.1856546,
+      "bytes": 45163,
+      "sha256": "a6c46dba021550be6db3ac58f985c2ebfec68284c4f33ac5d5450af4d793022f"
+    },
+    {
+      "file": "2026-04.json",
+      "startTdb": 828273669.1856546,
+      "endTdb": 830865669.185484,
+      "bytes": 43675,
+      "sha256": "adf77f8ae5bd97614f46dda932e976d76cb0410d18e69470f99a23166a548112"
+    },
+    {
+      "file": "2026-05.json",
+      "startTdb": 830865669.185484,
+      "endTdb": 833544069.1849113,
+      "bytes": 45104,
+      "sha256": "05ebc93b0348be70245f24e5eb9984c81d071a8a943151183ae6c54d55981f02"
+    },
+    {
+      "file": "2026-06.json",
+      "startTdb": 833544069.1849113,
+      "endTdb": 836136069.1841229,
+      "bytes": 43786,
+      "sha256": "88de34edd5639494ff2a1962306b6b13f6017f817842b8b2858165d1383eeeb1"
+    },
+    {
+      "file": "2026-07.json",
+      "startTdb": 836136069.1841229,
+      "endTdb": 838814469.1832788,
+      "bytes": 44829,
+      "sha256": "ff979b11788386950a647d2fb22b4f4bd87c5340c877901820e8bc74ac9935e4"
+    },
+    {
+      "file": "2026-08.json",
+      "startTdb": 838814469.1832788,
+      "endTdb": 841492869.1826266,
+      "bytes": 44844,
+      "sha256": "d8c8d84854683c75409beb08f900e95b39ac0ac9eb473922f0139934e08293d8"
+    },
+    {
+      "file": "2026-09.json",
+      "startTdb": 841492869.1826266,
+      "endTdb": 844084869.1823484,
+      "bytes": 43393,
+      "sha256": "e3b83eba56891fe4f44b72b5f929d329d316d4e7a3ef7588d1acf7aa15fea0dc"
+    },
+    {
+      "file": "2026-10.json",
+      "startTdb": 844084869.1823484,
+      "endTdb": 846763269.1825113,
+      "bytes": 44658,
+      "sha256": "2a610a002c4f4b17cdc3bd7cceddb5d073ad333ef872c76170b4a2ff013cb133"
+    },
+    {
+      "file": "2026-11.json",
+      "startTdb": 846763269.1825113,
+      "endTdb": 849355269.183072,
+      "bytes": 43273,
+      "sha256": "3fcda0f8db9bdb27e11164b2048b8f570b2b205104befe4603f72ad260849547"
+    },
+    {
+      "file": "2026-12.json",
+      "startTdb": 849355269.183072,
+      "endTdb": 852033669.1839125,
+      "bytes": 44861,
+      "sha256": "a7c756acd2c4f623366059cb05ad3ef1fe70106846acdd6b311a7a84205ecd90"
+    },
+    {
+      "file": "2027-01.json",
+      "startTdb": 852033669.1839125,
+      "endTdb": 854712069.1847785,
+      "bytes": 45088,
+      "sha256": "4491ad103b80063f8ad66d6c73c2cc603faa59d889a1b30ad6fff9931fb21f97"
+    },
+    {
+      "file": "2027-02.json",
+      "startTdb": 854712069.1847785,
+      "endTdb": 857131269.1853731,
+      "bytes": 40943,
+      "sha256": "93bdd781b006fdbc4b0e8e9fba5268571061b3b59656c42c17985e4965a6c8a1"
+    },
+    {
+      "file": "2027-03.json",
+      "startTdb": 857131269.1853731,
+      "endTdb": 859809669.1856543,
+      "bytes": 45285,
+      "sha256": "2c78c4b41c40e622da94d18d1885079841c8944f31995c80dd7a786dd71c0179"
+    },
+    {
+      "file": "2027-04.json",
+      "startTdb": 859809669.1856543,
+      "endTdb": 862401669.1854873,
+      "bytes": 43794,
+      "sha256": "687e21d55ba417d686cdd0171b6ec0eb36b6d7ba54aa845dd2e76ec16ca3405a"
+    },
+    {
+      "file": "2027-05.json",
+      "startTdb": 862401669.1854873,
+      "endTdb": 865080069.1849173,
+      "bytes": 45185,
+      "sha256": "51dffad572f4704018ffa4cabd57b4431777752840542b8b8f0a9b40ad89095e"
+    },
+    {
+      "file": "2027-06.json",
+      "startTdb": 865080069.1849173,
+      "endTdb": 867672069.1841302,
+      "bytes": 43757,
+      "sha256": "bb61f7d182c56f1cbf689bf5e5f4a9a7d8a05e0bd88591ef5dc4102a7d684e2d"
+    },
+    {
+      "file": "2027-07.json",
+      "startTdb": 867672069.1841302,
+      "endTdb": 870350469.1832854,
+      "bytes": 44854,
+      "sha256": "02428cfb8342203586099168f47af8db94505f307d7efa81817d0fcf67a96447"
+    },
+    {
+      "file": "2027-08.json",
+      "startTdb": 870350469.1832854,
+      "endTdb": 873028869.1826308,
+      "bytes": 44827,
+      "sha256": "c4e4712e3bc12076c0b690d5577d2944a47a4ad58b2175c3b936dd18ee910741"
+    },
+    {
+      "file": "2027-09.json",
+      "startTdb": 873028869.1826308,
+      "endTdb": 875620869.182349,
+      "bytes": 43361,
+      "sha256": "eff8fc0ba308cd59e9f8c11c322937d9cb59f1176f69eb27b76d57d2723cbe98"
+    },
+    {
+      "file": "2027-10.json",
+      "startTdb": 875620869.182349,
+      "endTdb": 878299269.1825081,
+      "bytes": 44591,
+      "sha256": "d0927166c91f5814d8f3d0331ad5f3cb81e09c69a538a61d4e03b43e1e29f626"
+    },
+    {
+      "file": "2027-11.json",
+      "startTdb": 878299269.1825081,
+      "endTdb": 880891269.1830658,
+      "bytes": 43344,
+      "sha256": "27a10b91719aba4f065de538a45f154eb73b5da2dd19dc8e914aa8c675142a6f"
+    },
+    {
+      "file": "2027-12.json",
+      "startTdb": 880891269.1830658,
+      "endTdb": 883569669.183905,
+      "bytes": 44548,
+      "sha256": "b12876639594f6268e842842d067762ef7061d696cba665db42abf67388fafe6"
+    }
+  ],
+  "validation": {
+    "checks": [
+      {
+        "id": "sun",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 1.509258214416141e-08,
+        "rmsPositionErrorKm": 6.157343526898523e-09,
+        "maxVelocityErrorKmS": 2.0719672452713776e-14,
+        "passed": true
+      },
+      {
+        "id": "earth",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 0.00035542488138320765,
+        "rmsPositionErrorKm": 0.0001984652882358517,
+        "maxVelocityErrorKmS": 2.1423476441404058e-10,
+        "passed": true
+      },
+      {
+        "id": "kamo",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 0.00029733303332884933,
+        "rmsPositionErrorKm": 0.0001758249425619558,
+        "maxVelocityErrorKmS": 2.5704283066578484e-11,
+        "passed": true
+      }
+    ],
+    "maxPositionErrorKm": 0.00035542488138320765,
+    "maxVelocityErrorKmS": 2.1423476441404058e-10,
+    "positionThresholdKm": 1,
+    "velocityThresholdKmS": 0.0001,
+    "meaning": "Held-out source-sample difference, not absolute orbit uncertainty"
+  }
+}

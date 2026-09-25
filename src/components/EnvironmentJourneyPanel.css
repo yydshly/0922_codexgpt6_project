@@ -11,3 +11,5 @@
 .spin-orbit-inset{position:absolute;right:16px;top:70px;width:178px;z-index:2;pointer-events:none;padding:12px;border:1px solid #446474;border-radius:8px;background:#0b1c26ed;color:#c2d4d9;box-sizing:border-box;font-size:11px}.spin-orbit-inset small,.spin-orbit-readout small{display:block;line-height:1.6}.spin-orbit-readout{padding:12px;background:#0c2328;border:1px solid #486e77;border-radius:8px;margin:12px 0}.spin-orbit-inset dl,.spin-orbit-readout dl{margin:10px 0}.spin-orbit-inset dd,.spin-orbit-readout dd{margin:4px 0 10px;font-size:18px;color:#f1cee5}@media(max-width:800px){.spin-orbit-inset{display:none}}
 
 [data-tidal-module]{border-top:1px solid #63877c;margin-top:16px;padding-top:16px}.tidal-mechanism{margin:14px 0;padding:12px;border:1px solid #56747e;border-radius:8px;background:#11242c}.tidal-mechanism svg{display:block;width:100%;height:auto}.tidal-mechanism svg text{fill:#cee1e3;font-size:12px}
+
+[data-coorbital-module]{margin:14px 0;padding:12px;border:1px solid #736548;border-radius:8px;background:#201c132b;}

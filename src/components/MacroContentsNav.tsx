@@ -3,6 +3,7 @@ import {INTEGRATED_ITEMS} from '../data/integratedScene';
 import type {StageFlags} from '../data/stages';
 
 const bodySections = [
+ {id:'coorbital-module',name:'共轨与准卫星 · 两种参照视角',selector:'[data-coorbital-module]'},
  {id:'tidal-module',name:'潮汐锁定与共振 · 原理到案例',selector:'[data-tidal-module]'},
  {id:'motion-lessons',name:'运动课程 · 自转到锁定与共振',selector:'[data-motion-lessons]'},
  {id:'boundary-comparison',name:'太阳系边界 · 日球层与奥尔特云',selector:'[data-boundary-comparison]'},
@@ -29,13 +30,14 @@ const readingSections = [
  {id:'reading',name:'独立详解与来源',selector:'.panorama-reading'},
 ];
 const pick=(ids:string[])=>ids.map(id=>bodySections.find(item=>item.id===id)!);
-const groups = [{name:'1 · 整体与尺度',items:pick(['distances','sizes','orbits'])},{name:'2 · 恒星与行星',items:pick(['primary','motion','motion-lessons','earth','appearance'])},{name:'3 · 卫星家族',items:pick(['families','tidal-module','binary','enceladus'])},{name:'4 · 区域与小天体',items:pick(['members','eros-shape','comets'])},{name:'5 · 空间现象（延伸）',items:[...pick(['environment-journey','material-journey','space-medium','boundary-comparison']),...phenomenonSections]},{name:'6 · 演示与来源',items:readingSections}];
+const groups = [{name:'1 · 整体与尺度',items:pick(['distances','sizes','orbits'])},{name:'2 · 恒星与行星',items:pick(['primary','motion','motion-lessons','earth','appearance'])},{name:'3 · 卫星家族',items:pick(['families','tidal-module','binary','enceladus'])},{name:'4 · 区域与小天体',items:pick(['members','coorbital-module','eros-shape','comets'])},{name:'5 · 空间现象（延伸）',items:[...pick(['environment-journey','material-journey','space-medium','boundary-comparison']),...phenomenonSections]},{name:'6 · 演示与来源',items:readingSections}];
 
 export function MacroContentsNav({scroller,stages}:{scroller:RefObject<HTMLDivElement|null>;stages:StageFlags}) {
  const id=useId();
  const available=(key:string)=>{
   if(key==='boundary-comparison')return stages.structure&&stages.heliosphereExplorer;
   if(key==='space-medium')return stages.heliosphereExplorer;
+  if(key==='coorbital-module')return stages.structure&&stages.members;
   if(key==='eros-shape')return stages.members;
   if(key==='members')return stages.structure||stages.members;
   if(key==='families'||key==='binary'||key==='enceladus')return stages.families;

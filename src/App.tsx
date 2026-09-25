@@ -1,11 +1,8 @@
 import {RotationNote} from './components/RotationNote';
 import type {CoverageEntry,PlanTab} from './data/contentCoverage';
-import { HeliosphereExplorer } from './components/HeliosphereExplorer';
+
 import type { MacroZoneId } from './data/macroStructure';
-import { DustExplorer } from './components/DustExplorer';
-import { SolarActivity } from './components/SolarActivity';
-import { SpaceEnvironment } from './components/SpaceEnvironment';
-import { StageGuide } from './components/StageGuide';
+
 import { allStages,onlyStage,type StageId } from './data/stages';
 import type { CosmicLevelId, SolarFamilyId } from './data/cosmicContext';
 import { useCallback, useEffect, useRef, useState, useMemo, type CSSProperties } from 'react';
@@ -25,17 +22,28 @@ import { useSatellites } from './hooks/useSatellites';
 import { useOverviewSatellites } from './hooks/useOverviewSatellites';
 import { SolarSystem } from './components/SolarSystem';
 import { ScaleNavigator } from './components/ScaleNavigator';
-import { ValidationPanel } from './components/ValidationPanel';
-import { ExplorationGuide, type ObservationTour } from './components/ExplorationGuide';
+
+import type {ObservationTour} from './components/ExplorationGuide';
 import { SatelliteSystem } from './components/SatelliteSystem';
 import { SatelliteChildren, SatelliteInspector } from './components/SatellitePanels';
-import { SolarKnowledge } from './components/SolarKnowledge';
-import { DataJourney } from './components/DataJourney';
-import { ExpansionRoadmap } from './components/ExpansionRoadmap';
+
 import { MacroStructure } from './components/MacroStructure';
-import { SceneReadingGuide } from './components/SceneReadingGuide';
-import { ProductProgress } from './components/ProductProgress';
+
 import './styles.css';
+
+import {deferDialog} from './components/DeferredDialog';
+const HeliosphereExplorer=deferDialog('日球层与星际空间',async()=>{const m=await import('./components/HeliosphereExplorer');return {default:m.HeliosphereExplorer};});
+const DustExplorer=deferDialog('尘埃与流星',async()=>{const m=await import('./components/DustExplorer');return {default:m.DustExplorer};});
+const SolarActivity=deferDialog('太阳活动',async()=>{const m=await import('./components/SolarActivity');return {default:m.SolarActivity};});
+const SpaceEnvironment=deferDialog('近地空间',async()=>{const m=await import('./components/SpaceEnvironment');return {default:m.SpaceEnvironment};});
+const StageGuide=deferDialog('阶段导览',async()=>{const m=await import('./components/StageGuide');return {default:m.StageGuide};});
+const ValidationPanel=deferDialog('物理验证',async()=>{const m=await import('./components/ValidationPanel');return {default:m.ValidationPanel};});
+const ExplorationGuide=deferDialog('太阳系图鉴与导览',async()=>{const m=await import('./components/ExplorationGuide');return {default:m.ExplorationGuide};});
+const SolarKnowledge=deferDialog('天体运行知识',async()=>{const m=await import('./components/SolarKnowledge');return {default:m.SolarKnowledge};});
+const DataJourney=deferDialog('数据与实现',async()=>{const m=await import('./components/DataJourney');return {default:m.DataJourney};});
+const ExpansionRoadmap=deferDialog('整体规划',async()=>{const m=await import('./components/ExpansionRoadmap');return {default:m.ExpansionRoadmap};});
+const SceneReadingGuide=deferDialog('星点与环怎么看',async()=>{const m=await import('./components/SceneReadingGuide');return {default:m.SceneReadingGuide};});
+const ProductProgress=deferDialog('建设记录',async()=>{const m=await import('./components/ProductProgress');return {default:m.ProductProgress};});
 
 const AU = 149597870.7;
 const initialOptions: ViewOptions = { view: 'overview', comparisonSet: 'planets', presentation: 'spatial', exaggerated: false, trajectories: true, referencePlane: false, velocityVectors: false, belts: true, scale: true, earthClouds: true, earthAtmosphere: true, cameraAngle: 'perspective', cameraOrbit: typeof window === 'undefined' || !window.matchMedia('(prefers-reduced-motion: reduce)').matches };

@@ -1,3 +1,4 @@
+import loadingNotesUrl from '../../docs/LOADING-OPTIMIZATION.md?url';
 import releaseNotesUrl from '../../docs/RELEASE-2026-09-25.md?url';
 import viewportAcceptanceUrl from '../../docs/VIEWPORT-ACCEPTANCE.md?url';
 import topicFamilyAcceptanceUrl from '../../docs/TOPIC-FAMILY-ACCEPTANCE.md?url';
@@ -15,6 +16,7 @@ import { ArrowUpRight, CheckCircle2, Clock3, GitCommitHorizontal, X } from 'luci
 import './ProductProgress.css';
 
 const completed = [
+  {title:'首次加载优化（待用户验收）',detail:'12 个资料与教学窗口改为打开时加载；主脚本约减少 13.7%，同参数压缩后约减少 16.1%。代码/样式失败时可关闭保留观察，或主动重载页面恢复；加载中关闭不会自行弹回。315 项检查通过，未将文件缩小宣称为固定的打开时间提升。'},
   {title:'窗口布局与操作复验（本地待验收）',detail:'修复窄窗口隐藏路线撑高侧栏的问题；将统计和自由浏览目录移入正文滚动区，1280×720 的阅读高度由约 158 增至 272 像素，主画布不缩小。三种窗口的定位、滚动和焦点，以及拖动、播放/暂停通过检查；真实设备体验仍待用户验收，未发布。'},
   {title:'天象、日期与历史恢复验收（本地待验收）',detail:'修复日期框点选后停留旧时间，以及前进后退丢弃已保存镜头的问题。输入草稿明确标注未应用并可取消；三种天象、北京时间换日、遮掩/露出与越界恢复完成专项检查。14 课及阶段开关回归，315 项自动检查通过；专题与家族异常恢复记录见本轮更新；实机/用户验收待完成，未发布。'},
   {title:'主画面与运动课操作验收（本地待验收）',detail:'检查地球自转、月球同步自转、木星三卫星与返回全景。修复长说明中播放/退出入口滚走的问题：右侧固定播放、讲解、返回全景。共享日期边界判定，保留退出日期与暂停状态，恢复键盘焦点；313 项测试及代表路径浏览器检查通过。小屏仍较拥挤，R09 与用户总验收未完成，未发布。'},
@@ -130,7 +132,7 @@ export function ProductProgress({ onClose }: { onClose: () => void }) {
       <header className="product-progress-header"><div><span className="eyebrow">BUILD LOG / ORBIT</span><h2 id="product-progress-title">建设记录</h2><p>记录已实现的能力、当前优化和下一步验收依据。</p></div><button ref={closeButton} className="product-progress-close" onClick={onClose} aria-label="关闭建设记录"><X size={18}/></button></header>
       <div className="product-progress-content">
         <p className="product-progress-intro">我们将真实数据、物理近似和视觉示意分别标注。每轮先提交可运行的基线，再记录问题、优化和验证结果，便于对照验收。</p>
-        <section className="product-progress-next" data-validation-summary data-release="2026.09.25-r09"><h3>本次交付：2026.09.25-r09</h3><p>14 节运动课程、六专题 27 步、成员与恒星目录，以及来源核验、异常恢复和窗口布局修复已纳入本次交付。</p><p>315 项自动检查与本地构建通过。用户总验收、真实设备长期体验仍待完成；发布成功不代表全部目标已验收。下方条目保留建设当时的状态，部署结果请查看提交记录对应的 Actions。</p><a href={releaseNotesUrl} download="RELEASE-2026-09-25.md">下载本次交付摘要与验收步骤</a></section>
+        <section className="product-progress-next" data-validation-summary data-release="2026.09.25-r09.1"><h3>本次交付：2026.09.25-r09.1</h3><p>12 个资料与独立教学窗口改为打开时加载。首页主脚本约减少 13.7%，同参数压缩后约减少 16.1%；全部能力仍保留原入口。</p><p>315 项自动检查、窗口正常加载和故障恢复检查通过。主包体积提示仍在，实际设备的打开时间与用户总验收仍待确认。下方条目保留各批建设当时的状态。</p><a href={loadingNotesUrl} download="LOADING-OPTIMIZATION.md">下载加载优化与验收记录</a><br/><a href={releaseNotesUrl} download="RELEASE-2026-09-25.md">查看上一批完整交付范围</a></section>
         <section><div className="product-progress-section-heading"><CheckCircle2 size={16}/><h3>已有能力与逐轮记录</h3></div><div className="product-progress-list">{completed.map(item => <article key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></article>)}</div></section>
         <section><div className="product-progress-section-heading"><Clock3 size={16}/><h3>近期更新 · 发布与本地验收</h3></div><ol className="product-progress-steps">{improvements.map(item => <li key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></li>)}</ol></section>
         <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>总规划：从顶部整体规划查看 M0–M6，切换元素覆盖、数据与实现、验收与后续。请确认首版范围、顺序与完成标准；规划中的功能不是本次新增的观测能力。</p><p>当前优先使用“整体规划 → 当前版本验收”：按五步检查并记录问题；从场景右上角返回整体规划继续。总规划的元素覆盖页另列出每类内容的依据、入口、缺口与发布状态。</p><p>本轮先打开“综合全景 → 内容目录 → 尺度与距离”。依次切换地月、日地和日海王星，观察共同尺度下的空旷程度；向下对照真实与压缩距离。关闭后改观测日期再打开，核对新快照。窗口中的圆形是球体截面，虚线只是中心标记；放开距离不会把行星轨道改成球状。</p><p>先从主页打开“综合全景 → 全景现象”，定位土星或天王星系统，点选卫星并前进一天，核对参数与位置一起变化；再依次定位太阳活动、地球磁层和日球层环境。应在同一画布内靠近，返回原视角后仍看到整体结构；改变观测日期时近地效果随地球移动。独立详解需明确点击阅读入口。示意进度不改变观测日期，放大现象不是当日实测。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>

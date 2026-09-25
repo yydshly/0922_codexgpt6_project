@@ -1,0 +1,5 @@
+.deferred-dialog-backdrop{position:fixed;inset:0;z-index:180;display:grid;place-items:center;padding:20px;background:#041018c9}
+.deferred-dialog{width:min(420px,100%);padding:24px;border:1px solid #466b70;border-radius:12px;background:#102630;color:#d9eae6;box-shadow:0 16px 60px #0008}
+.deferred-dialog h2{font-size:18px;margin:0 0 14px}.deferred-dialog p{font-size:13px;line-height:1.8;color:#adc8cf}
+.deferred-dialog>div{display:flex;gap:10px;margin-top:20px}.deferred-dialog button{padding:9px 15px;border:1px solid #638578;border-radius:5px;background:#234439;color:#e4efe6;font:inherit;cursor:pointer}
+.deferred-dialog button:focus-visible{outline:2px solid #cce8ad;outline-offset:3px}

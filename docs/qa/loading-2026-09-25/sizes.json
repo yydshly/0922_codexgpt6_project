@@ -1,0 +1,20 @@
+{
+  "baselineCommit": "3480358",
+  "measurement": "Local production build bytes; gzip uses Python level 9 consistently. Startup browser resource log excludes deferred windows. No elapsed-time speedup claimed.",
+  "before": {
+    "entry": "index-CF8lR1K9.js",
+    "bytes": 1894951,
+    "gzipBytes": 590178,
+    "cssBytes": 193686,
+    "cssGzipBytes": 37685
+  },
+  "after": {
+    "entry": "index-4CXM7TO-.js",
+    "bytes": 1635363,
+    "gzipBytes": 494887,
+    "cssBytes": 123928,
+    "cssGzipBytes": 24529
+  },
+  "entryReductionPercent": 13.698929418227701,
+  "entryGzipReductionPercent": 16.146145739082108
+}

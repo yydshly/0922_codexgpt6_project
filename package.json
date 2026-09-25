@@ -16,7 +16,8 @@
     "validate:science": "tsx scripts/validate-science.ts",
     "validate:phenomena": "tsx scripts/validate-phenomena.ts",
     "docs:sync": "tsx scripts/sync-planning-docs.ts",
-    "docs:check": "tsx scripts/sync-planning-docs.ts --check"
+    "docs:check": "tsx scripts/sync-planning-docs.ts --check",
+    "validate:panorama-stars": "tsx scripts/validate-panorama-stars.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.7.0",

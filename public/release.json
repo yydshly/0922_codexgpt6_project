@@ -1,7 +1,7 @@
 {
-  "version": "2026.09.25-r09.9",
-  "date": "2026-09-25",
-  "baselineCommit": "a6561174e7ed760ce70f665f74dc9e609c5ce17d",
+  "version": "2026.09.26-r09.10",
+  "date": "2026-09-26",
+  "baselineCommit": "b07186bcaae53b77dce51805bf9af713a5fbd1ca",
   "acceptance": "pending-user-review",
   "scope": [
     "R06 motion and events",
@@ -16,9 +16,10 @@
     "C02 outer-body explanation focus and source attribution review",
     "C02 environment entry isolation, explanations and representative journey review",
     "C02 motion, stellar and historical context representative review",
-    "C02 five supplemental capability review and scene-aware teaching selection"
+    "C02 five supplemental capability review and scene-aware teaching selection",
+    "F01 traceable panorama star background with verified ecliptic directions and HIP selection"
   ],
-  "automatedTests": 332,
+  "automatedTests": 336,
   "topicSteps": 27,
   "motionLessons": 14
 }

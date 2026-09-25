@@ -155,3 +155,5 @@
 @media(max-width:800px){.macro-info{height:380px;min-height:380px}.macro-info-scroll{overscroll-behavior:contain}}
 
 .home-time p[role="status"]{color:#b2cbd4}.home-time p[role="alert"] button{margin-left:8px}
+
+[data-panorama-stars]>label{display:flex;align-items:center;gap:8px}[data-panorama-stars]>label input{width:auto;margin:0}.macro-footer [data-star-background-button]{flex-shrink:0;min-height:28px;padding:4px 8px;border:1px solid #466565;border-radius:4px;color:#c8e5e9;background:#193239;cursor:pointer}

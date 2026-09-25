@@ -1,0 +1,54 @@
+{
+  "date": "2026-09-25T16:14:33.325Z",
+  "epoch": "J1991.25",
+  "frame": "ICRS directions rotated to Horizons ECLIPJ2000, then Three (X,Z,-Y)",
+  "obliquityArcsec": 84381.448,
+  "coordinateSource": "https://ssd.jpl.nasa.gov/horizons/manual.html",
+  "catalogueSource": {
+    "catalogue": "I/239/hip_main",
+    "edition": "ESA Hipparcos 1997",
+    "source": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=I%2F239%2Fhip_main&HIP=16537%2C87937%2C54035%2C8102%2C108870&-out=HIP%2CRAICRS%2CDEICRS%2CPlx%2Ce_Plx&-out.max=100",
+    "retrieved": "2026-09-25",
+    "sha256": "f730193babd234efefcf52c8ff50dccc8527c6b715c6544c90069c30728cef63",
+    "referenceFrame": "ICRS",
+    "epoch": "J1991.25",
+    "independence": "Different catalogue reduction of the same Hipparcos mission; not an independent observing instrument."
+  },
+  "method": "1997 archived coordinates + independent spherical formula vs Hipparcos-2 + product Cartesian rotation",
+  "limitations": "Same observing mission, different reductions; gross frame/import check, not current-epoch accuracy, apparent positions, navigation or independent telescope observations.",
+  "thresholdMas": 20,
+  "maxSeparationMas": 1.9862027866812457,
+  "passed": true,
+  "rows": [
+    {
+      "hip": 8102,
+      "referenceEclipticLongitudeDeg": 17.821941993517953,
+      "referenceEclipticLatitudeDeg": -24.819414026129063,
+      "separationMas": 1.0744429382752436
+    },
+    {
+      "hip": 16537,
+      "referenceEclipticLongitudeDeg": 48.17033041430727,
+      "referenceEclipticLatitudeDeg": -27.7164468035024,
+      "separationMas": 0.8411232926112792
+    },
+    {
+      "hip": 54035,
+      "referenceEclipticLongitudeDeg": 152.10289194317124,
+      "referenceEclipticLatitudeDeg": 27.404994346190918,
+      "separationMas": 1.9862027866812457
+    },
+    {
+      "hip": 87937,
+      "referenceEclipticLongitudeDeg": 269.38308135684264,
+      "referenceEclipticLatitudeDeg": 28.106410066851534,
+      "separationMas": 1.949290891201633
+    },
+    {
+      "hip": 108870,
+      "referenceEclipticLongitudeDeg": 309.619451293029,
+      "referenceEclipticLatitudeDeg": -41.39889241283781,
+      "separationMas": 0.8056458255287834
+    }
+  ]
+}

@@ -16,8 +16,8 @@ export const CLOSEOUT_STEPS = [
   {
     "id": "C03",
     "title": "关闭首版缺口",
-    "status": "待执行",
-    "done": "只修复核对发现的首版缺口；标准变更须明确确认，不能静默删项。"
+    "status": "F01 已修复，其他缺口继续",
+    "done": "主全景星表背景已接入并验证；资源预算、完整子项与异常检查继续，不将技术修复当作用户验收。"
   },
   {
     "id": "C04",
@@ -33,21 +33,6 @@ export const CLOSEOUT_STEPS = [
   }
 ];
 export const OPEN_FINDINGS = [
-  {
-    "id": "F01",
-    "title": "主全景星表背景与原标准不一致",
-    "packages": [
-      "M2.1"
-    ],
-    "kind": "实现与标准差距",
-    "current": "独立恒星视图有真实星表；太阳系主全景背景仍为随机装饰点。",
-    "close": "接入可追溯星表背景并验证方向，或经用户明确确认修改原标准；当前保持未关闭。",
-    "evidence": [
-      "src/components/MacroStructure.tsx",
-      "src/components/stellarScene.ts",
-      "docs/R08-STELLAR-CONTEXT.md"
-    ]
-  },
   {
     "id": "F02",
     "title": "资源预算与画质分级未闭环",
@@ -93,6 +78,12 @@ export const OPEN_FINDINGS = [
     ]
   }
 ];
+export const RESOLVED_FINDINGS = [{
+ id:'F01',title:'主全景背景接入可追溯星表',packages:['M2.1'],
+ status:'实现差距已关闭；用户验收待确认',
+ result:'主全景采用 2,936 个 Hipparcos-2 固定星表方向，可点选 HIP 编号并关联恒星视图；黄赤坐标转换、同历元样本、显隐与失败重试已验证。不是当前日期实况夜空。',
+ evidence:['docs/F01-PANORAMA-STARS.md','public/data/stars/panorama-validation.json']
+}];
 export const COVERAGE_AUDIT = [
   {
     "id": "E01",
@@ -277,15 +268,14 @@ export const COVERAGE_AUDIT = [
   {
     "id": "E18",
     "reports": [
+      "docs/F01-PANORAMA-STARS.md",
       "docs/C02-CONTEXT-COVERAGE-AUDIT.md",
       "docs/R08-STELLAR-CONTEXT.md",
       "docs/R09-VALIDATION.md"
     ],
-    "check": "恒星系统与其他星系 → 邻近恒星；切换天空方向/空间距离并点选资料。全景背景差距见 F01。 核对：未关闭 F01：原 M2.1 背景星点可追溯的标准尚未覆盖主全景；需要接入或经明确确认修订范围，不能直接判完成。",
-    "review": "本轮复验邻星距离/天空方向切换及同星保留；F01 主全景背景差距仍未关闭（C02 第四组）",
-    "findingIds": [
-      "F01"
-    ]
+    "check": "恒星系统与其他星系 → 邻近恒星；切换天空方向/空间距离并点选资料。主全景点选星点查询 HIP 编号，对照独立恒星视图；F01 技术差距已修复，固定历元与无距离背景边界保持说明。",
+    "review": "独立视图代表操作已复验；主全景新增 2,936 星方向、点选、坐标交叉检查与失败重试验证（F01），用户验收待完成",
+    "findingIds": []
   },
   {
     "id": "E19",

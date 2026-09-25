@@ -1,4 +1,4 @@
-import { CLOSEOUT_STEPS, COVERAGE_AUDIT, CURRENT_RELEASE, OPEN_FINDINGS } from '../data/closeoutPlan';
+import { CLOSEOUT_STEPS, COVERAGE_AUDIT, CURRENT_RELEASE, OPEN_FINDINGS, RESOLVED_FINDINGS } from '../data/closeoutPlan';
 import { CONTENT_COVERAGE } from '../data/contentCoverage';
 import { SCOPE_ADDITIONS } from '../data/executionPlan';
 import closeoutUrl from '../../docs/FIRST-RELEASE-CLOSEOUT.md?url';
@@ -12,6 +12,7 @@ export function CloseoutPlan({ onTopic }: { onTopic: (id: string) => void }) {
   <h3>已确认的 {OPEN_FINDINGS.length} 项未关闭事项</h3>
   <p>这里包含实现差距、工程验收和用户验收，不是“只剩四个代码错误”。核对中发现的新问题必须登记归属和关闭标准；不静默扩展首版范围。</p>
   <div className="master-coverage">{OPEN_FINDINGS.map(item => <article key={item.id} data-finding={item.id}><h4>{item.id} · {item.title}</h4><small>{item.kind} · {item.packages.join(' / ')} · 未关闭</small><p>{item.current}</p><p><strong>关闭标准：</strong>{item.close}</p><details><summary>查看依据</summary>{item.evidence.map(path => <p key={path}><a href={evidenceUrl(path)} target="_blank" rel="noreferrer">{path.split('/').at(-1)} ↗</a></p>)}</details></article>)}</div>
+  <h3>已修复的实现差距</h3><div className="master-coverage">{RESOLVED_FINDINGS.map(item=><article key={item.id} data-resolved-finding={item.id}><h4>{item.id} · {item.title}</h4><small>{item.status}</small><p>{item.result}</p>{item.evidence.map(path=><p key={path}><a href={evidenceUrl(path)} target="_blank" rel="noreferrer">{path.split('/').at(-1)} ↗</a></p>)}</article>)}</div>
   <h3>20 类主题 + 5 项首版必补 · 逐项核对</h3>
   <p>每项单独记录复验范围；已检查代表画面不等于该类全部能力或科学精度验收通过。已上线、验证依据、用户验收分别记录；所有用户验收保持待确认。</p>
   <div className="closeout-audit">{COVERAGE_AUDIT.map(row => {

@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs';
 import { CONTENT_COVERAGE } from './contentCoverage';
 import { SCOPE_ADDITIONS } from './executionPlan';
 import { MASTER_PLAN } from './masterPlan';
-import { COVERAGE_AUDIT, OPEN_FINDINGS } from './closeoutPlan';
+import { COVERAGE_AUDIT, OPEN_FINDINGS, RESOLVED_FINDINGS } from './closeoutPlan';
 
 describe('closeout scope and evidence integrity', () => {
  it('gives every agreed topic and required addition exactly one evidence-backed review entry', () => {
@@ -26,6 +26,8 @@ describe('closeout scope and evidence integrity', () => {
    expect(finding.close.length).toBeGreaterThan(10);
   }
   COVERAGE_AUDIT.forEach(row => row.findingIds.forEach(id => expect(findings.has(id), id).toBe(true)));
-  expect(COVERAGE_AUDIT.find(row => row.id === 'E18')?.findingIds).toContain('F01');
+  expect(findings.has('F01')).toBe(false);
+  expect(RESOLVED_FINDINGS.find(f=>f.id==='F01')?.status).toContain('用户验收待确认');
+  RESOLVED_FINDINGS.forEach(f=>f.evidence.forEach(path=>expect(existsSync(path),path).toBe(true)));
  });
 });

@@ -4,7 +4,7 @@ import type {PrimaryId} from '../data/macroPrimary';
 export function restoreFamilyContext(saved:Map<THREE.Object3D,boolean>){for(const [object,visible] of saved)object.visible=visible;saved.clear();}
 export function isolateFamilyContext(scene:THREE.Scene,parent:PrimaryId,saved:Map<THREE.Object3D,boolean>){
  for(const object of scene.children){
-  if(object instanceof THREE.Light||object.userData.background||object.name==='macro-real-families'||parent==='earth'&&['moon-phase-reference','season-reference'].includes(object.name)||object.userData.primaryId===parent)continue;
+  if(object instanceof THREE.Light||object.userData.background||object.name==='macro-real-families'||parent==='earth'&&['moon-phase-reference','season-reference','moon-lock-reference'].includes(object.name)||object.userData.primaryId===parent)continue;
   saved.set(object,object.visible);object.visible=false;
  }
 }
@@ -19,9 +19,9 @@ export function isolateLocalSystem(scene:THREE.Scene,target:string,saved:Map<THR
 }
 
 /** Focus an environment lesson without overlaying unrelated planets or moon orbits. */
-export function isolateEnvironmentContext(scene:THREE.Scene,parent:'sun'|'earth'|'jupiter'|'sun-earth'|'none',saved:Map<THREE.Object3D,boolean>,keepOrbits=false){
+export function isolateEnvironmentContext(scene:THREE.Scene,parent:'sun'|'earth'|'jupiter'|'sun-earth'|'sun-mercury'|'none',saved:Map<THREE.Object3D,boolean>,keepOrbits=false){
  for(const object of scene.children){
-  if(object instanceof THREE.Light||object.userData.background||object.name==='integrated-phenomena'||keepOrbits&&object.name==='macro-planet-reference-orbits'||object.userData.primaryId===parent||(parent==='sun-earth'&&['sun','earth'].includes(object.userData.primaryId)))continue;
+  if(object instanceof THREE.Light||object.userData.background||object.name==='integrated-phenomena'||keepOrbits&&object.name==='macro-planet-reference-orbits'||object.userData.primaryId===parent||(parent==='sun-earth'&&['sun','earth'].includes(object.userData.primaryId))||(parent==='sun-mercury'&&['sun','mercury'].includes(object.userData.primaryId)))continue;
   saved.set(object,object.visible);object.visible=false;
  }
 }

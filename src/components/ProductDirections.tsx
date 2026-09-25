@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import { ArrowRight, Check, ChevronRight, CircleDot, Compass, History, Layers3, Orbit, Rocket, Route, ShieldCheck, Sparkles, Telescope } from 'lucide-react';
-import { PRODUCT_DECISION_PATHS, PRODUCT_DIRECTIONS, PRODUCT_FOUNDATION, PLANET_CONTROL_LEVELS } from '../data/productDirections';
+import { HUMAN_SPACE_REMAINING, HUMAN_SPACE_ROUTES, PRODUCT_DECISION_PATHS, PRODUCT_DIRECTIONS, PRODUCT_FOUNDATION, PLANET_CONTROL_LEVELS } from '../data/productDirections';
 import futurePlanUrl from '../../docs/POST-ACCEPTANCE-PLAN.md?url';
 import './ProductDirections.css';
 
@@ -24,6 +24,13 @@ export function ProductDirections({ onViewRoadmap }: { onViewRoadmap: () => void
       <h3 id="product-decision-title">后期方向怎么选择？</h3>
       <div className="product-decision-grid">{PRODUCT_DECISION_PATHS.map(path => <article key={path.title}><h4>{path.title}</h4><p><strong>先问：</strong>{path.goal}</p><p><strong>启动条件：</strong>{path.condition}</p></article>)}</div>
       <p className="product-decision-dependency">天体碰撞依赖可复现实验；飞船可以从已有观测直接建立，不需要先实现天体编辑与合并。</p>
+    </section>
+
+    <section className="product-human-space" aria-labelledby="product-human-space-title">
+      <div className="product-section-heading"><span className="product-mini-label">HUMAN SPACEFLIGHT / 候选</span><h3 id="product-human-space-title">人类发射的卫星与探测器，分三步理解。</h3><p>旧规划登记过“人类探索与人造实体”，本次补回产品路线。天然卫星、真实人造航天器与用户创建的模拟卫星分别计数和说明。</p></div>
+      <div className="product-human-routes">{HUMAN_SPACE_ROUTES.map((route, index) => <article key={route.title}><span>{String(index + 1).padStart(2, '0')}</span><h4>{route.title}</h4><p>{route.purpose}</p><p><strong>先做：</strong>{route.first}</p><p><strong>前提：</strong>{route.condition}</p></article>)}</div>
+      <p className="product-human-other"><strong>其他候选缺口：</strong>{HUMAN_SPACE_REMAINING.join('、')}。按选定的学习或任务目标逐项启动。</p>
+      <p className="product-human-sources">轨迹来源需逐项核查：<a href="https://celestrak.org/NORAD/documentation/gp-data-formats.php" target="_blank" rel="noreferrer">CelesTrak GP/OMM ↗</a> · <a href="https://naif.jpl.nasa.gov/" target="_blank" rel="noreferrer">NASA NAIF SPICE ↗</a> · <a href="https://ssd.jpl.nasa.gov/horizons/manual.html" target="_blank" rel="noreferrer">JPL Horizons ↗</a></p>
     </section>
 
     <nav className="product-direction-choices" aria-label="选择产品方向">

@@ -76,7 +76,7 @@ export function ExpansionRoadmap({ onClose, onExplore, onValidation,onVisit,stag
     <nav className="roadmap-page-nav" aria-label="规划类别">
       <button ref={masterButton} aria-pressed={page === 'master'} aria-controls="roadmap-page-content" onClick={() => showPage('master')}><Route size={15}/>总规划</button>
       <button ref={integrationButton} aria-pressed={page === 'integration'} aria-controls="roadmap-page-content" onClick={() => showPage('integration')}><Route size={15}/>工程扩展</button>
-      <button ref={productsButton} aria-pressed={page === 'products'} aria-controls="roadmap-page-content" onClick={() => showPage('products')}><Compass size={15}/>产品方向<span>仙侠 · 穿越 · 星球掌控</span></button>
+      <button ref={productsButton} aria-pressed={page === 'products'} aria-controls="roadmap-page-content" onClick={() => showPage('products')}><Compass size={15}/>产品方向<span>卫星 · 飞船 · 仙侠</span></button>
     </nav>
     <div className="roadmap-scroll" ref={scroll}>
       <div className="roadmap-content" id="roadmap-page-content">

@@ -16,9 +16,17 @@ export interface ProductDirection {
 export const PRODUCT_DECISION_PATHS = [
   { title: '真实认知与教学', goal: '想弄懂哪种天体或现象？', condition: '先核对已有观测和课程，只补明确的知识或数据缺口。' },
   { title: '物理假设实验', goal: '改变哪个条件，要比较什么结果？', condition: '有可对照的真实初值和可复现实验后才做参数编辑；只有需要接触后果时再做天体碰撞。' },
-  { title: '飞船探索', goal: '玩家要完成什么航行任务？', condition: '需要探测器、近景精度、推力和任务规则；不以编辑天体或合并天体为前提。' },
+  { title: '人造航天器与探索', goal: '是要看真实轨迹、自己部署卫星，还是从地面发射？', condition: '三种任务所需数据和物理模型不同；驾驶与部署不以编辑天体或合并天体为前提。' },
   { title: '幻想与经营', goal: '角色或玩家反复做什么？', condition: '先确定仙侠、穿越或经营的核心玩法，再建设对应规则与存档。' },
 ] as const;
+
+export const HUMAN_SPACE_ROUTES = [
+  { title: '看真实人造航天器', purpose: '认识人造卫星、空间站和行星际探测器的实际任务与轨道。', first: '挑一项数据有效期可核查的任务，定位、播放并说明来源与更新时间。', condition: '真实轨迹需逐任务核查，过期数据不可标为当下实况。' },
+  { title: '模拟部署卫星', purpose: '在选定轨道释放自己的卫星，变轨并理解任务结果。', first: '从近地初始轨道释放一颗模拟卫星，保存、重播和核对入轨条件。', condition: '需要独立卫星状态、动力学、控制与存档；不依赖天体编辑或合并。' },
+  { title: '从地面发射火箭', purpose: '经历起飞、分级、入轨与卫星释放。', first: '另建一个受限制的发射任务，逐步验证上升和入轨。', condition: '需要发射场、地球自转、气动、阻力、推力曲线和分级；属于单独的高成本阶段。' },
+] as const;
+
+export const HUMAN_SPACE_REMAINING = ['地面站、通信视线与覆盖', '空间站、交会对接与星座', '空间碎片、离轨与再入', '行星际任务、着陆与巡视', '太阳系形成与长期演化'] as const;
 
 export const PRODUCT_DIRECTIONS: ProductDirection[] = [
   {

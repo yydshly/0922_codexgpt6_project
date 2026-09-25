@@ -8,6 +8,6 @@ export function focusPhenomena(flags:IntegratedFlags,target:IntegratedTarget,int
  if(intent)next[intent]=true;
  return next;
 }
-export const focusPhenomenonTitle=(intent:IntegratedId|null,target:IntegratedTarget|null)=>intent==='dust'&&target==='earth'?'地球旁流星示例':INTEGRATED_ITEMS.find(i=>i.id===intent)?.title;
+export const focusPhenomenonTitle=(intent:IntegratedId|null,target:IntegratedTarget|null)=>intent==='environment'&&target==='earth'?'地球磁层与极光':intent==='environment'&&target==='jupiter'?'木星磁层、等离子体环与极光':intent==='dust'&&target==='earth'?'地球旁流星示例':INTEGRATED_ITEMS.find(i=>i.id===intent)?.title;
 /** Close enough to identify a named marker; preserve bespoke compound-model framing. */
 export const memberFocusDistance=(id:string|null)=>id==='eros'?1.7:id==='patroclus'?4:id==='chariklo'?2.8:id==='eris'?22:2.8;

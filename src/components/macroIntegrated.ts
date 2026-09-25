@@ -1,3 +1,9 @@
+import {createZodiacalDiagram} from './materialClouds';
+import {createJupiterEnvironment} from './jupiterEnvironment';
+import type {MacroMoon} from '../data/macroFamilies';
+import type {IntegratedId} from '../data/integratedScene';
+type EnvironmentAnchor=PhenomenonTarget|'jupiter'|'io';
+import {incomingWindPoint} from '../data/environmentJourney';
 import {createSolarAtmosphere} from './solarAtmosphere';
 import type {PhenomenonParts} from '../data/phenomenonParts';
 import {createSolarFlare} from './solarFlare';
@@ -11,8 +17,9 @@ import {placeMacroLabels} from './macroLabelLayout';
 import {integratedDetailVisible,type IntegratedFlags,type IntegratedTarget,type PhenomenonTarget} from '../data/integratedScene';
 
 /** Educational objects inside the existing macro scene; never a separate canvas or a scientific state provider. */
-export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,host:HTMLElement,onFocus:(target:IntegratedTarget)=>void){
+export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,host:HTMLElement,onFocus:(target:IntegratedTarget,intent?:IntegratedId)=>void){
  const root=new THREE.Group();root.name='integrated-phenomena';root.userData.integrated=true;scene.add(root);
+ const jovian=createJupiterEnvironment(texture);root.add(jovian.root);const zodiac=createZodiacalDiagram(texture);root.add(zodiac.root);
  const solar=new THREE.Group(),earth=new THREE.Group(),environment=new THREE.Group(),belts=new THREE.Group(),dust=new THREE.Group(),helio=new THREE.Group();root.add(solar,earth,dust,helio);earth.add(environment,belts);
  for(const [id,group] of Object.entries({solar,environment,belts,stream:dust,helio}))group.userData.sceneElement=id;
  const line=(points:THREE.Vector3[],color:string,opacity=.5)=>new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),new THREE.LineBasicMaterial({color,transparent:true,opacity,depthWrite:false}));
@@ -22,6 +29,9 @@ export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,ho
  const flare=createSolarFlare(.34,new THREE.Vector3(.33,.12,.1));solar.add(flare.patch);
  const cme=new THREE.Group();cme.add(ball(1,'#f4a58a',.08));for(let i=0;i<5;i++)cme.add(line(Array.from({length:81},(_,j)=>{const a=j/80*Math.PI*2,b=i/5*Math.PI;return new THREE.Vector3(Math.cos(a)*Math.sin(b),Math.sin(a),Math.cos(a)*Math.cos(b));}),'#edb699',.4));solar.add(cme);
  const magnet=new THREE.Group(),dipole=new THREE.Group(),auroras=new THREE.Group();environment.add(magnet,dipole,auroras);
+ const incomingWind=new THREE.Group();incomingWind.name='incoming-solar-wind';environment.add(incomingWind);
+ const windParticles=points(Array.from({length:96},(_,i)=>new THREE.Vector3(...incomingWindPoint(i,0))),'#f0d58e',.012,.85);windParticles.frustumCulled=false;incomingWind.add(windParticles);
+ for(const z of [-.26,.26])incomingWind.add(new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(-1.2,0,z),.52,0xf0d58e,.06,.035));
  // +X is anti-solar. Rotate this group as Earth moves, leaving particle belts on their illustrative axis.
  for(let j=0;j<10;j++){const a=j/10*Math.PI*2;magnet.add(line(Array.from({length:65},(_,i)=>{const x=-.45+i/64*1.95,r=.38*Math.sqrt(Math.max(0,1-Math.exp(-(x+.45)*4)));return new THREE.Vector3(x,r*Math.cos(a),r*Math.sin(a));}),'#78ccd5',.55));}
  for(let j=0;j<7;j++){const a=j/7*Math.PI*2;magnet.add(line(Array.from({length:49},(_,i)=>{const x=-.56+i/48*1.65,r=.48*Math.sqrt(Math.max(0,1-Math.exp(-(x+.56)*4)));return new THREE.Vector3(x,r*Math.cos(a),r*Math.sin(a));}),'#e6b18a',.25));}
@@ -31,26 +41,32 @@ export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,ho
  const beltParts:Record<string,THREE.Points>={};
  for(const [id,color] of [['innerBelt','#f5ba69'],['outerBelt','#d993e5'],['plasmasphere','#76d3ca']] as [NearEarthLayer,string][]){const cloud=points(Array.from({length:650},(_,i)=>new THREE.Vector3(...nearEarthPoint(id,i)).multiplyScalar(.09)),color,.014,.65);beltParts[id]=cloud;belts.add(cloud);}
  const stream=points(Array.from({length:700},(_,i)=>new THREE.Vector3(...macroEcliptic(debrisPoint(i/700*Math.PI*2)))),'#9cd8c7',.025,.65);dust.add(stream);
+ const meteorAtmosphere=ball(.127,'#72bdcf',.045);earth.add(meteorAtmosphere);
  const meteor=new THREE.Group(),grain=ball(.0015,'#ecdcc1',1),glow=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,color:'#ffe2a4',transparent:true,opacity:.65,depthWrite:false,blending:THREE.AdditiveBlending})),trail=line([new THREE.Vector3(),new THREE.Vector3()],'#ffe2a4',.8);glow.scale.setScalar(.018);meteor.add(grain,glow,trail);root.add(meteor);meteor.userData.sceneElement='stream';
  let seed=123012;const random=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
  const shell=(count:number,lo:number,hi:number)=>Array.from({length:count},()=>{const y=random()*2-1,a=random()*Math.PI*2,r=lo+random()*(hi-lo),h=Math.sqrt(1-y*y);return new THREE.Vector3(r*h*Math.cos(a),r*y,r*h*Math.sin(a));});
  const sheath=points(shell(1400,macroRadius(90),macroRadius(120)),'#c3acde',.05,.55),medium=points(shell(800,macroRadius(125),macroRadius(280)),'#8da8ce',.045,.5);helio.add(sheath,medium);
  const neutrals=points(Array.from({length:90},()=>new THREE.Vector3()),'#98daba',.06,.7);neutrals.frustumCulled=false;helio.add(neutrals);
  const overlay=document.createElement('div');overlay.className='macro-world-labels integrated-world-labels';host.appendChild(overlay);
- const anchors:Record<PhenomenonTarget,THREE.Vector3>={sun:new THREE.Vector3(),earth:new THREE.Vector3(),dust:new THREE.Vector3(-2.5,1,0),helio:new THREE.Vector3(macroRadius(120),2,0)};
- const labels=(['sun','earth','dust','helio'] as const).map(id=>{const button=document.createElement('button');button.className='macro-world-label selectable';button.type='button';button.textContent=({sun:'太阳活动 · 靠近',earth:'近地空间 · 靠近',dust:'尘埃与碎屑 · 靠近',helio:'日球层环境 · 靠近'}[id]);button.setAttribute('aria-label',`在全景定位${button.textContent.split(' ·')[0]}`);button.onclick=()=>onFocus(id);overlay.appendChild(button);return {id,button};});
- let shown:Record<PhenomenonTarget,boolean>={sun:false,earth:false,dust:false,helio:false};
+ const anchors:Record<EnvironmentAnchor,THREE.Vector3>={jupiter:new THREE.Vector3(),io:jovian.ioAnchor,sun:new THREE.Vector3(),earth:new THREE.Vector3(),dust:new THREE.Vector3(-2.5,1,0),helio:new THREE.Vector3(macroRadius(120),2,0)};
+ const labels=(['sun','earth','dust','helio','jupiter','io'] as const).map(id=>{const button=document.createElement('button');button.className='macro-world-label selectable';button.type='button';button.textContent=({jupiter:'木星环境 · 靠近',io:'木卫一 · 当日位置',sun:'太阳活动 · 靠近',earth:'近地空间 · 靠近',dust:'尘埃与碎屑 · 靠近',helio:'日球层环境 · 靠近'}[id]);button.setAttribute('aria-label',`在全景定位${button.textContent.split(' ·')[0]}`);button.onclick=()=>onFocus(id==='io'?'jupiter':id,id==='jupiter'||id==='io'?'environment':undefined);overlay.appendChild(button);return {id,button};});
+ let shown:Record<EnvironmentAnchor,boolean>={jupiter:false,io:false,sun:false,earth:false,dust:false,helio:false};
  return {
   anchors,
-  update(flags:IntegratedFlags,earthPosition:THREE.Vector3|null,camera:THREE.PerspectiveCamera,focused:IntegratedTarget|null,progress:number,parts:PhenomenonParts){
-   if(earthPosition){earth.position.copy(earthPosition);meteor.position.copy(earthPosition);anchors.earth.copy(earthPosition);magnet.quaternion.setFromUnitVectors(new THREE.Vector3(1,0,0),earthPosition.clone().normalize());}
-   shown={sun:flags.solar,earth:!!earthPosition&&(flags.environment||flags.belts||flags.dust),dust:flags.dust,helio:flags.helio};
+  update(flags:IntegratedFlags,earthPosition:THREE.Vector3|null,camera:THREE.PerspectiveCamera,focused:IntegratedTarget|null,progress:number,parts:PhenomenonParts,jupiterPosition:THREE.Vector3|null,io:MacroMoon|undefined,intent:IntegratedId|null){
+   if(earthPosition){earth.position.copy(earthPosition);meteor.position.copy(earthPosition);anchors.earth.copy(earthPosition);magnet.quaternion.setFromUnitVectors(new THREE.Vector3(1,0,0),earthPosition.clone().normalize());incomingWind.quaternion.copy(magnet.quaternion);}
+   if(jupiterPosition)anchors.jupiter.copy(jupiterPosition);
+   const jupiterFocus=focused==='jupiter'&&intent==='environment';
+   jovian.update(jupiterPosition,io,flags.environment,jupiterFocus||!!jupiterPosition&&camera.position.distanceTo(jupiterPosition)<3.8,jupiterFocus,parts);
+   shown={jupiter:!!jupiterPosition&&flags.environment&&(parts.jupiterMagnet||parts.ioTorus||parts.jupiterAurora),io:jovian.ioVisible,sun:flags.solar,earth:!!earthPosition&&(flags.environment&&(parts.incomingWind||parts.magnet||parts.dipole||parts.aurora)||flags.belts||flags.dust&&parts.meteor),dust:flags.dust&&(parts.stream||parts.zodiacal),helio:flags.helio};
    const detailed=(id:PhenomenonTarget)=>integratedDetailVisible(id,camera.position.distanceTo(anchors[id]),focused);
    solar.visible=flags.solar&&detailed('sun');environment.visible=flags.environment&&!!earthPosition&&detailed('earth');belts.visible=flags.belts&&!!earthPosition&&detailed('earth');dust.visible=flags.dust&&detailed('dust');helio.visible=flags.helio&&detailed('helio');
+   incomingWind.visible=parts.incomingWind;const windAttr=windParticles.geometry.attributes.position;for(let i=0;i<96;i++)windAttr.setXYZ(i,...incomingWindPoint(i,progress));windAttr.needsUpdate=true;
+   zodiac.update(earthPosition,flags.dust&&parts.zodiacal&&detailed('dust'));
    atmosphere.update(parts);flare.patch.visible=parts.flare;magnet.visible=parts.magnet;dipole.visible=parts.dipole;auroras.visible=parts.aurora;
    for(const id of ['innerBelt','outerBelt','plasmasphere'] as const)beltParts[id].visible=parts[id];stream.visible=parts.stream;sheath.visible=parts.sheath;medium.visible=parts.medium;neutrals.visible=parts.neutrals;
    const state=solarDemoState(progress);cme.visible=parts.cme&&state.cmeVisible;cme.position.set(.5+(state.cmeX+2.8)*.15,state.cmeY*.15,.2);cme.scale.setScalar(state.cmeRadius*.24);flare.update(parts.flare?state.flare:0);
-   meteor.visible=parts.meteor&&!!earthPosition&&flags.dust&&detailed('earth');const m=meteorDemoState(progress);grain.position.set(m.x*.038,m.y*.038+.095,0);grain.visible=m.visible;glow.position.copy(grain.position);glow.visible=m.glow;trail.visible=m.glow;trail.geometry.setFromPoints([grain.position,grain.position.clone().add(new THREE.Vector3(-.045,.035,0))]);
+   meteorAtmosphere.visible=parts.meteor&&flags.dust&&detailed('earth');meteor.visible=parts.meteor&&!!earthPosition&&flags.dust&&detailed('earth');const m=meteorDemoState(progress);grain.position.set(m.x*.038,m.y*.038+.095,0);grain.visible=m.visible;glow.position.copy(grain.position);glow.visible=m.glow;trail.visible=m.glow;trail.geometry.setFromPoints([grain.position,grain.position.clone().add(new THREE.Vector3(-.045,.035,0))]);
    const attr=neutrals.geometry.attributes.position;for(let i=0;i<90;i++)attr.setXYZ(i,-12+24*((i*.618034+progress)%1),2+3*Math.sin(i*4.1),3*Math.cos(i*2.3));attr.needsUpdate=true;
   },
   layout(camera:THREE.PerspectiveCamera,width:number,height:number,enabled:boolean){

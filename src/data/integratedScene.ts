@@ -4,7 +4,7 @@ import type {MacroFamilyId} from './macroFamilies';
 import type {StageFlags} from './stages';
 export const INTEGRATED_ITEMS=[
  {id:'solar',title:'太阳活动',target:'sun',stage:'solarActivity',detail:'从光球逐层认识色球、过渡区和日冕，再对照黑子、日珥、耀斑与 CME。新增层厚和活动形态是增强示意，不代表当日实况；光球本体始终保留。'},
- {id:'environment',title:'地球磁层与极光',target:'earth',stage:'environment',detail:'跟随历表中的地球位置，磁尾指向背日侧。形态、磁轴和极光均为放大示意。'},
+ {id:'environment',title:'地球与木星空间环境',target:'earth',stage:'environment',detail:'地球与木星环境跟随各自历表位置；木星另有木卫一等离子体环。上方七步路线分别定位。磁层、极光和粒子分布为教学示意，两个镜头独立缩放。'},
  {id:'belts',title:'辐射带与等离子体层',target:'earth',stage:'nearEarth',detail:'地球周围的三类粒子区域，空间可重叠，不是固体环或卫星轨道。'},
  {id:'dust',title:'碎屑流与流星示例',target:'dust',stage:'dustExplorer',detail:'太阳附近的倾斜碎屑流与地球旁的流星示例。两者没有逐颗追踪关系，不是当日事件。'},
  {id:'helio',title:'日鞘与星际介质',target:'helio',stage:'heliosphereExplorer',detail:'在原有日球层轮廓处补日鞘体积分布、外部介质和中性原子示意。'},

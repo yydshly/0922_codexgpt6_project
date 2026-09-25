@@ -1,3 +1,4 @@
+import {isolateEnvironmentContext} from './familyIsolation';
 import {describe,it,expect} from 'vitest';
 import * as THREE from 'three';
 import {isolateFamilyContext,restoreFamilyContext,isolateLocalSystem} from './familyIsolation';
@@ -23,4 +24,12 @@ it('isolates a nested companion system without losing siblings or saved switches
  const saved=new Map<THREE.Object3D,boolean>();isolateLocalSystem(scene,'eris',saved);
  expect(group.visible&&eris.visible&&companion.visible).toBe(true);expect(orbit.visible).toBe(false);
  restoreFamilyContext(saved);expect(orbit.visible).toBe(true);expect(other.visible).toBe(false);
+});
+
+it('isolates an environment lesson and restores unrelated visibility without enabling hidden layers',()=>{
+ const scene=new THREE.Scene(),earth=new THREE.Group(),sun=new THREE.Group(),family=new THREE.Group(),integrated=new THREE.Group(),off=new THREE.Group();
+ earth.userData.primaryId='earth';sun.userData.primaryId='sun';family.name='macro-real-families';integrated.name='integrated-phenomena';off.visible=false;scene.add(earth,sun,family,integrated,off);
+ const saved=new Map<THREE.Object3D,boolean>();isolateEnvironmentContext(scene,'earth',saved);
+ expect(earth.visible).toBe(true);expect(integrated.visible).toBe(true);expect(sun.visible).toBe(false);expect(family.visible).toBe(false);
+ restoreFamilyContext(saved);expect(sun.visible).toBe(true);expect(family.visible).toBe(true);expect(off.visible).toBe(false);
 });

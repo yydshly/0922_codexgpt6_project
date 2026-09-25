@@ -1,3 +1,4 @@
+import r05ReportUrl from '../../docs/R05-ENVIRONMENT-LINKS.md?url';
 import r04ReportUrl from '../../docs/R04-APPEARANCE.md?url';
 import r03ReportUrl from '../../docs/R03-SYSTEMS-AND-RINGS.md?url';
 import r02ReportUrl from '../../docs/R02-OUTER-VISITORS.md?url';
@@ -16,9 +17,9 @@ export function ExecutionPlan({onTopic}:{onTopic:(id:string)=>void}){
  <p>{EXECUTION_VERSION} · 各批状态分别记录。原 M0–M6 的编号保留，下面按可验收版本安排交付。</p>
  <p className="master-plan-note">这九批是后续建设的交付顺序；主页“阶段导览”的九批开关控制已有画面。两者互不对应。选择下面的批次只查看计划，不会开启场景或增加天体。</p>
  <a href={executionUrl} download="太阳系九批交付与范围补正.md">下载九批动作与验收标准 ↗</a>
- <ol className="execution-sequence">{DELIVERY_BATCHES.map((b,i)=><li key={b.id}><button aria-pressed={selected===b.id} aria-controls="execution-detail" onClick={()=>setSelected(b.id)}><b>{String(i+1).padStart(2,'0')}</b><span>{b.title}<small>{b.id==='R01'?'四个代表已接入 · 待验收':b.id==='R02'?'远缘与访客已接入 · 待验收':b.id==='R03'?'代表已接入 · 待验收':b.id==='R04'?'已核对 · 缺口见记录':'待执行'}</small></span></button></li>)}</ol>
+ <ol className="execution-sequence">{DELIVERY_BATCHES.map((b,i)=><li key={b.id}><button aria-pressed={selected===b.id} aria-controls="execution-detail" onClick={()=>setSelected(b.id)}><b>{String(i+1).padStart(2,'0')}</b><span>{b.title}<small>{b.id==='R01'?'四个代表已接入 · 待验收':b.id==='R02'?'远缘与访客已接入 · 待验收':b.id==='R03'?'代表已接入 · 待验收':b.id==='R04'?'已核对 · 缺口见记录':b.id==='R05'?'环境与物质联系 · 本地待验收':'待执行'}</small></span></button></li>)}</ol>
  <article id="execution-detail" className="master-phase" aria-live="polite">
- <span>{batch.id} · {batch.status}</span>{batch.id==='R01'&&<p><a href={r01ReportUrl} download="R01小天体来源与验收.md">下载本批数据验证与验收路径 ↗</a></p>}{batch.id==='R02'&&<p><a href={r02ReportUrl} download="R02远缘与历史访客来源验收.md">下载 R02 数据与验收说明 ↗</a></p>}{batch.id==='R03'&&<p><a href={r03ReportUrl} download="R03家族与环接入记录.md">下载 R03 当前进度与验收说明 ↗</a></p>}{batch.id==='R04'&&<p><a href={r04ReportUrl} download="R04外观与形状接入记录.md">下载 R04 进度与验收说明 ↗</a></p>}<h3>{batch.title}</h3>
+ <span>{batch.id} · {batch.status}</span>{batch.id==='R01'&&<p><a href={r01ReportUrl} download="R01小天体来源与验收.md">下载本批数据验证与验收路径 ↗</a></p>}{batch.id==='R02'&&<p><a href={r02ReportUrl} download="R02远缘与历史访客来源验收.md">下载 R02 数据与验收说明 ↗</a></p>}{batch.id==='R03'&&<p><a href={r03ReportUrl} download="R03家族与环接入记录.md">下载 R03 当前进度与验收说明 ↗</a></p>}{batch.id==='R04'&&<p><a href={r04ReportUrl} download="R04外观与形状接入记录.md">下载 R04 进度与验收说明 ↗</a></p>}{batch.id==='R05'&&<p><a href={r05ReportUrl} download="R05环境联系进度与验收.md">下载 R05 当前进度与验收说明 ↗</a></p>}<h3>{batch.title}</h3>
  <p><strong>可复用与前置：</strong>{batch.dependency}</p><p><strong>依赖：</strong>{batch.after.join('、')||'从现有基线开始'}；<strong>对应工作包：</strong>{batch.packages.join('、')}</p>
  <h4>本批必须完成</h4><ol>{batch.must.map(item=><li key={item}>{item}</li>)}</ol>
  <h4>验收时检查</h4><ul>{batch.acceptance.map(item=><li key={item}>{item}</li>)}</ul>

@@ -50,8 +50,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "id": "E01",
     "title": "太阳本体与活动",
     "status": "已有基础",
-    "current": "本体历表与参数；光球到日冕分层、黑子/日珥、耀斑/CME 主全景示意",
-    "target": "R04 分层与核心参数核对已实现；待版本验收，活动与环境联系由 R05 补充",
+    "current": "本体历表与参数；光球到日冕分层、黑子/日珥、耀斑/CME 主全景示意；本地新增太阳到极光四步联系",
+    "target": "R04 基础已实现待版本验收；R05 已接入太阳—地球联系及木星对照，光/粒子辐射分层仍待补",
     "phase": "M3 / M4",
     "evidence": "历表位置 + 参考参数 + 活动示意",
     "datasets": [
@@ -68,7 +68,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "选择太阳；更多工具 → 太阳活动。",
     "validation": "参考姿态、来源、分层控制与跨模块显隐已有本地检查；非当日太阳活动重建。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -93,14 +93,14 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "点选行星；全景目录 → 地球外观。",
     "validation": "参考自转、倾角参照、静态纹理与家族比例检查通过；不等于完整外观实测重建。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E03",
     "title": "天然卫星与家族",
     "status": "已有基础",
-    "current": "27 颗选定卫星；六个行星家族、冥王星五卫星、阋神星及双小行星系统；土卫二喷流/剖面示意",
+    "current": "27 颗选定卫星；六个行星家族、冥王星五卫星、阋神星及双小行星系统；土卫二喷流/剖面及 E 环示意",
     "target": "约定家族及土卫二喷流/内部示意已本地接入；待用户验收，环境联系由 R05 继续",
     "phase": "M3",
     "evidence": "卫星历表 + 局部显示缩放",
@@ -126,7 +126,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "阅读天然卫星；全景现象 → 定位家族。",
     "validation": "六个家族、冥王星、阋神星、双小行星的近景、大小/距离边界与历史恢复已复验；待用户整批验收。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -151,7 +151,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "选择巨行星家族，比较环系和轨道开关。",
     "validation": "参考环段来源与局部比例已复核；土星三视图统一 C/B/A 边界，几何回归和开关复验已补，用户验收待完成。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -179,7 +179,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "从矮行星成员清单定位，再展开参数。",
     "validation": "数据包有检查点验证；五颗矮行星统一近景验收待补。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -208,7 +208,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "侧视主带，再定位谷神星或灶神星。",
     "validation": "灶神星近景切换已复验；点云不是逐体数据，无逐点精度报告。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -237,7 +237,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "近地小行星 → 爱神星；查看日心/地心参数，前后 30 天对比。",
     "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -268,7 +268,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "半人马族与特洛伊群 → 分别定位 L4/L5，比较相对木星方位。",
     "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -297,7 +297,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "半人马族与特洛伊群 → 女凯龙星；观察高度、轨道；主全景可定位并控制双环参考示意。",
     "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -325,7 +325,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "全景内容总表进入；展开四类轨道说明对照夸奥尔与冥王星。",
     "validation": "成员有数据包验证；区域分布的统一表达待 M2.2。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -352,7 +352,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "全景内容总表定位塞德娜；查看黄道高度、日期变化及分类依据。",
     "validation": "代表成员有数据验证；两类分布尚未分别实现。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -379,7 +379,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "内容总表 → 彗星 → 海尔—波普；可切换三颗彗星。",
     "validation": "数据包内有留出样本误差；活动示例不作当日状态验证。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -404,14 +404,14 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "侧视球状区域，阅读模型不确定性。",
     "validation": "推断模型没有逐体观测坐标；范围与说明待总验收。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E14",
     "title": "尘埃、流星体与流星",
     "status": "示意为主",
-    "current": "尘埃、碎屑流、进入大气演示",
+    "current": "尘埃、碎屑流、进入大气演示；主全景黄道光原理与喷流补给 E 环联系",
     "target": "串联尘埃、黄道光、流星雨和喷流补给，明确统计性质与非当日实况",
     "phase": "M4",
     "evidence": "统计区域与原理演示",
@@ -427,23 +427,25 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [
       "dustExplorer"
     ],
-    "how": "更多工具 → 尘埃与流星；从独立详解查看进度控制。",
-    "validation": "已有演示控制；黄道光与流星雨关联未完成。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "how": "全景现象 → 物质从哪里来，会变成什么？六步定位；独立详解仍可阅读。",
+    "validation": "主全景六步、阶段门控、历史恢复与独立播放已本地验证；关联为原理示意，不是流星雨预报，待用户验收。",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E15",
     "title": "太阳风与日球层",
     "status": "示意为主",
-    "current": "太阳风、激波、日鞘、边界及星际介质",
+    "current": "太阳风、激波、日鞘、边界及星际介质；主全景地球向阳侧来流方向与独立粒子示意",
     "target": "完善日球层分层与可变边界；补行星际磁场、电流片和中性粒子解释",
     "phase": "M2 / M4",
     "evidence": "分层边界和粒子流动示意",
     "datasets": [],
     "modules": [
       "src/data/heliosphere.ts",
-      "src/components/HeliosphereExplorer.tsx"
+      "src/components/HeliosphereExplorer.tsx",
+      "src/data/environmentJourney.ts",
+      "src/components/macroIntegrated.ts"
     ],
     "entry": {
       "kind": "zone",
@@ -454,22 +456,25 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "阅读区域；阶段 09 开启时可展开日球层详解。",
     "validation": "已有分层控制；方向与可变边界解释仍待完善。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E16",
     "title": "磁层、辐射带与极光",
     "status": "示意为主",
-    "current": "地球环境和近地粒子区域",
-    "target": "以木星环境作对照；完善太阳活动、光与粒子辐射的联系",
+    "current": "地球环境和近地粒子区域；主全景七步串联太阳—地球联系与木星磁层、木卫一等离子体环、极光对照",
+    "target": "补光/粒子辐射及其他物质联系；已有地球与木星对照待用户验收",
     "phase": "M4",
     "evidence": "磁层和粒子区域原理示意",
     "datasets": [],
     "modules": [
       "src/data/spaceEnvironment.ts",
       "src/data/nearEarth.ts",
-      "src/components/SpaceEnvironment.tsx"
+      "src/components/SpaceEnvironment.tsx",
+      "src/data/environmentJourney.ts",
+      "src/components/EnvironmentJourneyPanel.tsx",
+      "src/components/jupiterEnvironment.ts"
     ],
     "entry": {
       "kind": "zone",
@@ -478,9 +483,9 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [
       "environment"
     ],
-    "how": "更多工具 → 近地空间；定位后查阅详解。",
-    "validation": "地球环境已有操作；木星环境对照尚未实现。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "how": "全景现象 → 太阳与行星环境七步定位；阶段 05 控制地球/木星环境，木卫一步骤另需阶段 04。",
+    "validation": "机制对照、同日木卫一摆放、场景与标题、前进后退及阶段依赖已本地验证；不提供当日磁场、密度或极光预测。",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -505,7 +510,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "全景目录 → 行星运动；日月食尚无案例入口。",
     "validation": "已有运动比较；四组课程和天象事件验证尚未完成。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -528,7 +533,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "查看现有邻星示意；不作为星表实测结果。",
     "validation": "未导入真实星表，无星位、视差质量验证。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -551,7 +556,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "从银河系切换银河系之外，比较尺度说明。",
     "validation": "结构示意已接入；跨尺度一致性仍待 M5.2。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -575,7 +580,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "内容总表 → 星际访客直接进入；彗星面板也提供历史窗口。",
     "validation": "原始数据与分包哈希、独立检查点插值及历史窗口进出检查；不代表绝对轨道精度。",
-    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "release": "R03/R04 基础与显示修复已部署 4ec2157；R05 后续本地未发布，用户验收另记",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   }
 ];

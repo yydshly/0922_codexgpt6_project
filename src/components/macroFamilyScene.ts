@@ -1,3 +1,4 @@
+import {createERing,eRingPoints} from './materialClouds';
 import {createEnceladusInterior} from './enceladusInterior';
 import type {EnceladusChoices} from '../data/enceladusInterior';
 import * as THREE from 'three';
@@ -27,6 +28,7 @@ export function createMacroFamilies(scene:THREE.Scene,host:HTMLElement,onSelect:
   else ringTilt.add(makeFaintRings(bodyById[id],radius));
   return {id,group,ringTilt};
  });
+ const eRing=createERing();families.find(f=>f.id==='saturn')!.group.add(eRing);let eRingTime=NaN;
  let disposed=false;const loader=new THREE.TextureLoader();
  const moons=new Map<string,{mesh:THREE.Mesh<THREE.SphereGeometry,THREE.MeshStandardMaterial>;orbit:THREE.Line;detail:ReturnType<typeof createEnceladusInterior>|null;parent:MacroFamilyId;epoch:number}>();
  const overlay=document.createElement('div');overlay.className='macro-world-labels family-world-labels';host.appendChild(overlay);
@@ -38,6 +40,8 @@ export function createMacroFamilies(scene:THREE.Scene,host:HTMLElement,onSelect:
   anchors:Object.fromEntries(families.map(f=>[f.id,f.group.position])) as Record<MacroFamilyId,THREE.Vector3>,
   update(frame:StateFrame|null,options:FamilySceneOptions,camera:THREE.PerspectiveCamera,target:MacroFamilyId|null,anchors:Record<string,THREE.Vector3>){
    focused=target;lastEnabled=options.enabled&&!!frame;root.visible=lastEnabled;
+   const enceladus=options.states.find(m=>m.id==='enceladus');eRing.visible=!!options.enceladus.eRing&&options.moons&&!!enceladus;
+   if(enceladus&&frame&&eRing.visible&&(Number.isNaN(eRingTime)||Math.abs(frame.time-eRingTime)>3600)){eRing.geometry.setFromPoints(eRingPoints(enceladus));eRingTime=frame.time;}
    if(!frame){for(const m of moons.values()){m.mesh.visible=false;m.orbit.visible=false;}return;}
    for(const f of families){
     f.group.position.copy(anchors[f.id]);

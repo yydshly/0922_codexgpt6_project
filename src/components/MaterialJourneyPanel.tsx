@@ -1,0 +1,11 @@
+import {MATERIAL_STEPS,type MaterialStep,type MaterialStepId} from '../data/materialJourney';
+import type {StageFlags} from '../data/stages';
+import {meteorDemoState} from '../data/dust';
+import './EnvironmentJourneyPanel.css';
+interface Props {current:MaterialStep|null;stages:StageFlags;ready:boolean;cometReady:boolean;moonReady:boolean;playing:boolean;progress:number;onStep:(id:MaterialStepId)=>void;onPlaying:()=>void;onReset:()=>void;onProgress:(value:number)=>void;onStages:()=>void}
+export function MaterialJourneyPanel(p:Props){
+ const reason=(step:MaterialStep)=>!p.stages[step.stage]?'需开启对应阶段':!p.ready?'等待当前日期历表':step.id==='comet'&&!p.cometReady?'等待哈雷历表':['plume','e-ring'].includes(step.id)&&!p.moonReady?'等待土卫二历表':'';
+ const index=MATERIAL_STEPS.findIndex(s=>s.id===p.current?.id);
+ return <section className="environment-journey" data-material-journey aria-label="空间物质联系"><h3>物质从哪里来，会变成什么？</h3><p>三条联系：彗星与流星；尘埃与光；喷流与 E 环。各步是不同尺度的观察，不是同一批粒子的连续追踪。</p><ol>{MATERIAL_STEPS.map((step,i)=><li key={step.id}><button disabled={!!reason(step)} aria-pressed={p.current?.id===step.id} title={reason(step)||step.title} onClick={()=>p.onStep(step.id)}>{i+1} · {step.name}</button>{reason(step)&&<small>{reason(step)}</small>}</li>)}</ol>
+ {p.current?<div><h4>{p.current.title}</h4><p>{p.current.text}</p><p className="environment-legend">{p.current.legend}</p><div className="environment-controls"><button disabled={index<=0||!!reason(MATERIAL_STEPS[Math.max(0,index-1)])} onClick={()=>p.onStep(MATERIAL_STEPS[index-1].id)}>上一处联系</button><button disabled={index===MATERIAL_STEPS.length-1||!!reason(MATERIAL_STEPS[Math.min(index+1,MATERIAL_STEPS.length-1)])} onClick={()=>p.onStep(MATERIAL_STEPS[index+1].id)}>下一处联系</button></div>{p.current.id==='meteor'&&<><p role="status">{meteorDemoState(p.progress).phase}</p><input aria-label="物质联系演示进度" type="range" min="0" max="1" step=".001" value={p.progress} onChange={e=>p.onProgress(Number(e.target.value))}/><button aria-pressed={p.playing} onClick={p.onPlaying}>{p.playing?'暂停流星示例':'播放流星示例'}</button><button onClick={p.onReset}>重播流星示例</button></>}<p><a href={p.current.source} target="_blank" rel="noreferrer">NASA 依据与解释 ↗</a></p></div>:<p>选择一处定位；当前画面与设置不匹配时，不保留步骤高亮。</p>}<small>真实天体使用原有历表。新点云、散射路径和光迹为教学绘图；不提供密度、亮度或流星雨预测。</small><button onClick={p.onStages}>查看所需阶段</button></section>;
+}

@@ -3,6 +3,8 @@ import {INTEGRATED_ITEMS} from '../data/integratedScene';
 import type {StageFlags} from '../data/stages';
 
 const bodySections = [
+ {id:'material-journey',name:'物质联系 · 碎屑、黄道光与 E 环',selector:'[data-material-journey]'},
+ {id:'environment-journey',name:'太阳与行星环境 · 地球到木星七步对照',selector:'[data-environment-journey]'},
  {id:'appearance',name:'外观与参数核对 · 真实与示意',selector:'[data-appearance-audit]'},
  {id:'enceladus',name:'土卫二 · 喷流与内部结构',selector:'[data-enceladus]'},
  {id:'eros-shape',name:'爱神星形状 · 资料模型与同体积球',selector:'[data-eros-shape]'},

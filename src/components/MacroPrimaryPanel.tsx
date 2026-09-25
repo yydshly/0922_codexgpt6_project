@@ -24,7 +24,7 @@ export function MacroPrimaryPanel({autoReveal=true,active,frame,date,time,onFocu
    <div className="panorama-family-links"><button disabled={!frame||time.loading||frame.time<=time.start} onClick={()=>time.onSeek(Math.max(time.start,frame!.time-86400))}>前 1 天</button><button disabled={!frame||time.loading} onClick={time.onToggle}>{time.playing?'暂停日期':'继续日期'}</button><button disabled={!frame||time.loading||frame.time>=time.end} onClick={()=>time.onSeek(Math.min(time.end,frame!.time+86400))}>后 1 天</button></div>
    {isMacroFamily(active)&&<button disabled={!familiesEnabled||!frame} onClick={()=>onFamily(active)}>观察{body.name}的卫星与环系</button>}
    {isMacroFamily(active)&&!familiesEnabled&&<p>阶段 04 已隐藏，开启后可观察已接入家族。</p>}
-   <p>定位仅移动镜头，周边天体保留；远处线条和点云淡化，避免遮挡当前对象。球体尺寸放大、间距压缩，不是统一比例；表面为静态贴图，不是实时影像。自转周期为参考值，太阳与巨行星不应理解为刚性表面统一转速。</p>
+   <p>定位保持观测日期，默认暂隐其他成员；可从右侧开关重新显示，返回全景恢复。球体尺寸放大、间距压缩，不是统一比例；表面为静态贴图，不是实时影像。自转周期为参考值，太阳与巨行星不应理解为刚性表面统一转速。</p>
    <a href={body.sourceUrl} target="_blank" rel="noreferrer">天体介绍与参数来源 ↗</a><br/><a href={PHYSICAL_SOURCE} target="_blank" rel="noreferrer">JPL 物理参数 ↗</a><br/><a href={publicAsset('/data/manifest.json')} target="_blank" rel="noreferrer">保存的历表来源与时间范围 ↗</a>
   </div>}
  </section>;

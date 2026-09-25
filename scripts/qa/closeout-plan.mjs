@@ -17,7 +17,7 @@ await call('Runtime.enable');
 try {
  await call('Page.reload',{ignoreCache:true});await wait(800);await ready("!!document.querySelector('.home-time input')?.value");await open();
  await assert("document.querySelectorAll('[data-closeout-step]').length===5 && document.querySelectorAll('[data-finding]').length===4 && document.querySelectorAll('[data-audit-id]').length===25",'five work packages, four open items, 25 audit rows');
- await assert("document.querySelector('[data-closeout]').textContent.includes('逐类画面复验仍待完成')",'does not claim fresh visual acceptance');
+ await assert("document.querySelector('[data-closeout]').textContent.includes('完整子项及其余 19 项仍待继续')",'does not claim fresh visual acceptance');
  const href=await run("document.querySelector('[data-closeout]>a').href");
  const download=await(await fetch(href)).text();if(!download.includes('F01')||!download.includes('S05'))throw Error('Incomplete download');console.log('PASS downloadable plan includes gaps and all additions');
  await shot('closeout-desktop');

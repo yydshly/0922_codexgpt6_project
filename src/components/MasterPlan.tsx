@@ -34,7 +34,7 @@ export function MasterPlan({onVisit,stages,initialTab='closeout',initialFilter='
  <p><strong>当前显示：</strong>{r.current}</p><p><strong>数据依据：</strong>{r.evidence}</p>
  <p><strong>待核对与保留边界：</strong>{r.target}</p><small>归属 {r.phase} · {r.acceptance}</small>
  <p>{r.how}</p><p className="coverage-plan-links"><strong>交付归属：</strong>{DELIVERY_BATCHES.filter(b=>b.topics.includes(r.id)&&!['R07','R09'].includes(b.id)).map(b=>b.id).join(' / ')}。<button onClick={()=>setTab('route')}>查看交付批次</button></p>
- {SCOPE_ADDITIONS.some(s=>s.topics.includes(r.id))&&<p><strong>关联补项：</strong>{SCOPE_ADDITIONS.filter(s=>s.topics.includes(r.id)).map(s=>s.title).join('、')}（具体上线与验收状态见总路线）。</p>}{r.entry?<button disabled={blocked} onClick={()=>onVisit(r.entry!,'coverage',filter)}>查看现有{r.id==='E07'?'分类':r.id==='E18'?'星表':'入口'} ↗</button>:<p>暂无观测入口</p>}
+ {SCOPE_ADDITIONS.some(s=>s.topics.includes(r.id))&&<p><strong>关联补项：</strong>{SCOPE_ADDITIONS.filter(s=>s.topics.includes(r.id)).map(s=>s.title).join('、')}（具体上线与验收状态见总路线）。</p>}{r.entry?<button disabled={blocked} onClick={()=>onVisit({...r.entry!,topicId:r.id},'coverage',filter)}>查看现有{r.id==='E07'?'分类':r.id==='E18'?'星表':'入口'} ↗</button>:<p>暂无观测入口</p>}
  {blocked&&<p role="status">相关阶段已关闭，请从主页“阶段导览”开启；不会自动更改你的开关。</p>}
  <details><summary>验证、发布与数据版本</summary><p><strong>验证：</strong>{r.validation}</p><p><strong>发布：</strong>{r.release}</p>
  {r.datasets.map(key=>{const d=COVERAGE_DATASETS[key];return <p key={key} className="coverage-version"><a href={publicAsset(d.path)} target="_blank" rel="noreferrer">{d.version} ↗</a><br/>数据覆盖：{d.startUtc.slice(0,10)} 至 {d.endUtc.slice(0,10)}（UTC，含边界插值样本；可选日期以主时间轴为准）</p>;})}

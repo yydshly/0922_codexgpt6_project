@@ -10,8 +10,8 @@ export const CLOSEOUT_STEPS = [
   {
     "id": "C02",
     "title": "核对内容完整性",
-    "status": "核对表已建立",
-    "done": "20 类主题与 5 项必补均有入口、证据和验收动作；逐类画面复验仍待执行。"
+    "status": "第一组复验中",
+    "done": "25 项均已登记；E01–E06 完成入口与代表交互复验，完整子项与其余 19 项仍需继续，不等同 6 类全面验收。"
   },
   {
     "id": "C03",
@@ -98,58 +98,64 @@ export const COVERAGE_AUDIT = [
     "id": "E01",
     "reports": [
       "docs/R04-APPEARANCE.md",
-      "docs/R05-ENVIRONMENT-LINKS.md"
+      "docs/R05-ENVIRONMENT-LINKS.md",
+      "docs/C02-CORE-COVERAGE-AUDIT.md"
     ],
     "check": "选择太阳；更多工具 → 太阳活动。 核对：复验太阳各层、活动与粒子示意的区别；当日太阳活动和差异自转属于明确未实现的深化能力。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "已复验入口、代表画面与基本交互；完整子项、异常场景和用户验收仍待完成（C02 第一组）",
     "findingIds": []
   },
   {
     "id": "E02",
     "reports": [
       "docs/R04-APPEARANCE.md",
-      "docs/TEXTURE-LOADING.md"
+      "docs/TEXTURE-LOADING.md",
+      "docs/C02-CORE-COVERAGE-AUDIT.md"
     ],
     "check": "点选行星；全景目录 → 地球外观。 核对：复验尺度、昼夜、自转说明和贴图恢复；实时天气、精细地形和完整姿态不计作已实现。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "已复验入口、代表画面与基本交互；完整子项、异常场景和用户验收仍待完成（C02 第一组）",
     "findingIds": []
   },
   {
     "id": "E03",
     "reports": [
       "docs/R03-SYSTEMS-AND-RINGS.md",
-      "docs/TOPIC-FAMILY-ACCEPTANCE.md"
+      "docs/TOPIC-FAMILY-ACCEPTANCE.md",
+      "docs/C02-CORE-COVERAGE-AUDIT.md"
     ],
     "check": "阅读天然卫星；全景现象 → 定位家族。 核对：复验父子关系、母星附近的局部尺度和日期一致性；不是全部天然卫星名录。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "已复验入口、代表画面与基本交互；完整子项、异常场景和用户验收仍待完成（C02 第一组）",
     "findingIds": []
   },
   {
     "id": "E04",
     "reports": [
-      "docs/R03-SYSTEMS-AND-RINGS.md"
+      "docs/R03-SYSTEMS-AND-RINGS.md",
+      "docs/C02-CORE-COVERAGE-AUDIT.md"
     ],
     "check": "选择巨行星家族，比较环系和轨道开关。 核对：复验四大巨行星代表环和女凯龙星双环的比例、开关与来源；完整暗淡外延和真实厚度仍为已知限制。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "已复验入口、代表画面与基本交互；完整子项、异常场景和用户验收仍待完成（C02 第一组）",
     "findingIds": []
   },
   {
     "id": "E05",
     "reports": [
-      "docs/R07-TOPIC-ROUTES.md"
+      "docs/R07-TOPIC-ROUTES.md",
+      "docs/C02-CORE-COVERAGE-AUDIT.md"
     ],
     "check": "从矮行星成员清单定位，再展开参数。 核对：复验五颗矮行星的定位、参数和家族往返，不重复开发既有目录。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "已复验入口、代表画面与基本交互；完整子项、异常场景和用户验收仍待完成（C02 第一组）",
     "findingIds": []
   },
   {
     "id": "E06",
     "reports": [
       "docs/R01-SMALL-BODIES.md",
-      "docs/R07-TOPIC-ROUTES.md"
+      "docs/R07-TOPIC-ROUTES.md",
+      "docs/C02-CORE-COVERAGE-AUDIT.md"
     ],
     "check": "侧视主带，再定位谷神星或灶神星。 核对：复验区域点云与具名成员的辨识；主带点云不承诺逐颗真实坐标。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "已复验入口、代表画面与基本交互；完整子项、异常场景和用户验收仍待完成（C02 第一组）",
     "findingIds": []
   },
   {

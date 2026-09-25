@@ -1,7 +1,7 @@
 import type {MacroZoneId} from './macroStructure';
 import type {SolarFamilyId,CosmicLevelId} from './cosmicContext';
 import type {StageId} from './stages';
-export type CoverageEntry = {kind:'zone';id:MacroZoneId}|{kind:'family';id:SolarFamilyId}|{kind:'cosmic';id:CosmicLevelId};
+export type CoverageEntry = ({kind:'zone';id:MacroZoneId}|{kind:'family';id:SolarFamilyId}|{kind:'cosmic';id:CosmicLevelId}) & {topicId?: string};
 export type PlanTab = 'closeout'|'baseline'|'route'|'coverage'|'data'|'delivery';
 export const BASELINE_VERSION = 'review-2026-09-25-closeout';
 export interface CoverageItem {id:string;title:string;status:string;current:string;target:string;phase:string;evidence:string;datasets:(keyof typeof COVERAGE_DATASETS)[];modules:string[];entry:CoverageEntry|null;stages:StageId[];how:string;validation:string;release:string;acceptance:string;}

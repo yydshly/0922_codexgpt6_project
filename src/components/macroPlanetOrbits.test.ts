@@ -12,5 +12,6 @@ it('gates rendered orbit and arrow objects independently and drops them when the
  display.update(frame,{orbits:true,scales:false,direction:false},true,null,positions,1);expect(line.visible).toBe(true);expect(line.geometry.attributes.position.count).toBe(361);expect(arrow.visible).toBe(false);
  display.update(frame,{orbits:false,scales:true,direction:true},true,'earth',positions,1);expect(line.visible).toBe(false);expect(arrow.visible).toBe(true);expect(scene.getObjectByName('motion-direction-mars')!.visible).toBe(true);
  display.update(frame,{orbits:true,scales:false,direction:true},true,'sun',positions,1);expect(line.visible).toBe(true);expect(arrow.visible).toBe(true);
+ display.update(frame,{orbits:true,scales:false,direction:true},true,'earth',positions,1,'earth');expect(line.visible&&arrow.visible).toBe(true);expect(scene.getObjectByName('reference-orbit-mars')!.visible).toBe(false);expect(scene.getObjectByName('motion-direction-mars')!.visible).toBe(false);
  display.update(null,{orbits:true,scales:false,direction:true},true,null,positions,1);expect(scene.getObjectByName('macro-planet-reference-orbits')!.visible).toBe(false);expect(arrow.visible).toBe(false);
 });

@@ -1,0 +1,1242 @@
+{
+  "measuredAt": "2026-09-25T17:56:49.635Z",
+  "base": "https://yydshly.github.io/0922_codexgpt6_project/",
+  "budget": {
+    "scope": "Frozen first cognition release; measurement thresholds, not cross-device guarantees",
+    "viewport": [
+      1600,
+      1000,
+      1
+    ],
+    "network": {
+      "downloadMbps": 10,
+      "uploadMbps": 5,
+      "latencyMs": 100
+    },
+    "limits": {
+      "coldCanvasMs": 8000,
+      "coldCoreDateMs": 15000,
+      "coldTexturesMs": 30000,
+      "warmCoreDateMs": 5000,
+      "firstToolMs": 5000,
+      "warmToolMs": 1000,
+      "mainScriptGzipBytes": 600000,
+      "runtimeExceptions": 0,
+      "activeScenes": 1,
+      "minimumRenderSubmissionsPerSecond": 30
+    },
+    "stopRule": "Only errors that block normal use or materially misrepresent data block release; minor polish and new features are deferred. Physical presentation and user approval remain separate."
+  },
+  "device": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+    "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "viewport": [
+      1600,
+      1000
+    ],
+    "dpr": 1
+  },
+  "rows": [
+    {
+      "cache": "cold",
+      "reached": {
+        "canvas": 2383,
+        "stars": 3606,
+        "coreDate": 3735,
+        "textures": 9884
+      },
+      "bytesCompleted": 8163146,
+      "requests": [
+        {
+          "url": "?diagnostics=1",
+          "type": "Document",
+          "start": 858313.000278,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 915,
+          "end": 858313.6627,
+          "durationMs": 662
+        },
+        {
+          "url": "data/manifest.json",
+          "type": "Other",
+          "start": 858313.671513,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 4347,
+          "end": 858314.045766,
+          "durationMs": 374
+        },
+        {
+          "url": "assets/index-CUCe7Ynp.js",
+          "type": "Script",
+          "start": 858313.672571,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 508042,
+          "end": 858314.907659,
+          "durationMs": 1235
+        },
+        {
+          "url": "assets/index-DJokMRsP.css",
+          "type": "Stylesheet",
+          "start": 858313.672751,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 26149,
+          "end": 858314.178686,
+          "durationMs": 506
+        },
+        {
+          "url": "assets/physics.worker-dAUiFOEY.js",
+          "type": "Script",
+          "start": 858315.310826,
+          "durationMs": null
+        },
+        {
+          "url": "textures/earth-clouds.jpg",
+          "type": "Fetch",
+          "start": 858315.019681,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 966354,
+          "end": 858319.439106,
+          "durationMs": 4419
+        },
+        {
+          "url": "textures/sun.jpg",
+          "type": "Fetch",
+          "start": 858315.029208,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 823093,
+          "end": 858318.590202,
+          "durationMs": 3561
+        },
+        {
+          "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMjAgM2gtMVYxaC0ydjJIN1YxSDV2Mkg0Yy0xLjEgMC0yIC45LTIgMnYxNmMwIDEuMS45IDIgMiAyaDE2YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMThINFY4aDE2djEzeiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiLz48L3N2Zz4=",
+          "type": "Image",
+          "start": 858315.09123,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858315.091323,
+          "durationMs": 0
+        },
+        {
+          "url": "data/eros-shape/model.json",
+          "type": "Fetch",
+          "start": 858315.308381,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 78510,
+          "end": 858316.32525,
+          "durationMs": 1017
+        },
+        {
+          "url": "data/comets/tracks.json",
+          "type": "Fetch",
+          "start": 858315.308634,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 70026,
+          "end": 858316.26589,
+          "durationMs": 957
+        },
+        {
+          "url": "data/stars/hip2-subset.json",
+          "type": "Fetch",
+          "start": 858315.308773,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 109962,
+          "end": 858316.460862,
+          "durationMs": 1152
+        },
+        {
+          "url": "textures/moon.jpg",
+          "type": "Image",
+          "start": 858315.31813,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 1054684,
+          "end": 858319.749622,
+          "durationMs": 4431
+        },
+        {
+          "url": "textures/jupiter.jpg",
+          "type": "Image",
+          "start": 858315.318229,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 499401,
+          "end": 858318.657837,
+          "durationMs": 3340
+        },
+        {
+          "url": "data/2026-09.json",
+          "type": "Fetch",
+          "start": 858315.403291,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 132508,
+          "end": 858316.664603,
+          "durationMs": 1261
+        },
+        {
+          "url": "orbit-icon.svg",
+          "type": "Other",
+          "start": 858315.424071,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 487,
+          "end": 858315.873375,
+          "durationMs": 449
+        },
+        {
+          "url": "data/2026-08.json",
+          "type": "Fetch",
+          "start": 858316.66773,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 136479,
+          "end": 858318.163929,
+          "durationMs": 1496
+        },
+        {
+          "url": "data/2026-10.json",
+          "type": "Fetch",
+          "start": 858316.667864,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 136766,
+          "end": 858318.025308,
+          "durationMs": 1357
+        },
+        {
+          "url": "data/satellites/manifest.json",
+          "type": "Fetch",
+          "start": 858316.726314,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 13763,
+          "end": 858317.151936,
+          "durationMs": 426
+        },
+        {
+          "url": "data/dwarfs/manifest.json",
+          "type": "Fetch",
+          "start": 858316.726707,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 3122,
+          "end": 858317.070221,
+          "durationMs": 344
+        },
+        {
+          "url": "data/pluto-moons/manifest.json",
+          "type": "Fetch",
+          "start": 858316.726811,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 3242,
+          "end": 858317.095069,
+          "durationMs": 368
+        },
+        {
+          "url": "data/small-bodies/manifest.json",
+          "type": "Fetch",
+          "start": 858316.726894,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 4101,
+          "end": 858317.090242,
+          "durationMs": 363
+        },
+        {
+          "url": "data/eris-system/manifest.json",
+          "type": "Fetch",
+          "start": 858316.726975,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 3163,
+          "end": 858317.111613,
+          "durationMs": 385
+        },
+        {
+          "url": "data/patroclus-system/manifest.json",
+          "type": "Fetch",
+          "start": 858316.727033,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 3223,
+          "end": 858317.091458,
+          "durationMs": 364
+        },
+        {
+          "url": "data/comets/manifest.json",
+          "type": "Fetch",
+          "start": 858316.727092,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 3378,
+          "end": 858317.077428,
+          "durationMs": 350
+        },
+        {
+          "url": "data/coorbital/manifest.json",
+          "type": "Fetch",
+          "start": 858316.727184,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 3098,
+          "end": 858317.09581,
+          "durationMs": 369
+        },
+        {
+          "url": "data/dwarfs/2026-09.json",
+          "type": "Fetch",
+          "start": 858317.077431,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 20308,
+          "end": 858317.591642,
+          "durationMs": 514
+        },
+        {
+          "url": "data/comets/2026-09.json",
+          "type": "Fetch",
+          "start": 858317.078229,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 19817,
+          "end": 858317.621463,
+          "durationMs": 543
+        },
+        {
+          "url": "data/small-bodies/2026-09.json",
+          "type": "Fetch",
+          "start": 858317.118566,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 63846,
+          "end": 858318.117812,
+          "durationMs": 999
+        },
+        {
+          "url": "data/patroclus-system/2026-09.json",
+          "type": "Fetch",
+          "start": 858317.118787,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 13702,
+          "end": 858317.60732,
+          "durationMs": 489
+        },
+        {
+          "url": "data/pluto-moons/2026-09.json",
+          "type": "Fetch",
+          "start": 858317.11908,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 26515,
+          "end": 858317.747479,
+          "durationMs": 628
+        },
+        {
+          "url": "data/coorbital/2026-09.json",
+          "type": "Fetch",
+          "start": 858317.119169,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 21115,
+          "end": 858317.725439,
+          "durationMs": 606
+        },
+        {
+          "url": "data/eris-system/2026-09.json",
+          "type": "Fetch",
+          "start": 858317.11942,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 12951,
+          "end": 858317.609231,
+          "durationMs": 490
+        },
+        {
+          "url": "data/satellites/jupiter-2026-09.json",
+          "type": "Fetch",
+          "start": 858317.158168,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 84006,
+          "end": 858318.253867,
+          "durationMs": 1096
+        },
+        {
+          "url": "data/satellites/saturn-2026-09.json",
+          "type": "Fetch",
+          "start": 858317.158369,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 234509,
+          "end": 858318.821226,
+          "durationMs": 1663
+        },
+        {
+          "url": "data/satellites/neptune-2026-09.json",
+          "type": "Fetch",
+          "start": 858317.158423,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 14751,
+          "end": 858317.72669,
+          "durationMs": 568
+        },
+        {
+          "url": "data/satellites/mars-2026-09.json",
+          "type": "Fetch",
+          "start": 858317.158477,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 124333,
+          "end": 858318.478412,
+          "durationMs": 1320
+        },
+        {
+          "url": "data/satellites/uranus-2026-09.json",
+          "type": "Fetch",
+          "start": 858317.158542,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 104183,
+          "end": 858318.373236,
+          "durationMs": 1215
+        },
+        {
+          "url": "blob:https://yydshly.github.io/2aceaf20-878f-493e-8070-86b47e1603b2",
+          "type": "Image",
+          "start": 858318.593406,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858318.595179,
+          "durationMs": 2
+        },
+        {
+          "url": "textures/mercury.jpg",
+          "type": "Fetch",
+          "start": 858318.59766,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 873234,
+          "end": 858320.353742,
+          "durationMs": 1756
+        },
+        {
+          "url": "blob:https://yydshly.github.io/d1cc02f5-4c60-49c6-91d1-26042353d28a",
+          "type": "Image",
+          "start": 858319.444986,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858319.447164,
+          "durationMs": 2
+        },
+        {
+          "url": "textures/venus.jpg",
+          "type": "Fetch",
+          "start": 858319.457926,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 230071,
+          "end": 858320.422257,
+          "durationMs": 964
+        },
+        {
+          "url": "blob:https://yydshly.github.io/bf0a036c-4dee-423f-be16-4b1657fd58b3",
+          "type": "Image",
+          "start": 858320.364961,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858320.366645,
+          "durationMs": 2
+        },
+        {
+          "url": "textures/earth.jpg",
+          "type": "Fetch",
+          "start": 858320.371287,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 463647,
+          "end": 858321.634462,
+          "durationMs": 1263
+        },
+        {
+          "url": "blob:https://yydshly.github.io/af28bc4b-664f-4311-aaef-f74cca2ee316",
+          "type": "Image",
+          "start": 858320.499903,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858320.50093,
+          "durationMs": 1
+        },
+        {
+          "url": "textures/mars.jpg",
+          "type": "Fetch",
+          "start": 858320.518271,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 751131,
+          "end": 858321.91324,
+          "durationMs": 1395
+        },
+        {
+          "url": "blob:https://yydshly.github.io/371aa06d-862a-4939-adc3-93739649d596",
+          "type": "Image",
+          "start": 858321.6461,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858321.647644,
+          "durationMs": 2
+        },
+        {
+          "url": "textures/jupiter.jpg",
+          "type": "Fetch",
+          "start": 858321.649145,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858321.651453,
+          "durationMs": 2
+        },
+        {
+          "url": "blob:https://yydshly.github.io/3ea48cbb-318d-4cab-9505-11e77abb1b15",
+          "type": "Image",
+          "start": 858321.695428,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858321.696935,
+          "durationMs": 2
+        },
+        {
+          "url": "textures/saturn.jpg",
+          "type": "Fetch",
+          "start": 858321.711958,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 200214,
+          "end": 858322.220654,
+          "durationMs": 509
+        },
+        {
+          "url": "blob:https://yydshly.github.io/4502e1ef-dcac-426c-9916-98ad1908d6c6",
+          "type": "Image",
+          "start": 858321.921412,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858321.92295,
+          "durationMs": 2
+        },
+        {
+          "url": "textures/uranus.jpg",
+          "type": "Fetch",
+          "start": 858321.924256,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 78010,
+          "end": 858322.332737,
+          "durationMs": 408
+        },
+        {
+          "url": "blob:https://yydshly.github.io/0569bede-19fd-40e9-8413-bdd5d7176493",
+          "type": "Image",
+          "start": 858322.230379,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858322.231321,
+          "durationMs": 1
+        },
+        {
+          "url": "textures/neptune.jpg",
+          "type": "Fetch",
+          "start": 858322.232223,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 241990,
+          "end": 858322.808387,
+          "durationMs": 576
+        },
+        {
+          "url": "blob:https://yydshly.github.io/c8a1c38a-402f-4639-9c3e-27fa6dc09c24",
+          "type": "Image",
+          "start": 858322.358962,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858322.359983,
+          "durationMs": 1
+        },
+        {
+          "url": "textures/moon.jpg",
+          "type": "Fetch",
+          "start": 858322.387209,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858322.391878,
+          "durationMs": 5
+        },
+        {
+          "url": "blob:https://yydshly.github.io/82440e69-aece-4657-8ca4-10e6f99fff27",
+          "type": "Image",
+          "start": 858322.456314,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858322.45779,
+          "durationMs": 1
+        },
+        {
+          "url": "blob:https://yydshly.github.io/a0103692-dbcd-436d-a53d-21b115bcf878",
+          "type": "Image",
+          "start": 858322.809608,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858322.810414,
+          "durationMs": 1
+        }
+      ],
+      "textureStatus": "ready"
+    },
+    {
+      "cache": "warm",
+      "reached": {
+        "canvas": 309,
+        "coreDate": 443,
+        "stars": 443,
+        "textures": 943
+      },
+      "bytesCompleted": 0,
+      "requests": [
+        {
+          "url": "?diagnostics=1",
+          "type": "Document",
+          "start": 858325.402043,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.404297,
+          "durationMs": 2
+        },
+        {
+          "url": "data/manifest.json",
+          "type": "Other",
+          "start": 858325.446799,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.448523,
+          "durationMs": 2
+        },
+        {
+          "url": "assets/index-CUCe7Ynp.js",
+          "type": "Script",
+          "start": 858325.447063,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858325.447159,
+          "durationMs": 0
+        },
+        {
+          "url": "assets/index-DJokMRsP.css",
+          "type": "Stylesheet",
+          "start": 858325.447202,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858325.447251,
+          "durationMs": 0
+        },
+        {
+          "url": "assets/physics.worker-dAUiFOEY.js",
+          "type": "Script",
+          "start": 858325.641809,
+          "durationMs": null
+        },
+        {
+          "url": "textures/earth-clouds.jpg",
+          "type": "Fetch",
+          "start": 858325.543213,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.547856,
+          "durationMs": 5
+        },
+        {
+          "url": "textures/sun.jpg",
+          "type": "Fetch",
+          "start": 858325.552472,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.556109,
+          "durationMs": 4
+        },
+        {
+          "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMjAgM2gtMVYxaC0ydjJIN1YxSDV2Mkg0Yy0xLjEgMC0yIC45LTIgMnYxNmMwIDEuMS45IDIgMiAyaDE2YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMThINFY4aDE2djEzeiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiLz48L3N2Zz4=",
+          "type": "Image",
+          "start": 858325.606868,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858325.606961,
+          "durationMs": 0
+        },
+        {
+          "url": "data/eros-shape/model.json",
+          "type": "Fetch",
+          "start": 858325.637762,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.642374,
+          "durationMs": 5
+        },
+        {
+          "url": "data/comets/tracks.json",
+          "type": "Fetch",
+          "start": 858325.638241,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.643101,
+          "durationMs": 5
+        },
+        {
+          "url": "data/stars/hip2-subset.json",
+          "type": "Fetch",
+          "start": 858325.638366,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.644994,
+          "durationMs": 7
+        },
+        {
+          "url": "textures/moon.jpg",
+          "type": "Image",
+          "start": 858325.65004,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.656106,
+          "durationMs": 6
+        },
+        {
+          "url": "textures/jupiter.jpg",
+          "type": "Image",
+          "start": 858325.650421,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.654514,
+          "durationMs": 4
+        },
+        {
+          "url": "data/2026-09.json",
+          "type": "Fetch",
+          "start": 858325.72737,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.730209,
+          "durationMs": 3
+        },
+        {
+          "url": "blob:https://yydshly.github.io/efc820d6-8e97-4961-a253-94c2e6d555f0",
+          "type": "Image",
+          "start": 858325.749691,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858325.751138,
+          "durationMs": 1
+        },
+        {
+          "url": "textures/mercury.jpg",
+          "type": "Fetch",
+          "start": 858325.76636,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.768476,
+          "durationMs": 2
+        },
+        {
+          "url": "data/2026-08.json",
+          "type": "Fetch",
+          "start": 858325.769597,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.773189,
+          "durationMs": 4
+        },
+        {
+          "url": "data/2026-10.json",
+          "type": "Fetch",
+          "start": 858325.769693,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.773315,
+          "durationMs": 4
+        },
+        {
+          "url": "blob:https://yydshly.github.io/2be82e8a-fdb8-4ad2-b99f-c13eb9bd91b7",
+          "type": "Image",
+          "start": 858325.770148,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858325.77199,
+          "durationMs": 2
+        },
+        {
+          "url": "data/satellites/manifest.json",
+          "type": "Fetch",
+          "start": 858325.839307,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.840742,
+          "durationMs": 1
+        },
+        {
+          "url": "data/dwarfs/manifest.json",
+          "type": "Fetch",
+          "start": 858325.8395,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.840908,
+          "durationMs": 1
+        },
+        {
+          "url": "data/pluto-moons/manifest.json",
+          "type": "Fetch",
+          "start": 858325.839578,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.840987,
+          "durationMs": 1
+        },
+        {
+          "url": "data/small-bodies/manifest.json",
+          "type": "Fetch",
+          "start": 858325.839638,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.841062,
+          "durationMs": 1
+        },
+        {
+          "url": "data/eris-system/manifest.json",
+          "type": "Fetch",
+          "start": 858325.839712,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.841741,
+          "durationMs": 2
+        },
+        {
+          "url": "data/patroclus-system/manifest.json",
+          "type": "Fetch",
+          "start": 858325.839773,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.842371,
+          "durationMs": 3
+        },
+        {
+          "url": "data/comets/manifest.json",
+          "type": "Fetch",
+          "start": 858325.83982,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.842592,
+          "durationMs": 3
+        },
+        {
+          "url": "data/coorbital/manifest.json",
+          "type": "Fetch",
+          "start": 858325.839867,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.842705,
+          "durationMs": 3
+        },
+        {
+          "url": "textures/venus.jpg",
+          "type": "Fetch",
+          "start": 858325.843947,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.84537,
+          "durationMs": 1
+        },
+        {
+          "url": "blob:https://yydshly.github.io/e8f5189b-90d2-4217-a9d4-124c9cb03b97",
+          "type": "Image",
+          "start": 858325.904809,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858325.906345,
+          "durationMs": 2
+        },
+        {
+          "url": "textures/earth.jpg",
+          "type": "Fetch",
+          "start": 858325.933614,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.938013,
+          "durationMs": 4
+        },
+        {
+          "url": "data/satellites/jupiter-2026-09.json",
+          "type": "Fetch",
+          "start": 858325.934197,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.936953,
+          "durationMs": 3
+        },
+        {
+          "url": "data/satellites/saturn-2026-09.json",
+          "type": "Fetch",
+          "start": 858325.934472,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.939992,
+          "durationMs": 6
+        },
+        {
+          "url": "data/satellites/neptune-2026-09.json",
+          "type": "Fetch",
+          "start": 858325.934581,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.936425,
+          "durationMs": 2
+        },
+        {
+          "url": "data/satellites/mars-2026-09.json",
+          "type": "Fetch",
+          "start": 858325.934658,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.939162,
+          "durationMs": 5
+        },
+        {
+          "url": "data/satellites/uranus-2026-09.json",
+          "type": "Fetch",
+          "start": 858325.934708,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.939441,
+          "durationMs": 5
+        },
+        {
+          "url": "data/dwarfs/2026-09.json",
+          "type": "Fetch",
+          "start": 858325.934906,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.940195,
+          "durationMs": 5
+        },
+        {
+          "url": "data/pluto-moons/2026-09.json",
+          "type": "Fetch",
+          "start": 858325.935004,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.940358,
+          "durationMs": 5
+        },
+        {
+          "url": "data/small-bodies/2026-09.json",
+          "type": "Fetch",
+          "start": 858325.935097,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.941083,
+          "durationMs": 6
+        },
+        {
+          "url": "data/eris-system/2026-09.json",
+          "type": "Fetch",
+          "start": 858325.93518,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.941022,
+          "durationMs": 6
+        },
+        {
+          "url": "data/patroclus-system/2026-09.json",
+          "type": "Fetch",
+          "start": 858325.935276,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.941479,
+          "durationMs": 6
+        },
+        {
+          "url": "data/comets/2026-09.json",
+          "type": "Fetch",
+          "start": 858325.935468,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.941628,
+          "durationMs": 6
+        },
+        {
+          "url": "data/coorbital/2026-09.json",
+          "type": "Fetch",
+          "start": 858325.935669,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.941884,
+          "durationMs": 6
+        },
+        {
+          "url": "blob:https://yydshly.github.io/a2812d8b-fff7-4919-9bc7-f8fe7a8e87c4",
+          "type": "Image",
+          "start": 858325.939268,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858325.939919,
+          "durationMs": 1
+        },
+        {
+          "url": "textures/mars.jpg",
+          "type": "Fetch",
+          "start": 858325.989435,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858325.992014,
+          "durationMs": 3
+        },
+        {
+          "url": "blob:https://yydshly.github.io/e51d1ec2-afa3-49fb-9eb1-12e25b010db7",
+          "type": "Image",
+          "start": 858326.050996,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858326.051683,
+          "durationMs": 1
+        },
+        {
+          "url": "textures/jupiter.jpg",
+          "type": "Fetch",
+          "start": 858326.082806,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858326.08474,
+          "durationMs": 2
+        },
+        {
+          "url": "blob:https://yydshly.github.io/3cc5b10e-fbc6-4eab-ad9d-9c875fa5e947",
+          "type": "Image",
+          "start": 858326.086835,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858326.08787,
+          "durationMs": 1
+        },
+        {
+          "url": "textures/saturn.jpg",
+          "type": "Fetch",
+          "start": 858326.131599,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858326.133204,
+          "durationMs": 2
+        },
+        {
+          "url": "blob:https://yydshly.github.io/26b3f98c-fec0-4f46-b58f-930189480915",
+          "type": "Image",
+          "start": 858326.136325,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858326.138009,
+          "durationMs": 2
+        },
+        {
+          "url": "textures/uranus.jpg",
+          "type": "Fetch",
+          "start": 858326.138839,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858326.140677,
+          "durationMs": 2
+        },
+        {
+          "url": "blob:https://yydshly.github.io/54af65f6-5658-4c5a-a04f-2a5a7207a5bc",
+          "type": "Image",
+          "start": 858326.139289,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858326.140412,
+          "durationMs": 1
+        },
+        {
+          "url": "textures/neptune.jpg",
+          "type": "Fetch",
+          "start": 858326.200942,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858326.203441,
+          "durationMs": 2
+        },
+        {
+          "url": "blob:https://yydshly.github.io/ec005986-e1b1-4f16-bcb0-9c32c097f701",
+          "type": "Image",
+          "start": 858326.24094,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858326.241822,
+          "durationMs": 1
+        },
+        {
+          "url": "blob:https://yydshly.github.io/94f60b7a-3b36-4e6d-996e-219e656c3b9f",
+          "type": "Image",
+          "start": 858326.246296,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858326.246929,
+          "durationMs": 1
+        },
+        {
+          "url": "textures/moon.jpg",
+          "type": "Fetch",
+          "start": 858326.257845,
+          "status": 200,
+          "fromCache": true,
+          "bytes": 0,
+          "end": 858326.260205,
+          "durationMs": 2
+        },
+        {
+          "url": "blob:https://yydshly.github.io/a10d8375-4e68-4f75-bc33-2d399f71a862",
+          "type": "Image",
+          "start": 858326.329485,
+          "status": 200,
+          "fromCache": false,
+          "bytes": 0,
+          "end": 858326.330657,
+          "durationMs": 1
+        }
+      ],
+      "textureStatus": "ready"
+    }
+  ],
+  "tools": [
+    {
+      "title": "建设记录",
+      "cache": "first",
+      "ms": 503
+    },
+    {
+      "title": "建设记录",
+      "cache": "repeat",
+      "ms": 24
+    },
+    {
+      "title": "整体规划",
+      "cache": "first",
+      "ms": 455
+    },
+    {
+      "title": "整体规划",
+      "cache": "repeat",
+      "ms": 13
+    },
+    {
+      "title": "数据与实现",
+      "cache": "first",
+      "ms": 450
+    },
+    {
+      "title": "数据与实现",
+      "cache": "repeat",
+      "ms": 6
+    },
+    {
+      "title": "太阳系图鉴",
+      "cache": "first",
+      "ms": 454
+    },
+    {
+      "title": "太阳系图鉴",
+      "cache": "repeat",
+      "ms": 59
+    }
+  ],
+  "checks": {
+    "coldCanvas": true,
+    "coldCoreDate": true,
+    "coldTextures": true,
+    "warmCoreDate": true,
+    "firstTools": true,
+    "warmTools": true,
+    "noRuntimeExceptions": true
+  },
+  "errors": [],
+  "method": "CDP throttled 10 Mbps / 100 ms. Milestones measured from navigation time origin with <=100 ms polling plus execution delay. Core date readiness is not every auxiliary ephemeris. Bytes cover completed requests in observation window, not whole site. New profile cold clears HTTP cache; warm reload reuses it. Timing samples are single observations, not percentiles."
+}

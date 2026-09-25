@@ -2,8 +2,8 @@ import release from '../../public/release.json';
 export const CURRENT_RELEASE = release;
 // Frozen release gate agreed with the user; existing C01–C05 remain the audit history.
 export const FINAL_CLOSEOUT = [
- {id:'performance',title:'1 · 性能检查',status:'本地通过，线上待复测',detail:'固定设备、窗口及网络条件；只修打不开、卡死、影响正常使用的问题。'},
- {id:'regression',title:'2 · 最终回归',status:'集中回归中',detail:'全景、区域、天体、说明与返回；日期、运动和按钮对应。'},
+ {id:'performance',title:'1 · 性能检查',status:'参考环境与线上测量通过',detail:'固定设备、窗口及网络条件；只修打不开、卡死、影响正常使用的问题。'},
+ {id:'regression',title:'2 · 最终回归',status:'七组回归 / 183 个检查点通过',detail:'全景、区域、天体、说明与返回；日期、运动和按钮对应。'},
  {id:'acceptance',title:'3 · 用户验收并冻结',status:'待用户确认',detail:'按固定清单核对实际屏幕体验；确认后冻结认知版。美化、新天体、新玩法和精度提升另列后续。'},
 ];
 export const CLOSEOUT_STEPS = [
@@ -17,19 +17,19 @@ export const CLOSEOUT_STEPS = [
     "id": "C02",
     "title": "核对内容完整性",
     "status": "25 项代表操作已复验",
-    "done": "E01–E20 与 S01–S05 均完成入口及代表操作复验；完整子项与异常场景继续按台账检查，不等同整体或用户验收。"
+    "done": "E01–E20 与 S01–S05 代表操作及最终日期、镜头、窗口回归通过；科学与功能边界保持原报告，不等同用户验收。"
   },
   {
     "id": "C03",
     "title": "关闭首版缺口",
-    "status": "F01 已修复，其他缺口继续",
-    "done": "主全景星表背景已接入并验证；资源预算、完整子项与异常检查继续，不将技术修复当作用户验收。"
+    "status": "已发现的本版阻断项已关闭",
+    "done": "主全景星表及贴图请求占用问题已修复；固定范围的集中检查通过，仅关键反馈问题阻止交付。"
   },
   {
     "id": "C04",
     "title": "完成性能验收",
-    "status": "参考环境测量通过，线上与实机待确认",
-    "done": "冻结参考设备、分辨率和场景，完成载入、真实呈现与持续操作测量；按结果决定优化。"
+    "status": "参考环境与线上通过，实机待用户确认",
+    "done": "参考设备、分辨率和网络标准已冻结；加载及 60 次切换通过，实际屏幕呈现列入最终用户验收。"
   },
   {
     "id": "C05",
@@ -40,23 +40,6 @@ export const CLOSEOUT_STEPS = [
 ];
 export const OPEN_FINDINGS = [
   {
-    "id": "F02",
-    "title": "资源预算与画质分级未闭环",
-    "packages": [
-      "M1.3",
-      "M6.2"
-    ],
-    "kind": "工程验收待完成",
-    "current": "已做工具分包、历表与贴图失败恢复；资料窗口超过 12 秒会说明仍在等待，支持关闭或主动重载。主包仍有体积提示，贴图总下载量未降低。",
-    "close": "给出冷/热启动、带宽和资源预算，依据实测确定画质与按需加载策略；不以体积减少替代加载时间结论。",
-    "evidence": [
-      "docs/LOADING-OPTIMIZATION.md",
-      "docs/DIALOG-LOADING-RECOVERY.md",
-      "docs/EPHEMERIS-LOADING.md",
-      "docs/TEXTURE-LOADING.md"
-    ]
-  },
-  {
     "id": "F03",
     "title": "实际设备的呈现与长时间操作未验收",
     "packages": [
@@ -66,7 +49,8 @@ export const OPEN_FINDINGS = [
     "current": "参考浏览器 60 次切换通过，同类场景节点与监听稳定；实际屏幕流畅度列入最后五步用户验收，不再开新一轮优化。",
     "close": "在约定实际设备上检查流畅度、连续使用、交互与资源趋势，记录结果和修复；未测量不判通过。",
     "evidence": [
-      "docs/R09-VALIDATION.md",
+      "docs/FINAL-TECHNICAL-REPORT.md",
+      "docs/FINAL-ACCEPTANCE.md",
       "docs/VIEWPORT-ACCEPTANCE.md"
     ]
   },
@@ -80,12 +64,17 @@ export const OPEN_FINDINGS = [
     "current": "代码、数据和报告已交付，发布与自动检查不等于用户验收。",
     "close": "按固定路线核对画面、解释与操作，处理首版阻断项，取得明确验收确认。",
     "evidence": [
-      "docs/RELEASE-2026-09-25.md",
-      "docs/PRODUCT-PROGRESS.md"
+      "docs/FINAL-ACCEPTANCE.md",
+      "docs/FINAL-TECHNICAL-REPORT.md"
     ]
   }
 ];
 export const RESOLVED_FINDINGS = [{
+ id:'F02',title:'固定资源预算与加载恢复验证',packages:['M1.3','M6.2'],
+ status:'工程收尾通过；实际体验待用户确认',
+ result:'10 Mbps 条件下冷暖加载与常用工具达到预设预算；主脚本 gzip 约 501 KB，60 次切换及 183 个路径检查点通过。贴图改为两张并发及可取消下载；本版保持现有画质，不追加档位。不是全网络或实际屏幕帧率保证。',
+ evidence:['docs/FINAL-TECHNICAL-REPORT.md','public/data/validation/closeout-budgets.json','public/data/validation/closeout-loading-online-fixed.json','public/data/validation/closeout-performance.json','public/data/validation/final-regression.json']
+},{
  id:'F01',title:'主全景背景接入可追溯星表',packages:['M2.1'],
  status:'实现差距已关闭；用户验收待确认',
  result:'主全景采用 2,936 个 Hipparcos-2 固定星表方向，可点选 HIP 编号并关联恒星视图；黄赤坐标转换、同历元样本、显隐与失败重试已验证。不是当前日期实况夜空。',

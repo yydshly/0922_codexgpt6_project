@@ -81,7 +81,7 @@ export function ExpansionRoadmap({ onClose, onExplore, onValidation,onVisit,stag
     <div className="roadmap-scroll" ref={scroll}>
       <div className="roadmap-content" id="roadmap-page-content">
         {page === 'master' ? <MasterPlan onVisit={(entry,tab,filter)=>onVisit(entry,tab,scroll.current?.scrollTop??0,filter)} initialFilter={initialFilter} stages={stages} initialTab={initialTab}/> : page === 'products' ? <ProductDirections onViewRoadmap={() => showPage('integration')}/> : <>
-        <p className="master-legacy-note">这里保留天体接入、沙盒和飞船的工程细分。当前开发顺序以「总规划 → 收尾进度」C01–C05 为准；以下六组能力不代表太阳系认知版的完整范围。</p>
+        <p className="master-legacy-note">这里保留天体接入、沙盒和飞船的工程细分。认知版已完成本轮验收并冻结。以下六组是历史工程细分与候选能力，是否启动由「产品方向」中的目标和前提决定。</p>
         <section className="roadmap-baseline" aria-labelledby="roadmap-baseline-title">
           <div className="roadmap-baseline-copy"><span className="roadmap-section-kicker"><i/>当前已有</span><h2 id="roadmap-baseline-title">从真实观测出发。</h2><p>{ROADMAP_BASELINE.summary}</p><div className="roadmap-existing-actions"><button onClick={onExplore}><Compass size={14}/>查看当前天体<ArrowRight size={13}/></button><button onClick={onValidation}><ShieldCheck size={14}/>查看物理验证<ArrowRight size={13}/></button></div></div>
           <dl className="roadmap-baseline-counts"><div><dt>主观测动态天体</dt><dd>{ROADMAP_BASELINE.dynamicCount}<small>个</small></dd><span>本观测站的样本</span></div><div><dt>另有图鉴条目</dt><dd>{ROADMAP_BASELINE.knowledgeCount}<small>个</small></dd><span>与宏观目标有重叠</span></div><div><dt>物理验证模型</dt><dd>{ROADMAP_BASELINE.physicsCount}<small>体</small></dd><span>共用真实初始状态</span></div></dl>
@@ -91,7 +91,7 @@ export function ExpansionRoadmap({ onClose, onExplore, onValidation,onVisit,stag
           <span className="roadmap-foundation-mark">P0</span><div><div className="roadmap-foundation-title"><h2 id="roadmap-foundation-title">{ROADMAP_FOUNDATION.title}</h2><span>共同前置基础 · 待完善</span></div><p>{ROADMAP_FOUNDATION.summary}</p><details><summary>查看基础要求<ChevronDown size={12}/></summary><RoadmapList items={ROADMAP_FOUNDATION.requirements}/></details></div>
         </section>
 
-        <div className="roadmap-plan-heading"><div><span className="roadmap-section-kicker future"><i/>工程能力细分</span><h2>六组能力，按总规划接入。</h2></div><p>选择能力，查看工程范围与完成标准。</p></div>
+        <div className="roadmap-plan-heading"><div><span className="roadmap-section-kicker future"><i/>工程能力细分</span><h2>六组历史工程能力，按目标选用。</h2></div><p>选择候选能力，查看前提、范围与完成标准。</p></div>
         <div className="roadmap-workspace" ref={workspace}>
           <nav className="roadmap-stage-nav" aria-label="扩展阶段">
             {ROADMAP_STAGES.map(stage => <button key={stage.id} className={`roadmap-stage-button ${selected?.id === stage.id ? 'selected' : ''}`} aria-pressed={selected?.id === stage.id} aria-controls="roadmap-stage-detail" onClick={() => { setSelectedId(stage.id); workspace.current?.scrollIntoView({ block: 'start' }); }}><span className="roadmap-stage-number">{stage.number}</span><span className="roadmap-stage-label"><strong>{stage.title}</strong><small className={stage.status === '建议下一步' ? 'is-next' : ''}>{stage.status}</small></span><ChevronRight size={14}/></button>)}
@@ -111,7 +111,7 @@ export function ExpansionRoadmap({ onClose, onExplore, onValidation,onVisit,stag
           </article>}
         </div>
 
-        <section className="roadmap-next" aria-labelledby="roadmap-next-title"><div className="roadmap-next-heading"><Flag size={19}/><div><span className="roadmap-eyebrow">NEXT ITERATION / 建议</span><h2 id="roadmap-next-title">{ROADMAP_NEXT.title}</h2></div><span className="roadmap-next-status">按收尾计划推进</span></div><p>{ROADMAP_NEXT.summary}</p><ol>{ROADMAP_NEXT.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>)}</ol></section>
+        <section className="roadmap-next" aria-labelledby="roadmap-next-title"><div className="roadmap-next-heading"><Flag size={19}/><div><span className="roadmap-eyebrow">NEXT ITERATION / 建议</span><h2 id="roadmap-next-title">{ROADMAP_NEXT.title}</h2></div><span className="roadmap-next-status">候选 · 尚未启动</span></div><p>{ROADMAP_NEXT.summary}</p><ol>{ROADMAP_NEXT.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>)}</ol></section>
 
         </>}
         {page !== 'master' && <div className="roadmap-references" id="roadmap-source-links"><div>{page === 'integration' ? <><span>来源资料</span><nav aria-label="扩展路线资料来源">{ROADMAP_SOURCES.map(source => <a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.title}<ArrowUpRight size={11}/></a>)}</nav></> : <span>完整规划包含接入路线、产品分支与后续能力接口。</span>}</div><a className="roadmap-download" href={roadmapDocumentUrl} download="太阳系扩展实施规划.md"><Download size={13}/>下载工程细分</a></div>}

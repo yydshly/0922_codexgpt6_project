@@ -14,7 +14,7 @@ export interface RoadmapStage {
   boundary: string;
 }
 
-export const ROADMAP_UPDATED = '2026-09-24';
+export const ROADMAP_UPDATED = '2026-09-26';
 export const ROADMAP_BASELINE = {
   dynamicCount: OBSERVATION_COUNTS.dynamic,
   knowledgeCount: OBSERVATION_COUNTS.knowledgeOnly,
@@ -81,19 +81,19 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'spacecraft', number: '06', title: '飞船、推力与探索任务', status: '后续规划',
-    summary: '在可重复的实验世界中加入可驾驶飞船，把近距离观察逐步发展为轨道飞行和探索任务。',
+    summary: '若选择驾驶和任务方向，可从已有观测创建独立探测器状态，逐步发展为轨道飞行和探索任务。',
     outcomes: ['在驾驶舱、飞船跟随和自由观察之间切换，靠近行星与卫星。', '控制推力与姿态，管理燃料，完成飞掠、绕行和交会等分阶段任务。'],
     candidates: ['先做无推力探测器与引力飞行，再加入推力、燃料与机动预览。', '任务按飞掠 → 进入轨道 → 交会推进；着陆、地形碰撞与多人玩法另立后续阶段。'],
-    dependency: '依赖阶段 04 的实验世界、阶段 05 的碰撞事件接口，以及适合近距离飞行的精度与镜头。',
+    dependency: '依赖探测器状态、近景空间精度、飞行模型和任务记录；不依赖天体参数编辑或天体合并。飞船撞击单独判定。',
     acceptance: ['推进、燃料消耗和质量变化采用一致单位；暂停、重置和存档恢复无额外冲量。', '同一控制记录能够回放；近天体航段完成步长收敛与碰撞检查。', '任务成功条件与评分可解释，真实历表观测仍可独立使用。'],
     boundary: '这是探索与游戏底座，不能标为航天导航软件；视觉飞船、动力学飞船和任务规则分别接入。',
   },
 ];
 
 export const ROADMAP_NEXT = {
-  title: '执行顺序以总规划为准',
-  summary: '当前按收尾 C01–C05 整理进度、核对覆盖、关闭缺口并完成性能和用户验收。参数沙盒、碰撞和飞船属于后续独立分支。',
-  steps: ['区分已实现、已验证、已发布和用户验收，绑定现有证据。', '核查 20 类主题的缺口、数据可得性和首版候选对象。', '按工作包推进，每轮说明归属、成果、验证与剩余内容。'],
+  title: '先选目标，再启动候选能力',
+  summary: '认知版 r09.12 已完成本轮验收并归档。参数实验、天体碰撞和飞船任务按明确目标选择，碰撞依赖可复现实验，飞船可以独立于天体编辑与合并推进。',
+  steps: ['写清目标用户、问题或任务，并核对现有能力是否已经足够。', '只为选定方向确定最小场景、数据与规则前提、验收案例。', '实现后分别记录验证、用户验收与发布；未选方向保持候选。'],
 };
 
 export const ROADMAP_SOURCES = [

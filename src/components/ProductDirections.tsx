@@ -1,22 +1,30 @@
 import { useId, useState } from 'react';
-import { ArrowRight, BookOpen, Check, ChevronRight, CircleDot, Compass, Flag, History, Layers3, Orbit, Rocket, Route, ShieldCheck, Sparkles, Telescope } from 'lucide-react';
-import { PRODUCT_DIRECTIONS, PRODUCT_FOUNDATION, PLANET_CONTROL_LEVELS, PRODUCT_FIRST_SLICE } from '../data/productDirections';
+import { ArrowRight, Check, ChevronRight, CircleDot, Compass, History, Layers3, Orbit, Rocket, Route, ShieldCheck, Sparkles, Telescope } from 'lucide-react';
+import { PRODUCT_DECISION_PATHS, PRODUCT_DIRECTIONS, PRODUCT_FOUNDATION, PLANET_CONTROL_LEVELS } from '../data/productDirections';
+import futurePlanUrl from '../../docs/POST-ACCEPTANCE-PLAN.md?url';
 import './ProductDirections.css';
 
 const directionIcons = [Telescope, Rocket, Sparkles, History, Orbit];
 
 export function ProductDirections({ onViewRoadmap }: { onViewRoadmap: () => void }) {
-  const [selectedId, setSelectedId] = useState('xianxia');
+  const [selectedId, setSelectedId] = useState('observatory');
   const selected = PRODUCT_DIRECTIONS.find(direction => direction.id === selectedId) ?? PRODUCT_DIRECTIONS[0];
   const detailId = useId();
   const titleId = useId();
 
   return <section className={`product-directions ${selected?.fantasy ? 'product-directions-fantasy' : ''}`} aria-label="候选产品方向">
     <div className="product-directions-intro">
-      <span className="product-planning-notice"><i/>候选产品方向 · 尚未实现</span>
-      <h2>同一片星空，五种探索方式。</h2>
-      <p>真实太阳系观测已可使用。下面是尚未完成的产品体验设想：选择一个方向，看看你能做什么，以及哪些规则需要另外建立。</p>
+      <span className="product-planning-notice"><i/>认知版已归档 · 扩展方向待选择</span>
+      <h2>先确定目标，再扩展产品。</h2>
+      <p>当前太阳系认知版已归档。下面五个方向是候选方案，按想解决的问题选择；新增能力有明确前提，不按固定顺序全部开发。</p>
+      <a className="product-plan-link" href={futurePlanUrl} download="认知版归档后的完整发展规划.md">下载完整后期规划 ↗</a>
     </div>
+
+    <section className="product-decision-section" aria-labelledby="product-decision-title">
+      <h3 id="product-decision-title">后期方向怎么选择？</h3>
+      <div className="product-decision-grid">{PRODUCT_DECISION_PATHS.map(path => <article key={path.title}><h4>{path.title}</h4><p><strong>先问：</strong>{path.goal}</p><p><strong>启动条件：</strong>{path.condition}</p></article>)}</div>
+      <p className="product-decision-dependency">天体碰撞依赖可复现实验；飞船可以从已有观测直接建立，不需要先实现天体编辑与合并。</p>
+    </section>
 
     <nav className="product-direction-choices" aria-label="选择产品方向">
       {PRODUCT_DIRECTIONS.map((direction, index) => {
@@ -50,16 +58,10 @@ export function ProductDirections({ onViewRoadmap }: { onViewRoadmap: () => void
     </section>
 
     <section className="product-foundation-section" aria-labelledby="product-foundation-title">
-      <div className="product-section-heading"><span className="product-mini-label">SHARED FOUNDATION</span><h3 id="product-foundation-title">不同世界，共用五个基础模块。</h3><p>真实观测、科幻与仙侠可以各自发展，让角色、任务与存档等能力在各方向之间复用。</p></div>
+      <div className="product-section-heading"><span className="product-mini-label">SHARED FOUNDATION</span><h3 id="product-foundation-title">不同方向，按需复用五类基础。</h3><p>真实观测、科幻与仙侠按目标选用场景、角色、任务和存档；没有必要一次建设全部模块。</p></div>
       <div className="product-foundation-modules">{PRODUCT_FOUNDATION.map((module, index) => <article key={module.title}><span className="product-module-number">{String(index + 1).padStart(2, '0')}</span><div><h4>{module.title}</h4><p>{module.description}</p></div></article>)}</div>
     </section>
 
-    <section className="product-first-slice" aria-labelledby="product-first-slice-title">
-      <div className="product-slice-heading"><Flag size={20}/><div><span className="product-mini-label">FIRST PLAYABLE SLICE / 建议</span><h3 id="product-first-slice-title">{PRODUCT_FIRST_SLICE.title}</h3></div><span>规划中</span></div>
-      <p className="product-slice-summary">{PRODUCT_FIRST_SLICE.summary}</p>
-      <div className="product-slice-grid"><section><h4><Route size={15}/>体验经过</h4><ol>{PRODUCT_FIRST_SLICE.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span><p>{step}</p></li>)}</ol></section><section className="product-slice-acceptance"><h4><BookOpen size={15}/>什么时候算做成了</h4><ul>{PRODUCT_FIRST_SLICE.acceptance.map(criterion => <li key={criterion}><i/>{criterion}</li>)}</ul></section></div>
-    </section>
-
-    <div className="product-directions-footer"><p>这些是可讨论的方向，不代表已上线功能或发布日期。</p><button onClick={onViewRoadmap}><Route size={15}/>查看接入路线<ArrowRight size={14}/></button></div>
+    <div className="product-directions-footer"><p>候选方向按目标分别启动；现有认知版保持独立可用。</p><button onClick={onViewRoadmap}><Route size={15}/>查看接入路线<ArrowRight size={14}/></button></div>
   </section>;
 }

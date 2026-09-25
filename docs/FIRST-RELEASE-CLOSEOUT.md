@@ -1,6 +1,6 @@
 # 太阳系认知版 · 首版收尾与 25 项核对表
 
-当前规划版本 2026.09.26-r09.10；能力基线 r09.3 已上线。本轮修复 F01 主全景星表背景，继续首版收尾；太阳系动态天体数量未变。用户总验收未完成。
+当前规划版本 2026.09.26-r09.11；能力基线 r09.3 已上线。F01 主全景星表背景已修复，本轮补齐 F02 窗口慢加载恢复，继续首版收尾；太阳系动态天体数量未变。用户总验收未完成。
 
 ## 固定五步与终点
 
@@ -40,17 +40,17 @@ E01–E20 与 S01–S05 均完成入口及代表操作复验；完整子项与�
 
 ## 已确认的 3 项未关闭事项
 
-包含实现差距、工程验收、实际体验和用户验收，不等同四个代码错误；后续逐类画面复验仍可能发现问题。
+包含实现差距、工程验收、实际体验和用户验收，不等同若干个代码错误；后续逐类画面复验仍可能发现问题。
 
 ### F02 · 资源预算与画质分级未闭环
 
 工程验收待完成 · M1.3 / M6.2 · 未关闭
 
-当前：已做工具分包、历表与贴图失败恢复；主包仍有体积提示，贴图总下载量未降低。
+当前：已做工具分包、历表与贴图失败恢复；资料窗口超过 12 秒会说明仍在等待，支持关闭或主动重载。主包仍有体积提示，贴图总下载量未降低。
 
 关闭标准：给出冷/热启动、带宽和资源预算，依据实测确定画质与按需加载策略；不以体积减少替代加载时间结论。
 
-依据：[LOADING-OPTIMIZATION.md](../docs/LOADING-OPTIMIZATION.md)、[EPHEMERIS-LOADING.md](../docs/EPHEMERIS-LOADING.md)、[TEXTURE-LOADING.md](../docs/TEXTURE-LOADING.md)。
+依据：[LOADING-OPTIMIZATION.md](../docs/LOADING-OPTIMIZATION.md)、[DIALOG-LOADING-RECOVERY.md](../docs/DIALOG-LOADING-RECOVERY.md)、[EPHEMERIS-LOADING.md](../docs/EPHEMERIS-LOADING.md)、[TEXTURE-LOADING.md](../docs/TEXTURE-LOADING.md)。
 
 ### F03 · 实际设备的呈现与长时间操作未验收
 

@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-const target=(await(await fetch('http://127.0.0.1:9223/json')).json()).find(t=>t.type==='page'&&t.url.includes('127.0.0.1:4180'));
+const target=(await(await fetch(`http://127.0.0.1:${process.env.QA_CDP_PORT??'9223'}/json`)).json()).find(t=>t.type==='page'&&t.url.includes('127.0.0.1:4180'));
 const ws=new WebSocket(target.webSocketDebuggerUrl);await new Promise(r=>ws.addEventListener('open',r,{once:true}));
 let id=0;const pending=new Map(),errors=[];
 ws.addEventListener('message',e=>{const m=JSON.parse(e.data);if(m.id){pending.get(m.id)?.(m);pending.delete(m.id);}if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails.text);});

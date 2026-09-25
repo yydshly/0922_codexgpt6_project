@@ -41,10 +41,11 @@ export const OPEN_FINDINGS = [
       "M6.2"
     ],
     "kind": "工程验收待完成",
-    "current": "已做工具分包、历表与贴图失败恢复；主包仍有体积提示，贴图总下载量未降低。",
+    "current": "已做工具分包、历表与贴图失败恢复；资料窗口超过 12 秒会说明仍在等待，支持关闭或主动重载。主包仍有体积提示，贴图总下载量未降低。",
     "close": "给出冷/热启动、带宽和资源预算，依据实测确定画质与按需加载策略；不以体积减少替代加载时间结论。",
     "evidence": [
       "docs/LOADING-OPTIMIZATION.md",
+      "docs/DIALOG-LOADING-RECOVERY.md",
       "docs/EPHEMERIS-LOADING.md",
       "docs/TEXTURE-LOADING.md"
     ]

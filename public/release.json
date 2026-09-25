@@ -1,7 +1,7 @@
 {
-  "version": "2026.09.26-r09.10",
+  "version": "2026.09.26-r09.11",
   "date": "2026-09-26",
-  "baselineCommit": "b07186bcaae53b77dce51805bf9af713a5fbd1ca",
+  "baselineCommit": "3f1e414663f852f357cf97d28d50822f54473513",
   "acceptance": "pending-user-review",
   "scope": [
     "R06 motion and events",
@@ -17,7 +17,8 @@
     "C02 environment entry isolation, explanations and representative journey review",
     "C02 motion, stellar and historical context representative review",
     "C02 five supplemental capability review and scene-aware teaching selection",
-    "F01 traceable panorama star background with verified ecliptic directions and HIP selection"
+    "F01 traceable panorama star background with verified ecliptic directions and HIP selection",
+    "Shared slow-load guidance with dismiss, late completion and explicit reload recovery"
   ],
   "automatedTests": 336,
   "topicSteps": 27,

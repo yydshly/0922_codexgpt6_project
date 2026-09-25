@@ -4,7 +4,7 @@ import type {PrimaryId} from '../data/macroPrimary';
 export function restoreFamilyContext(saved:Map<THREE.Object3D,boolean>){for(const [object,visible] of saved)object.visible=visible;saved.clear();}
 export function isolateFamilyContext(scene:THREE.Scene,parent:PrimaryId,saved:Map<THREE.Object3D,boolean>){
  for(const object of scene.children){
-  if(object instanceof THREE.Light||object.userData.background||object.name==='macro-real-families'||parent==='earth'&&object.name==='moon-phase-reference'||object.userData.primaryId===parent)continue;
+  if(object instanceof THREE.Light||object.userData.background||object.name==='macro-real-families'||parent==='earth'&&['moon-phase-reference','season-reference'].includes(object.name)||object.userData.primaryId===parent)continue;
   saved.set(object,object.visible);object.visible=false;
  }
 }

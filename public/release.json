@@ -1,7 +1,7 @@
 {
-  "version": "2026.09.25-r09.8",
+  "version": "2026.09.25-r09.9",
   "date": "2026-09-25",
-  "baselineCommit": "eeca43af1536f2f0364a556f2acdafbc01bcda18",
+  "baselineCommit": "a6561174e7ed760ce70f665f74dc9e609c5ce17d",
   "acceptance": "pending-user-review",
   "scope": [
     "R06 motion and events",
@@ -15,9 +15,10 @@
     "C02 core coverage entries and representative interaction review",
     "C02 outer-body explanation focus and source attribution review",
     "C02 environment entry isolation, explanations and representative journey review",
-    "C02 motion, stellar and historical context representative review"
+    "C02 motion, stellar and historical context representative review",
+    "C02 five supplemental capability review and scene-aware teaching selection"
   ],
-  "automatedTests": 328,
+  "automatedTests": 332,
   "topicSteps": 27,
   "motionLessons": 14
 }

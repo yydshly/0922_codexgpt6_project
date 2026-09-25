@@ -10,8 +10,8 @@ export const CLOSEOUT_STEPS = [
   {
     "id": "C02",
     "title": "核对内容完整性",
-    "status": "主题代表入口已复验",
-    "done": "25 项均已登记；E01–E20 完成入口与代表交互复验；5 项必补及各主题完整子项继续检查，不等同 20 类全面验收。"
+    "status": "25 项代表操作已复验",
+    "done": "E01–E20 与 S01–S05 均完成入口及代表操作复验；完整子项与异常场景继续按台账检查，不等同整体或用户验收。"
   },
   {
     "id": "C03",
@@ -310,50 +310,55 @@ export const COVERAGE_AUDIT = [
   {
     "id": "S01",
     "reports": [
+      "docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md",
       "docs/R03-SYSTEMS-AND-RINGS.md",
       "docs/R04-APPEARANCE.md"
     ],
     "check": "全景定位爱神星，切换形状/球形；再定位 Patroclus 双体并查看来源。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验形状/球形/网格、双体选取与显隐、前后 6 小时；全窗口精度和异常组合待继续（C02 第五组）",
     "findingIds": []
   },
   {
     "id": "S02",
     "reports": [
+      "docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md",
       "docs/R02-OUTER-VISITORS.md",
       "docs/R06-MOTION-AND-EVENTS.md"
     ],
     "check": "在准卫星两种参照系之间切换；再比较冥王星、夸奥尔、塞德娜的分类与轨道。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验准卫星两种参照系日期一致、三颗远缘代表分类入口；群体轨道与长期共振不由近景验收替代（C02 第五组）",
     "findingIds": []
   },
   {
     "id": "S03",
     "reports": [
+      "docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md",
       "docs/R04-APPEARANCE.md",
       "docs/R05-ENVIRONMENT-LINKS.md"
     ],
     "check": "太阳分层、黑子/日珥、耀斑/CME 分别控制并查看说明。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验五步分层与 CME 开关，修正离开太阳后仍高亮；全活动组合及用户验收待继续（C02 第五组）",
     "findingIds": []
   },
   {
     "id": "S04",
     "reports": [
+      "docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md",
       "docs/R04-APPEARANCE.md",
       "docs/R05-ENVIRONMENT-LINKS.md"
     ],
     "check": "定位土卫二，依次查看喷流、剖面和 E 环补给联系；区分观测与推断。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验喷流、内部层、空层回退、返回母星与 E 环；修正保存设置冒充当前观察，用户验收待完成（C02 第五组）",
     "findingIds": []
   },
   {
     "id": "S05",
     "reports": [
+      "docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md",
       "docs/R05-ENVIRONMENT-LINKS.md"
     ],
     "check": "分别打开磁场、电流片、光、带电粒子、中性原子；核对图形、开关与解释一致。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验五种解释逐项定位、标题高亮、返回与日期保留；异常组合与用户验收待完成（C02 第五组）",
     "findingIds": []
   }
 ];

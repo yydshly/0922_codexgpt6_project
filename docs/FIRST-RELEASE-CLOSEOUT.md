@@ -1,6 +1,6 @@
 # 太阳系认知版 · 首版收尾与 25 项核对表
 
-当前规划版本 2026.09.25-r09.8；能力基线 r09.3 已上线。本轮继续 C02 核对与入口修复，没有新增天体。用户总验收未完成。
+当前规划版本 2026.09.25-r09.9；能力基线 r09.3 已上线。本轮继续 C02 核对与入口修复，没有新增天体。用户总验收未完成。
 
 ## 固定五步与终点
 
@@ -12,9 +12,9 @@
 
 ### C02 · 核对内容完整性
 
-状态：主题代表入口已复验。
+状态：25 项代表操作已复验。
 
-25 项均已登记；E01–E20 完成入口与代表交互复验；5 项必补及各主题完整子项继续检查，不等同 20 类全面验收。
+E01–E20 与 S01–S05 均完成入口及代表操作复验；完整子项与异常场景继续按台账检查，不等同整体或用户验收。
 
 ### C03 · 关闭首版缺口
 
@@ -34,7 +34,7 @@
 
 提供固定验收路线和已知限制，处理反馈；用户明确确认后才称认知版完成。
 
-第 1 步完成整理；第 2 步已建立 20 类主题 + 5 项必补的代码/证据核对表，E01–E20 已完成入口与代表交互检查，完整子项及5 项必补继续复验；第 3—5 步继续推进。这不是五次提交或完成百分比，也不是所有星体都已收录。
+第 1 步完成整理；第 2 步已建立 20 类主题 + 5 项必补的代码/证据核对表，E01–E20 与 S01–S05 已完成入口及代表操作检查，完整子项与异常场景继续复验；第 3—5 步继续推进。这不是五次提交或完成百分比，也不是所有星体都已收录。
 
 完成条件：约定主要构成和代表体验达到标准，科学与体验证据齐备，关键问题关闭并由用户明确验收。新发现归入既有步骤；范围变更须说明原因并确认，不静默取消原标准。
 
@@ -290,51 +290,51 @@
 
 当前：爱神星 PDS 形状、Patroclus–Menoetius 双体已上线；待用户验收
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验形状/球形/网格、双体选取与显隐、前后 6 小时；全窗口精度和异常组合待继续（C02 第五组）。用户验收：待确认。
 
 操作：全景定位爱神星，切换形状/球形；再定位 Patroclus 双体并查看来源。
 
-已有证据：[R03-SYSTEMS-AND-RINGS.md](../docs/R03-SYSTEMS-AND-RINGS.md)、[R04-APPEARANCE.md](../docs/R04-APPEARANCE.md)。
+已有证据：[C02-SUPPLEMENT-COVERAGE-AUDIT.md](../docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md)、[R03-SYSTEMS-AND-RINGS.md](../docs/R03-SYSTEMS-AND-RINGS.md)、[R04-APPEARANCE.md](../docs/R04-APPEARANCE.md)。
 
 ### S02 · 共轨与远缘群体分类
 
 当前：Kamoʻoalewa 双参照系与远缘群体分类已上线；待用户验收
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验准卫星两种参照系日期一致、三颗远缘代表分类入口；群体轨道与长期共振不由近景验收替代（C02 第五组）。用户验收：待确认。
 
 操作：在准卫星两种参照系之间切换；再比较冥王星、夸奥尔、塞德娜的分类与轨道。
 
-已有证据：[R02-OUTER-VISITORS.md](../docs/R02-OUTER-VISITORS.md)、[R06-MOTION-AND-EVENTS.md](../docs/R06-MOTION-AND-EVENTS.md)。
+已有证据：[C02-SUPPLEMENT-COVERAGE-AUDIT.md](../docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md)、[R02-OUTER-VISITORS.md](../docs/R02-OUTER-VISITORS.md)、[R06-MOTION-AND-EVENTS.md](../docs/R06-MOTION-AND-EVENTS.md)。
 
 ### S03 · 太阳分层与活动类型
 
 当前：太阳分层与活动区别、太阳—地球环境联系已上线；待用户验收
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验五步分层与 CME 开关，修正离开太阳后仍高亮；全活动组合及用户验收待继续（C02 第五组）。用户验收：待确认。
 
 操作：太阳分层、黑子/日珥、耀斑/CME 分别控制并查看说明。
 
-已有证据：[R04-APPEARANCE.md](../docs/R04-APPEARANCE.md)、[R05-ENVIRONMENT-LINKS.md](../docs/R05-ENVIRONMENT-LINKS.md)。
+已有证据：[C02-SUPPLEMENT-COVERAGE-AUDIT.md](../docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md)、[R04-APPEARANCE.md](../docs/R04-APPEARANCE.md)、[R05-ENVIRONMENT-LINKS.md](../docs/R05-ENVIRONMENT-LINKS.md)。
 
 ### S04 · 表面活动与内部结构
 
 当前：土卫二喷流、内部剖示与 E 环补给联系示意已上线；未求解环粒子动力学，待用户验收
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验喷流、内部层、空层回退、返回母星与 E 环；修正保存设置冒充当前观察，用户验收待完成（C02 第五组）。用户验收：待确认。
 
 操作：定位土卫二，依次查看喷流、剖面和 E 环补给联系；区分观测与推断。
 
-已有证据：[R04-APPEARANCE.md](../docs/R04-APPEARANCE.md)、[R05-ENVIRONMENT-LINKS.md](../docs/R05-ENVIRONMENT-LINKS.md)。
+已有证据：[C02-SUPPLEMENT-COVERAGE-AUDIT.md](../docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md)、[R04-APPEARANCE.md](../docs/R04-APPEARANCE.md)、[R05-ENVIRONMENT-LINKS.md](../docs/R05-ENVIRONMENT-LINKS.md)。
 
 ### S05 · 不可见的场与粒子环境
 
 当前：行星际磁场、电流片、光、带电粒子、中性原子五类解释层已上线；待用户验收
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验五种解释逐项定位、标题高亮、返回与日期保留；异常组合与用户验收待完成（C02 第五组）。用户验收：待确认。
 
 操作：分别打开磁场、电流片、光、带电粒子、中性原子；核对图形、开关与解释一致。
 
-已有证据：[R05-ENVIRONMENT-LINKS.md](../docs/R05-ENVIRONMENT-LINKS.md)。
+已有证据：[C02-SUPPLEMENT-COVERAGE-AUDIT.md](../docs/C02-SUPPLEMENT-COVERAGE-AUDIT.md)、[R05-ENVIRONMENT-LINKS.md](../docs/R05-ENVIRONMENT-LINKS.md)。
 
 ## 明确后置
 

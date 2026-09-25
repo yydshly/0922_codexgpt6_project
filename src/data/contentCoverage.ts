@@ -251,7 +251,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "current": "阿喀琉斯 L4、埃涅阿斯 L5 及 Patroclus–Menoetius 双体历表；背景点群为示意",
     "target": "复验 L4/L5、双体与木星的关系；保留背景点群为示意的说明。",
     "phase": "M2 / M3",
-    "evidence": "JPL 几何历表 + SBDB 参数快照 + PDS NEAR 形状网格；材质与补光示意",
+    "evidence": "JPL 几何历表 + SBDB 参数快照；双体采用单独保存的系统资料；材质与补光示意，未使用爱神星的 PDS 形状模型",
     "datasets": [
       "core",
       "smallBodies",
@@ -282,7 +282,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "current": "女凯龙星真实历表、轨道与来源参数；巨行星区域点群为示意",
     "target": "复验代表的跨区域轨道和双环示意；不要求全量半人马天体。",
     "phase": "M3",
-    "evidence": "JPL 几何历表 + SBDB 参数快照 + PDS NEAR 形状网格；材质与补光示意",
+    "evidence": "JPL 几何历表 + SBDB 参数快照；双环采用 2014 年掩星发现论文的参考尺寸，环面姿态与材质示意",
     "datasets": [
       "core",
       "smallBodies"

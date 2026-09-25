@@ -930,7 +930,9 @@ export function MacroStructure({ active=true,onSpeedChange,onHomeTool,initialPan
       const selector = id === 'E01' ? (stageFlags.solarActivity ? '[data-panorama-phenomenon="solar"]' : '.panorama-primary')
         : id === 'E02' ? '.panorama-primary-detail'
         : id === 'E03' || id === 'E04' ? '[aria-label="全景卫星与环系"]'
-        : id === 'E05' ? '.region-members' : id === 'E06' ? '.macro-learning-detail' : null;
+        : id === 'E05' ? '.region-members' : id === 'E06' ? '.macro-learning-detail'
+        : ['E07', 'E08', 'E09', 'E10', 'E11'].includes(id) ? '.region-member-detail'
+        : id === 'E12' ? '.comet-panel' : null;
       const root = infoScroll.current, node = selector ? root?.querySelector<HTMLElement>(selector) : null;
       if (root && node) {
         root.scrollTo({top: root.scrollTop + node.getBoundingClientRect().top - root.getBoundingClientRect().top - 12, behavior: 'instant'});

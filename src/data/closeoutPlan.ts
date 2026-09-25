@@ -10,8 +10,8 @@ export const CLOSEOUT_STEPS = [
   {
     "id": "C02",
     "title": "核对内容完整性",
-    "status": "第一组复验中",
-    "done": "25 项均已登记；E01–E06 完成入口与代表交互复验，完整子项与其余 19 项仍需继续，不等同 6 类全面验收。"
+    "status": "第二组复验中",
+    "done": "25 项均已登记；E01–E12 完成入口与代表交互复验，完整子项与其余 13 项仍需继续，不等同 12 类全面验收。"
   },
   {
     "id": "C03",
@@ -161,60 +161,66 @@ export const COVERAGE_AUDIT = [
   {
     "id": "E07",
     "reports": [
+      "docs/C02-OUTER-COVERAGE-AUDIT.md",
       "docs/R01-SMALL-BODIES.md",
       "docs/R06-MOTION-AND-EVENTS.md"
     ],
     "check": "全景目录 → 共轨与准卫星；日心/地心旋转视角切换，日期不变。爱神星原入口保留。 核对：复验两个参照系保持同一日期；准卫星不是绕地球的天然卫星。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验爱神星入口与形状对照；共轨/准卫星参照系等完整子项及用户验收待继续（C02 第二组）",
     "findingIds": []
   },
   {
     "id": "E08",
     "reports": [
+      "docs/C02-OUTER-COVERAGE-AUDIT.md",
       "docs/R01-SMALL-BODIES.md",
       "docs/R03-SYSTEMS-AND-RINGS.md"
     ],
     "check": "半人马族与特洛伊群 → 分别定位 L4/L5，比较相对木星方位。 核对：复验 L4/L5、双体与木星的关系；保留背景点群为示意的说明。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验 L4/L5 入口、参数与切换；双体和共振等完整子项及用户验收待继续（C02 第二组）",
     "findingIds": []
   },
   {
     "id": "E09",
     "reports": [
+      "docs/C02-OUTER-COVERAGE-AUDIT.md",
       "docs/R01-SMALL-BODIES.md",
       "docs/R03-SYSTEMS-AND-RINGS.md"
     ],
     "check": "半人马族与特洛伊群 → 女凯龙星；观察高度、轨道；主全景可定位并控制双环参考示意。 核对：复验代表的跨区域轨道和双环示意；不要求全量半人马天体。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验女凯龙星入口与双环显隐；完整轨道、异常场景及用户验收待继续（C02 第二组）",
     "findingIds": []
   },
   {
     "id": "E10",
     "reports": [
+      "docs/C02-OUTER-COVERAGE-AUDIT.md",
       "docs/R02-OUTER-VISITORS.md",
       "docs/R07-TOPIC-ROUTES.md"
     ],
     "check": "全景内容总表进入；展开四类轨道说明对照夸奥尔与冥王星。 核对：复验经典/共振分类、侧视厚度与具名代表；区域点云为结构示意，不是观测普查。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验夸奥尔入口与尺寸边界说明；四类轨道、区域侧视及用户验收待继续（C02 第二组）",
     "findingIds": []
   },
   {
     "id": "E11",
     "reports": [
+      "docs/C02-OUTER-COVERAGE-AUDIT.md",
       "docs/R02-OUTER-VISITORS.md"
     ],
     "check": "全景内容总表定位塞德娜；查看黄道高度、日期变化及分类依据。 核对：复验散射/脱离分类和两类代表轨道；共用区域点云尚非两个实测分布重建，不将其标为已完成。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验塞德娜入口与分类边界说明；两类代表轨道、完整日期及用户验收待继续（C02 第二组）",
     "findingIds": []
   },
   {
     "id": "E12",
     "reports": [
+      "docs/C02-OUTER-COVERAGE-AUDIT.md",
       "docs/R02-OUTER-VISITORS.md",
       "docs/R05-ENVIRONMENT-LINKS.md"
     ],
     "check": "内容总表 → 彗星 → 海尔—波普；可切换三颗彗星。 核对：复验三颗彗星、彗尾方向与轨迹区别；活动演示不等于所选日期的实况。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验三颗彗星切换、日期参数联动和控件独立性；轨迹逐项画面、活动与用户验收待继续（C02 第二组）",
     "findingIds": []
   },
   {

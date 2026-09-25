@@ -1,6 +1,6 @@
 # 太阳系认知版 · 首版收尾与 25 项核对表
 
-当前规划版本 2026.09.25-r09.5；能力基线 r09.3 已上线。本轮继续 C02 核对与入口修复，没有新增天体。用户总验收未完成。
+当前规划版本 2026.09.25-r09.6；能力基线 r09.3 已上线。本轮继续 C02 核对与入口修复，没有新增天体。用户总验收未完成。
 
 ## 固定五步与终点
 
@@ -12,9 +12,9 @@
 
 ### C02 · 核对内容完整性
 
-状态：第一组复验中。
+状态：第二组复验中。
 
-25 项均已登记；E01–E06 完成入口与代表交互复验，完整子项与其余 19 项仍需继续，不等同 6 类全面验收。
+25 项均已登记；E01–E12 完成入口与代表交互复验，完整子项与其余 13 项仍需继续，不等同 12 类全面验收。
 
 ### C03 · 关闭首版缺口
 
@@ -34,7 +34,7 @@
 
 提供固定验收路线和已知限制，处理反馈；用户明确确认后才称认知版完成。
 
-第 1 步完成整理；第 2 步已建立 20 类主题 + 5 项必补的代码/证据核对表，E01–E06 已完成入口与代表交互检查，完整子项及其余 19 项继续复验；第 3—5 步继续推进。这不是五次提交或完成百分比，也不是所有星体都已收录。
+第 1 步完成整理；第 2 步已建立 20 类主题 + 5 项必补的代码/证据核对表，E01–E12 已完成入口与代表交互检查，完整子项及其余 13 项继续复验；第 3—5 步继续推进。这不是五次提交或完成百分比，也不是所有星体都已收录。
 
 完成条件：约定主要构成和代表体验达到标准，科学与体验证据齐备，关键问题关闭并由用户明确验收。新发现归入既有步骤；范围变更须说明原因并确认，不静默取消原标准。
 
@@ -150,61 +150,61 @@
 
 当前：爱神星真实历表和 PDS 形状；Kamoʻoalewa 准卫星历表及日心/地心旋转参照系对照。
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验爱神星入口与形状对照；共轨/准卫星参照系等完整子项及用户验收待继续（C02 第二组）。用户验收：待确认。
 
 操作：全景目录 → 共轨与准卫星；日心/地心旋转视角切换，日期不变。爱神星原入口保留。 核对：复验两个参照系保持同一日期；准卫星不是绕地球的天然卫星。
 
-已有证据：[R01-SMALL-BODIES.md](../docs/R01-SMALL-BODIES.md)、[R06-MOTION-AND-EVENTS.md](../docs/R06-MOTION-AND-EVENTS.md)。
+已有证据：[C02-OUTER-COVERAGE-AUDIT.md](../docs/C02-OUTER-COVERAGE-AUDIT.md)、[R01-SMALL-BODIES.md](../docs/R01-SMALL-BODIES.md)、[R06-MOTION-AND-EVENTS.md](../docs/R06-MOTION-AND-EVENTS.md)。
 
 ### E08 · 特洛伊群
 
 当前：阿喀琉斯 L4、埃涅阿斯 L5 及 Patroclus–Menoetius 双体历表；背景点群为示意
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验 L4/L5 入口、参数与切换；双体和共振等完整子项及用户验收待继续（C02 第二组）。用户验收：待确认。
 
 操作：半人马族与特洛伊群 → 分别定位 L4/L5，比较相对木星方位。 核对：复验 L4/L5、双体与木星的关系；保留背景点群为示意的说明。
 
-已有证据：[R01-SMALL-BODIES.md](../docs/R01-SMALL-BODIES.md)、[R03-SYSTEMS-AND-RINGS.md](../docs/R03-SYSTEMS-AND-RINGS.md)。
+已有证据：[C02-OUTER-COVERAGE-AUDIT.md](../docs/C02-OUTER-COVERAGE-AUDIT.md)、[R01-SMALL-BODIES.md](../docs/R01-SMALL-BODIES.md)、[R03-SYSTEMS-AND-RINGS.md](../docs/R03-SYSTEMS-AND-RINGS.md)。
 
 ### E09 · 半人马族
 
 当前：女凯龙星真实历表、轨道与来源参数；巨行星区域点群为示意
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验女凯龙星入口与双环显隐；完整轨道、异常场景及用户验收待继续（C02 第二组）。用户验收：待确认。
 
 操作：半人马族与特洛伊群 → 女凯龙星；观察高度、轨道；主全景可定位并控制双环参考示意。 核对：复验代表的跨区域轨道和双环示意；不要求全量半人马天体。
 
-已有证据：[R01-SMALL-BODIES.md](../docs/R01-SMALL-BODIES.md)、[R03-SYSTEMS-AND-RINGS.md](../docs/R03-SYSTEMS-AND-RINGS.md)。
+已有证据：[C02-OUTER-COVERAGE-AUDIT.md](../docs/C02-OUTER-COVERAGE-AUDIT.md)、[R01-SMALL-BODIES.md](../docs/R01-SMALL-BODIES.md)、[R03-SYSTEMS-AND-RINGS.md](../docs/R03-SYSTEMS-AND-RINGS.md)。
 
 ### E10 · 柯伊伯带
 
 当前：经典族夸奥尔、共振族冥王星等具名成员；四类轨道解释
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验夸奥尔入口与尺寸边界说明；四类轨道、区域侧视及用户验收待继续（C02 第二组）。用户验收：待确认。
 
 操作：全景内容总表进入；展开四类轨道说明对照夸奥尔与冥王星。 核对：复验经典/共振分类、侧视厚度与具名代表；区域点云为结构示意，不是观测普查。
 
-已有证据：[R02-OUTER-VISITORS.md](../docs/R02-OUTER-VISITORS.md)、[R07-TOPIC-ROUTES.md](../docs/R07-TOPIC-ROUTES.md)。
+已有证据：[C02-OUTER-COVERAGE-AUDIT.md](../docs/C02-OUTER-COVERAGE-AUDIT.md)、[R02-OUTER-VISITORS.md](../docs/R02-OUTER-VISITORS.md)、[R07-TOPIC-ROUTES.md](../docs/R07-TOPIC-ROUTES.md)。
 
 ### E11 · 散射盘与离散天体
 
 当前：脱离轨道代表塞德娜、远伸轨道阋神星及分布示意
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验塞德娜入口与分类边界说明；两类代表轨道、完整日期及用户验收待继续（C02 第二组）。用户验收：待确认。
 
 操作：全景内容总表定位塞德娜；查看黄道高度、日期变化及分类依据。 核对：复验散射/脱离分类和两类代表轨道；共用区域点云尚非两个实测分布重建，不将其标为已完成。
 
-已有证据：[R02-OUTER-VISITORS.md](../docs/R02-OUTER-VISITORS.md)。
+已有证据：[C02-OUTER-COVERAGE-AUDIT.md](../docs/C02-OUTER-COVERAGE-AUDIT.md)、[R02-OUTER-VISITORS.md](../docs/R02-OUTER-VISITORS.md)。
 
 ### E12 · 彗星
 
 当前：哈雷、67P 与长周期海尔—波普三颗彗核历表、两年路径和参数
 
-核对层级：代码与既有证据已核对；本轮逐类画面验收待完成。用户验收：待确认。
+核对层级：本轮复验三颗彗星切换、日期参数联动和控件独立性；轨迹逐项画面、活动与用户验收待继续（C02 第二组）。用户验收：待确认。
 
 操作：内容总表 → 彗星 → 海尔—波普；可切换三颗彗星。 核对：复验三颗彗星、彗尾方向与轨迹区别；活动演示不等于所选日期的实况。
 
-已有证据：[R02-OUTER-VISITORS.md](../docs/R02-OUTER-VISITORS.md)、[R05-ENVIRONMENT-LINKS.md](../docs/R05-ENVIRONMENT-LINKS.md)。
+已有证据：[C02-OUTER-COVERAGE-AUDIT.md](../docs/C02-OUTER-COVERAGE-AUDIT.md)、[R02-OUTER-VISITORS.md](../docs/R02-OUTER-VISITORS.md)、[R05-ENVIRONMENT-LINKS.md](../docs/R05-ENVIRONMENT-LINKS.md)。
 
 ### E13 · 奥尔特云
 

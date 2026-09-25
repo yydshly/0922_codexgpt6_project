@@ -1,0 +1,271 @@
+{
+  "base": "https://yydshly.github.io/0922_codexgpt6_project/",
+  "ready": true,
+  "requests": [
+    {
+      "url": "",
+      "type": "Document",
+      "start": 839639.939651,
+      "status": 200,
+      "end": 839640.550216,
+      "bytes": 880,
+      "startMs": 0,
+      "durationMs": 611
+    },
+    {
+      "url": "assets/index-wgDjpuX9.js",
+      "type": "Script",
+      "start": 839640.567617,
+      "status": 200,
+      "end": 839642.365174,
+      "bytes": 501587,
+      "startMs": 628,
+      "durationMs": 1798
+    },
+    {
+      "url": "assets/index-BWe76cMZ.css",
+      "type": "Stylesheet",
+      "start": 839640.56812,
+      "status": 200,
+      "end": 839641.089137,
+      "bytes": 25952,
+      "startMs": 628,
+      "durationMs": 521
+    },
+    {
+      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMjAgM2gtMVYxaC0ydjJIN1YxSDV2Mkg0Yy0xLjEgMC0yIC45LTIgMnYxNmMwIDEuMS45IDIgMiAyaDE2YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMThINFY4aDE2djEzeiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiLz48L3N2Zz4=",
+      "type": "Image",
+      "start": 839642.596124,
+      "status": 200,
+      "end": 839642.596301,
+      "bytes": 0,
+      "startMs": 2656,
+      "durationMs": 0
+    },
+    {
+      "url": "textures/earth-clouds.jpg",
+      "type": "Image",
+      "start": 839642.902991,
+      "status": 200,
+      "end": 839656.809008,
+      "bytes": 966372,
+      "startMs": 2963,
+      "durationMs": 13906
+    },
+    {
+      "url": "textures/sun.jpg",
+      "type": "Image",
+      "start": 839642.903154,
+      "status": 200,
+      "end": 839648.257733,
+      "bytes": 823019,
+      "startMs": 2964,
+      "durationMs": 5355
+    },
+    {
+      "url": "textures/mercury.jpg",
+      "type": "Image",
+      "start": 839642.903192,
+      "status": 200,
+      "end": 839651.509552,
+      "bytes": 873187,
+      "startMs": 2964,
+      "durationMs": 8606
+    },
+    {
+      "url": "textures/venus.jpg",
+      "type": "Image",
+      "start": 839642.903232,
+      "status": 200,
+      "end": 839652.73192,
+      "bytes": 229978,
+      "startMs": 2964,
+      "durationMs": 9829
+    },
+    {
+      "url": "textures/earth.jpg",
+      "type": "Image",
+      "start": 839642.903268,
+      "status": 200,
+      "end": 839646.271647,
+      "bytes": 463493,
+      "startMs": 2964,
+      "durationMs": 3368
+    },
+    {
+      "url": "textures/mars.jpg",
+      "type": "Image",
+      "start": 839642.903304,
+      "status": 200,
+      "end": 839645.299088,
+      "bytes": 751105,
+      "startMs": 2964,
+      "durationMs": 2396
+    },
+    {
+      "url": "textures/jupiter.jpg",
+      "type": "Image",
+      "start": 839642.903349,
+      "status": 200,
+      "end": 839649.498818,
+      "bytes": 499643,
+      "startMs": 2964,
+      "durationMs": 6595
+    },
+    {
+      "url": "textures/saturn.jpg",
+      "type": "Image",
+      "start": 839642.903382,
+      "status": 200,
+      "end": 839643.940346,
+      "bytes": 200388,
+      "startMs": 2964,
+      "durationMs": 1037
+    },
+    {
+      "url": "textures/uranus.jpg",
+      "type": "Image",
+      "start": 839642.903411,
+      "status": 200,
+      "end": 839657.323556,
+      "bytes": 78140,
+      "startMs": 2964,
+      "durationMs": 14420
+    },
+    {
+      "url": "textures/neptune.jpg",
+      "type": "Image",
+      "start": 839642.903446,
+      "status": 200,
+      "end": 839658.994862,
+      "bytes": 241917,
+      "startMs": 2964,
+      "durationMs": 16091
+    },
+    {
+      "url": "textures/moon.jpg",
+      "type": "Image",
+      "start": 839642.903501,
+      "status": 200,
+      "startMs": 2964,
+      "durationMs": null
+    },
+    {
+      "url": "assets/physics.worker-dAUiFOEY.js",
+      "type": "Script",
+      "start": 839642.991688,
+      "startMs": 3052,
+      "durationMs": null
+    },
+    {
+      "url": "data/eros-shape/model.json",
+      "type": "Fetch",
+      "start": 839642.985777,
+      "status": 200,
+      "end": 839653.150807,
+      "bytes": 78523,
+      "startMs": 3046,
+      "durationMs": 10165
+    },
+    {
+      "url": "data/comets/tracks.json",
+      "type": "Fetch",
+      "start": 839642.988135,
+      "status": 200,
+      "end": 839656.900342,
+      "bytes": 69966,
+      "startMs": 3048,
+      "durationMs": 13912
+    },
+    {
+      "url": "data/manifest.json",
+      "type": "Fetch",
+      "start": 839642.990903,
+      "status": 200,
+      "end": 839652.734322,
+      "bytes": 4541,
+      "startMs": 3051,
+      "durationMs": 9743
+    },
+    {
+      "url": "data/2026-09.json",
+      "type": "Fetch",
+      "start": 839652.785051,
+      "status": 200,
+      "end": 839657.803958,
+      "bytes": 132460,
+      "startMs": 12845,
+      "durationMs": 5019
+    },
+    {
+      "url": "data/2026-08.json",
+      "type": "Fetch",
+      "start": 839657.814062,
+      "startMs": 17874,
+      "durationMs": null
+    },
+    {
+      "url": "data/2026-10.json",
+      "type": "Fetch",
+      "start": 839657.814202,
+      "startMs": 17875,
+      "durationMs": null
+    },
+    {
+      "url": "data/satellites/manifest.json",
+      "type": "Fetch",
+      "start": 839658.276839,
+      "startMs": 18337,
+      "durationMs": null
+    },
+    {
+      "url": "data/dwarfs/manifest.json",
+      "type": "Fetch",
+      "start": 839658.277049,
+      "startMs": 18337,
+      "durationMs": null
+    },
+    {
+      "url": "data/pluto-moons/manifest.json",
+      "type": "Fetch",
+      "start": 839658.277108,
+      "startMs": 18337,
+      "durationMs": null
+    },
+    {
+      "url": "data/small-bodies/manifest.json",
+      "type": "Fetch",
+      "start": 839658.277157,
+      "startMs": 18338,
+      "durationMs": null
+    },
+    {
+      "url": "data/eris-system/manifest.json",
+      "type": "Fetch",
+      "start": 839658.277197,
+      "startMs": 18338,
+      "durationMs": null
+    },
+    {
+      "url": "data/patroclus-system/manifest.json",
+      "type": "Fetch",
+      "start": 839658.277237,
+      "startMs": 18338,
+      "durationMs": null
+    },
+    {
+      "url": "data/comets/manifest.json",
+      "type": "Fetch",
+      "start": 839658.277271,
+      "startMs": 18338,
+      "durationMs": null
+    },
+    {
+      "url": "data/coorbital/manifest.json",
+      "type": "Fetch",
+      "start": 839658.277321,
+      "startMs": 18338,
+      "durationMs": null
+    }
+  ]
+}

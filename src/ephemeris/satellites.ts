@@ -1,3 +1,4 @@
+import { readDataJson } from './readJson';
 import type { BodyId, Vec3 } from '../types';
 import { SATELLITES } from '../data/satellites';
 import { publicAsset } from '../data/publicAsset';
@@ -20,9 +21,7 @@ let manifestPromise:Promise<SatelliteManifest>|null=null;
 const chunks=new Map<string,SatelliteChunk>();
 const pending=new Map<string,Promise<SatelliteChunk>>();
 async function readJson<T>(path:string):Promise<T> {
-  const response=await fetch(publicAsset(`/data/satellites/${path}`));
-  if(!response.ok) throw new Error(`卫星历表无法读取 (${response.status})：${path}`);
-  return response.json() as Promise<T>;
+  return readDataJson<T>(publicAsset(`/data/satellites/${path}`), `卫星历表 ${path}`);
 }
 export function loadSatelliteManifest():Promise<SatelliteManifest> {
   if(!manifestPromise) manifestPromise=readJson<SatelliteManifest>('manifest.json').then(data=>{

@@ -9,6 +9,7 @@ import type { StateFrame } from '../types';
 export interface MacroTimeControls {
   playing: boolean; speed: number; loading: boolean; error: string;
   start: number; end: number;
+  loadingMessage?: string; canRetry?: boolean; onRetry?: () => void;
   onSeek: (time:number) => void;
   onToggle: () => void; onPlay: () => void; onNow: () => void;
 }

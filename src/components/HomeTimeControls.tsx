@@ -13,6 +13,7 @@ export function HomeTimeControls({date,time,onSpeed,playDisabled=false}:{playDis
   <button type="button" onClick={()=>{setError('');setEditing(false);setDirty(false);time.onNow();}}>现在</button>
   <span>历表运动与现象示意分别控制</span>
   {dirty&&<div className="home-time-draft" role="status"><span>日期尚未应用，场景仍使用当前观测时间。</span><button type="button" onClick={()=>{setDraft(date);setDirty(false);setEditing(false);setError('');}}>取消日期修改</button></div>}
-  {(error||time.error)&&<p role="alert">{error||time.error}</p>}
+  {time.loading&&<p role="status">{time.loadingMessage ?? '正在读取当前日期历表'} · 每个文件最多等待 30 秒</p>}
+  {(error||time.error)&&<p role="alert">{error||time.error}{time.canRetry&&!time.loading&&<button type="button" onClick={time.onRetry}>重试历表</button>}</p>}
  </form>;
 }

@@ -15,6 +15,8 @@ export function useSimulation() {
   const [speed, setSpeed] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [loadingMessage, setLoadingMessage] = useState('正在读取历表目录');
+  const [canRetry, setCanRetry] = useState(false);
   const [physicsEpoch, setPhysicsEpoch] = useState<number | null>(null);
   const [actualSpeed, setActualSpeed] = useState(0);
   const [pendingSeconds, setPendingSeconds] = useState(0);
@@ -62,7 +64,7 @@ export function useSimulation() {
     const token = ++generation.current;
     targetTime.current = time;
     pending.current = 0; setPendingSeconds(0); setActualSpeed(0); measurement.current = { wall: 0, time };
-    setLoading(true); setError(''); busy.current = true;
+    setLoading(true); setLoadingMessage('正在读取所选日期的位置与速度'); setCanRetry(false); setError(''); busy.current = true;
     try {
       const next = await getFrame(time, nextMode === 'physics' ? 'simulation' : 'display');
       if (token !== generation.current) return;
@@ -73,30 +75,46 @@ export function useSimulation() {
       } else { busy.current = false; setPhysicsEpoch(null); }
       setLoading(false);
       void preloadTime(time).catch(() => {});
+      return true;
     } catch (e) {
       if (token !== generation.current) return;
-      setError(e instanceof Error ? e.message : '历表数据读取失败，请检查数据包。'); setLoading(false); setPlaying(false); busy.current = false;
+      setError(e instanceof Error ? e.message : '历表数据读取失败，请检查数据包。'); setLoading(false); setPlaying(false); setCanRetry(true); busy.current = false;
+      return false;
     }
   }, [acceptFrame]);
 
-  useEffect(() => {
-    let active = true;
-    loadManifest().then(data => {
-      if (!active) return;
+  const initialize = useCallback(async (clampToCoverage = true) => {
+    const token = ++generation.current;
+    setLoading(true); setLoadingMessage('正在读取历表目录'); setError(''); setCanRetry(false);
+    try {
+      const data = await loadManifest();
+      if (token !== generation.current) return;
       setManifest(data); settings.current.manifest = data;
       const now = utcToTdb(Date.now());
       const initial = Math.max(data.startTdb, Math.min(data.endTdb, now));
+      if (!clampToCoverage && now !== initial) {
+        setLoading(false); setPlaying(false);
+        setError('当前日期不在 2026—2027 年历表内，请手动选择范围内的日期。');
+        return;
+      }
       const initialLoad = seek(initial, modeRef.current);
       const initialGeneration = generation.current;
-      return initialLoad.then(() => {
-        if (active && generation.current === initialGeneration && now !== initial) {
-          setPlaying(false);
-          setError('当前日期不在内置 2026—2027 年历表中，已定位到最近的覆盖边界。请选择范围内的日期。');
-        }
-      });
-    }).catch(e => { if (active) { setError(e instanceof Error ? e.message : '历表清单读取失败'); setLoading(false); setPlaying(false); } });
-    return () => { active = false; generation.current++; };
+      const loaded = await initialLoad;
+      if (loaded && generation.current === initialGeneration && now !== initial) {
+        setPlaying(false);
+        setError('当前日期不在内置 2026—2027 年历表中，已定位到最近的覆盖边界。请选择范围内的日期。');
+      }
+    } catch (e) {
+      if (token !== generation.current) return;
+      setError(e instanceof Error ? e.message : '历表清单读取失败');
+      setLoading(false); setPlaying(false); setCanRetry(true);
+    }
   }, [seek]);
+
+  useEffect(() => {
+    void initialize();
+    return () => { generation.current++; };
+  }, [initialize]);
 
   useEffect(() => {
     let last = 0, animation = 0;
@@ -124,8 +142,8 @@ export function useSimulation() {
         const next = sampleFrame(time, 'display');
         if (next) { acceptFrame(next); return; }
         const token = generation.current;
-        loadingChunk = token; setLoading(true);
-        getFrame(time, 'display').then(value => { if (token === generation.current && modeRef.current === 'ephemeris') acceptFrame(value); }).catch(e => { if (token === generation.current) { setError(e instanceof Error ? e.message : '月份数据包读取失败'); setPlaying(false); } }).finally(() => { if (loadingChunk === token) loadingChunk = null; if (token === generation.current) setLoading(false); });
+        loadingChunk = token; targetTime.current = time; setLoading(true); setLoadingMessage('正在读取下个月的位置与速度'); setCanRetry(false); setError('');
+        getFrame(time, 'display').then(value => { if (token === generation.current && modeRef.current === 'ephemeris') acceptFrame(value); }).catch(e => { if (token === generation.current) { setError(e instanceof Error ? e.message : '月份数据包读取失败'); setPlaying(false); setCanRetry(true); } }).finally(() => { if (loadingChunk === token) loadingChunk = null; if (token === generation.current) setLoading(false); });
       } catch (e) { setError(e instanceof Error ? e.message : '历表读取失败'); setPlaying(false); }
     };
     animation = requestAnimationFrame(tick);
@@ -139,13 +157,18 @@ export function useSimulation() {
     if (time !== null) void seek(time, next);
   }, [seek]);
   const goNow = useCallback(async () => {
-    try {
-      const m = await loadManifest(); setManifest(m); settings.current.manifest = m;
-      const time = utcToTdb(Date.now());
-      if (time < m.startTdb || time > m.endTdb) { setError('当前日期不在 2026—2027 年历表内，请手动选择范围内的日期。'); return; }
-      await seek(time);
-    } catch (e) { setLoading(false); setError(e instanceof Error ? e.message : '历表清单读取失败'); }
-  }, [seek]);
+    const current = settings.current.manifest, now = utcToTdb(Date.now());
+    // An invalid "now" must not invalidate an in-flight physics worker generation.
+    if (current && (now < current.startTdb || now > current.endTdb)) {
+      setError('当前日期不在 2026—2027 年历表内，请手动选择范围内的日期。'); setPlaying(false); return;
+    }
+    await initialize(false);
+  }, [initialize]);
+  const retry = useCallback(() => {
+    setPlaying(false);
+    if (settings.current.manifest && targetTime.current !== null) void seek(targetTime.current);
+    else void initialize();
+  }, [initialize, seek]);
   const reset = useCallback(() => { if (modeRef.current === 'physics' && physicsEpoch !== null) void seek(physicsEpoch); else goNow(); }, [physicsEpoch, seek, goNow]);
-  return { frame, manifest, mode, setMode, playing, setPlaying, speed, setSpeed, loading, error, setError, seek, goNow, reset, physicsEpoch, actualSpeed, pendingSeconds };
+  return { frame, manifest, mode, setMode, playing, setPlaying, speed, setSpeed, loading, loadingMessage, canRetry, retry, error, setError, seek, goNow, reset, physicsEpoch, actualSpeed, pendingSeconds };
 }

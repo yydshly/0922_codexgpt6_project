@@ -154,3 +154,5 @@
 .macro-info-scroll>.macro-layer-summary{padding:0 0 10px;margin-bottom:10px}
 .macro-info-scroll>.macro-contents-nav{padding:8px 0;margin-bottom:14px}
 @media(max-width:800px){.macro-info{height:380px;min-height:380px}.macro-info-scroll{overscroll-behavior:contain}}
+
+.home-time p[role="status"]{color:#b2cbd4}.home-time p[role="alert"] button{margin-left:8px}

@@ -1,16 +1,17 @@
 {
-  "version": "2026.09.25-r09.1",
+  "version": "2026.09.25-r09.2",
   "date": "2026-09-25",
-  "baselineCommit": "348035869a24ebb716a0bac5b7239101022d3228",
+  "baselineCommit": "c3b8f1bd5081cd70ffbcecf59d80eee6be176db9",
   "acceptance": "pending-user-review",
   "scope": [
     "R06 motion and events",
     "R07 routes and member directory",
     "R08 stellar catalogue",
     "R09 validation and interaction fixes",
-    "On-demand tool windows and load failure recovery"
+    "On-demand tool windows and load failure recovery",
+    "Bounded ephemeris loading and retry at the requested date"
   ],
-  "automatedTests": 315,
+  "automatedTests": 321,
   "topicSteps": 27,
   "motionLessons": 14
 }

@@ -1,3 +1,4 @@
+import { readDataJson } from './readJson';
 import { publicAsset } from '../data/publicAsset';
 import { BODY_IDS, type StateFrame, type Vec3 } from '../types';
 
@@ -164,8 +165,6 @@ export class LocalMonthlyStateProvider {
   }
 
   private async readJson<T>(file: string): Promise<T> {
-    const response = await fetch(publicAsset(`/data/${this.directory}/${file}`));
-    if (!response.ok) throw new Error(`扩展天体历表无法读取 (${response.status})：${file}`);
-    return response.json() as Promise<T>;
+    return readDataJson<T>(publicAsset(`/data/${this.directory}/${file}`), `扩展历表 ${this.directory}/${file}`);
   }
 }

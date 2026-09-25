@@ -1,3 +1,4 @@
+import { readDataJson } from './readJson';
 import { BODY_IDS, type EphemerisManifest, type StateFrame } from '../types';
 import { publicAsset } from '../data/publicAsset';
 
@@ -17,11 +18,11 @@ let manifestPromise: Promise<LoadedManifest> | null = null;
 const chunks = new Map<string, EphemerisChunk>();
 const pending = new Map<string, Promise<EphemerisChunk>>();
 
-async function jsonFetch<T>(url: string): Promise<T> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`历表数据无法读取 (${response.status})：${url}`);
-  return response.json() as Promise<T>;
+function jsonFetch<T>(url:string):Promise<T> {
+  const file = url.split('/').at(-1);
+  return readDataJson<T>(url, file === 'manifest.json' ? '太阳系历表目录' : `太阳系历表 ${file}`);
 }
+
 export function loadManifest(): Promise<LoadedManifest> {
   if (!manifestPromise) manifestPromise = jsonFetch<LoadedManifest>(publicAsset('/data/manifest.json')).then(m => {
     if (m.bodyIds.join(',') !== BODY_IDS.join(',') || !Array.isArray(m.chunks)) throw new Error('历表版本或天体顺序不兼容');

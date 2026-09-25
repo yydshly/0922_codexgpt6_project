@@ -2,7 +2,7 @@
   "version": "2026.09.26-r09.12",
   "date": "2026-09-26",
   "baselineCommit": "028d461659d7bd47342519ef3efb92c598f9bf68",
-  "acceptance": "pending-user-review",
+  "acceptance": "accepted-as-observed",
   "scope": [
     "R06 motion and events",
     "R07 routes and member directory",
@@ -23,5 +23,9 @@
   ],
   "automatedTests": 340,
   "topicSteps": 27,
-  "motionLessons": 14
+  "motionLessons": 14,
+  "acceptedAtUtc": "2026-09-25T18:10:55Z",
+  "acceptedCommit": "3497f3de271e4abd3fd7b6e7259173299f9e2828",
+  "acceptanceNote": "用户反馈：暂时没有看到问题，定位通过吧。按本轮观察验收通过记录；不推定已逐项测试、跨设备验证或长期压力验证。",
+  "lifecycle": "frozen"
 }

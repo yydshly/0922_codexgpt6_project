@@ -4,7 +4,7 @@ export const CURRENT_RELEASE = release;
 export const FINAL_CLOSEOUT = [
  {id:'performance',title:'1 · 性能检查',status:'参考环境与线上测量通过',detail:'固定设备、窗口及网络条件；只修打不开、卡死、影响正常使用的问题。'},
  {id:'regression',title:'2 · 最终回归',status:'七组回归 / 183 个检查点通过',detail:'全景、区域、天体、说明与返回；日期、运动和按钮对应。'},
- {id:'acceptance',title:'3 · 用户验收并冻结',status:'待用户确认',detail:'按固定清单核对实际屏幕体验；确认后冻结认知版。美化、新天体、新玩法和精度提升另列后续。'},
+ {id:'acceptance',title:'3 · 用户验收并冻结',status:'本轮验收通过 · 已冻结',detail:'2026-09-26 用户反馈当前未发现问题，确认本轮通过；不推定逐项、跨设备或长期压力验收。后续问题另行登记。'},
 ];
 export const CLOSEOUT_STEPS = [
   {
@@ -28,55 +28,31 @@ export const CLOSEOUT_STEPS = [
   {
     "id": "C04",
     "title": "完成性能验收",
-    "status": "参考环境与线上通过，实机待用户确认",
-    "done": "参考设备、分辨率和网络标准已冻结；加载及 60 次切换通过，实际屏幕呈现列入最终用户验收。"
+    "status": "参考测量通过，本轮使用反馈通过",
+    "done": "加载及 60 次切换已有证据；用户当前观察未发现问题。跨设备与长期实测仍属已知限制，不冒充已验证。"
   },
   {
     "id": "C05",
     "title": "正式验收交付",
-    "status": "待用户验收",
-    "done": "提供固定验收路线和已知限制，处理反馈；用户明确确认后才称认知版完成。"
+    "status": "本轮验收通过 · 版本冻结",
+    "done": "根据 2026-09-26 用户反馈记录本轮验收通过，当前认知版冻结，后续问题另行登记。"
   }
 ];
-export const OPEN_FINDINGS = [
-  {
-    "id": "F03",
-    "title": "实际设备的呈现与长时间操作未验收",
-    "packages": [
-      "M6.2"
-    ],
-    "kind": "实际体验待验收",
-    "current": "参考浏览器 60 次切换通过，同类场景节点与监听稳定；实际屏幕流畅度列入最后五步用户验收，不再开新一轮优化。",
-    "close": "在约定实际设备上检查流畅度、连续使用、交互与资源趋势，记录结果和修复；未测量不判通过。",
-    "evidence": [
-      "docs/FINAL-TECHNICAL-REPORT.md",
-      "docs/FINAL-ACCEPTANCE.md",
-      "docs/VIEWPORT-ACCEPTANCE.md"
-    ]
-  },
-  {
-    "id": "F04",
-    "title": "用户总验收未完成",
-    "packages": [
-      "M6.3"
-    ],
-    "kind": "用户验收待完成",
-    "current": "代码、数据和报告已交付，发布与自动检查不等于用户验收。",
-    "close": "按固定路线核对画面、解释与操作，处理首版阻断项，取得明确验收确认。",
-    "evidence": [
-      "docs/FINAL-ACCEPTANCE.md",
-      "docs/FINAL-TECHNICAL-REPORT.md"
-    ]
-  }
-];
+export const OPEN_FINDINGS: {id:string;title:string;packages:string[];kind:string;current:string;close:string;evidence:string[]}[] = [];
 export const RESOLVED_FINDINGS = [{
+ id:'F03',title:'当前使用体验反馈',packages:['M6.2'],status:'本轮观察通过；跨设备与长时验证不作推定',
+ result:'用户反馈暂时未看到问题，并确认本轮通过。只记录当前使用反馈，保留实际设备差异与长期表现的已知限制。',evidence:['docs/ACCEPTANCE-RECORD.md','docs/FINAL-TECHNICAL-REPORT.md']
+},{
+ id:'F04',title:'用户确认与版本冻结',packages:['M6.3'],status:'本轮验收通过 · 已冻结',
+ result:'2026-09-26 用户确认当前版本通过；后续问题单独登记，不自动追加优化。个人逐项勾选记录保持原样。',evidence:['docs/ACCEPTANCE-RECORD.md']
+},{
  id:'F02',title:'固定资源预算与加载恢复验证',packages:['M1.3','M6.2'],
- status:'工程收尾通过；实际体验待用户确认',
+ status:'工程收尾通过；版本本轮验收通过',
  result:'10 Mbps 条件下冷暖加载与常用工具达到预设预算；主脚本 gzip 约 501 KB，60 次切换及 183 个路径检查点通过。贴图改为两张并发及可取消下载；本版保持现有画质，不追加档位。不是全网络或实际屏幕帧率保证。',
  evidence:['docs/FINAL-TECHNICAL-REPORT.md','public/data/validation/closeout-budgets.json','public/data/validation/closeout-loading-online-fixed.json','public/data/validation/closeout-performance.json','public/data/validation/final-regression.json']
 },{
  id:'F01',title:'主全景背景接入可追溯星表',packages:['M2.1'],
- status:'实现差距已关闭；用户验收待确认',
+ status:'实现差距已关闭；版本本轮验收通过',
  result:'主全景采用 2,936 个 Hipparcos-2 固定星表方向，可点选 HIP 编号并关联恒星视图；黄赤坐标转换、同历元样本、显隐与失败重试已验证。不是当前日期实况夜空。',
  evidence:['docs/F01-PANORAMA-STARS.md','public/data/stars/panorama-validation.json']
 }];

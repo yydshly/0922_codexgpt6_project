@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs';
 import { CONTENT_COVERAGE } from './contentCoverage';
 import { SCOPE_ADDITIONS } from './executionPlan';
 import { MASTER_PLAN } from './masterPlan';
-import { COVERAGE_AUDIT, OPEN_FINDINGS, RESOLVED_FINDINGS, FINAL_CLOSEOUT } from './closeoutPlan';
+import { COVERAGE_AUDIT, OPEN_FINDINGS, RESOLVED_FINDINGS, FINAL_CLOSEOUT, CURRENT_RELEASE } from './closeoutPlan';
 
 describe('closeout scope and evidence integrity', () => {
  it('gives every agreed topic and required addition exactly one evidence-backed review entry', () => {
@@ -26,12 +26,15 @@ describe('closeout scope and evidence integrity', () => {
    expect(finding.close.length).toBeGreaterThan(10);
   }
   COVERAGE_AUDIT.forEach(row => row.findingIds.forEach(id => expect(findings.has(id), id).toBe(true)));
-  expect([...findings]).toEqual(['F03','F04']);
+  expect([...findings]).toEqual([]);
+  expect(CURRENT_RELEASE.acceptance).toBe('accepted-as-observed');
+  expect(CURRENT_RELEASE.acceptedCommit).toBe('3497f3de271e4abd3fd7b6e7259173299f9e2828');
+  expect(CURRENT_RELEASE.lifecycle).toBe('frozen');
   expect(FINAL_CLOSEOUT.map(s=>s.id)).toEqual(['performance','regression','acceptance']);
-  expect(FINAL_CLOSEOUT[2].status).toBe('待用户确认');
+  expect(FINAL_CLOSEOUT[2].status).toBe('本轮验收通过 · 已冻结');
   expect(RESOLVED_FINDINGS.some(f=>f.id==='F02')).toBe(true);
   expect(findings.has('F01')).toBe(false);
-  expect(RESOLVED_FINDINGS.find(f=>f.id==='F01')?.status).toContain('用户验收待确认');
+  expect(RESOLVED_FINDINGS.find(f=>f.id==='F01')?.status).toContain('版本本轮验收通过');
   RESOLVED_FINDINGS.forEach(f=>f.evidence.forEach(path=>expect(existsSync(path),path).toBe(true)));
  });
 });

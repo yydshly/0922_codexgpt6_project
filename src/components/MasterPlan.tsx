@@ -23,7 +23,7 @@ export function MasterPlan({onVisit,stages,initialTab='closeout',initialFilter='
  const m=MASTER_PLAN.phases.find(item=>item.id===phase)!;
  const rows=CONTENT_COVERAGE.filter(r=>filter==='全部'||r.status===filter);
  return <div className="master-plan" ref={root}>
-  <section className="master-plan-intro baseline-intro"><span>{CURRENT_RELEASE.version} · 已交付能力与收尾计划 · 用户总验收待完成</span><h2>太阳系认知版：技术收尾完成，等待验收</h2><p>当前有 {OBSERVATION_COUNTS.allDynamic} 个动态目标、1 个历史案例、14 节运动课及六条专题 27 步。已有功能不重复列为待开发；未达到原标准的部分明确登记。</p><a href={planUrl} download="太阳系产品总规划.md">下载当前总规划 ↗</a></section>
+  <section className="master-plan-intro baseline-intro"><span>{CURRENT_RELEASE.version} · 本轮验收通过 · 版本冻结</span><h2>太阳系认知版：本轮验收通过，当前版本冻结</h2><p>当前有 {OBSERVATION_COUNTS.allDynamic} 个动态目标、1 个历史案例、14 节运动课及六条专题 27 步。已有功能不重复列为待开发；未达到原标准的部分明确登记。</p><a href={planUrl} download="太阳系产品总规划.md">下载当前总规划 ↗</a></section>
   <nav className="master-plan-tabs" aria-label="总规划内容">{[['closeout','收尾进度'],['baseline','我的验收记录'],['route','总路线'],['coverage','元素覆盖'],['data','数据与实现'],['delivery','验收与后续']].map(([key,label])=><button key={key} aria-pressed={tab===key} onClick={()=>setTab(key as PlanTab)}>{label}</button>)}</nav>
   {tab==='closeout'&&<CloseoutPlan onTopic={showTopic}/>}
   {tab==='baseline'&&<><p className="master-plan-note">以下五项是用户个人操作检查，不等于收尾五个工作包或全部科学验收。<button onClick={()=>setTab('route')}>查看已有九批交付 →</button></p><BaselineReview onVisit={entry=>onVisit(entry,'baseline')} onCoverage={()=>setTab('coverage')}/></> }

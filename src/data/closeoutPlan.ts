@@ -10,8 +10,8 @@ export const CLOSEOUT_STEPS = [
   {
     "id": "C02",
     "title": "核对内容完整性",
-    "status": "第三组复验中",
-    "done": "25 项均已登记；E01–E16 完成入口与代表交互复验，完整子项与其余 9 项仍需继续，不等同 16 类全面验收。"
+    "status": "主题代表入口已复验",
+    "done": "25 项均已登记；E01–E20 完成入口与代表交互复验；5 项必补及各主题完整子项继续检查，不等同 20 类全面验收。"
   },
   {
     "id": "C03",
@@ -266,21 +266,23 @@ export const COVERAGE_AUDIT = [
   {
     "id": "E17",
     "reports": [
+      "docs/C02-CONTEXT-COVERAGE-AUDIT.md",
       "docs/PHENOMENA-AUDIT.md",
       "docs/EVENT-ACCEPTANCE.md"
     ],
     "check": "全景目录 → 日月食与遮掩；场景清单 → 日食/月食/遮掩案例；遮掩提供可拖动三维空间与固定地球所见。保留运动课程入口。 核对：复验课程、参照对象、事件窗口与误差说明；当地预报和长期潮汐/共振动力学不在首版范围。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验课程目录、地球自转播放与重置；其余课程、三类事件与精度复算待继续（C02 第四组）",
     "findingIds": []
   },
   {
     "id": "E18",
     "reports": [
+      "docs/C02-CONTEXT-COVERAGE-AUDIT.md",
       "docs/R08-STELLAR-CONTEXT.md",
       "docs/R09-VALIDATION.md"
     ],
     "check": "恒星系统与其他星系 → 邻近恒星；切换天空方向/空间距离并点选资料。全景背景差距见 F01。 核对：未关闭 F01：原 M2.1 背景星点可追溯的标准尚未覆盖主全景；需要接入或经明确确认修订范围，不能直接判完成。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验邻星距离/天空方向切换及同星保留；F01 主全景背景差距仍未关闭（C02 第四组）",
     "findingIds": [
       "F01"
     ]
@@ -288,19 +290,21 @@ export const COVERAGE_AUDIT = [
   {
     "id": "E19",
     "reports": [
+      "docs/C02-CONTEXT-COVERAGE-AUDIT.md",
       "docs/R08-STELLAR-CONTEXT.md"
     ],
     "check": "从银河系切换银河系之外，比较尺度说明。 核对：复验太阳系—邻星—银河系—邻近星系的尺度与返回；概念模型不冒充实测星图。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验银河系/邻近星系切换、模型说明与返回太阳系；完整镜头与用户验收待继续（C02 第四组）",
     "findingIds": []
   },
   {
     "id": "E20",
     "reports": [
+      "docs/C02-CONTEXT-COVERAGE-AUDIT.md",
       "docs/R02-OUTER-VISITORS.md"
     ],
     "check": "内容总表 → 星际访客直接进入；彗星面板也提供历史窗口。 核对：复验独立历史时间窗口和返回当前观测；不把访客计作长期束缚成员。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验历史入口、播放/暂停、侧视、日期重置与返回保留主页日期；全时段精度及异常加载待继续（C02 第四组）",
     "findingIds": []
   },
   {

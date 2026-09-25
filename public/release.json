@@ -1,7 +1,7 @@
 {
-  "version": "2026.09.25-r09.7",
+  "version": "2026.09.25-r09.8",
   "date": "2026-09-25",
-  "baselineCommit": "4cf816f3937c9a9bf1cc65da66bd4d5e92a48aab",
+  "baselineCommit": "eeca43af1536f2f0364a556f2acdafbc01bcda18",
   "acceptance": "pending-user-review",
   "scope": [
     "R06 motion and events",
@@ -14,7 +14,8 @@
     "Unified closeout plan and 25-item coverage evidence checklist",
     "C02 core coverage entries and representative interaction review",
     "C02 outer-body explanation focus and source attribution review",
-    "C02 environment entry isolation, explanations and representative journey review"
+    "C02 environment entry isolation, explanations and representative journey review",
+    "C02 motion, stellar and historical context representative review"
   ],
   "automatedTests": 328,
   "topicSteps": 27,

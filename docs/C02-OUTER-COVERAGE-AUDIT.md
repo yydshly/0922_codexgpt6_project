@@ -86,4 +86,4 @@
 
 本轮检查的是来源归属和交互，不新增天文学结论。既有资料见 [R01 小天体](R01-SMALL-BODIES.md)、[R02 外围成员](R02-OUTER-VISITORS.md)、[R03 双体与环](R03-SYSTEMS-AND-RINGS.md)、[R04 形状外观](R04-APPEARANCE.md)。原始来源与版本保存在 public/data/small-bodies、public/data/comets、public/data/eros-shape 和 public/data/rings/chariklo.json。
 
-累计 E01–E12 的代表入口与基本交互已复验。其余 13 项（E13–E20 与 A01–A05）以及所有主题的深层子项、异常场景仍需继续。F01–F04 保持未关闭，真实设备性能和用户总验收仍待完成。不能把“12 类经过代表检查”理解成“12 类全面完成”或首版已经验收。
+累计 E01–E12 的代表入口与基本交互已复验。其余 13 项（E13–E20 与 S01–S05）以及所有主题的深层子项、异常场景仍需继续。F01–F04 保持未关闭，真实设备性能和用户总验收仍待完成。不能把“12 类经过代表检查”理解成“12 类全面完成”或首版已经验收。

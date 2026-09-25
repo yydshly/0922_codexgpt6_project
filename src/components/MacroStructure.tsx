@@ -935,7 +935,10 @@ export function MacroStructure({ active=true,onSpeedChange,onHomeTool,initialPan
         : id === 'E12' ? '.comet-panel'
         : id === 'E13' || id === 'E15' ? (stageFlags.heliosphereExplorer ? '[data-boundary-comparison]' : '.macro-learning-detail')
         : id === 'E14' ? '[data-material-journey]'
-        : id === 'E16' ? '[data-environment-journey]' : null;
+        : id === 'E16' ? '[data-environment-journey]'
+        : id === 'E17' ? '[data-motion-lessons]'
+        : id === 'E18' ? '[data-star-panel]'
+        : id === 'E19' ? '.macro-learning-detail' : null;
       const root = infoScroll.current, node = selector ? root?.querySelector<HTMLElement>(selector) : null;
       if (root && node) {
         root.scrollTo({top: root.scrollTop + node.getBoundingClientRect().top - root.getBoundingClientRect().top - 12, behavior: 'instant'});
@@ -960,7 +963,7 @@ export function MacroStructure({ active=true,onSpeedChange,onHomeTool,initialPan
     if((row.id==='E13'||row.id==='E15')&&stageFlags.structure&&stageFlags.heliosphereExplorer){chooseBoundary(row.id==='E13'?'oort':'heliosphere');return;}
     if(row.id==='E14'){chooseMaterialStep('stream');return;}
     if(row.id==='E16'){chooseEnvironmentStep('magnet');return;}
-    if(row.id==='E17'){setPanelTab('integrated');requestAnimationFrame(()=>infoScroll.current?.querySelector('[data-motion-lessons]')?.scrollIntoView({block:'start'}));return;}
+    if(row.id==='E17'){setPanelTab('integrated');return;}
     const entry=row.entry;if(!entry)return;
     requestAnimationFrame(()=>infoScroll.current?.scrollTo({top:0}));
     setSelectedMember(null);setIntegratedTarget(null);setPanelTab('learn');

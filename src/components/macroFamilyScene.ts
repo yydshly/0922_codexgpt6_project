@@ -20,7 +20,7 @@ export function macroFamilyFocusDistance(parent:MacroFamilyId,states:MacroMoon[]
 }
 
 export interface FamilySceneOptions {isolate?:boolean;enceladus:EnceladusChoices;enabled:boolean;moons:boolean;rings:boolean;enhanced:boolean;orbits:boolean;selected:string|null;onSelect:(id:string)=>void;onFocus:(id:MacroFamilyId)=>void;states:MacroMoon[]}
-export function createMacroFamilies(scene:THREE.Scene,host:HTMLElement,onSelect:(id:string)=>void,onFocus:(id:MacroFamilyId)=>void){
+export function createMacroFamilies(scene:THREE.Scene,host:HTMLElement,onSelect:(id:string)=>void,onFocus:(id:MacroFamilyId)=>void,loader:THREE.TextureLoader=new THREE.TextureLoader()){
  const root=new THREE.Group();root.userData.integrated=true;root.name='macro-real-families';root.userData.sceneElement='moons';scene.add(root);
  const families=MACRO_FAMILIES.map(id=>{
   const group=new THREE.Group(),ringTilt=new THREE.Group(),radius=familyPlanetRadius(id);ringTilt.userData.sceneElement='rings';group.add(ringTilt);root.add(group);
@@ -29,7 +29,7 @@ export function createMacroFamilies(scene:THREE.Scene,host:HTMLElement,onSelect:
   return {id,group,ringTilt};
  });
  const eRing=createERing();families.find(f=>f.id==='saturn')!.group.add(eRing);let eRingTime=NaN;
- let disposed=false;const loader=new THREE.TextureLoader();
+ let disposed=false;
  const moons=new Map<string,{mesh:THREE.Mesh<THREE.SphereGeometry,THREE.MeshStandardMaterial>;orbit:THREE.Line;detail:ReturnType<typeof createEnceladusInterior>|null;parent:MacroFamilyId;epoch:number}>();
  const overlay=document.createElement('div');overlay.className='macro-world-labels family-world-labels';host.appendChild(overlay);
  const labels=new Map<string,HTMLButtonElement>();

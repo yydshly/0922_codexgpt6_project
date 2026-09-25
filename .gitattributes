@@ -1,0 +1,5 @@
+
+# Preserve original PDS archive bytes for cross-platform provenance checks.
+data-sources/eros-shape/*.tab -text
+data-sources/eros-shape/*.lbl -text
+data-sources/eros-shape/*.txt -text

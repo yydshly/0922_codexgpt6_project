@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {AbortableTextureLoader} from './AbortableTextureLoader';
 
 export type TextureLoadStatus = 'loading' | 'ready' | 'error';
 export interface TextureLoadItem { url: string; status: TextureLoadStatus }
@@ -10,15 +11,12 @@ type Job = TextureLoadItem & {
 };
 export const TEXTURE_WAIT_MS = 30_000;
 
-/** Callback-based panorama consumers own successful textures; late/failed textures stay here.
- * ImageLoader's underlying browser transfer cannot be aborted through TextureLoader.
- * A deadline ends UI waiting and rejects late callbacks, not the browser transfer itself.
- */
+/** Successful textures belong to the scene. Pending transfers are cancelled on timeout or disposal. */
 export class PanoramaTextureLoader extends THREE.TextureLoader {
   private jobs = new Map<string, Job>();
   private closed = false;
   constructor(private readonly changed: (items: TextureLoadItem[]) => void,
-    private readonly native = new THREE.TextureLoader()) { super(); }
+    private readonly native:THREE.TextureLoader & {cancel?:(texture:THREE.Texture)=>void} = new AbortableTextureLoader()) { super(); }
 
   override load(url: string, onLoad?: (texture: THREE.Texture) => void,
     onProgress?: (event: ProgressEvent) => void, onError?: (error: unknown) => void): THREE.Texture {
@@ -45,7 +43,7 @@ export class PanoramaTextureLoader extends THREE.TextureLoader {
   }
   private cancel(job: Job): void {
     clearTimeout(job.timer); job.generation++;
-    if (job.status !== 'ready') job.texture?.dispose();
+    if (job.status !== 'ready' && job.texture) { this.native.cancel?.(job.texture); job.texture.dispose(); }
   }
   private start(job: Job): THREE.Texture {
     const generation = ++job.generation;
@@ -53,7 +51,7 @@ export class PanoramaTextureLoader extends THREE.TextureLoader {
     const current = () => !this.closed && this.jobs.get(job.url) === job && job.generation === generation && job.status === 'loading';
     const fail = (error: unknown) => {
       if (!current()) return;
-      clearTimeout(job.timer); job.status = 'error'; job.texture?.dispose();
+      clearTimeout(job.timer); job.status = 'error'; if(job.texture){this.native.cancel?.(job.texture);job.texture.dispose();}
       job.onError?.(error); this.emit();
     };
     job.timer = setTimeout(() => fail(new Error('贴图等待超过 30 秒')), TEXTURE_WAIT_MS);

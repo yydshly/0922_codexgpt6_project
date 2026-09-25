@@ -6,21 +6,23 @@ afterEach(() => vi.useRealTimers());
 function setup() {
   vi.useFakeTimers();
   const requests: { url: string; texture: THREE.Texture; done: (texture: THREE.Texture) => void; fail: (error: unknown) => void }[] = [];
-  const native = { load: (url: string, done: (texture: THREE.Texture) => void, _progress: unknown, fail: (error: unknown) => void) => {
+  const cancel=vi.fn();
+  const native = {cancel, load: (url: string, done: (texture: THREE.Texture) => void, _progress: unknown, fail: (error: unknown) => void) => {
     const texture = new THREE.Texture(); requests.push({ url, texture, done, fail }); return texture;
   }} as unknown as THREE.TextureLoader;
   let items: TextureLoadItem[] = [];
   const changed = vi.fn((next: TextureLoadItem[]) => { items = next; });
   const loader = new PanoramaTextureLoader(changed, native);
-  return { loader, requests, changed, items: () => items };
+  return { loader, requests, changed, cancel, items: () => items };
 }
 
 describe('panorama texture recovery', () => {
   it('times out, ignores a late image and disposes its GPU resource', async () => {
-    const { loader, requests, items } = setup(); const apply = vi.fn(), fail = vi.fn();
+    const { loader, requests, items, cancel } = setup(); const apply = vi.fn(), fail = vi.fn();
     loader.load('/earth.jpg', apply, undefined, fail);
     const old = requests[0], dispose = vi.spyOn(old.texture, 'dispose');
     await vi.advanceTimersByTimeAsync(TEXTURE_WAIT_MS);
+    expect(cancel).toHaveBeenCalledWith(old.texture);
     expect(items()[0].status).toBe('error'); expect(fail).toHaveBeenCalledTimes(1);
     old.done(old.texture); expect(apply).not.toHaveBeenCalled(); expect(dispose).toHaveBeenCalled();
     expect(vi.getTimerCount()).toBe(0);

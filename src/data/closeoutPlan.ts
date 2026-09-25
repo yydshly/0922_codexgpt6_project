@@ -1,5 +1,11 @@
 import release from '../../public/release.json';
 export const CURRENT_RELEASE = release;
+// Frozen release gate agreed with the user; existing C01–C05 remain the audit history.
+export const FINAL_CLOSEOUT = [
+ {id:'performance',title:'1 · 性能检查',status:'本地通过，线上待复测',detail:'固定设备、窗口及网络条件；只修打不开、卡死、影响正常使用的问题。'},
+ {id:'regression',title:'2 · 最终回归',status:'集中回归中',detail:'全景、区域、天体、说明与返回；日期、运动和按钮对应。'},
+ {id:'acceptance',title:'3 · 用户验收并冻结',status:'待用户确认',detail:'按固定清单核对实际屏幕体验；确认后冻结认知版。美化、新天体、新玩法和精度提升另列后续。'},
+];
 export const CLOSEOUT_STEPS = [
   {
     "id": "C01",
@@ -22,7 +28,7 @@ export const CLOSEOUT_STEPS = [
   {
     "id": "C04",
     "title": "完成性能验收",
-    "status": "待执行",
+    "status": "参考环境测量通过，线上与实机待确认",
     "done": "冻结参考设备、分辨率和场景，完成载入、真实呈现与持续操作测量；按结果决定优化。"
   },
   {
@@ -57,7 +63,7 @@ export const OPEN_FINDINGS = [
       "M6.2"
     ],
     "kind": "实际体验待验收",
-    "current": "已有参考无头浏览器的绘制提交速率、40 次切换和窗口检查；不是实际屏幕帧率保证。",
+    "current": "参考浏览器 60 次切换通过，同类场景节点与监听稳定；实际屏幕流畅度列入最后五步用户验收，不再开新一轮优化。",
     "close": "在约定实际设备上检查流畅度、连续使用、交互与资源趋势，记录结果和修复；未测量不判通过。",
     "evidence": [
       "docs/R09-VALIDATION.md",

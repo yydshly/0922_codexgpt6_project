@@ -1,0 +1,16 @@
+{
+  "mainScript": {
+    "file": "index-CAX73XNB.js",
+    "bytes": 1649353,
+    "gzipLevel9Bytes": 501076
+  },
+  "textures": {
+    "files": 14,
+    "bytes": 6447246
+  },
+  "data": {
+    "files": 353,
+    "bytes": 46469977
+  },
+  "scope": "Local production build r09.11. Whole-site disk totals do not equal initial transfer. Textures are downloaded on use; ephemerides by month."
+}

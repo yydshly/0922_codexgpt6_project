@@ -1,0 +1,26 @@
+{
+  "scope": "Frozen first cognition release; measurement thresholds, not cross-device guarantees",
+  "viewport": [
+    1600,
+    1000,
+    1
+  ],
+  "network": {
+    "downloadMbps": 10,
+    "uploadMbps": 5,
+    "latencyMs": 100
+  },
+  "limits": {
+    "coldCanvasMs": 8000,
+    "coldCoreDateMs": 15000,
+    "coldTexturesMs": 30000,
+    "warmCoreDateMs": 5000,
+    "firstToolMs": 5000,
+    "warmToolMs": 1000,
+    "mainScriptGzipBytes": 600000,
+    "runtimeExceptions": 0,
+    "activeScenes": 1,
+    "minimumRenderSubmissionsPerSecond": 30
+  },
+  "stopRule": "Only errors that block normal use or materially misrepresent data block release; minor polish and new features are deferred. Physical presentation and user approval remain separate."
+}

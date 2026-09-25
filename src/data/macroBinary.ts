@@ -17,7 +17,7 @@ export function macroBinaryState(frame:StateFrame|null,batch:StateBatch|null){
  const relative=subtract(charon.position,pluto.position),velocity=subtract(charon.velocity,pluto.velocity),separation=Math.hypot(...relative);
  if(!separation)return null;
  return {time:frame.time,pluto,charon,relative,velocity,separation,speed:Math.hypot(...velocity),
-  center,anchor:macroEcliptic(center.map((v,i)=>(v-frame.positions[i])/AU_KM)),
+  center,centerVelocity:pluto.velocity.map((v,i)=>(v*PLUTO_GM+charon.velocity[i]*CHARON_GM)/total) as Vec3,anchor:macroEcliptic(center.map((v,i)=>(v-frame.positions[i])/AU_KM)),
   plutoLocal:binaryLocal(subtract(pluto.position,center)),charonLocal:binaryLocal(subtract(charon.position,center)),
   centerFromPluto:separation*CHARON_GM/total};
 }

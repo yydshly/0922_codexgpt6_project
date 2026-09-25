@@ -1,0 +1,4 @@
+ .solar-layers-guide {margin:14px 0;padding:12px;border:1px solid #466565;border-radius:8px;background:#12262d;}
+.solar-layers-guide h3{margin:0 0 8px;font-size:15px;}.solar-layers-guide p{line-height:1.7;}
+.solar-layer-steps{display:grid;grid-template-columns:1fr 1fr;gap:6px;}.solar-layer-steps button{border-left:3px solid;text-align:left;min-height:36px;white-space:normal;}.solar-layer-steps button[aria-pressed=true]{background:#35554b;color:#fff;}.solar-layer-steps button:last-child{grid-column:1/-1;}
+.solar-layer-reading{padding:9px;background:#263b3b;border-radius:5px;}.solar-layer-boundary{font-size:11px;color:#c9ccb6;}.solar-layers-guide details{margin-top:12px;}.solar-layers-guide summary{cursor:pointer;line-height:1.6;}.solar-layers-guide a{display:block;margin:9px 0;}.solar-layers-guide dl{display:block;}.solar-layers-guide dt{font-weight:600;margin-top:10px;}.solar-layers-guide dd{margin:4px 0;line-height:1.65;}

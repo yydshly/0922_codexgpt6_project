@@ -1,8 +1,25 @@
+import scaleAuditUrl from '../../docs/SCALE-AND-CONTEXT-AUDIT.md?url';
+import navigationReportUrl from '../../docs/NAVIGATION-AUDIT.md?url';
 import { useEffect, useRef } from 'react';
 import { ArrowUpRight, CheckCircle2, Clock3, GitCommitHorizontal, X } from 'lucide-react';
 import './ProductProgress.css';
 
 const completed = [
+  {title:'R03/R04 候选版本交付 · 2026-09-25',detail:'统一 52 个当前目标、27 颗卫星、1 个历史案例的台账。已有家族、形状、太阳分层、土卫二结构及比例/近景修复一起提交；基础验证通过，用户整批验收仍独立记录。下方“本地待验收”等条目是各轮实现时的历史状态，当前发布以本条及 GitHub 部署结果为准。下一阶段 R05 环境联系。'},
+  { title: '跨模块比例与近景显隐排查（本地待验收）', detail: '六个行星家族内母星与卫星本体统一大小比例，小卫星保留名称入口。统一主全景、卫星近景和精细总览的局部距离映射，在参考环范围内保持线性、外侧压缩。冥王星家族和具名成员近景默认隔离不同尺度的背景，提供恢复开关；修复隐藏图形遗留标注，补充全景比例提示。保留真实参数、历表和全景内容，不增加天体；仍不是全太阳系统一真实距离画面。' },
+  { title: '地月近景尺度与成员关系修正（本地待验收）', detail: '修正金星看似落在月球轨道内的展示误导：家族近景默认暂隐其他成员，提供同画布恢复开关，返回全景恢复。地月球体使用共同大小比例（约 27.27%），距离仍明确标注压缩；默认镜头同景深便于比较。近景按历表日心方向提供平行照明，月球参考轨道单独说明。57 文件 / 227 测试通过，未提交部署。' },
+  { title: '按钮与主画面对照修复（本地待验收）', detail: '检查 16 节学习主线与主要定位入口。缩近灶神星等成员，卫星家族按显示边界取景；画面明确当前对象、按钮区分下一节。修复小天体/卫星资料跳转；区分地月、磁层、辐射带与流星示例的观察目的和历史恢复。阶段关闭、回到本节与窄屏复验通过；56 文件 / 225 测试通过，未提交部署。' },
+  { title: 'R04 第四部分 · 核心外观核对（本地待验收）', detail: '登记太阳、八大行星与 20 颗核心卫星的外观依据和缺口；修复全景太阳未随日期自转，月球复用静态纹理与参考姿态。三视图共用姿态计算，参数卡区分资料周期与渲染周期，说明轴倾角参照。右侧目录新增外观核对入口。55 个测试文件 / 220 项通过；颜色球、程序表面、天气与精确姿态仍有明确边界，未声称全部外观还原，未提交部署。' },
+  { title: 'R04 第三部分 · 土卫二喷流与内部示意（本地待验收）', detail: '在既有土卫二历表锚点增加南极喷流结构与冰壳/海洋/岩核剖示，可逐层开关，镜头跟随土卫二并返回土星家族。观测喷流与海洋推断分别解释；剖面层厚、姿态、颜色和粒子均为教学示意，无当天喷发预测或流体计算。共用阶段 04、卫星图层、目录、场景清单、日期与浏览历史；动态目标仍为 52 个。R04 尚待核心天体外观与参数逐项核对。' },
+  { title: 'R04 第二部分 · 太阳大气分层（本地待验收）', detail: '主全景新增光球 → 色球 → 过渡区 → 日冕 → 黑子与日珥的五步顺序，与耀斑、CME 分别开关。层厚、颜色和拱环是教学示意，日冕无固定外沿，新增活动不代表当天实况或差异自转。修复分层按钮跳走右侧说明，移除重复日冕光晕，使分项关闭与实际画面一致。阶段 07、场景清单、浏览历史与来源记录共用；R04 仍有核心外观核对和地质/内部结构代表。' },
+  { title: 'R04 第一部分 · 爱神星资料形状（本地待验收）', detail: '把 PDS NEAR MSI 的 3897 顶点、7790 面网格直接接入主全景；可定位、切换同体积球及网格，按档案参考姿态随日期转动。原始文件、来源、单位和哈希可追溯。球形对照由模型体积换算，不改写 SBDB 参数；颜色和光照为展示处理，当前姿态不是当天实测。场景清单、目录、阶段 03 和浏览历史共用；仍为 52 个当前动态目标。R04 的核心对象核对、太阳分层与内部结构代表尚未完成。' },
+
+  { title: 'R03 第五部分 · 特洛伊双小行星（本地待验收）', detail: 'Patroclus–Menoetius 直接进入主全景，支持定位、两体选择、同日相对运动、距离线、日期及浏览历史。两体采用同一 JPL 2023 解，24 个月包经 2921 个独立检查点验证，相对位置插值最大差异约 34 米，不是绝对测轨精度。累计 52 个当前动态目标、27 颗卫星。Didymos 候选的实际 2026 查询缺数据，纠正上轮仅凭元数据判断可用的记录，未伪造其轨道。R03 约定代表已本地接入，待整批用户验收；R04–R09 仍待推进。' },
+  { title: 'R03 第四部分 · 跨视图环系尺度复核（本地待验收）', detail: '统一土星主全景、精细观测及卫星近景的 C/B/A 环边界，保留卡西尼分界区域。主全景右侧增加可控环段表，区分距中心半径、参考宽度与增强绘制宽度；海王星两条窄环的 80 km 为绘图选值，明确标注。细环宽度增强不再改变亮度。四大巨行星来源数值与核对日期已记录；小天体双体仍待接入，天体数量和十体引力模型不变。' },
+  { title: 'R03 第三部分 · 阋神星与阋卫一（本地待验收）', detail: '使用 JPL 同一 2022 TNO 卫星解的母星本体与阋卫一，避免把常规小天体系统质心混作母星。接入主全景定位、同日运动、中心距离与速度、卫星/距离线开关、来源和误差说明。现为 50 个当前动态目标、26 颗卫星。引用原始说明中 2025-01-01 的约 110 km 相对位置不确定性，不把厘米/米级插值差异当作测轨精度；十体引力模型不变。R03 仍待小天体系统及环系复核。' },
+  { title: 'R03 第二部分 · 冥王星五卫星（本地待验收）', detail: '新增冥卫五、冥卫二、冥卫四、冥卫三的 2026–2027 年 JPL 历表，直接接入主全景冥王星家族。支持全家族/中央双体取景、卫星选择、日期运动、放大标记与共同尺寸比例、参考轨道开关。共 49 个当前动态目标、25 颗卫星，另有独立历史案例；引力求解仍为十体。四颗各 2921 个独立插值检查点，最大位置差异约 15 米；不等于绝对测轨精度。其他矮行星与小天体系统尚未接入。' },
+  { title: 'R03 第一部分 · 女凯龙星双环（本地待验收）', detail: '把有来源的小天体环直接附加到女凯龙星历表位置；新增场景清单入口、内外环独立开关、环宽 ×2 增强、版本及尺度说明，随阶段 03/04 和成员图层控制。没有新画布或新增动力学天体。采用 2014 年发现论文参考尺寸，环面方向和外观为示意，不模拟逐粒子公转。R03 其他卫星、双体补充和巨行星环总验收仍待完成。' },
+  { title: '右侧观察操作整理（本地待验收）', detail: '后退、前进、当前位置和学习路线移到右侧操作区顶部，滚动说明时保持可用；学习目录在侧栏展开，避免遮住画布。浏览历史仍恢复视角和选择，不回退日期。同步修正来源页残留的两颗彗星与四个扩展成员旧描述。上一批统一全景与 R01/R02 已推送，提交 879f836；发布不代替用户验收。' },
   { title: '真实太阳系观测', detail: '太阳、八大行星、月球、选定卫星，以及谷神星、冥王星和卡戎读取 2026—2027 年预置历表；日期、速度、视角与天体参数共用同一观测状态。' },
   { title: '物理验证与科学边界', detail: '十体引力推演与真实历表分开显示，提供逐日差异报告，并明确区分历表、模型和说明性外观。' },
   { title: '从行星到宏观结构', detail: '加入卫星系统、图鉴、区域与宇宙邻域结构导览；点云与远缘球壳明确标记为示意或推断。' },
@@ -65,10 +82,10 @@ export function ProductProgress({ onClose }: { onClose: () => void }) {
       <header className="product-progress-header"><div><span className="eyebrow">BUILD LOG / ORBIT</span><h2 id="product-progress-title">建设记录</h2><p>记录已实现的能力、当前优化和下一步验收依据。</p></div><button ref={closeButton} className="product-progress-close" onClick={onClose} aria-label="关闭建设记录"><X size={18}/></button></header>
       <div className="product-progress-content">
         <p className="product-progress-intro">我们将真实数据、物理近似和视觉示意分别标注。每轮先提交可运行的基线，再记录问题、优化和验证结果，便于对照验收。</p>
-        <section><div className="product-progress-section-heading"><CheckCircle2 size={16}/><h3>已有能力 · 基线已提交</h3></div><div className="product-progress-list">{completed.map(item => <article key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></article>)}</div></section>
+        <section><div className="product-progress-section-heading"><CheckCircle2 size={16}/><h3>已有能力与逐轮记录</h3></div><div className="product-progress-list">{completed.map(item => <article key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></article>)}</div></section>
         <section><div className="product-progress-section-heading"><Clock3 size={16}/><h3>近期更新 · 发布与本地验收</h3></div><ol className="product-progress-steps">{improvements.map(item => <li key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></li>)}</ol></section>
         <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>总规划：从顶部整体规划查看 M0–M6，切换元素覆盖、数据与实现、验收与后续。请确认首版范围、顺序与完成标准；规划中的功能不是本次新增的观测能力。</p><p>当前优先使用“整体规划 → 当前版本验收”：按五步检查并记录问题；从场景右上角返回整体规划继续。总规划的元素覆盖页另列出每类内容的依据、入口、缺口与发布状态。</p><p>本轮先打开“综合全景 → 内容目录 → 尺度与距离”。依次切换地月、日地和日海王星，观察共同尺度下的空旷程度；向下对照真实与压缩距离。关闭后改观测日期再打开，核对新快照。窗口中的圆形是球体截面，虚线只是中心标记；放开距离不会把行星轨道改成球状。</p><p>先从主页打开“综合全景 → 全景现象”，定位土星或天王星系统，点选卫星并前进一天，核对参数与位置一起变化；再依次定位太阳活动、地球磁层和日球层环境。应在同一画布内靠近，返回原视角后仍看到整体结构；改变观测日期时近地效果随地球移动。独立详解需明确点击阅读入口。示意进度不改变观测日期，放大现象不是当日实测。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
-        <nav className="product-progress-links" aria-label="建设记录相关资料"><a href="https://github.com/yydshly/0922_codexgpt6_project/commits/main/" target="_blank" rel="noreferrer"><GitCommitHorizontal size={14}/>查看提交记录<ArrowUpRight size={13}/></a><a href="https://github.com/yydshly/0922_codexgpt6_project/blob/main/docs/PRODUCT-PROGRESS.md" target="_blank" rel="noreferrer">查看完整建设记录<ArrowUpRight size={13}/></a></nav>
+        <nav className="product-progress-links" aria-label="建设记录相关资料"><a href={navigationReportUrl} download="按钮与主画面对照检查.md">下载按钮与主画面对照检查</a> <a href={scaleAuditUrl} download="SCALE-AND-CONTEXT-AUDIT.md">下载比例与近景排查记录</a><a href="https://github.com/yydshly/0922_codexgpt6_project/commits/main/" target="_blank" rel="noreferrer"><GitCommitHorizontal size={14}/>查看提交记录<ArrowUpRight size={13}/></a><a href="https://github.com/yydshly/0922_codexgpt6_project/blob/main/docs/PRODUCT-PROGRESS.md" target="_blank" rel="noreferrer">查看完整建设记录<ArrowUpRight size={13}/></a></nav>
       </div>
     </section>
   </div>;

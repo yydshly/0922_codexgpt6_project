@@ -25,12 +25,12 @@ export function LearningRoute({index,following,reason,onGo,onExit,onFinish,onSta
  const previousReason=index!>0?reason(index!-1):'';
  return <section className="learning-lesson" aria-label="当前学习章节" tabIndex={-1}>
   <span>第 {step.chapter+1} 章 · {LEARNING_CHAPTERS[step.chapter]} / 第 {index!+1} 节，共 {LEARNING_STEPS.length} 节</span>
-  <h3>{step.title}</h3><p className="learning-breadcrumb">{step.path}</p>
+  <p className="learning-current">本节观察{following?' · 已定位':' · 未在当前画面'}</p><h3>{step.title}</h3><p className="learning-breadcrumb">{step.path}</p>
   <p><b>为什么看：</b>{step.why}</p><p className="learning-task"><b>观察任务：</b>{step.look}</p><p className="learning-evidence">{step.boundary}</p>
   {(!following||blocked)&&<p role="status">{blocked||'正在自由浏览，学习位置已保留。回到本节后可继续主线。'}</p>}
   <div className="learning-actions">
    {!following?<button className="learning-primary" disabled={!!blocked} onClick={()=>onGo(index!)}>回到本节</button>:<>
-    {next<LEARNING_STEPS.length?<button className="learning-primary" disabled={!!blocked||!!nextReason} onClick={()=>onGo(next)}>下一节：{LEARNING_STEPS[next].title}</button>:<button className="learning-primary" onClick={onFinish}>结束主线 · 自由探索</button>}
+    {next<LEARNING_STEPS.length?<button className="learning-primary" disabled={!!blocked||!!nextReason} onClick={()=>onGo(next)}>前往下一节 →<small>{LEARNING_STEPS[next].title}</small></button>:<button className="learning-primary" onClick={onFinish}>结束主线 · 自由探索</button>}
     <div className="learning-secondary"><button disabled={index===0||!!previousReason} title={previousReason||'返回上一节课程'} onClick={()=>onGo(index!-1)}>上一节</button><button onClick={onRead}>查看本节资料</button></div>
    </>}
    <button className="learning-exit" onClick={onExit}>退出并恢复全景</button>

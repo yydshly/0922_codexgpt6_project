@@ -3,7 +3,9 @@ import type { MacroZoneId } from './macroStructure';
 import type { SolarFamilyId } from './cosmicContext';
 
 export const NEW_MEMBER_IDS = ['vesta','haumea','makemake','eris','eros','achilles','aneas','chariklo','quaoar','sedna'] as const;
+export const DYNAMIC_MEMBER_IDS:readonly string[]=[...NEW_MEMBER_IDS,'patroclus'];
 const entries = [
+  ['patroclus','planetary','木星特洛伊群 · L5 双体','两颗小行星相互绕转，整体在木星 L5 群中绕太阳运行；L5 不是实体，也不表示两者绕木星公转。'],
   ['eros','planetary','近地小行星 · Amor','从地球附近轨道区域开始：爱神星绕太阳运动，并不是地球的卫星。当前地心距离随日期变化，近地分类不表示此刻很近。'],
   ['achilles','planetary','木星特洛伊群 · L4','沿木星公转方向领先的一组；与 L5 代表对照。绕太阳运行，和木星共享相近的平均公转周期。'],
   ['aneas','planetary','木星特洛伊群 · L5','沿木星公转方向落后的一组；两组与木星形成的关系不意味着三个对象始终构成等边三角形。'],
@@ -27,7 +29,7 @@ export const regionMemberById=(id:string|null|undefined)=>REGION_MEMBERS.find(bo
 export function membersForRegion(zone:MacroZoneId,family?:SolarFamilyId):RegionMember[]{
   if(family==='dwarfs')return REGION_MEMBERS.filter(body=>body.category==='dwarf');
   if(family==='asteroids')return REGION_MEMBERS.filter(body=>body.zone==='asteroid'||body.id==='eros');
-  if(family==='centaurs')return REGION_MEMBERS.filter(body=>['achilles','aneas','chariklo'].includes(body.id));
+  if(family==='centaurs')return REGION_MEMBERS.filter(body=>['patroclus','achilles','aneas','chariklo'].includes(body.id));
   if(family)return [];
   return zone==='all'?REGION_MEMBERS:REGION_MEMBERS.filter(body=>body.zone===zone);
 }

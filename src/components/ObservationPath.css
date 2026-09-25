@@ -11,3 +11,14 @@
 .observation-path-popover{position:absolute;right:0;top:calc(100% + 10px);width:min(440px,calc(100vw - 24px));max-height:min(380px,60vh);overflow:auto;padding:15px;background:#112b35;border:1px solid #52766e;border-radius:8px;box-shadow:0 12px 40px #0008;z-index:35}
 .observation-path-guide{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0}
 @media(max-width:800px){.observation-path{gap:6px}.observation-path-heading{gap:8px}.observation-path button{padding:6px}.observation-path-heading strong{font-size:10px}.macro-toolbar + .macro-main{overflow-y:auto;scrollbar-color:#52746e #102530;scrollbar-width:thin}}
+
+/* Browsing actions stay with the right-hand controls, outside the scrolling explanations. */
+.macro-info>.observation-path{display:flex;flex-wrap:wrap;flex:none;gap:7px;padding:10px 12px;border-bottom:1px solid #304a55;background:#122a32}
+.macro-info .observation-path-heading{flex:0 0 100%;min-width:0}
+.macro-info .observation-path-heading strong{white-space:normal;overflow-wrap:anywhere;line-height:1.5}
+.macro-info .observation-path-buttons{margin-right:auto}
+.macro-info .observation-path details{margin-left:auto}
+.macro-info .observation-path details[open]{flex-basis:100%;margin-left:0}
+.macro-info .observation-path details[open]>summary{width:max-content;margin-left:auto}
+.macro-info .observation-path-popover{position:static;width:auto;max-height:min(340px,38vh);margin-top:8px;padding:10px;box-shadow:none}
+@media(max-width:800px){.macro-info>.observation-path{padding:8px 12px}.macro-info:has(.observation-path details[open]){height:auto;min-height:420px}.macro-toolbar+.macro-main{overflow-y:auto}}

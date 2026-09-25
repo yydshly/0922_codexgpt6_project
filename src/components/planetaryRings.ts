@@ -19,7 +19,7 @@ export function makeFaintRings(body:BodyDefinition,radius:number){
    group.visible=visible;
    if(group.userData.enhanced===enhanced)return;
    group.userData.enhanced=enhanced;
-   for(const object of group.children){const mesh=object as THREE.Mesh<THREE.RingGeometry,THREE.MeshBasicMaterial>;const band=mesh.userData.band;const [inner,outer]=ringDisplayBounds(band,body.radiusKm,enhanced);mesh.geometry.dispose();mesh.geometry=new THREE.RingGeometry(inner*radius,outer*radius,mesh.userData.arc===undefined?180:16,1,mesh.userData.arc??0,mesh.userData.arc===undefined?Math.PI*2:.11);mesh.material.opacity=(mesh.userData.arc===undefined?band.opacity:.9)*(enhanced?1:.5);}
+   for(const object of group.children){const mesh=object as THREE.Mesh<THREE.RingGeometry,THREE.MeshBasicMaterial>;const band=mesh.userData.band;const [inner,outer]=ringDisplayBounds(band,body.radiusKm,enhanced);mesh.geometry.dispose();mesh.geometry=new THREE.RingGeometry(inner*radius,outer*radius,mesh.userData.arc===undefined?180:16,1,mesh.userData.arc??0,mesh.userData.arc===undefined?Math.PI*2:.11);mesh.material.opacity=(mesh.userData.arc===undefined?band.opacity:.9);}
  };
  return group;
 }

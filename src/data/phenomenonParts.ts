@@ -1,5 +1,6 @@
 import type {IntegratedId} from './integratedScene';
 export const PHENOMENON_PARTS=[
+ {id:'chromosphere',group:'solar',name:'色球（层厚增强）'}, {id:'transition',group:'solar',name:'过渡区（层厚增强）'}, {id:'sunspots',group:'solar',name:'黑子示例'}, {id:'prominence',group:'solar',name:'日珥示例'},
  {id:'corona',group:'solar',name:'日冕'}, {id:'flare',group:'solar',name:'耀斑亮斑'}, {id:'cme',group:'solar',name:'CME 物质云团'},
  {id:'magnet',group:'environment',name:'磁层与边界'}, {id:'dipole',group:'environment',name:'磁场参考线'}, {id:'aurora',group:'environment',name:'极光'},
  {id:'innerBelt',group:'belts',name:'内辐射带'}, {id:'outerBelt',group:'belts',name:'外辐射带'}, {id:'plasmasphere',group:'belts',name:'等离子体层'},

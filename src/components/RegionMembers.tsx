@@ -43,11 +43,12 @@ export function RegionMembers({autoReveal=true,date,includeNewMembers=true,zone,
      <R01MemberParameters id={selected.id} state={state} frame={frame}/>
      {selected.id==='pluto'&&onBinary&&<button disabled={!state} onClick={onBinary}>在全景观察冥王星—卡戎</button>}
      <p>{selected.radiusNote}</p><p>{selected.description}</p>
-     <div className="region-member-actions"><button disabled={!state||time.loading||!frame||frame.time<=time.start} onClick={()=>time.onSeek(Math.max(time.start,frame!.time-30*86400))}>前 30 天</button><button disabled={!state||time.loading} onClick={time.onToggle}>{time.playing?'暂停日期':'继续日期'}</button><button disabled={!state||time.loading||!frame||frame.time>=time.end} onClick={()=>time.onSeek(Math.min(time.end,frame!.time+30*86400))}>后 30 天</button><button aria-expanded={preview} onClick={()=>setPreview(v=>!v)}>{preview?'收起外观近景':'展开外观近景'}</button></div>
+     <div className="region-member-actions"><button disabled={!state||time.loading||!frame||frame.time<=time.start} onClick={()=>time.onSeek(Math.max(time.start,frame!.time-30*86400))}>前 30 天</button><button disabled={!state||time.loading} onClick={time.onToggle}>{time.playing?'暂停日期':'继续日期'}</button><button disabled={!state||time.loading||!frame||frame.time>=time.end} onClick={()=>time.onSeek(Math.min(time.end,frame!.time+30*86400))}>后 30 天</button>{selected.id!=='eros'&&<button aria-expanded={preview} onClick={()=>setPreview(v=>!v)}>{preview?'收起外观近景':'展开外观近景'}</button>}</div>
+     {selected.id==='eros'&&<p>主画布已接入 PDS 不规则形状；在下方“爱神星并不是圆球”切换资料形状、同体积球与网格。</p>}
      {preview && <div className="region-member-preview"><AtlasPreview key={selected.id} body={selected}/><p>独立取景的外观示意；拖动旋转，不代表实时影像、精确地形或真实自转。宏观定位仍使用历表。</p></div>}
      <p>细线是当期状态估算的二体参考轨道，不是未来历表路径。球体标记已放大；高度的正负表示黄道面两侧。</p>
      <a href={selected.sourceUrl} target="_blank" rel="noreferrer">天体介绍与参数来源 ↗</a>
-     <a href={publicAsset(`/data/${['ceres','pluto'].includes(selected.id)?'dwarfs':'small-bodies'}/manifest.json`)} target="_blank" rel="noreferrer">JPL：保存的历表来源与验证 ↗</a>
+     <a href={publicAsset(`/data/${selected.id==='patroclus'?'patroclus-system':selected.id==='eris'?'eris-system':['ceres','pluto'].includes(selected.id)?'dwarfs':'small-bodies'}/manifest.json`)} target="_blank" rel="noreferrer">JPL：保存的历表来源与验证 ↗</a>
    </article>}
  </section>;
 }

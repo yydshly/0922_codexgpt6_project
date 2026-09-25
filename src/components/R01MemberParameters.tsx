@@ -23,8 +23,8 @@ export function R01MemberParameters({id,state,frame}:{id:string;state?:ObjectSta
     <div><dt>参考自转周期（会合）</dt><dd>{params.rotation?.value??'未提供'} h</dd></div>
     <div><dt>GM（引力参数）</dt><dd>{params.gm?`${params.gm.value} km³/s²`:'本快照未提供'}</dd></div>
    </dl>
-   <p>轨道参数是 JD {params.epochJdTdb} TDB 的日心瞬时椭圆参考值，非当前距离和未来精确周期。自转来自 SBDB 光变资料，本批不据此重建姿态或转动球体。</p>
-   {id==='chariklo'&&<p>女凯龙星的直径是较早文献估计，不能等同最新形状模型；自转资料注明观测覆盖不足，周期可能有约 30% 偏差。环模型尚未接入。</p>}
+   <p>轨道参数是 JD {params.epochJdTdb} TDB 的日心瞬时椭圆参考值，非当前距离和未来精确周期。自转来自 SBDB 光变资料，不直接用它重建姿态。爱神星主全景的参考转动另用 PDS 形状档案的极轴与旋转式，见形状说明。</p>
+   {id==='chariklo'&&<p>女凯龙星的直径是较早文献估计，不能等同最新形状模型；自转资料注明观测覆盖不足，周期可能有约 30% 偏差。主全景中的双环采用另一篇 2014 年论文的局部参考尺寸；不要混用不同来源的本体半径换算环比例。</p>}
    <p>直径出处：{params.diameter.ref}。{params.diameter.notes}</p>
    <p>自转出处：{params.rotation?.ref}。轨道解编号：{params.orbitSolution}。快照保存：{params.snapshotSavedAt.slice(0,10)}。</p>
    <a href={params.lookupUrl} target="_blank" rel="noreferrer">JPL SBDB：对象与物理参数 ↗</a>

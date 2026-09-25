@@ -1,3 +1,4 @@
+import {RotationNote} from './RotationNote';
 import {useEffect,useRef} from 'react';
 import {bodyById,PHYSICAL_SOURCE} from '../data/catalog';
 import {PRIMARY_BODIES,primaryMetrics,type PrimaryId} from '../data/macroPrimary';
@@ -18,6 +19,7 @@ export function MacroPrimaryPanel({autoReveal=true,active,frame,date,time,onFocu
    <p className="panorama-family-date">{date.replace('T',' ')} · 北京时间</p>
    <p role="status">{metrics?'镜头跟随日期；拖动可环绕，滚轮可调整距离。':'正在等待同一日期的真实历表。'}</p>
    <dl className="panorama-moon-parameters"><div><dt>参考半径</dt><dd>{body.radiusKm.toLocaleString('zh-CN')} km</dd></div><div><dt>质量</dt><dd>{body.massKg.toExponential(5)} kg</dd></div><div><dt>恒星自转周期</dt><dd>{Math.abs(body.rotationHours).toFixed(2)} 小时{body.rotationHours<0?'（逆行）':''}</dd></div><div><dt>绕太阳公转周期</dt><dd>{body.id==='sun'?'不适用':`${body.orbitalPeriodDays.toFixed(2)} 天`}</dd></div><div><dt>自转轴倾角</dt><dd>{body.obliquityDeg.toFixed(2)}°</dd></div><div><dt>距{body.id==='sun'?'太阳系质心':'太阳中心'}</dt><dd>{metrics?`${metrics.distanceAu.toFixed(5)} AU`:'等待历表'}</dd></div><div><dt>相对速度</dt><dd>{metrics?`${metrics.speedKmS.toFixed(3)} km/s`:'等待历表'}</dd></div><div><dt>黄道面高度</dt><dd>{metrics?`${metrics.heightAu.toFixed(5)} AU`:'等待历表'}</dd></div></dl>
+   <RotationNote body={body}/>
    <p>动态参数参照：{metrics?.reference??(body.id==='sun'?'太阳系质心（SSB）':'太阳中心')}。太阳在本全景作为空间原点，质心运动由参数说明；高度数值未作视觉放大。</p>
    <div className="panorama-family-links"><button disabled={!frame||time.loading||frame.time<=time.start} onClick={()=>time.onSeek(Math.max(time.start,frame!.time-86400))}>前 1 天</button><button disabled={!frame||time.loading} onClick={time.onToggle}>{time.playing?'暂停日期':'继续日期'}</button><button disabled={!frame||time.loading||frame.time>=time.end} onClick={()=>time.onSeek(Math.min(time.end,frame!.time+86400))}>后 1 天</button></div>
    {isMacroFamily(active)&&<button disabled={!familiesEnabled||!frame} onClick={()=>onFamily(active)}>观察{body.name}的卫星与环系</button>}

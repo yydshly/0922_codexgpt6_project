@@ -1,3 +1,8 @@
+import {createErosShape,type ErosShapeOptions} from './macroErosShape';
+import {createPatroclusCompanion,type PatroclusSceneOptions} from './macroPatroclusSystem';
+import {createErisCompanion,type ErisSceneOptions} from './macroErisSystem';
+import {createSmallBodyRings} from './macroSmallRings';
+import type {SmallRingOptions} from '../data/smallBodyRings';
 import {macroMemberAnchor} from '../data/macroMemberState';
 import {cometAntiSolar,type CometDisplay} from '../data/macroComets';
 import * as THREE from 'three';
@@ -87,11 +92,17 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   const outside=label('外侧：星际介质', '#afbccd'); outside.position.set(0,-macroRadius(140),0); groups.heliosphere.add(outside);
 
   const dwarfMeshes = REGION_MEMBERS.map(body => {
-    const group = new THREE.Group(); groups.dwarfs.add(group); group.visible=false;
+    const group = new THREE.Group(); groups.dwarfs.add(group); group.visible=false;group.userData.memberSystem=body.id;
     const marker=ball(.13,body.color); marker.userData.memberId=body.id; group.add(marker);
     const annotation=label(body.name,body.color,body.id);annotation.userData.memberId=body.id;group.add(annotation);
-    const orbit=line([],body.color,.25);group.add(orbit);
-    return {id:body.id,group,marker,annotation,orbit,orbitTime:NaN};
+    const orbit=line([],body.color,.25);orbit.userData.contextOrbit=true;group.add(orbit);
+    const eros=body.id==='eros'?createErosShape(marker):null;
+    const smallRings=body.id==='chariklo'?createSmallBodyRings(marker):null;
+    const eris=body.id==='eris'?createErisCompanion(marker):null;
+    const moonLabel=eris?label('阋卫一 · Dysnomia','#bec3b5','dysnomia'):null;if(eris&&moonLabel)eris.root.add(moonLabel);
+    const patroclus=body.id==='patroclus'?createPatroclusCompanion(marker):null;
+    const companionLabel=patroclus?label('伴星 · Menoetius','#c8bca9','menoetius'):null;if(patroclus&&companionLabel)patroclus.root.add(companionLabel);
+    return {id:body.id,group,marker,annotation,orbit,eros,smallRings,eris,moonLabel,patroclus,companionLabel,orbitTime:NaN};
   });
   const cometMeshes = COMETS.map(body => {
     const group=new THREE.Group(); groups.comets.add(group); group.visible=false;
@@ -105,7 +116,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
   let lastCometOrbitTime=NaN;
   let lastTracks:CometTracks|null=null;
   return {
-    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false, selectedMember: string | null = null, plutoExpanded = false, cometDisplay:CometDisplay={selected:null,paths:true,orbits:true,direction:false}) {
+    update(frame: StateFrame | null, batch: StateBatch | null, enabled: MacroLayerVisibility, distance: number, seconds: number, family?: string, cometBatch: StateBatch | null = null, tracks: CometTracks | null = null, showActivity = false, selectedMember: string | null = null, plutoExpanded = false, cometDisplay:CometDisplay={selected:null,paths:true,orbits:true,direction:false}, smallRingOptions:SmallRingOptions={enabled:false,inner:true,outer:true,enhanced:false}, erisOptions:ErisSceneOptions={state:null,enabled:false,choices:{moon:true,distance:false,selected:'eris'}}, patroclusOptions:PatroclusSceneOptions={state:null,enabled:false,choices:{moon:true,distance:false,selected:'patroclus'}}, erosOptions:ErosShapeOptions={data:null,choices:{shape:true,wireframe:false}}) {
       for (const [id, group] of Object.entries(groups)) group.visible=enabled[id as MacroLayerId] && (macroDetailVisible(id as MacroLayerId,distance) || family===id || (id==='dwarfs' && ['asteroids','centaurs'].includes(family??'')) || (id==='populations' && family==='centaurs'));
       groups.activity.visible=enabled.comets && showActivity;
       for (const annotation of labels) annotation.visible = annotation.userData.overview ? distance >= 42 : distance < 42;
@@ -148,6 +159,9 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
       if(updateOrbit && cometStates.length) lastCometOrbitTime=frame!.time;
       const compatible=frame && batch && Math.abs(frame.time-batch.timeTdb)<1e-5 && batch.originId==='ssb';
       for(const item of dwarfMeshes) {
+        item.eros?.update(erosOptions,frame?.time??0);
+        item.patroclus?.update(patroclusOptions);if(item.patroclus&&item.companionLabel){item.companionLabel.position.copy(item.patroclus.moon.position);item.companionLabel.visible=distance<42||selectedMember==='patroclus';item.companionLabel.userData.selected=selectedMember==='patroclus';item.companionLabel.userData.anchorRadius=.13;}
+        item.smallRings?.update(smallRingOptions);item.eris?.update(erisOptions);if(item.eris&&item.moonLabel){item.moonLabel.position.copy(item.eris.moon.position);item.moonLabel.visible=distance<42||selectedMember==='eris';item.moonLabel.userData.selected=selectedMember==='eris';item.moonLabel.userData.anchorRadius=.065;}
         const state=compatible ? batch.states.find(s=>s.id===item.id) : undefined;
         const point=macroMemberAnchor(frame,batch,item.id);
         item.group.visible=!!point&&!(plutoExpanded&&item.id==='pluto');
@@ -157,7 +171,7 @@ export function createMacroPhenomena(scene: THREE.Scene, texture: THREE.Texture,
         item.annotation.visible=distance<42 || item.id===selectedMember;
         item.annotation.userData.selected=item.id===selectedMember;
         item.marker.scale.setScalar(item.id===selectedMember?1.5:1);
-        item.annotation.userData.anchorRadius=.13*(item.id===selectedMember?1.5:1);
+        item.annotation.userData.anchorRadius=(item.marker.userData.labelRadius??.13)*(item.id===selectedMember?1.5:1)*(item.smallRings&&smallRingOptions.enabled&&(smallRingOptions.inner||smallRingOptions.outer)?3.3:1);
         item.orbit.material.opacity=item.id===selectedMember?.85:.22;
         labelElements.get(item.annotation)!.text.setAttribute('aria-pressed',String(item.id===selectedMember));
         if(!Number.isFinite(item.orbitTime) || Math.abs(frame.time-item.orbitTime)>21600) {

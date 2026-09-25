@@ -23,8 +23,10 @@ describe('reference ring rendering',()=>{
   updateFaintRings(root,false,false,0);expect(rings.visible).toBe(false);
   const mesh=rings.children[0] as THREE.Mesh<THREE.RingGeometry>;
   const geometry=mesh.geometry;
+  const opacity=(mesh.material as THREE.MeshBasicMaterial).opacity;
   updateFaintRings(root,true,false,3600);expect(mesh.geometry).toBe(geometry);
   updateFaintRings(root,true,true,3600);expect(mesh.geometry).not.toBe(geometry);
+  expect((mesh.material as THREE.MeshBasicMaterial).opacity).toBe(opacity);
   expect(rings.children).toHaveLength(count);expect(JSON.stringify(RING_PROFILES)).toBe(original);
   rings.traverse(o=>{if(o instanceof THREE.Mesh){o.geometry.dispose();o.material.dispose();}});
  });

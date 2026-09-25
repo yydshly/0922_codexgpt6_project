@@ -3,13 +3,16 @@ import {INTEGRATED_ITEMS} from '../data/integratedScene';
 import type {StageFlags} from '../data/stages';
 
 const bodySections = [
+ {id:'appearance',name:'外观与参数核对 · 真实与示意',selector:'[data-appearance-audit]'},
+ {id:'enceladus',name:'土卫二 · 喷流与内部结构',selector:'[data-enceladus]'},
+ {id:'eros-shape',name:'爱神星形状 · 资料模型与同体积球',selector:'[data-eros-shape]'},
  {id:'distances',name:'尺度与距离 · 真实与压缩对照',selector:'.panorama-distances'},
  {id:'motion',name:'行星运动 · 速度与周期',selector:'.panorama-motion'},
  {id:'sizes',name:'天体大小 · 统一比例比较',selector:'.panorama-sizes'},
  {id:'orbits',name:'行星轨道 · 尺度与方向',selector:'.panorama-orbits'},
  {id:'primary',name:'太阳与八大行星 · 位置与参数',selector:'.panorama-primary'},
  {id:'earth',name:'地球外观 · 云层与大气',selector:'.panorama-earth'},
- {id:'members',name:'区域成员 · 小行星与矮行星',selector:'.panorama-members'},
+ {id:'members',name:'区域成员 · 小行星与矮行星',selector:'.region-members'},
  {id:'comets',name:'彗星 · 历表路径与彗尾',selector:'.panorama-comets'},
  {id:'families',name:'卫星与环系 · 母星家族',selector:'[aria-label="全景卫星与环系"]'},
  {id:'binary',name:'冥王星—卡戎 · 双体运动',selector:'.panorama-binary'},
@@ -20,13 +23,14 @@ const readingSections = [
  {id:'reading',name:'独立详解与来源',selector:'.panorama-reading'},
 ];
 const pick=(ids:string[])=>ids.map(id=>bodySections.find(item=>item.id===id)!);
-const groups = [{name:'1 · 整体与尺度',items:pick(['distances','sizes','orbits'])},{name:'2 · 恒星与行星',items:pick(['primary','motion','earth'])},{name:'3 · 卫星家族',items:pick(['families','binary'])},{name:'4 · 区域与小天体',items:pick(['members','comets'])},{name:'5 · 空间现象（延伸）',items:phenomenonSections},{name:'6 · 演示与来源',items:readingSections}];
+const groups = [{name:'1 · 整体与尺度',items:pick(['distances','sizes','orbits'])},{name:'2 · 恒星与行星',items:pick(['primary','motion','earth','appearance'])},{name:'3 · 卫星家族',items:pick(['families','binary','enceladus'])},{name:'4 · 区域与小天体',items:pick(['members','eros-shape','comets'])},{name:'5 · 空间现象（延伸）',items:phenomenonSections},{name:'6 · 演示与来源',items:readingSections}];
 
 export function MacroContentsNav({scroller,stages}:{scroller:RefObject<HTMLDivElement|null>;stages:StageFlags}) {
  const id=useId();
  const available=(key:string)=>{
+  if(key==='eros-shape')return stages.members;
   if(key==='members')return stages.structure||stages.members;
-  if(key==='families'||key==='binary')return stages.families;
+  if(key==='families'||key==='binary'||key==='enceladus')return stages.families;
   if(key==='comets')return stages.comets;
   const item=INTEGRATED_ITEMS.find(item=>item.id===key);
   return !item||stages[item.stage];

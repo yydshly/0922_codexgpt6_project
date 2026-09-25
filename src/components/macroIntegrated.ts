@@ -1,3 +1,4 @@
+import {createSolarAtmosphere} from './solarAtmosphere';
 import type {PhenomenonParts} from '../data/phenomenonParts';
 import {createSolarFlare} from './solarFlare';
 import * as THREE from 'three';
@@ -17,7 +18,7 @@ export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,ho
  const line=(points:THREE.Vector3[],color:string,opacity=.5)=>new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),new THREE.LineBasicMaterial({color,transparent:true,opacity,depthWrite:false}));
  const ball=(r:number,color:string,opacity:number)=>new THREE.Mesh(new THREE.SphereGeometry(r,32,24),new THREE.MeshBasicMaterial({color,transparent:true,opacity,depthWrite:false,side:THREE.DoubleSide}));
  const points=(data:THREE.Vector3[],color:string,size:number,opacity=.65)=>new THREE.Points(new THREE.BufferGeometry().setFromPoints(data),new THREE.PointsMaterial({color,size,map:texture,transparent:true,opacity,depthWrite:false}));
- const corona=ball(.54,'#ffc47d',.11);solar.add(corona);
+ const atmosphere=createSolarAtmosphere();solar.add(atmosphere.root);
  const flare=createSolarFlare(.34,new THREE.Vector3(.33,.12,.1));solar.add(flare.patch);
  const cme=new THREE.Group();cme.add(ball(1,'#f4a58a',.08));for(let i=0;i<5;i++)cme.add(line(Array.from({length:81},(_,j)=>{const a=j/80*Math.PI*2,b=i/5*Math.PI;return new THREE.Vector3(Math.cos(a)*Math.sin(b),Math.sin(a),Math.cos(a)*Math.cos(b));}),'#edb699',.4));solar.add(cme);
  const magnet=new THREE.Group(),dipole=new THREE.Group(),auroras=new THREE.Group();environment.add(magnet,dipole,auroras);
@@ -46,14 +47,14 @@ export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,ho
    shown={sun:flags.solar,earth:!!earthPosition&&(flags.environment||flags.belts||flags.dust),dust:flags.dust,helio:flags.helio};
    const detailed=(id:PhenomenonTarget)=>integratedDetailVisible(id,camera.position.distanceTo(anchors[id]),focused);
    solar.visible=flags.solar&&detailed('sun');environment.visible=flags.environment&&!!earthPosition&&detailed('earth');belts.visible=flags.belts&&!!earthPosition&&detailed('earth');dust.visible=flags.dust&&detailed('dust');helio.visible=flags.helio&&detailed('helio');
-   corona.visible=parts.corona;flare.patch.visible=parts.flare;magnet.visible=parts.magnet;dipole.visible=parts.dipole;auroras.visible=parts.aurora;
+   atmosphere.update(parts);flare.patch.visible=parts.flare;magnet.visible=parts.magnet;dipole.visible=parts.dipole;auroras.visible=parts.aurora;
    for(const id of ['innerBelt','outerBelt','plasmasphere'] as const)beltParts[id].visible=parts[id];stream.visible=parts.stream;sheath.visible=parts.sheath;medium.visible=parts.medium;neutrals.visible=parts.neutrals;
    const state=solarDemoState(progress);cme.visible=parts.cme&&state.cmeVisible;cme.position.set(.5+(state.cmeX+2.8)*.15,state.cmeY*.15,.2);cme.scale.setScalar(state.cmeRadius*.24);flare.update(parts.flare?state.flare:0);
    meteor.visible=parts.meteor&&!!earthPosition&&flags.dust&&detailed('earth');const m=meteorDemoState(progress);grain.position.set(m.x*.038,m.y*.038+.095,0);grain.visible=m.visible;glow.position.copy(grain.position);glow.visible=m.glow;trail.visible=m.glow;trail.geometry.setFromPoints([grain.position,grain.position.clone().add(new THREE.Vector3(-.045,.035,0))]);
    const attr=neutrals.geometry.attributes.position;for(let i=0;i<90;i++)attr.setXYZ(i,-12+24*((i*.618034+progress)%1),2+3*Math.sin(i*4.1),3*Math.cos(i*2.3));attr.needsUpdate=true;
   },
   layout(camera:THREE.PerspectiveCamera,width:number,height:number,enabled:boolean){
-   const candidates=labels.flatMap(({id,button})=>{button.style.visibility='hidden';if(!shown[id]||!enabled)return [];const p=anchors[id].clone().project(camera);if(p.z<-1||p.z>1)return [];return [{id,x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:button.offsetWidth,height:button.offsetHeight}];});
+   const candidates=labels.flatMap(({id,button})=>{button.style.visibility='hidden';if(!root.visible||!shown[id]||!enabled)return [];const p=anchors[id].clone().project(camera);if(p.z<-1||p.z>1)return [];return [{id,x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:button.offsetWidth,height:button.offsetHeight}];});
    const obstacles=[...host.querySelectorAll<HTMLElement>('.macro-world-labels:not(.integrated-world-labels) .macro-world-label')].filter(e=>e.style.visibility==='visible').map(e=>{const r=e.getBoundingClientRect(),h=host.getBoundingClientRect();return {x:r.x-h.x,y:r.y-h.y,width:r.width,height:r.height};});
    for(const box of placeMacroLabels(candidates,width,height,70,110,obstacles)){const b=labels.find(l=>l.id===box.id)!.button;b.style.transform=`translate(${box.x}px,${box.y}px)`;b.style.visibility='visible';}
   },

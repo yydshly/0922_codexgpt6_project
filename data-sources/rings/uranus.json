@@ -1,0 +1,49 @@
+{
+  "sourceVersion": "2015-10-14",
+  "equatorialRadiusKm": 25559,
+  "referenceRadiusAndWidthKm": {
+    "6": [
+      41837,
+      1.5
+    ],
+    "alpha": [
+      44718,
+      [
+        4,
+        10
+      ]
+    ],
+    "beta": [
+      45661,
+      [
+        5,
+        11
+      ]
+    ],
+    "gamma": [
+      47627,
+      [
+        1,
+        4
+      ]
+    ],
+    "delta": [
+      48300,
+      [
+        3,
+        7
+      ]
+    ],
+    "epsilon": [
+      51149,
+      [
+        20,
+        96
+      ]
+    ]
+  },
+  "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranringfact.html",
+  "checkedAt": "2026-09-25",
+  "captureMethod": "Selected numerical facts manually transcribed from the official page; not a raw HTML archive",
+  "scope": "Only facts used in the reference rendering audit; not the complete ring catalogue"
+}

@@ -1,4 +1,6 @@
-import { ringProfile } from '../data/rings';
+import {referenceAttitude} from './referenceAttitude';
+import { ringProfile,ringSystemBounds } from '../data/rings';
+import { makeSaturnRingGeometry } from './saturnRingGeometry';
 import { makeFaintRings,updateFaintRings } from './planetaryRings';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
@@ -147,24 +149,6 @@ function makePlanetMaterial(body: BodyDefinition, loader: THREE.TextureLoader) {
   return material;
 }
 
-/** Local +X is the prime meridian, +Y north, -Z east (Three sphere UV convention). */
-function orientation(body: BodyDefinition, secondsTdb: number, out: THREE.Quaternion) {
-  const alpha=(body.poleRaDeg ?? 0)*RAD, delta=(body.poleDecDeg ?? 90)*RAD;
-  const rotationRate=body.rotationRateDegPerDay ?? 8640/body.rotationHours;
-  const w=((body.primeMeridianDeg ?? 0)+secondsTdb/86400*rotationRate)%360*RAD;
-  const pole = new THREE.Vector3(Math.cos(delta)*Math.cos(alpha),Math.cos(delta)*Math.sin(alpha),Math.sin(delta));
-  const q = new THREE.Vector3(-Math.sin(alpha),Math.cos(alpha),0);
-  const u = pole.clone().cross(q);
-  const x=q.clone().multiplyScalar(Math.cos(w)).addScaledVector(u,Math.sin(w));
-  const west=q.clone().multiplyScalar(Math.sin(w)).addScaledVector(u,-Math.cos(w));
-  const transform=(v:THREE.Vector3)=>{
-    const y=v.y*Math.cos(23.439291111*RAD)+v.z*Math.sin(23.439291111*RAD);
-    const z=-v.y*Math.sin(23.439291111*RAD)+v.z*Math.cos(23.439291111*RAD);
-    return v.set(v.x,z,-y);
-  };
-  out.setFromRotationMatrix(new THREE.Matrix4().makeBasis(transform(x),transform(pole),transform(west)));
-}
-
 /** Instantaneous Kepler conic, explicitly a reference curve rather than a future ephemeris. */
 function referenceOrbit(frame: StateFrame, index: number): THREE.Vector3[] {
   if(index===0) return [];
@@ -229,17 +213,18 @@ function makeBelt(min:number,max:number,count:number,color:string,seed:number) {
   return new THREE.Points(geometry,material);
 }
 function makeSaturnRing(loader:THREE.TextureLoader) {
+  const [inner,outer]=ringSystemBounds('saturn',bodyById.saturn.radiusKm);
   const material=new THREE.ShaderMaterial({
-    vertexShader:vs,uniforms:{sunDirection:{value:new THREE.Vector3(1,0,0)},ringMap:{value:new THREE.Texture()},bodyCenter:{value:new THREE.Vector3()},bodyRadius:{value:1},presentationLight:{value:0}},
+    vertexShader:vs,uniforms:{sunDirection:{value:new THREE.Vector3(1,0,0)},ringMap:{value:new THREE.Texture()},bodyCenter:{value:new THREE.Vector3()},bodyRadius:{value:1},presentationLight:{value:0},ringBounds:{value:new THREE.Vector2(inner,outer)}},
     fragmentShader:`
       varying vec2 vUv; varying vec3 vNormal; varying vec3 vPosition;
-      uniform vec3 sunDirection; uniform sampler2D ringMap; uniform vec3 bodyCenter; uniform float bodyRadius;uniform float presentationLight;
+      uniform vec3 sunDirection; uniform sampler2D ringMap; uniform vec3 bodyCenter; uniform float bodyRadius;uniform float presentationLight; uniform vec2 ringBounds;
       #include <common>
       #include <logdepthbuf_pars_fragment>
       void main(){
         #include <logdepthbuf_fragment>
         float r=length(vUv-.5)*2.0;
-        vec4 rings=texture2D(ringMap,vec2(clamp((r*2.33-1.24)/(2.33-1.24),0.,1.),.5));
+        vec4 rings=texture2D(ringMap,vec2(clamp((r*ringBounds.y-ringBounds.x)/(ringBounds.y-ringBounds.x),0.,1.),.5));
         vec3 relative=(vPosition-bodyCenter)/bodyRadius;
         float along=dot(relative,normalize(sunDirection));
         float closest=dot(relative,relative)-along*along;
@@ -256,7 +241,7 @@ function makeSaturnRing(loader:THREE.TextureLoader) {
     texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=8;
     material.uniforms.ringMap.value.dispose();material.uniforms.ringMap.value=texture;
   });
-  const ring=new THREE.Mesh(new THREE.RingGeometry(1.24,2.33,160),material);
+  const ring=new THREE.Mesh(makeSaturnRingGeometry(1,'planar'),material);
   ring.name='saturn-rings';ring.rotation.x=Math.PI/2;return ring;
 }
 
@@ -467,7 +452,7 @@ export function SolarSystem(props:Props) {
         if(spatial){
           const bounds=new THREE.Box3();
           positions.forEach((position,i)=>{if(visibleBodies[i]){
-            const extent=radii[i]*(i===7?2.33:1.08);
+            const extent=radii[i]*(bodyById.saturn.id===BODIES[i].id?ringSystemBounds('saturn',bodyById.saturn.radiusKm)[1]:1.08);
             bounds.expandByPoint(position.clone().addScalar(extent));bounds.expandByPoint(position.clone().addScalar(-extent));
           }});
           satelliteLayout.forEach(s=>{if(s.visible){bounds.expandByPoint(s.position.clone().addScalar(s.radius));bounds.expandByPoint(s.position.clone().addScalar(-s.radius));}});
@@ -496,7 +481,7 @@ export function SolarSystem(props:Props) {
           const up=direction.clone().cross(right).normalize();
           let fit=0;
           positions.forEach((position,i)=>{if(visibleBodies[i]){
-            const delta=position.clone().sub(center), radius=radii[i]*(i===7?2.33:1.08);
+            const delta=position.clone().sub(center), radius=radii[i]*(bodyById.saturn.id===BODIES[i].id?ringSystemBounds('saturn',bodyById.saturn.radiusKm)[1]:1.08);
             const depth=delta.dot(direction);
             fit=Math.max(fit,depth+(Math.abs(delta.dot(right))+radius)/(Math.tan(camera.fov*RAD/2)*camera.aspect*.84),depth+(Math.abs(delta.dot(up))+radius)/(Math.tan(camera.fov*RAD/2)*.70));
           }});
@@ -519,7 +504,7 @@ export function SolarSystem(props:Props) {
           if(selectedId==='sun'&&!selectedDwarfState)lit.set(1,.3,1).normalize();
           lit.applyAxisAngle(new THREE.Vector3(0,1,0),.85);
           if(ringProfile(selectedId)){
-            const attitude=new THREE.Quaternion();orientation(BODIES[selectedIndex],frame.time,attitude);
+            const attitude=new THREE.Quaternion();referenceAttitude(BODIES[selectedIndex],frame.time,attitude);
             const pole=new THREE.Vector3(0,1,0).applyQuaternion(attitude);
             lit.addScaledVector(pole,.6).normalize();
           }
@@ -580,7 +565,7 @@ export function SolarSystem(props:Props) {
         // Fixed world-space sizes: approaching a body really changes its apparent size.
         const displayRadius=radius;
         group.scale.setScalar(displayRadius);
-        orientation(body,frame.time,group.quaternion);
+        referenceAttitude(body,frame.time,group.quaternion);
         updateFaintRings(group,options.rings!==false&&options.additionalRings!==false,options.enhanceRings!==false,frame.time);
         const ring=group.getObjectByName('saturn-rings');if(ring)ring.visible=options.rings!==false;
         if(body.id==='earth'){

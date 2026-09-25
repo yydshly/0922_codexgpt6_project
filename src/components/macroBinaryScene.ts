@@ -1,17 +1,24 @@
+import {PLUTO_MOONS,type PlutoSystemId,type PlutoMoonState} from '../data/plutoMoons';
 import * as THREE from 'three';
 import {dynamicDwarfById} from '../data/dwarfs';
 import {BINARY_SCALE,type MacroBinaryState} from '../data/macroBinary';
 import {AU_KM} from '../data/catalog';
 import {dwarfReferenceOrbit,PLUTO_GM,CHARON_GM} from './dwarfOrbit';
 import {placeMacroLabels} from './macroLabelLayout';
-export interface BinaryOptions {state:MacroBinaryState;enabled:boolean;center:boolean;orbits:boolean;selected:'pluto'|'charon'|null;onSelect:(id:'pluto'|'charon')=>void;onFocus:()=>void}
+export interface BinaryOptions {state:MacroBinaryState;enabled:boolean;center:boolean;orbits:boolean;smallMoons:boolean;enhanced:boolean;moonStates:PlutoMoonState[];selected:PlutoSystemId|null;onSelect:(id:PlutoSystemId)=>void;onFocus:()=>void}
 export function createMacroBinary(scene:THREE.Scene,host:HTMLElement,onSelect:BinaryOptions['onSelect'],onFocus:()=>void){
  const root=new THREE.Group();root.userData.integrated=true;root.name='macro-pluto-charon';root.userData.sceneElement='moons';scene.add(root);
  const bodies=(['pluto','charon'] as const).map(id=>{const b=dynamicDwarfById[id];const mesh=new THREE.Mesh(new THREE.SphereGeometry(b.radiusKm*BINARY_SCALE,40,28),new THREE.MeshStandardMaterial({color:b.color,roughness:.85}));mesh.userData.binaryId=id;root.add(mesh);return mesh;});
+ const small=PLUTO_MOONS.map(body=>{
+  const mesh=new THREE.Mesh(new THREE.SphereGeometry(body.radiusKm*BINARY_SCALE,24,16),new THREE.MeshStandardMaterial({color:body.color,roughness:.85}));
+  mesh.userData.binaryId=body.id;mesh.userData.sceneElement='pluto-small-moons';root.add(mesh);mesh.visible=false;
+  const orbit=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:body.color,transparent:true,opacity:.35}));orbit.userData.sceneElement='pluto-small-moons';root.add(orbit);orbit.visible=false;
+  return {body,mesh,orbit,epoch:NaN};
+ });
  const center=new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-.045,0,0),new THREE.Vector3(.045,0,0),new THREE.Vector3(0,-.045,0),new THREE.Vector3(0,.045,0),new THREE.Vector3(0,0,-.045),new THREE.Vector3(0,0,.045)]),new THREE.LineBasicMaterial({color:'#a9edcb'}));root.add(center);
  const orbits=[0,1].map(()=>{const l=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:'#b8ceb7',transparent:true,opacity:.4}));root.add(l);return l;});
  const overlay=document.createElement('div');overlay.className='macro-world-labels binary-world-labels';host.appendChild(overlay);
- const labels=['冥王星—卡戎 · 靠近','冥王星','卡戎','双体质心 · 非天体'].map((name,i)=>{const b=document.createElement('button');b.type='button';b.className='macro-world-label selectable';b.textContent=name;b.onclick=()=>i===1?onSelect('pluto'):i===2?onSelect('charon'):onFocus();overlay.appendChild(b);return b;});
+ const labels=['冥王星家族 · 靠近','冥王星','卡戎','双体近似质心 · 非天体',...PLUTO_MOONS.map(b=>b.name)].map((name,i)=>{const b=document.createElement('button');b.type='button';b.className='macro-world-label selectable';b.textContent=name;b.onclick=()=>i===1?onSelect('pluto'):i===2?onSelect('charon'):i>=4?onSelect(PLUTO_MOONS[i-4].id as PlutoSystemId):onFocus();overlay.appendChild(b);return b;});
  let available=false,detail=false,showCenter=true,epoch=NaN;
  return {anchor:root.position,get visible(){return root.visible;},
  update(options:BinaryOptions,camera:THREE.PerspectiveCamera,focused:string|null){
@@ -19,14 +26,26 @@ export function createMacroBinary(scene:THREE.Scene,host:HTMLElement,onSelect:Bi
   if(!s)return;root.position.set(...s.anchor);bodies[0].position.set(...s.plutoLocal);bodies[1].position.set(...s.charonLocal);center.visible=options.center;
   bodies.forEach((b,i)=>b.material.emissive.set(options.selected===(i?'charon':'pluto')?'#314b42':'#000000'));
   orbits.forEach(l=>l.visible=options.orbits);
+  for(const item of small){
+   const moon=options.moonStates.find(m=>m.id===item.body.id);
+   item.mesh.visible=!!moon&&options.smallMoons;item.orbit.visible=!!moon&&options.smallMoons&&options.orbits;
+   if(!moon)continue;
+   item.mesh.position.set(...moon.local);item.mesh.scale.setScalar(options.enhanced?Math.max(1,.035/(item.body.radiusKm*BINARY_SCALE)):1);
+   item.mesh.material.emissive.set(options.selected===item.body.id?'#547067':'#000000');item.orbit.material.opacity=options.selected===item.body.id?.8:.28;labels[4+small.indexOf(item)].setAttribute('aria-pressed',String(options.selected===item.body.id));
+   if(detail&&options.smallMoons&&options.orbits&&(!Number.isFinite(item.epoch)||Math.abs(s.time-item.epoch)>1800)){
+    const points=dwarfReferenceOrbit(moon.state,{id:'pluto-charon-center',position:s.center,velocity:s.centerVelocity},PLUTO_GM+CHARON_GM);
+    item.orbit.geometry.dispose();item.orbit.geometry=new THREE.BufferGeometry().setFromPoints(points.map(p=>p.multiplyScalar(AU_KM*BINARY_SCALE)));item.epoch=s.time;
+   }
+  }
+
   if(detail&&options.orbits&&(!Number.isFinite(epoch)||Math.abs(s.time-epoch)>1800)){
    const points=dwarfReferenceOrbit(s.charon,s.pluto,PLUTO_GM+CHARON_GM);
    orbits.forEach((l,i)=>{l.geometry.dispose();l.geometry=new THREE.BufferGeometry().setFromPoints(points.map(p=>p.clone().multiplyScalar(AU_KM*BINARY_SCALE*(i?PLUTO_GM:-CHARON_GM)/(PLUTO_GM+CHARON_GM))));});epoch=s.time;
   }
  },
  layout(camera:THREE.PerspectiveCamera,width:number,height:number,show:boolean){
-  const candidates=[];for(let i=0;i<labels.length;i++){const b=labels[i];b.style.visibility='hidden';if(!show||!available||(i===0?detail:!detail)||(i===3&&!showCenter))continue;
-   const p=(i===1||i===2?bodies[i-1].getWorldPosition(new THREE.Vector3()):root.position.clone()).project(camera);if(p.z<-1||p.z>1)continue;
+  const candidates=[];for(let i=0;i<labels.length;i++){const b=labels[i];b.style.visibility='hidden';if(!show||(!root.visible&&detail)||!available||(i===0?detail:!detail)||(i===3&&!showCenter)||(i>=4&&!small[i-4].mesh.visible))continue;
+   const p=(i>=4?small[i-4].mesh.getWorldPosition(new THREE.Vector3()):i===1||i===2?bodies[i-1].getWorldPosition(new THREE.Vector3()):root.position.clone()).project(camera);if(p.z<-1||p.z>1)continue;
    candidates.push({id:String(i),x:(p.x+1)*width/2,y:(1-p.y)*height/2,width:b.offsetWidth,height:b.offsetHeight});
   }
   const hostRect=host.getBoundingClientRect(),obstacles=[...host.querySelectorAll<HTMLElement>('.macro-world-labels:not(.binary-world-labels) .macro-world-label')].filter(b=>b.style.visibility==='visible').map(b=>{const r=b.getBoundingClientRect();return {x:r.x-hostRect.x,y:r.y-hostRect.y,width:r.width,height:r.height};});

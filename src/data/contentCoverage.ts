@@ -3,9 +3,12 @@ import type {SolarFamilyId,CosmicLevelId} from './cosmicContext';
 import type {StageId} from './stages';
 export type CoverageEntry = {kind:'zone';id:MacroZoneId}|{kind:'family';id:SolarFamilyId}|{kind:'cosmic';id:CosmicLevelId};
 export type PlanTab = 'baseline'|'route'|'coverage'|'data'|'delivery';
-export const BASELINE_VERSION = 'baseline-2026-09-24-review-v1';
+export const BASELINE_VERSION = 'baseline-2026-09-25-r03-r04';
 export interface CoverageItem {id:string;title:string;status:string;current:string;target:string;phase:string;evidence:string;datasets:(keyof typeof COVERAGE_DATASETS)[];modules:string[];entry:CoverageEntry|null;stages:StageId[];how:string;validation:string;release:string;acceptance:string;}
 export const COVERAGE_DATASETS = {
+  patroclusSystem:{"version": "horizons-patroclus-menoetius-2026-2027-v1", "generatedAt": "2026-09-24T17:07:55.608032+00:00", "startUtc": "2026-01-01T00:00:00Z", "endUtc": "2028-01-01T00:00:00Z", "path": "data/patroclus-system/manifest.json"},
+  erisSystem:{"version": "horizons-eris-dysnomia-2026-2027-v1", "generatedAt": "2026-09-24T16:26:14.479572+00:00", "startUtc": "2026-01-01T00:00:00Z", "endUtc": "2028-01-01T00:00:00Z", "path": "data/eris-system/manifest.json"},
+  plutoMoons:{"version": "horizons-pluto-small-moons-2026-2027-v1", "generatedAt": "2026-09-24T16:08:58.867532+00:00", "startUtc": "2026-01-01T00:00:00Z", "endUtc": "2028-01-01T00:00:00Z", "path": "data/pluto-moons/manifest.json"},
   "core": {
     "path": "data/manifest.json",
     "version": "horizons-2026-2027-v1",
@@ -47,8 +50,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "id": "E01",
     "title": "太阳本体与活动",
     "status": "已有基础",
-    "current": "本体历表、参数、参考自转及日冕/活动示意",
-    "target": "统一表面与活动层；补光球、色球、日冕及黑子、日珥解释，区分模型与当日状态",
+    "current": "本体历表与参数；光球到日冕分层、黑子/日珥、耀斑/CME 主全景示意",
+    "target": "R04 分层与核心参数核对已实现；待版本验收，活动与环境联系由 R05 补充",
     "phase": "M3 / M4",
     "evidence": "历表位置 + 参考参数 + 活动示意",
     "datasets": [
@@ -64,16 +67,16 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     },
     "stages": [],
     "how": "选择太阳；更多工具 → 太阳活动。",
-    "validation": "数据包有插值报告；太阳表面修复见学习流程检查，活动模型仍待总验收。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "validation": "参考姿态、来源、分层控制与跨模块显隐已有本地检查；非当日太阳活动重建。",
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E02",
     "title": "八大行星与外观",
     "status": "已有基础",
     "current": "真实历表、球体、轨道参考、参数；地球有云层与大气",
-    "target": "逐体核对姿态、光照、材质和大气边界；补代表性表面或内部结构说明",
+    "target": "R04 核心外观与参数一致性已核对；待用户验收，天气、扁率和高精度表面仍未实现",
     "phase": "M3",
     "evidence": "历表位置 + 静态贴图与程序大气",
     "datasets": [
@@ -89,22 +92,25 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     },
     "stages": [],
     "how": "点选行星；全景目录 → 地球外观。",
-    "validation": "核心插值报告已存在；外观和姿态逐体复核待 M3.3。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "validation": "参考自转、倾角参照、静态纹理与家族比例检查通过；不等于完整外观实测重建。",
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E03",
     "title": "天然卫星与家族",
     "status": "已有基础",
-    "current": "21 颗选定卫星；六个行星家族与冥王星双体",
-    "target": "补冥王星余下四卫星、另一矮行星卫星系统及小天体卫星/双体代表；关联喷流等特征",
+    "current": "27 颗选定卫星；六个行星家族、冥王星五卫星、阋神星及双小行星系统；土卫二喷流/剖面示意",
+    "target": "约定家族及土卫二喷流/内部示意已本地接入；待用户验收，环境联系由 R05 继续",
     "phase": "M3",
     "evidence": "卫星历表 + 局部显示缩放",
     "datasets": [
       "core",
       "satellites",
-      "dwarfs"
+      "dwarfs",
+      "plutoMoons",
+      "erisSystem",
+      "patroclusSystem"
     ],
     "modules": [
       "src/data/satellites.ts",
@@ -119,16 +125,16 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
       "families"
     ],
     "how": "阅读天然卫星；全景现象 → 定位家族。",
-    "validation": "卫星包有插值报告；地月近景操作已复验，全部家族总验收待补。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "validation": "六个家族、冥王星、阋神星、双小行星的近景、大小/距离边界与历史恢复已复验；待用户整批验收。",
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E04",
     "title": "行星与小天体环",
     "status": "示意为主",
-    "current": "四大巨行星代表环系",
-    "target": "细化巨行星代表环段与尺度；加入至少一个小天体环的资料或示意",
+    "current": "四大巨行星代表环系 + 女凯龙星双环参考示意",
+    "target": "双环与巨行星代表环段尺度已复核；等待跨视图用户验收，厚度与完整暗淡外延仍未重建",
     "phase": "M3",
     "evidence": "文献参考环段 + 增强显示",
     "datasets": [],
@@ -144,9 +150,9 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
       "families"
     ],
     "how": "选择巨行星家族，比较环系和轨道开关。",
-    "validation": "环系资料及开关已接入；逐环尺度、外观验收待补。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "validation": "参考环段来源与局部比例已复核；土星三视图统一 C/B/A 边界，几何回归和开关复验已补，用户验收待完成。",
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E05",
@@ -173,15 +179,15 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "从矮行星成员清单定位，再展开参数。",
     "validation": "数据包有检查点验证；五颗矮行星统一近景验收待补。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E06",
     "title": "小行星主带",
     "status": "示意为主",
     "current": "主带点云；谷神星、灶神星真实代表",
-    "target": "区分区域样本与真实成员；补不规则形状、双小行星/小天体卫星代表",
+    "target": "区分区域样本与真实成员；形状对照见近地爱神星，双小行星代表见 L5 群",
     "phase": "M2 / M3",
     "evidence": "随机区域点云 + 具名成员历表",
     "datasets": [
@@ -202,17 +208,17 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "侧视主带，再定位谷神星或灶神星。",
     "validation": "灶神星近景切换已复验；点云不是逐体数据，无逐点精度报告。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E07",
     "title": "近地小行星",
-    "status": "已有代表",
-    "current": "爱神星真实历表、当前地心距离和近地分类说明",
+    "status": "已有代表 / 待验收",
+    "current": "爱神星真实历表、地心距离、近地分类及 PDS 不规则形状对照",
     "target": "至少一个可靠近地代表及地球轨道关系；补共轨或准卫星认识案例",
     "phase": "M3",
-    "evidence": "JPL 几何历表 + SBDB 参数快照 + 明确标注的外观示意",
+    "evidence": "JPL 几何历表 + SBDB 参数快照 + PDS NEAR 形状网格；材质与补光示意",
     "datasets": [
       "core",
       "smallBodies"
@@ -231,23 +237,25 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "近地小行星 → 爱神星；查看日心/地心参数，前后 30 天对比。",
     "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
-    "release": "R01 本地已实现，未发布",
-    "acceptance": "待用户验收；本类其余目标仍按总路线执行"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E08",
     "title": "特洛伊群",
     "status": "已有代表",
-    "current": "阿喀琉斯 L4 与埃涅阿斯 L5 真实历表；背景点群仍为示意",
+    "current": "阿喀琉斯 L4、埃涅阿斯 L5 及 Patroclus–Menoetius 双体历表；背景点群为示意",
     "target": "L4/L5 各一真实代表，解释相对行星分布",
     "phase": "M2 / M3",
-    "evidence": "JPL 几何历表 + SBDB 参数快照 + 明确标注的外观示意",
+    "evidence": "JPL 几何历表 + SBDB 参数快照 + PDS NEAR 形状网格；材质与补光示意",
     "datasets": [
       "core",
-      "smallBodies"
+      "smallBodies",
+      "patroclusSystem"
     ],
     "modules": [
       "src/data/r01Members.ts",
+      "src/components/PatroclusSystemPanel.tsx",
       "src/data/regionMembers.ts",
       "src/components/R01MemberParameters.tsx"
     ],
@@ -260,8 +268,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "半人马族与特洛伊群 → 分别定位 L4/L5，比较相对木星方位。",
     "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
-    "release": "R01 本地已实现，未发布",
-    "acceptance": "待用户验收；本类其余目标仍按总路线执行"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E09",
@@ -270,7 +278,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "current": "女凯龙星真实历表、轨道与来源参数；巨行星区域点群为示意",
     "target": "至少一个真实代表及跨区域轨道",
     "phase": "M3",
-    "evidence": "JPL 几何历表 + SBDB 参数快照 + 明确标注的外观示意",
+    "evidence": "JPL 几何历表 + SBDB 参数快照 + PDS NEAR 形状网格；材质与补光示意",
     "datasets": [
       "core",
       "smallBodies"
@@ -287,10 +295,10 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [
       "members"
     ],
-    "how": "半人马族与特洛伊群 → 女凯龙星；观察高度、轨道及环的文字说明。",
+    "how": "半人马族与特洛伊群 → 女凯龙星；观察高度、轨道；主全景可定位并控制双环参考示意。",
     "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
-    "release": "R01 本地已实现，未发布",
-    "acceptance": "待用户验收；本类其余目标仍按总路线执行"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E10",
@@ -317,8 +325,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "全景内容总表进入；展开四类轨道说明对照夸奥尔与冥王星。",
     "validation": "成员有数据包验证；区域分布的统一表达待 M2.2。",
-    "release": "R02 本地实现 / 未发布",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E11",
@@ -344,8 +352,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "全景内容总表定位塞德娜；查看黄道高度、日期变化及分类依据。",
     "validation": "代表成员有数据验证；两类分布尚未分别实现。",
-    "release": "R02 本地实现 / 未发布",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E12",
@@ -371,8 +379,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "内容总表 → 彗星 → 海尔—波普；可切换三颗彗星。",
     "validation": "数据包内有留出样本误差；活动示例不作当日状态验证。",
-    "release": "R02 本地实现 / 未发布",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E13",
@@ -396,8 +404,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "侧视球状区域，阅读模型不确定性。",
     "validation": "推断模型没有逐体观测坐标；范围与说明待总验收。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E14",
@@ -421,8 +429,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "更多工具 → 尘埃与流星；从独立详解查看进度控制。",
     "validation": "已有演示控制；黄道光与流星雨关联未完成。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E15",
@@ -446,8 +454,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "阅读区域；阶段 09 开启时可展开日球层详解。",
     "validation": "已有分层控制；方向与可变边界解释仍待完善。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E16",
@@ -472,8 +480,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "更多工具 → 近地空间；定位后查阅详解。",
     "validation": "地球环境已有操作；木星环境对照尚未实现。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E17",
@@ -497,8 +505,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "全景目录 → 行星运动；日月食尚无案例入口。",
     "validation": "已有运动比较；四组课程和天象事件验证尚未完成。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E18",
@@ -520,8 +528,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "查看现有邻星示意；不作为星表实测结果。",
     "validation": "未导入真实星表，无星位、视差质量验证。",
-    "release": "已有分类或示意；目标能力未发布",
-    "acceptance": "现有说明待验收；动态能力待接入"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E19",
@@ -543,13 +551,13 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "从银河系切换银河系之外，比较尺度说明。",
     "validation": "结构示意已接入；跨尺度一致性仍待 M5.2。",
-    "release": "基础功能已发布；覆盖清单随本批交付，用户验收独立记录",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
     "id": "E20",
     "title": "星际访客",
-    "status": "本地已接入 / 待验收",
+    "status": "已接入历史案例 / 待验收",
     "current": "2I/Borisov：2019—2020 独立历史轨迹与参数",
     "target": "一例通过来源、轨道质量和有效时间检查的代表；与长期束缚成员区分",
     "phase": "M3",
@@ -567,7 +575,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "stages": [],
     "how": "内容总表 → 星际访客直接进入；彗星面板也提供历史窗口。",
     "validation": "原始数据与分包哈希、独立检查点插值及历史窗口进出检查；不代表绝对轨道精度。",
-    "release": "R02 本地实现 / 未发布",
-    "acceptance": "待用户验收"
+    "release": "基础与 R01/R02 已有远端版本；R03/R04 随本次候选版本提交，部署结果见建设记录",
+    "acceptance": "待用户逐项验收（发布不等于验收）"
   }
 ];

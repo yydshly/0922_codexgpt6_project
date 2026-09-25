@@ -1,0 +1,36 @@
+{
+  "sourceVersion": "2015-10-14",
+  "equatorialRadiusKm": 71492,
+  "radiiKm": {
+    "Halo": [
+      89400,
+      123000
+    ],
+    "Main": [
+      123000,
+      128940
+    ],
+    "Amalthea": [
+      128940,
+      181350
+    ],
+    "Thebe": [
+      181350,
+      221900
+    ],
+    "ThebeExtension": [
+      221900,
+      280000
+    ]
+  },
+  "thicknessKm": {
+    "Halo": "~10000",
+    "Main": "<~100",
+    "Amalthea": 2600,
+    "Thebe": 8800
+  },
+  "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupringfact.html",
+  "checkedAt": "2026-09-25",
+  "captureMethod": "Selected numerical facts manually transcribed from the official page; not a raw HTML archive",
+  "scope": "Only facts used in the reference rendering audit; not the complete ring catalogue"
+}

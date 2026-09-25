@@ -1,0 +1,36 @@
+{
+  "version": "enceladus-interior-teaching-v1",
+  "reviewedAt": "2026-09-25",
+  "kind": "educational geometry; not observed interior image or a plume forecast",
+  "sources": [
+    {
+      "title": "NASA · 土卫二观测概览",
+      "url": "https://science.nasa.gov/saturn/moons/enceladus/",
+      "evidence": "Cassini observed south polar water vapor and ice particles."
+    },
+    {
+      "title": "NASA · 全球海洋的摆动证据（2015）",
+      "url": "https://www.nasa.gov/news-release/cassini-finds-global-ocean-in-saturns-moon-enceladus/",
+      "evidence": "Measured libration supports an ice shell decoupled from the interior by a global ocean."
+    },
+    {
+      "title": "NASA · 喷流与土星 E 环",
+      "url": "https://science.nasa.gov/missions/cassini/the-moon-with-the-plume/",
+      "evidence": "Enceladus supplies material to the diffuse E ring."
+    }
+  ],
+  "displayRadii": {
+    "surface": 1,
+    "ocean": 0.84,
+    "core": 0.61
+  },
+  "units": "dimensionless drawing ratios, not estimated physical layer thickness",
+  "limits": [
+    "Body position and radius use existing satellite ephemeris/catalog.",
+    "Cut faces, colors and layer widths are schematic.",
+    "Model south is local negative Y, an explanatory pose; not the observed pole direction at the selected date.",
+    "Static plume dots are not individual measured particles or measured velocities.",
+    "No automatic current-event, habitability or life detection claim.",
+    "E-ring material supply is explained, not simulated by individual grain trajectories."
+  ]
+}

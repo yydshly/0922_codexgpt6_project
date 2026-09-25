@@ -1,0 +1,20 @@
+import {describe,it,expect} from 'vitest';
+import * as THREE from 'three';
+import {createPatroclusCompanion} from './macroPatroclusSystem';
+import {defaultPatroclusChoices,patroclusSystemState} from '../data/patroclusSystem';
+it('keeps both radii and relative distance on one scale, follows the primary, and hides invalid dates',()=>{
+ const marker=new THREE.Mesh(new THREE.SphereGeometry(.13),new THREE.MeshBasicMaterial()),pair=createPatroclusCompanion(marker);
+ const frame={time:100,positions:new Float64Array(30),velocities:new Float64Array(30)};
+ const state=patroclusSystemState(frame,{timeTdb:100,originId:'ssb',frame:'ECLIPJ2000',positionUnit:'km',velocityUnit:'km/s',sourceVersion:'horizons-patroclus-menoetius-test',states:[{id:'patroclus',position:[1e8,2e8,0],velocity:[1,1,0]},{id:'menoetius',position:[1e8+690,2e8,0],velocity:[1,1.01,0]}]});
+ const choices=defaultPatroclusChoices();pair.update({state,enabled:true,choices});
+ expect(pair.root.visible).toBe(true);expect(pair.moon.geometry.parameters.radius/.13).toBeCloseTo(52/56.5);
+ expect(pair.moon.position.length()/.13).toBeCloseTo(690/56.5);
+ marker.position.set(10,20,30);marker.scale.setScalar(1.5);marker.updateMatrixWorld(true);
+ expect(pair.moon.getWorldPosition(new THREE.Vector3()).distanceTo(marker.position)).toBeCloseTo(690*.13/56.5*1.5);
+ const line=pair.root.children.find(o=>o instanceof THREE.Line)!;expect(line.visible).toBe(false);
+ pair.update({state,enabled:true,choices:{...choices,distance:true}});expect(line.visible).toBe(true);
+ pair.update({state,enabled:true,choices:{...choices,moon:false}});expect(pair.root.visible).toBe(false);
+ pair.update({state:null,enabled:true,choices});expect(pair.root.visible).toBe(false);
+ pair.update({state,enabled:false,choices});expect(pair.root.visible).toBe(false);
+ marker.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Line){o.geometry.dispose();o.material.dispose();}});
+});

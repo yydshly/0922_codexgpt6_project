@@ -26,6 +26,7 @@ export interface AtlasBody {
 export const ATLAS_NOTICE = '真实观测覆盖太阳、八大行星、选定卫星，以及谷神星、冥王星与卡戎。图鉴预览仅说明外观；带有历表的成员可进入动态观测，区域小天体、海王星外成员与 67P 的历表在宏观页展示，可从相关入口查看。扩展对象不参与当前十体引力验证。';
 
 export const ATLAS_BODIES: AtlasBody[] = [
+ {id:'patroclus',name:'帕特罗克洛斯',englishName:'617 Patroclus',category:'small',parent:'太阳',radiusKm:56.5,radiusNote:'JPL 2023 卫星解参考半径；与墨诺提俄斯的 52 km 共同用于局部比例，未复原不规则形状。',description:'木星 L5 特洛伊群中的双小行星主星；与墨诺提俄斯一起绕太阳运行，局部又构成相互绕转的双体。不是木星的卫星，也不是两个接触粘合的天体。',features:['两颗分离且尺寸接近的小天体','同一套 JPL 解提供两颗本体中心的位置','主全景可查看同日的相对运动'],color:'#b6aa91',appearance:'rock',sourceUrl:'https://science.nasa.gov/solar-system/planets/jupiter/nasas-lucy-mission-a-journey-to-the-young-solar-system/'},
   {
     id:'ceres',name:'谷神星',englishName:'Ceres',category:'dwarf',parent:'太阳',
     radiusKm:469.7,radiusNote:'JPL 物理参数表的体积等效平均半径；NASA 入门资料常约写 476 km',color:'#b0ada4',appearance:'rock',
@@ -63,7 +64,7 @@ export const ATLAS_BODIES: AtlasBody[] = [
   },
   {
     id:'eris',name:'阋神星',englishName:'Eris',category:'dwarf',parent:'太阳',
-    radiusKm:1200,radiusNote:'约，由 NASA 概览中的约 2,400 km 直径换算',color:'#e2e4e7',appearance:'ice',
+    radiusKm:1163,radiusNote:'1163 ± 6 km，来自本项目保存的 JPL TNO 卫星解本体响应头；不是精确表面形状',color:'#e2e4e7',appearance:'ice',
     description:'大小与冥王星相近的遥远矮行星，轨道倾斜明显，远伸到柯伊伯带之外。它的发现推动了行星定义的讨论。',
     features:['平均日距约 68 AU','绕太阳一周约需 557 年','卫星 Dysnomia 的运动帮助研究者测量它的质量'],
     sourceUrl:'https://science.nasa.gov/dwarf-planets/eris/',

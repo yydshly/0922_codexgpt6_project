@@ -14,14 +14,14 @@ const sample=(time:number)=>interpolateMonthlyChunk(packs[manifest.chunks.findIn
 
 describe('区域代表成员真实历表',()=>{
  it('区域映射保留分类差异，并且每个标记有外观和来源',()=>{
-   expect(REGION_MEMBERS).toHaveLength(12);
-   expect(OBSERVATION_COUNTS.dynamic).toBe(32);expect(OBSERVATION_COUNTS.macroAdditional).toBe(13);expect(OBSERVATION_COUNTS.allDynamic).toBe(45);
+   expect(REGION_MEMBERS).toHaveLength(13);
+   expect(OBSERVATION_COUNTS.dynamic).toBe(32);expect(OBSERVATION_COUNTS.macroAdditional).toBe(20);expect(OBSERVATION_COUNTS.allDynamic).toBe(52);
    expect(membersForRegion('asteroid').map(b=>b.id)).toEqual(['ceres','vesta']);
    expect(membersForRegion('kuiper').map(b=>b.id)).toEqual(['pluto','haumea','makemake','quaoar']);
    expect(membersForRegion('scattered').map(b=>b.id)).toEqual(['sedna','eris']);
    expect(membersForRegion('all','dwarfs')).toHaveLength(5);
    expect(membersForRegion('all','asteroids').map(b=>b.id)).toEqual(['eros','ceres','vesta']);
-   expect(membersForRegion('all','centaurs').map(b=>b.id)).toEqual(['achilles','aneas','chariklo']);
+   expect(membersForRegion('all','centaurs').map(b=>b.id)).toEqual(['patroclus','achilles','aneas','chariklo']);
    expect(membersForRegion('oort')).toHaveLength(0);
    expect(REGION_MEMBERS.every(b=>/^https:\/\/(science\.nasa\.gov|ssd\.jpl\.nasa\.gov)\//.test(b.sourceUrl) && b.description && b.relation)).toBe(true);
    expect(manifest.bodyIds).toEqual(NEW_MEMBER_IDS);

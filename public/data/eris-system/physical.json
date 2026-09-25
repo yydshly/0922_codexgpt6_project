@@ -1,0 +1,31 @@
+{
+  "version": "horizons-tnosat-v001-eris-reference-2026-09-25",
+  "sourceVersion": "tnosat_v001_20136199_jpl080_20220908",
+  "solutionDate": "2022-09-07",
+  "reviewedAt": "2026-09-25",
+  "primaryId": "920136199",
+  "moonId": "120136199",
+  "radiusKm": {
+    "eris": 1163,
+    "dysnomia": 350
+  },
+  "radiusUncertaintyKm": {
+    "eris": 6,
+    "dysnomia": 57.5
+  },
+  "periodDays": 15.785899,
+  "periodUncertaintyDays": 5e-05,
+  "periodSource": "https://ntrs.nasa.gov/api/citations/20210012932/downloads/21-49.pdf",
+  "physicalSource": "Horizons archived raw response headers in data-sources/eris-system",
+  "uncertainty": {
+    "relativePositionKm": 110,
+    "epoch": "2025-01-01",
+    "source": "Dysnomia Horizons header",
+    "meaning": "Only the quoted source epoch, not a current-date error bound."
+  },
+  "limits": [
+    "The 136199; small-body target is a barycenter, not the Eris primary body.",
+    "Positions use the same archived 2022 TNO satellite solution; no mixing with a newer barycenter.",
+    "No mass, barycenter marker, true spin or precise surface model is added."
+  ]
+}

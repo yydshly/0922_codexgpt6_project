@@ -1,0 +1,30 @@
+{
+  "sourceVersion": "2015-10-14",
+  "equatorialRadiusKm": 24766,
+  "referenceRadiusAndWidthKm": {
+    "Galle": [
+      "~41900",
+      "~2000"
+    ],
+    "LeVerrier": [
+      "~53200",
+      "<100"
+    ],
+    "Lassell": [
+      "~53200",
+      "~4000"
+    ],
+    "Arago": [
+      "~57200",
+      "<100"
+    ],
+    "Adams": [
+      62933,
+      "~15"
+    ]
+  },
+  "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/nepringfact.html",
+  "checkedAt": "2026-09-25",
+  "captureMethod": "Selected numerical facts manually transcribed from the official page; not a raw HTML archive",
+  "scope": "Only facts used in the reference rendering audit; not the complete ring catalogue"
+}

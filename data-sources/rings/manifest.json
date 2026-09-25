@@ -1,0 +1,33 @@
+{
+  "description": "Selected source facts, manually transcribed from official NASA/NSSDCA pages. Not raw server responses. Rendering choices are in public/data/rings/giant-planets.json.",
+  "sources": [
+    {
+      "id": "jupiter",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupringfact.html",
+      "file": "jupiter.json",
+      "sha256": "c4e1a9e1482ce8e4a210d71cc6bd032923d9816a9ab65cf4987853fae5f3fb18",
+      "checkedAt": "2026-09-25"
+    },
+    {
+      "id": "saturn",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/satringfact.html",
+      "file": "saturn.json",
+      "sha256": "98022d84c9354157216eb289f5a32b79dc5a91fecfaeff28b6621f77d9e2634a",
+      "checkedAt": "2026-09-25"
+    },
+    {
+      "id": "uranus",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranringfact.html",
+      "file": "uranus.json",
+      "sha256": "98b737a9d44f838f409417392552447d72a849e499639ea92a9abbed002ae37e",
+      "checkedAt": "2026-09-25"
+    },
+    {
+      "id": "neptune",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/nepringfact.html",
+      "file": "neptune.json",
+      "sha256": "91b2db6b663ae9c7f737bcfbb1827eb0dc08a9e84e385dcfc88f77f1f2b6a179",
+      "checkedAt": "2026-09-25"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "sourceVersion": "2022-04-19",
+  "equatorialRadiusKm": 60268,
+  "radiiKm": {
+    "C": [
+      74658,
+      91975
+    ],
+    "B": [
+      91975,
+      117507
+    ],
+    "A": [
+      122340,
+      136780
+    ]
+  },
+  "cassiniDivision": "Between the B and A ring; source optical depth 0–0.1, not a perfectly empty gap",
+  "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/satringfact.html",
+  "checkedAt": "2026-09-25",
+  "captureMethod": "Selected numerical facts manually transcribed from the official page; not a raw HTML archive",
+  "scope": "Only facts used in the reference rendering audit; not the complete ring catalogue"
+}

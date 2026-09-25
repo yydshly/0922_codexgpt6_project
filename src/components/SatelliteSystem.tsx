@@ -1,3 +1,6 @@
+import {localDisplayDistance} from '../data/localDisplayScale';
+import {referenceAttitude as satelliteParentAttitude} from './referenceAttitude';
+import { makeSaturnRingGeometry } from './saturnRingGeometry';
 import { makeFaintRings,updateFaintRings } from './planetaryRings';
 import { ringProfile } from '../data/rings';
 import { useEffect, useRef, useState } from 'react';
@@ -34,10 +37,10 @@ export function satelliteDisplayPosition(position: Vec3, parentRadiusKm: number,
   const distance = v.length();
   if (!distance) return v;
   if (physical) return toScene(v).divideScalar(KM_PER_UNIT);
-  const ratio = Math.max(1, distance / parentRadiusKm);
+  const ratio = distance / parentRadiusKm;
   // More room for the bodies when a highly tilted family projects vertically
   // into a short viewport. One radial map still serves both bodies and curves.
-  const displayed = parentRadiusKm / KM_PER_UNIT * (1.8 + .78 * Math.log(ratio));
+  const displayed = parentRadiusKm / KM_PER_UNIT * localDisplayDistance(ratio);
   return toScene(v).multiplyScalar(displayed / distance);
 }
 
@@ -110,23 +113,7 @@ export function satelliteOverviewDirection(satellites: readonly Pick<SatelliteBo
   return inPlane.normalize().multiplyScalar(.776).addScaledVector(normal, .63).normalize();
 }
 
-/** IAU reference attitude: ICRF pole transformed into the agreed ECLIPJ2000 scene axes. */
-export function satelliteParentAttitude(body: BodyDefinition, time: number): THREE.Quaternion {
-  const alpha = (body.poleRaDeg ?? 0) * RAD, delta = (body.poleDecDeg ?? 90) * RAD;
-  const w = ((body.primeMeridianDeg ?? 0) + time / 86400 * (body.rotationRateDegPerDay ?? 8640 / body.rotationHours)) % 360 * RAD;
-  const pole = new THREE.Vector3(Math.cos(delta) * Math.cos(alpha), Math.cos(delta) * Math.sin(alpha), Math.sin(delta));
-  const q = new THREE.Vector3(-Math.sin(alpha), Math.cos(alpha), 0);
-  const u = new THREE.Vector3().crossVectors(pole, q);
-  const x = q.clone().multiplyScalar(Math.cos(w)).addScaledVector(u, Math.sin(w));
-  const west = q.clone().multiplyScalar(Math.sin(w)).addScaledVector(u, -Math.cos(w));
-  const transform = (v: THREE.Vector3) => {
-    const eps = 23.439291111 * RAD;
-    const y = v.y * Math.cos(eps) + v.z * Math.sin(eps);
-    const z = -v.y * Math.sin(eps) + v.z * Math.cos(eps);
-    return v.set(v.x, z, -y);
-  };
-  return new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(transform(x), transform(pole), transform(west)));
-}
+export {referenceAttitude as satelliteParentAttitude} from './referenceAttitude';
 
 function orientParent(group: THREE.Group, body: BodyDefinition, time: number) {
   group.quaternion.copy(satelliteParentAttitude(body, time));
@@ -220,12 +207,7 @@ export function SatelliteSystem(props: SatelliteSystemProps) {
       material.map = texture; material.color.set(0xffffff); material.needsUpdate = true;
     });
     if (parent.id === 'saturn') {
-      const geometry = new THREE.RingGeometry(parentRadius * 1.24, parentRadius * 2.33, 160, 1);
-      const positions = geometry.getAttribute('position'), uv = geometry.getAttribute('uv');
-      for (let i = 0; i < positions.count; i++) {
-        const radius = Math.hypot(positions.getX(i), positions.getY(i)) / parentRadius;
-        uv.setXY(i, (radius - 1.24) / (2.33 - 1.24), .5);
-      }
+      const geometry = makeSaturnRingGeometry(parentRadius,'radial');
       const ringMaterial = new THREE.MeshStandardMaterial({ color: 0xdbc9ac, roughness: 1, side: THREE.DoubleSide, transparent: true, opacity: .83, depthWrite: false });
       const ring = new THREE.Mesh(geometry, ringMaterial); ring.name='saturn-rings';ring.rotation.x = -Math.PI / 2; parentGroup.add(ring);
       loader.load(publicAsset('/textures/saturn-ring.png'), texture => {

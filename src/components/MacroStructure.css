@@ -129,3 +129,16 @@
 
 .macro-panel-tabs{gap:3px;padding:12px 10px 8px}.macro-panel-tabs button{font-size:11px;white-space:nowrap;padding:7px 3px;min-width:0}.macro-panel-tabs small{display:block;margin:0;line-height:1}
 .scene-inventory{margin-bottom:18px}.scene-inventory p{font-size:12px;line-height:1.7}.scene-inventory-note{padding:9px;background:#1d303a;color:#b7ccd6}.scene-inventory-row{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #2b4350;padding:10px 0}.scene-inventory-row>span{font-size:12px}.scene-inventory-row small{display:block;color:#a0c7b5;font-size:10px;margin-top:5px}.scene-inventory-row button{flex-shrink:0;font-size:10px!important;padding:6px 8px!important}.phenomenon-parts{display:flex;flex-wrap:wrap;gap:8px;padding:8px 0}.phenomenon-parts label{font-size:11px;display:flex;align-items:center;gap:4px}.phenomenon-parts input{accent-color:#b5d4bd}
+
+.appearance-audit>summary{cursor:pointer;font-weight:600;line-height:1.6}
+.appearance-audit select{display:block;width:100%;max-width:100%;margin:8px 0;padding:8px;background:#122831;color:#dceae9;border:1px solid #51716d;border-radius:5px}
+.appearance-audit a{overflow-wrap:anywhere}
+.rotation-note{margin:10px 0;font-size:12px;line-height:1.7}.rotation-note summary{cursor:pointer;color:#b5d8d7}.rotation-note p{margin:8px 0}
+
+.macro-current-target{position:absolute;left:24px;top:58px;max-width:calc(100% - 110px);z-index:3;padding:7px 11px;border-left:3px solid #bedfb5;background:#10252ee6;color:#e2f0dc;font-size:12px;pointer-events:none;line-height:1.5}
+@media(max-width:800px){.macro-current-target{left:12px;top:62px;font-size:11px}}
+
+.macro-current-target small{display:block;font-size:10px;font-weight:normal;margin-top:4px;max-width:480px}.macro-family-context{flex:none;margin:6px 10px;padding:7px 9px;border:1px solid #527368;border-radius:5px;background:#122831ef;font-size:11px;color:#d6e6df;display:flex;align-items:center;gap:6px}
+
+.macro-family-context:focus-within{outline:2px solid #ade0c9;outline-offset:2px}
+@media(max-width:800px){.macro-current-target{top:48px;max-width:calc(100% - 24px)}.macro-current-target small{font-size:9px;max-width:100%}.macro-family-context{font-size:10px;margin:4px 10px}}

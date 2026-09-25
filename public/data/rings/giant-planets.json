@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-25",
+  "positionUnit": "km",
+  "origin": "parent centre",
+  "bodyShape": "mean-radius sphere",
+  "widthEnhancement": "max(reference width, mean radius * 0.016), fixed centre; Saturn unchanged",
+  "limitations": [
+    "Reference bands, not a complete ring catalogue",
+    "Brightness, colour and Neptune arc positions are illustrative",
+    "No ring particle dynamics or thickness reconstruction",
+    "Le Verrier and Arago: source width <100 km, rendering choice 80 km",
+    "Saturn C/B/A boundaries shared across views; texture detail is illustrative"
+  ],
+  "profiles": [
+    {
+      "id": "jupiter",
+      "name": "木星",
+      "summary": "暗淡的尘埃环：主环之外还有弥散的纱环。",
+      "lesson": "环粒子围绕木星公转，四颗伽利略卫星也围绕木星运行；环不是画出的卫星轨道线。光环有纵向厚度，本版用平面分区概括，未复现厚度分布；忒拜环更远的外延尚未绘制。",
+      "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupringfact.html",
+      "sourceVersion": "NASA/NSSDCA · 2015-10-14 · 核对 2026-09-25",
+      "bands": [
+        {
+          "name": "光环范围",
+          "innerKm": 89400,
+          "outerKm": 123000,
+          "opacity": 0.1
+        },
+        {
+          "name": "主环",
+          "innerKm": 123000,
+          "outerKm": 128940,
+          "opacity": 0.34
+        },
+        {
+          "name": "木卫五纱环",
+          "innerKm": 128940,
+          "outerKm": 181350,
+          "opacity": 0.07
+        },
+        {
+          "name": "忒拜纱环",
+          "innerKm": 181350,
+          "outerKm": 221900,
+          "opacity": 0.045
+        }
+      ]
+    },
+    {
+      "id": "saturn",
+      "name": "土星",
+      "summary": "明亮的主环以冰粒为主，环间存在间隙。",
+      "lesson": "环由大量独立公转的颗粒组成，不是固体圆盘。本版绘制 C、B、A 三个参考主环段，保留 B 环与 A 环之间的分界区域；该区域并非完全真空。D、F、E、G 等结构未绘制，细小缝隙未逐条重建。",
+      "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/satringfact.html",
+      "sourceVersion": "NASA/NSSDCA · 2022-04-19 · 核对 2026-09-25",
+      "bands": [
+        {
+          "name": "C 环",
+          "innerKm": 74658,
+          "outerKm": 91975,
+          "opacity": 0.45
+        },
+        {
+          "name": "B 环",
+          "innerKm": 91975,
+          "outerKm": 117507,
+          "opacity": 0.85
+        },
+        {
+          "name": "A 环",
+          "innerKm": 122340,
+          "outerKm": 136780,
+          "opacity": 0.7
+        }
+      ]
+    },
+    {
+      "id": "uranus",
+      "name": "天王星",
+      "summary": "暗而窄的环，环面跟随母星赤道面倾斜。",
+      "lesson": "母星、环面和主要卫星家族的取向相关，但不是每条轨道都完全重合。本版选取 6 条代表性内环，未画出全部已知环。增强模式加粗细环以便识别。",
+      "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranringfact.html",
+      "sourceVersion": "NASA/NSSDCA · 2015-10-14 · 核对 2026-09-25",
+      "bands": [
+        {
+          "name": "6 环",
+          "innerKm": 41836.25,
+          "outerKm": 41837.75,
+          "opacity": 0.38
+        },
+        {
+          "name": "α 环",
+          "innerKm": 44714.5,
+          "outerKm": 44721.5,
+          "opacity": 0.55
+        },
+        {
+          "name": "β 环",
+          "innerKm": 45657,
+          "outerKm": 45665,
+          "opacity": 0.45
+        },
+        {
+          "name": "γ 环",
+          "innerKm": 47625.75,
+          "outerKm": 47628.25,
+          "opacity": 0.48
+        },
+        {
+          "name": "δ 环",
+          "innerKm": 48297.5,
+          "outerKm": 48302.5,
+          "opacity": 0.5
+        },
+        {
+          "name": "ε 环",
+          "innerKm": 51120,
+          "outerKm": 51178,
+          "opacity": 0.78
+        }
+      ]
+    },
+    {
+      "id": "neptune",
+      "name": "海王星",
+      "summary": "细环与弥散尘埃带并存，部分环段呈弧状聚集。",
+      "lesson": "海卫一的轨道有明显倾斜和逆行特征，不能把它与赤道环面当作同一平面。亮弧只说明局部聚集，方位和长度为示意，不是当日环弧的位置。",
+      "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/nepringfact.html",
+      "sourceVersion": "NASA/NSSDCA · 2015-10-14 · 核对 2026-09-25",
+      "bands": [
+        {
+          "name": "Galle 环",
+          "innerKm": 40900,
+          "outerKm": 42900,
+          "opacity": 0.14
+        },
+        {
+          "name": "Le Verrier 环",
+          "innerKm": 53160,
+          "outerKm": 53240,
+          "opacity": 0.38
+        },
+        {
+          "name": "Lassell 带",
+          "innerKm": 53200,
+          "outerKm": 57200,
+          "opacity": 0.07
+        },
+        {
+          "name": "Arago 环",
+          "innerKm": 57160,
+          "outerKm": 57240,
+          "opacity": 0.3
+        },
+        {
+          "name": "Adams 环 / 弧",
+          "innerKm": 62925.5,
+          "outerKm": 62940.5,
+          "opacity": 0.46,
+          "arc": true
+        }
+      ]
+    }
+  ]
+}

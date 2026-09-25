@@ -1,0 +1,276 @@
+{
+  "version": "horizons-pluto-small-moons-2026-2027-v1",
+  "source": "NASA/JPL Horizons",
+  "sourceUrl": "https://ssd.jpl.nasa.gov/horizons/manual.html",
+  "generatedAt": "2026-09-24T16:08:58.867532+00:00",
+  "startUtc": "2026-01-01T00:00:00Z",
+  "endUtc": "2028-01-01T00:00:00Z",
+  "startTdb": 820497669.18392,
+  "endTdb": 883569669.183905,
+  "frame": "ECLIPJ2000 (ICRF, ecliptic of J2000.0)",
+  "origin": "Solar System Barycenter (NAIF 0)",
+  "units": "km, km/s",
+  "timeScale": "TDB seconds past J2000",
+  "aberration": "NONE: geometric states; no light-time correction",
+  "bodyIds": [
+    "styx",
+    "nix",
+    "kerberos",
+    "hydra"
+  ],
+  "stepSeconds": 21600,
+  "interpolation": "Cubic Hermite with analytic velocity derivative",
+  "targets": [
+    {
+      "id": "styx",
+      "command": "905",
+      "targetSource": "Target body name: Styx (905)                      {source: plu060_merged}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/pluto-moons/styx-2026-2027-3h.txt.gz",
+      "rawSha256": "1ba03c91deaec1c0001135eb2707d5df5426063fb70618807e5d4faaa73595a3",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27905%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "nix",
+      "command": "902",
+      "targetSource": "Target body name: Nix (902)                       {source: plu060_merged}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/pluto-moons/nix-2026-2027-3h.txt.gz",
+      "rawSha256": "2556ff6d7aa320d62730624a24e01224a6be56375f21ea74e163fe024107d3c2",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27902%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "kerberos",
+      "command": "904",
+      "targetSource": "Target body name: Kerberos (904)                  {source: plu060_merged}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/pluto-moons/kerberos-2026-2027-3h.txt.gz",
+      "rawSha256": "c0e9ea70a1bd95a876d45cf766e43f414c0c267ed1a4a7b6533d04ab69070a97",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27904%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    },
+    {
+      "id": "hydra",
+      "command": "903",
+      "targetSource": "Target body name: Hydra (903)                     {source: plu060_merged}",
+      "center": "Solar System Barycenter (0)",
+      "rawStepSeconds": 10800,
+      "rawFile": "data-sources/pluto-moons/hydra-2026-2027-3h.txt.gz",
+      "rawSha256": "14b2dd1510d3ff2d3e33b6f2d3fb377e6f08dc12c03955a39b5ae76fa2d5b0cb",
+      "queryUrl": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27903%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&START_TIME=%272026-01-01%27&STOP_TIME=%272028-01-01+06%3A00%27&STEP_SIZE=%273h%27&OUT_UNITS=%27KM-S%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&VEC_TABLE=%272%27&VEC_CORR=%27NONE%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27"
+    }
+  ],
+  "chunks": [
+    {
+      "file": "2026-01.json",
+      "startTdb": 820497669.18392,
+      "endTdb": 823176069.184785,
+      "bytes": 57362,
+      "sha256": "da918934f680fc05c6e2df1016e439a18ce353e35f5c73e13f268a2be1c5d1bd"
+    },
+    {
+      "file": "2026-02.json",
+      "startTdb": 823176069.184785,
+      "endTdb": 825595269.1853772,
+      "bytes": 52398,
+      "sha256": "9437232f3b3f23aa0d2f3d2d740b7c4c04324d5074d65adecf92f6a5fdb9f556"
+    },
+    {
+      "file": "2026-03.json",
+      "startTdb": 825595269.1853772,
+      "endTdb": 828273669.1856546,
+      "bytes": 57817,
+      "sha256": "c77e78ea772fd9a515042b6f333a5115e5aa00023cd76cd65e1005d0a06c978f"
+    },
+    {
+      "file": "2026-04.json",
+      "startTdb": 828273669.1856546,
+      "endTdb": 830865669.185484,
+      "bytes": 55988,
+      "sha256": "f6f5c0dd00754efd4fa317de674d021d2c86b2ec00b5b141c96899b3f8711e05"
+    },
+    {
+      "file": "2026-05.json",
+      "startTdb": 830865669.185484,
+      "endTdb": 833544069.1849113,
+      "bytes": 57800,
+      "sha256": "03de8ca8acc4dcf32918a5211f04f2c4e75b1a95ecb12b3dc1ebce15caf7c72b"
+    },
+    {
+      "file": "2026-06.json",
+      "startTdb": 833544069.1849113,
+      "endTdb": 836136069.1841229,
+      "bytes": 56005,
+      "sha256": "c608cd622c79a0f2dd560d4e89186b5d9d04aacbfdb43c80cbc4ebd6efae1afa"
+    },
+    {
+      "file": "2026-07.json",
+      "startTdb": 836136069.1841229,
+      "endTdb": 838814469.1832788,
+      "bytes": 57804,
+      "sha256": "714e5f3df6a6b94e79ff7a291267a0a8ebc60bbf19c5da617c7ceee93857b224"
+    },
+    {
+      "file": "2026-08.json",
+      "startTdb": 838814469.1832788,
+      "endTdb": 841492869.1826266,
+      "bytes": 57826,
+      "sha256": "cb790d6201b7439f9ce753e582fb9ecc13db58b8de80b1278bb6ec5a2ec6514e"
+    },
+    {
+      "file": "2026-09.json",
+      "startTdb": 841492869.1826266,
+      "endTdb": 844084869.1823484,
+      "bytes": 56000,
+      "sha256": "424a76bdd99134b838150920310d238993f2eb612624318cf910b40ba01dc3f9"
+    },
+    {
+      "file": "2026-10.json",
+      "startTdb": 844084869.1823484,
+      "endTdb": 846763269.1825113,
+      "bytes": 57855,
+      "sha256": "31b6328f2e5e35a31d3de5da3fe39d651e60633d0acfdc6ee65a78d70ab6443e"
+    },
+    {
+      "file": "2026-11.json",
+      "startTdb": 846763269.1825113,
+      "endTdb": 849355269.183072,
+      "bytes": 56010,
+      "sha256": "354af3a8165bb882e1f99f94f992faef1c3ff7a263ab93cdb16ef23c9210325a"
+    },
+    {
+      "file": "2026-12.json",
+      "startTdb": 849355269.183072,
+      "endTdb": 852033669.1839125,
+      "bytes": 57793,
+      "sha256": "0f98f930a51765a26a572717ff036de1271bfb0520db9ba6981cf626899fdcb5"
+    },
+    {
+      "file": "2027-01.json",
+      "startTdb": 852033669.1839125,
+      "endTdb": 854712069.1847785,
+      "bytes": 57799,
+      "sha256": "b602bae164f312e4504ca0a8459f94d258b10d2379705b23d0c3e1988ab4123e"
+    },
+    {
+      "file": "2027-02.json",
+      "startTdb": 854712069.1847785,
+      "endTdb": 857131269.1853731,
+      "bytes": 52371,
+      "sha256": "6b613955853b73d4b04a996b9ace7b9f587e23408654d4945c44f7af267906e7"
+    },
+    {
+      "file": "2027-03.json",
+      "startTdb": 857131269.1853731,
+      "endTdb": 859809669.1856543,
+      "bytes": 57799,
+      "sha256": "88e1660a4525702cec9f54b33796e7d3003c0ff4dd0e73713ef9e8fbba299198"
+    },
+    {
+      "file": "2027-04.json",
+      "startTdb": 859809669.1856543,
+      "endTdb": 862401669.1854873,
+      "bytes": 56010,
+      "sha256": "be9adc3bb028dd9bec263f7be2fdb1bb364600c55f2442ed5fee4eb72b955a5f"
+    },
+    {
+      "file": "2027-05.json",
+      "startTdb": 862401669.1854873,
+      "endTdb": 865080069.1849173,
+      "bytes": 57817,
+      "sha256": "5241e9be7495a22dd74682ec84b76fcca6f2db54c6699f0ce1207e72b5d21cae"
+    },
+    {
+      "file": "2027-06.json",
+      "startTdb": 865080069.1849173,
+      "endTdb": 867672069.1841302,
+      "bytes": 56008,
+      "sha256": "fd1e29e4d7c4eccb72c9ae223c98ddb86e4af40afaa99dabc6bfcbf3b824d088"
+    },
+    {
+      "file": "2027-07.json",
+      "startTdb": 867672069.1841302,
+      "endTdb": 870350469.1832854,
+      "bytes": 57795,
+      "sha256": "cfe571dc6a6c46c4103c9ff4458c5ce027351b0d88dbf742a6e158621a4763e4"
+    },
+    {
+      "file": "2027-08.json",
+      "startTdb": 870350469.1832854,
+      "endTdb": 873028869.1826308,
+      "bytes": 57831,
+      "sha256": "ca6cf4b978fcd04e3db7eb0e87afa9e589eab876437f709e20c2e862a4f84899"
+    },
+    {
+      "file": "2027-09.json",
+      "startTdb": 873028869.1826308,
+      "endTdb": 875620869.182349,
+      "bytes": 55989,
+      "sha256": "5e1791d61b860a655dd97ed13a8adf5ab7a686be6a17c169d02026df203f5415"
+    },
+    {
+      "file": "2027-10.json",
+      "startTdb": 875620869.182349,
+      "endTdb": 878299269.1825081,
+      "bytes": 57801,
+      "sha256": "cf9382841d4ccec061abb1d92cc36bc1404d6473e8cf03b1df9533940d40f9e9"
+    },
+    {
+      "file": "2027-11.json",
+      "startTdb": 878299269.1825081,
+      "endTdb": 880891269.1830658,
+      "bytes": 56017,
+      "sha256": "e155df46d3d64018de5ff354c45e0ad1198d86ae5b5b58daf198e8efb4ed6115"
+    },
+    {
+      "file": "2027-12.json",
+      "startTdb": 880891269.1830658,
+      "endTdb": 883569669.183905,
+      "bytes": 57343,
+      "sha256": "3be42b41122e17b598db87737eccc7b92026a1d514bebc8c68664b815a348eb4"
+    }
+  ],
+  "validation": {
+    "checks": [
+      {
+        "id": "styx",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 0.015029556354132816,
+        "rmsPositionErrorKm": 0.005592609578807743,
+        "maxVelocityErrorKmS": 8.168862967606892e-08,
+        "passed": true
+      },
+      {
+        "id": "nix",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 0.008428778082120468,
+        "rmsPositionErrorKm": 0.0031428009601758857,
+        "maxVelocityErrorKmS": 4.005264252414922e-08,
+        "passed": true
+      },
+      {
+        "id": "kerberos",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 0.003999860116837968,
+        "rmsPositionErrorKm": 0.0015677936397178488,
+        "maxVelocityErrorKmS": 1.732233287665573e-08,
+        "passed": true
+      },
+      {
+        "id": "hydra",
+        "heldOutCheckpoints": 2921,
+        "maxPositionErrorKm": 0.00245121699759128,
+        "rmsPositionErrorKm": 0.0009928734204495224,
+        "maxVelocityErrorKmS": 9.96800145333027e-09,
+        "passed": true
+      }
+    ],
+    "maxPositionErrorKm": 0.015029556354132816,
+    "maxVelocityErrorKmS": 8.168862967606892e-08,
+    "positionThresholdKm": 1,
+    "velocityThresholdKmS": 0.0001,
+    "meaning": "Held-out source-sample difference, not absolute orbit uncertainty"
+  }
+}

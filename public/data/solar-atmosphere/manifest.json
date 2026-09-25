@@ -1,0 +1,41 @@
+{
+  "version": "solar-atmosphere-teaching-v1",
+  "reviewedAt": "2026-09-25",
+  "kind": "educational geometry, not observation data",
+  "sources": [
+    {
+      "title": "NASA Layers of the Sun",
+      "url": "https://science.nasa.gov/blogs/the-sun-spot/2023/09/26/layers-of-the-sun/",
+      "supports": "Photosphere, chromosphere, irregular transition region and corona; ordered spatial relationship."
+    },
+    {
+      "title": "NASA Sunspots",
+      "url": "https://science.nasa.gov/sun/sunspots/",
+      "supports": "Cooler dark magnetic regions, not holes."
+    },
+    {
+      "title": "NASA What is a solar prominence?",
+      "url": "https://www.nasa.gov/image-article/what-solar-prominence/",
+      "supports": "Magnetically supported plasma anchored near the photosphere and extending into the corona."
+    },
+    {
+      "title": "NASA Solar Flares FAQs",
+      "url": "https://science.nasa.gov/blogs/solar-cycle-25/2022/06/10/solar-flares-faqs/",
+      "supports": "Radiative flares and plasma/magnetic CME are different phenomena."
+    }
+  ],
+  "displayRadii": {
+    "photosphere": 0.34,
+    "chromosphere": 0.38,
+    "transition": 0.415,
+    "corona": 0.62
+  },
+  "displayUnits": "scene units; intentionally enlarged spacing, not km or physical radius ratios",
+  "limits": [
+    "Procedural shapes, colors, opacity and geometry are chosen for teaching.",
+    "The corona has no fixed outer edge represented by this mesh.",
+    "Sunspots and prominence loops are stationary teaching examples, not date-dependent activity or differential rotation.",
+    "Flare/CME progress is separate from ephemeris time.",
+    "This source registry is an editorial record, not an archived observation dataset or a copy of NASA source pages."
+  ]
+}

@@ -1,6 +1,8 @@
+import {CONTENT_COVERAGE} from './contentCoverage';
+import {OBSERVATION_COUNTS} from './observationCatalog';
 /** Product scope and acceptance plan, not a list of implemented features. */
 export const MASTER_PLAN = {
-  "updated": "2026-09-24",
+  "updated": "2026-09-25",
   "phases": [
     {
       "id": "M0",
@@ -12,7 +14,7 @@ export const MASTER_PLAN = {
         {
           "id": "M0.1",
           "title": "核对已交付范围",
-          "scope": "核对 45 个当前动态目标及 1 个独立历史案例、九批内容图层、17 个目录入口与三个观察优化批次；区分已发布和本地待验收。",
+          "scope": `核对 ${OBSERVATION_COUNTS.allDynamic} 个当前动态目标及 1 个独立历史案例、九批内容图层和现有目录；区分已发布和待验收。`,
           "acceptance": "清单与运行结果一致，全部关键入口有验收记录。"
         },
         {
@@ -86,7 +88,7 @@ export const MASTER_PLAN = {
     {
       "id": "M3",
       "title": "补齐代表成员与天体家族",
-      "status": "已有 45 个当前动态目标及 1 个独立历史案例，更多代表对象待接入",
+      "status": `已有 ${OBSERVATION_COUNTS.allDynamic} 个当前动态目标及 1 个独立历史案例，R03 约定代表已接入，待验收`,
       "goal": "把只有类别或点云的内容落到可观察的真实对象。",
       "dependency": "M1 的数据准入；显示采用 M2 标准。",
       "packages": [
@@ -192,168 +194,7 @@ export const MASTER_PLAN = {
       ]
     }
   ],
-  "coverage": [
-    {
-      "id": "E01",
-      "title": "太阳本体与活动",
-      "status": "已有基础",
-      "current": "本体历表、参数、参考自转及日冕/活动示意",
-      "target": "统一表面与活动层；补光球、色球、日冕及黑子、日珥解释，区分模型与当日状态",
-      "phase": "M3 / M4"
-    },
-    {
-      "id": "E02",
-      "title": "八大行星与外观",
-      "status": "已有基础",
-      "current": "真实历表、球体、轨道参考、参数；地球有云层与大气",
-      "target": "逐体核对姿态、光照、材质和大气边界；补代表性表面或内部结构说明",
-      "phase": "M3"
-    },
-    {
-      "id": "E03",
-      "title": "天然卫星与家族",
-      "status": "已有基础",
-      "current": "21 颗选定卫星；六个行星家族与冥王星双体",
-      "target": "补冥王星余下四卫星、另一矮行星卫星系统及小天体卫星/双体代表；关联喷流等特征",
-      "phase": "M3"
-    },
-    {
-      "id": "E04",
-      "title": "行星与小天体环",
-      "status": "示意为主",
-      "current": "四大巨行星代表环系",
-      "target": "细化巨行星代表环段与尺度；加入至少一个小天体环的资料或示意",
-      "phase": "M3"
-    },
-    {
-      "id": "E05",
-      "title": "矮行星",
-      "status": "已有基础",
-      "current": "五颗矮行星有历表；部分在宏观页单独入口",
-      "target": "统一目录与近景体验，展开选定卫星关系",
-      "phase": "M3"
-    },
-    {
-      "id": "E06",
-      "title": "小行星主带",
-      "status": "示意为主",
-      "current": "主带点云；谷神星、灶神星真实代表",
-      "target": "区分区域样本与真实成员；补不规则形状、双小行星/小天体卫星代表",
-      "phase": "M2 / M3"
-    },
-    {
-      "id": "E07",
-      "title": "近地小行星",
-      "status": "已有代表",
-      "current": "爱神星真实历表、当前地心距离和近地分类说明",
-      "target": "至少一个可靠近地代表及地球轨道关系；补共轨或准卫星认识案例",
-      "phase": "M3"
-    },
-    {
-      "id": "E08",
-      "title": "特洛伊群",
-      "status": "已有代表",
-      "current": "阿喀琉斯 L4 与埃涅阿斯 L5 真实历表；背景点群仍为示意",
-      "target": "L4/L5 各一真实代表，解释相对行星分布",
-      "phase": "M2 / M3"
-    },
-    {
-      "id": "E09",
-      "title": "半人马族",
-      "status": "已有代表",
-      "current": "女凯龙星真实历表、轨道与来源参数；巨行星区域点群为示意",
-      "target": "至少一个真实代表及跨区域轨道",
-      "phase": "M3"
-    },
-    {
-      "id": "E10",
-      "title": "柯伊伯带",
-      "status": "示意为主",
-      "current": "经典族夸奥尔、共振族冥王星等具名成员；四类轨道解释",
-      "target": "区分经典与共振群体，补厚度、分布及代表成员对照",
-      "phase": "M2 / M3"
-    },
-    {
-      "id": "E11",
-      "title": "散射盘与离散天体",
-      "status": "示意为主",
-      "current": "脱离轨道代表塞德娜、远伸轨道阋神星及分布示意",
-      "target": "分清两类概念；加入离散轨道代表，不用统一圆环代替",
-      "phase": "M2 / M3"
-    },
-    {
-      "id": "E12",
-      "title": "彗星",
-      "status": "已有基础",
-      "current": "哈雷、67P 与长周期海尔—波普三颗彗核历表、两年路径和参数",
-      "target": "长周期代表与活动边界；彗尾不等同轨迹",
-      "phase": "M3 / M4"
-    },
-    {
-      "id": "E13",
-      "title": "奥尔特云",
-      "status": "模型推断",
-      "current": "有来源的球壳点云与不确定范围",
-      "target": "补模型范围和彗星来源关联；不设逐体实测验收目标",
-      "phase": "M2 / M4"
-    },
-    {
-      "id": "E14",
-      "title": "尘埃、流星体与流星",
-      "status": "示意为主",
-      "current": "尘埃、碎屑流、进入大气演示",
-      "target": "串联尘埃、黄道光、流星雨和喷流补给，明确统计性质与非当日实况",
-      "phase": "M4"
-    },
-    {
-      "id": "E15",
-      "title": "太阳风与日球层",
-      "status": "示意为主",
-      "current": "太阳风、激波、日鞘、边界及星际介质",
-      "target": "完善日球层分层与可变边界；补行星际磁场、电流片和中性粒子解释",
-      "phase": "M2 / M4"
-    },
-    {
-      "id": "E16",
-      "title": "磁层、辐射带与极光",
-      "status": "示意为主",
-      "current": "地球环境和近地粒子区域",
-      "target": "以木星环境作对照；完善太阳活动、光与粒子辐射的联系",
-      "phase": "M4"
-    },
-    {
-      "id": "E17",
-      "title": "运行关系与天象",
-      "status": "部分讲解",
-      "current": "运动比较、参考周期和部分锁定/共振文字",
-      "target": "四组运行课程、共轨参照系案例，以及日月食和卫星遮掩案例验证",
-      "phase": "M4"
-    },
-    {
-      "id": "E18",
-      "title": "真实恒星背景与邻星",
-      "status": "待接入",
-      "current": "装饰星点与邻星结构示意",
-      "target": "星表背景、点选资料、至少 20 个三维邻星样本",
-      "phase": "M2 / M5"
-    },
-    {
-      "id": "E19",
-      "title": "银河系与邻近星系",
-      "status": "示意为主",
-      "current": "已有不同尺度的概念结构图",
-      "target": "尺度衔接、来源及坐标/模型边界一致",
-      "phase": "M5"
-    },
-    {
-      "id": "E20",
-      "title": "星际访客",
-      "status": "待接入",
-      "current": "2I/Borisov：2019—2020 独立历史轨迹与参数",
-      "target": "一例通过来源、轨道质量和有效时间检查的代表；与长期束缚成员区分",
-      "phase": "M3"
-    }
-  ],
+  "coverage": CONTENT_COVERAGE.map(({id,title,status,current,target,phase})=>({id,title,status,current,target,phase})),
   "branches": [
     {
       "id": "G1",

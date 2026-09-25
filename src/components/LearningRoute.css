@@ -9,3 +9,5 @@
 .learning-secondary{display:flex;gap:7px}.learning-secondary button{flex:1}.learning-lesson .learning-exit{border-color:transparent;background:transparent;color:#acc6c0;text-align:left;width:max-content;padding-left:0}
 .learning-lesson .learning-next-context{font-size:11px;color:#d3e4c6}.learning-lesson:focus-visible{outline:2px solid #c5dfba;outline-offset:2px}
 @media(max-width:800px){.learning-lesson p{font-size:12px}.learning-lesson{padding:12px}}
+
+.learning-lesson .learning-current{margin-bottom:0;color:#e0f3d6;font-weight:600}.learning-primary small{display:block;font-size:11px;font-weight:400;margin-top:3px}

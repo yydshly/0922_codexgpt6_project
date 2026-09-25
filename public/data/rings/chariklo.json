@@ -1,0 +1,44 @@
+{
+  "version": "chariklo-rings-2014-reference-v1",
+  "reviewedAt": "2026-09-24",
+  "kind": "published-reference-geometry-not-current-ephemeris",
+  "bodyId": "chariklo",
+  "bodyReferenceRadiusKm": 124,
+  "bodyRadiusUncertaintyKm": 9,
+  "observationDate": "2013-06-03",
+  "publicationYear": 2014,
+  "sources": [
+    {
+      "label": "Braga-Ribas et al. (2014), Nature · 发现论文",
+      "url": "https://www.eso.org/public/archives/releases/sciencepapers/eso1410/eso1410a.pdf"
+    },
+    {
+      "label": "ESO · 掩星发现双环",
+      "url": "https://www.eso.org/public/news/eso1410/"
+    },
+    {
+      "label": "NASA Webb · 掩星观测与示意图边界",
+      "url": "https://science.nasa.gov/asset/webb/centaur-10199-chariklo-illustration/"
+    }
+  ],
+  "bands": [
+    {
+      "id": "inner",
+      "name": "内环 C1R",
+      "radiusKm": 391,
+      "widthKm": 7
+    },
+    {
+      "id": "outer",
+      "name": "外环 C2R",
+      "radiusKm": 405,
+      "widthKm": 3
+    }
+  ],
+  "limits": [
+    "尺寸为 2014 年发现论文中的近似参考值，非当前环系形状解。",
+    "同一局部比例换算本体参考半径与环半径；本体并非精确球形。",
+    "环面朝向、颜色和亮度为教学选择；没有逐粒子轨道、厚度分布或当日姿态。",
+    "环随本体历表平移，不新增动力学质量。"
+  ]
+}

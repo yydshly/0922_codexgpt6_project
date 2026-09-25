@@ -1,0 +1,56 @@
+{
+  "bodyId": "eros",
+  "version": "NEARMOD-EROS007790-200204",
+  "modelDate": "2001-01-12",
+  "baseSolution": "2001012",
+  "units": "km",
+  "frame": "Eros body-fixed: x prime meridian, z north pole, y=z cross x",
+  "vertices": 3897,
+  "facets": 7790,
+  "boundsKm": [
+    [
+      -17.6078,
+      15.0774
+    ],
+    [
+      -8.25535,
+      8.56587
+    ],
+    [
+      -6.02395,
+      5.92328
+    ]
+  ],
+  "volumeKm3": 2525.9946031831505,
+  "equivalentRadiusKm": 8.448532317388498,
+  "maxRadiusKm": 17.684770322298114,
+  "reversedWinding": false,
+  "poleRaDeg": 11.35,
+  "poleDecDeg": 17.216,
+  "primeMeridianDeg": 326.027,
+  "rotationRateDegPerDay": 1639.38864745,
+  "epochJd": 2451545.0,
+  "sources": [
+    {
+      "file": "eros007790.tab",
+      "url": "https://sbnarchive.psi.edu/pds3/near/NEAR_A_5_COLLECTED_MODELS_V1_0/data/msi/eros007790.tab",
+      "sha256": "183df4df96ea6c66dee7a4b2368dc706d81c4942fbfb043198260f5406233ff0"
+    },
+    {
+      "file": "eros007790.lbl",
+      "url": "https://sbnarchive.psi.edu/pds3/near/NEAR_A_5_COLLECTED_MODELS_V1_0/data/msi/eros007790.lbl",
+      "sha256": "9966474bc47bb8037b731150775d3962a58975bf481e9665b7f0e5c7b535d168"
+    },
+    {
+      "file": "msieros.txt",
+      "url": "https://sbnarchive.psi.edu/pds3/near/NEAR_A_5_COLLECTED_MODELS_V1_0/document/msieros.txt",
+      "sha256": "0005f2b05d868c02e72baa84dd119b92e3c8cc670c4b234e671a0ff4ce557cd4"
+    }
+  ],
+  "limits": [
+    "Reduced-resolution optical reconstruction, not a live image or current attitude measurement.",
+    "Archive label gives about 10 m origin agreement; dataset documentation gives within 50 m. Use the conservative bound, not exact center coincidence.",
+    "Vertex precision and original model errors are not accuracy guarantees for this coarse mesh.",
+    "Bounds are model axis-aligned extents, not fitted ellipsoid axes."
+  ]
+}

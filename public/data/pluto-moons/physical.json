@@ -1,0 +1,54 @@
+{
+  "version": "jpl-plu060-physical-reference-2026-09-25",
+  "reviewedAt": "2026-09-25",
+  "radiusSource": "https://ssd.jpl.nasa.gov/sats/phys_par/",
+  "radiusReference": "Stern et al. (2018), The Pluto System After New Horizons; JPL mean volume-equivalent radii",
+  "periodSource": "https://ssd.jpl.nasa.gov/sats/elem/sep.html",
+  "periodReference": "PLU060 / Brozovic & Jacobson (2024), epoch 2000-01-01.5 TDB; mean elements, not interpolated current periods",
+  "records": [
+    {
+      "id": "styx",
+      "name": "冥卫五",
+      "englishName": "Styx",
+      "naif": 905,
+      "radiusKm": 5.2,
+      "radiusSigmaKm": 1,
+      "periodDays": 20.16,
+      "color": "#b8c5d8"
+    },
+    {
+      "id": "nix",
+      "name": "冥卫二",
+      "englishName": "Nix",
+      "naif": 902,
+      "radiusKm": 18,
+      "radiusSigmaKm": 1,
+      "periodDays": 24.85,
+      "color": "#dfc9ae"
+    },
+    {
+      "id": "kerberos",
+      "name": "冥卫四",
+      "englishName": "Kerberos",
+      "naif": 904,
+      "radiusKm": 6,
+      "radiusSigmaKm": 1,
+      "periodDays": 32.17,
+      "color": "#b8cfbd"
+    },
+    {
+      "id": "hydra",
+      "name": "冥卫三",
+      "englishName": "Hydra",
+      "naif": 903,
+      "radiusKm": 18.5,
+      "radiusSigmaKm": 1,
+      "periodDays": 38.2,
+      "color": "#b4d5df"
+    }
+  ],
+  "limits": [
+    "Mean radii are equivalent-volume spherical references, not measured spherical shapes.",
+    "No spin states or orientations reconstructed. No masses added to the ten-body gravity core."
+  ]
+}

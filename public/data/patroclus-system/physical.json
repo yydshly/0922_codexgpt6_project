@@ -1,0 +1,24 @@
+{
+  "version": "horizons-as_20000617_jpl082_v001-reference-v1",
+  "checkedAt": "2026-09-25",
+  "solutionDate": "2023-06-01",
+  "radiusKm": {
+    "patroclus": 56.5,
+    "menoetius": 52
+  },
+  "radiusMeaning": "Horizons satellite-solution header RAD reference; not a shape reconstruction or error bound",
+  "targetIds": {
+    "patroclus": "920000617",
+    "menoetius": "120000617"
+  },
+  "source": "tnosat_v001_20000617_jpl082_20230601",
+  "periodDaysApprox": 4.3,
+  "periodSource": "https://arxiv.org/abs/1903.03729",
+  "introductionSource": "https://science.nasa.gov/solar-system/planets/jupiter/nasas-lucy-mission-a-journey-to-the-young-solar-system/",
+  "limitations": [
+    "No absolute orbit uncertainty bound supplied here",
+    "Spherical size references, illustrative colours, no physical spin/shape reconstruction",
+    "No extra masses inserted in the ten-body gravity model",
+    "617; is a system barycenter, not the primary body"
+  ]
+}

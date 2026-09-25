@@ -3,6 +3,7 @@ import {INTEGRATED_ITEMS} from '../data/integratedScene';
 import type {StageFlags} from '../data/stages';
 
 const bodySections = [
+ {id:'space-medium',name:'场、光与粒子 · 五种解释',selector:'[data-space-medium]'},
  {id:'material-journey',name:'物质联系 · 碎屑、黄道光与 E 环',selector:'[data-material-journey]'},
  {id:'environment-journey',name:'太阳与行星环境 · 地球到木星七步对照',selector:'[data-environment-journey]'},
  {id:'appearance',name:'外观与参数核对 · 真实与示意',selector:'[data-appearance-audit]'},
@@ -25,11 +26,12 @@ const readingSections = [
  {id:'reading',name:'独立详解与来源',selector:'.panorama-reading'},
 ];
 const pick=(ids:string[])=>ids.map(id=>bodySections.find(item=>item.id===id)!);
-const groups = [{name:'1 · 整体与尺度',items:pick(['distances','sizes','orbits'])},{name:'2 · 恒星与行星',items:pick(['primary','motion','earth','appearance'])},{name:'3 · 卫星家族',items:pick(['families','binary','enceladus'])},{name:'4 · 区域与小天体',items:pick(['members','eros-shape','comets'])},{name:'5 · 空间现象（延伸）',items:phenomenonSections},{name:'6 · 演示与来源',items:readingSections}];
+const groups = [{name:'1 · 整体与尺度',items:pick(['distances','sizes','orbits'])},{name:'2 · 恒星与行星',items:pick(['primary','motion','earth','appearance'])},{name:'3 · 卫星家族',items:pick(['families','binary','enceladus'])},{name:'4 · 区域与小天体',items:pick(['members','eros-shape','comets'])},{name:'5 · 空间现象（延伸）',items:[...pick(['environment-journey','material-journey','space-medium']),...phenomenonSections]},{name:'6 · 演示与来源',items:readingSections}];
 
 export function MacroContentsNav({scroller,stages}:{scroller:RefObject<HTMLDivElement|null>;stages:StageFlags}) {
  const id=useId();
  const available=(key:string)=>{
+  if(key==='space-medium')return stages.heliosphereExplorer;
   if(key==='eros-shape')return stages.members;
   if(key==='members')return stages.structure||stages.members;
   if(key==='families'||key==='binary'||key==='enceladus')return stages.families;

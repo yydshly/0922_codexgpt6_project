@@ -1,3 +1,5 @@
+import {mediumLessonForView} from '../data/spaceMedium';
+import {createSpaceMedium} from './spaceMediumScene';
 import {createZodiacalDiagram} from './materialClouds';
 import {createJupiterEnvironment} from './jupiterEnvironment';
 import type {MacroMoon} from '../data/macroFamilies';
@@ -20,7 +22,7 @@ import {integratedDetailVisible,type IntegratedFlags,type IntegratedTarget,type 
 export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,host:HTMLElement,onFocus:(target:IntegratedTarget,intent?:IntegratedId)=>void){
  const root=new THREE.Group();root.name='integrated-phenomena';root.userData.integrated=true;scene.add(root);
  const jovian=createJupiterEnvironment(texture);root.add(jovian.root);const zodiac=createZodiacalDiagram(texture);root.add(zodiac.root);
- const solar=new THREE.Group(),earth=new THREE.Group(),environment=new THREE.Group(),belts=new THREE.Group(),dust=new THREE.Group(),helio=new THREE.Group();root.add(solar,earth,dust,helio);earth.add(environment,belts);
+ const solar=new THREE.Group(),earth=new THREE.Group(),environment=new THREE.Group(),belts=new THREE.Group(),dust=new THREE.Group(),helio=new THREE.Group();root.add(solar,earth,dust,helio);earth.add(environment,belts);const spaceMedium=createSpaceMedium(texture);helio.add(spaceMedium.root);
  for(const [id,group] of Object.entries({solar,environment,belts,stream:dust,helio}))group.userData.sceneElement=id;
  const line=(points:THREE.Vector3[],color:string,opacity=.5)=>new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),new THREE.LineBasicMaterial({color,transparent:true,opacity,depthWrite:false}));
  const ball=(r:number,color:string,opacity:number)=>new THREE.Mesh(new THREE.SphereGeometry(r,32,24),new THREE.MeshBasicMaterial({color,transparent:true,opacity,depthWrite:false,side:THREE.DoubleSide}));
@@ -61,7 +63,7 @@ export function createIntegratedScene(scene:THREE.Scene,texture:THREE.Texture,ho
    shown={jupiter:!!jupiterPosition&&flags.environment&&(parts.jupiterMagnet||parts.ioTorus||parts.jupiterAurora),io:jovian.ioVisible,sun:flags.solar,earth:!!earthPosition&&(flags.environment&&(parts.incomingWind||parts.magnet||parts.dipole||parts.aurora)||flags.belts||flags.dust&&parts.meteor),dust:flags.dust&&(parts.stream||parts.zodiacal),helio:flags.helio};
    const detailed=(id:PhenomenonTarget)=>integratedDetailVisible(id,camera.position.distanceTo(anchors[id]),focused);
    solar.visible=flags.solar&&detailed('sun');environment.visible=flags.environment&&!!earthPosition&&detailed('earth');belts.visible=flags.belts&&!!earthPosition&&detailed('earth');dust.visible=flags.dust&&detailed('dust');helio.visible=flags.helio&&detailed('helio');
-   incomingWind.visible=parts.incomingWind;const windAttr=windParticles.geometry.attributes.position;for(let i=0;i<96;i++)windAttr.setXYZ(i,...incomingWindPoint(i,progress));windAttr.needsUpdate=true;
+   spaceMedium.update(parts,mediumLessonForView(focused,intent,parts)?.id==='chargedParticles');incomingWind.visible=parts.incomingWind;const windAttr=windParticles.geometry.attributes.position;for(let i=0;i<96;i++)windAttr.setXYZ(i,...incomingWindPoint(i,progress));windAttr.needsUpdate=true;
    zodiac.update(earthPosition,flags.dust&&parts.zodiacal&&detailed('dust'));
    atmosphere.update(parts);flare.patch.visible=parts.flare;magnet.visible=parts.magnet;dipole.visible=parts.dipole;auroras.visible=parts.aurora;
    for(const id of ['innerBelt','outerBelt','plasmasphere'] as const)beltParts[id].visible=parts[id];stream.visible=parts.stream;sheath.visible=parts.sheath;medium.visible=parts.medium;neutrals.visible=parts.neutrals;

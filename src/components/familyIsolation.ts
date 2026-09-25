@@ -19,7 +19,7 @@ export function isolateLocalSystem(scene:THREE.Scene,target:string,saved:Map<THR
 }
 
 /** Focus an environment lesson without overlaying unrelated planets or moon orbits. */
-export function isolateEnvironmentContext(scene:THREE.Scene,parent:'sun'|'earth'|'jupiter'|'sun-earth',saved:Map<THREE.Object3D,boolean>){
+export function isolateEnvironmentContext(scene:THREE.Scene,parent:'sun'|'earth'|'jupiter'|'sun-earth'|'none',saved:Map<THREE.Object3D,boolean>){
  for(const object of scene.children){
   if(object instanceof THREE.Light||object.userData.background||object.name==='integrated-phenomena'||object.userData.primaryId===parent||(parent==='sun-earth'&&['sun','earth'].includes(object.userData.primaryId)))continue;
   saved.set(object,object.visible);object.visible=false;

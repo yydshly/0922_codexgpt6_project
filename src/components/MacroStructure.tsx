@@ -496,7 +496,7 @@ function MacroCanvas({ historical,onPresence,active, historyBridge, integrated, 
       if(!integration.target){integratedSaved=null;previousParent=null;controls.minDistance=focus.selectedMember==='eros'?.55:focus.selectedMember?1:3;}
       if(integration.target&&integration.request!==lastIntegratedRequest&&(!followsBody||followingPosition)){
         if(!integratedSaved)integratedSaved={position:camera.position.clone(),target:controls.target.clone(),up:camera.up.clone()};
-        const target=medium?new THREE.Vector3():material?.id==='zodiacal'?new THREE.Vector3():enceladusRequested?followingPosition!:primary?followingPosition!:integration.target==='comet-demo'?new THREE.Vector3(...COMET_DEMO_ANCHOR):isCometId(integration.target)?followingPosition!:integration.target==='pluto-system'?binaryScene.anchor:isMacroFamily(integration.target)?familyScene.anchors[integration.target]:integratedScene.anchors[integration.target as keyof typeof integratedScene.anchors];
+        const target=material?.id==='stream'?integratedScene.streamBounds.center:medium?new THREE.Vector3():material?.id==='zodiacal'?new THREE.Vector3():enceladusRequested?followingPosition!:primary?followingPosition!:integration.target==='comet-demo'?new THREE.Vector3(...COMET_DEMO_ANCHOR):isCometId(integration.target)?followingPosition!:integration.target==='pluto-system'?binaryScene.anchor:isMacroFamily(integration.target)?familyScene.anchors[integration.target]:integratedScene.anchors[integration.target as keyof typeof integratedScene.anchors];
         controls.enableDamping=false;controls.update();controls.minDistance=enceladusRequested?enceladusRadius*4:.4;camera.up.set(0,1,0);
         const members=isCometId(integration.target)?heliocentricComets(current,displayRef.current.cometBatch).filter(s=>s.id===integration.target):integration.target==='pluto-system'&&integration.binary.state?[{position:integration.binary.state.relative,velocity:integration.binary.state.velocity}]:isMacroFamily(integration.target)?integration.families.states.filter(s=>s.parentId===integration.target):[];
         const direction=enceladusRequested?new THREE.Vector3(.65,.25,1).normalize():primary&&primary!=='sun'?target.clone().negate().normalize().multiplyScalar(.35).add(new THREE.Vector3(0,.85,0)).normalize():integration.target==='comet-demo'?new THREE.Vector3(...COMET_DEMO_ANCHOR).cross(new THREE.Vector3(0,1,0)).normalize().add(new THREE.Vector3(0,.5,0)).normalize():members.length&&integration.target!=='earth'?satelliteOverviewDirection(members,target.clone().negate()):new THREE.Vector3(.55,.38,.74).normalize();
@@ -513,7 +513,7 @@ function MacroCanvas({ historical,onPresence,active, historyBridge, integrated, 
         if(motion==='mercury-resonance')direction.set(0,1,.15).normalize();
         if(motion==='moon-phase'||motion==='moon-lock')direction.set(0,1,.25).normalize();
         if(medium?.id==='currentSheet')direction.set(.6,.2,.78).normalize();
-        const offset=direction.multiplyScalar(occultation?(spatialOccultation?10:110)*Math.max(1,1/camera.aspect):solarEclipse?36*Math.max(1,1/camera.aspect):lunarEclipse?45*Math.max(1,1/camera.aspect):coorbital?(coorbital==='coorbital-sun'?9:8.2)*Math.max(1,1/camera.aspect):motion==='jupiter-resonance'?macroFamilyFocusDistance('jupiter',resonantStates(integration.families.states),direction,camera.aspect,false)*1.35:motion==='earth-seasons'?1.1:(motion==='moon-phase'||motion==='moon-lock')?macroFamilyFocusDistance('earth',integration.families.states,direction,camera.aspect,false)*(window.innerWidth>800?Math.max(1.35,element.clientWidth/Math.max(200,element.clientWidth-370)):1.15):motion==='mercury-resonance'?3.2:orbitalLesson?5.5:medium?16:material?.id==='meteor'?.8:material?.id==='zodiacal'?10:material?.id==='e-ring'?2.1:journey?.id==='jupiter-aurora'?.8:journey?.id==='jupiter-magnet'?4.5:journey?.id==='io-torus'?2:journey?.id==='aurora'?.55:journey?.id==='sun'?1.8:enceladusRequested?enceladusRadius*8.5:integration.target==='sun'&&SOLAR_LESSONS.some(s=>matchesSolarLesson(integration.parts,s.id))?1.8:integration.target==='pluto-system'&&integration.binary.smallMoons?24:isMacroFamily(integration.target)&&!integration.intent?macroFamilyFocusDistance(integration.target,integration.families.moons?integration.families.states:[],direction,camera.aspect,integration.families.rings):INTEGRATED_FOCUS_DISTANCE[integration.target]);
+        const offset=direction.multiplyScalar(occultation?(spatialOccultation?10:110)*Math.max(1,1/camera.aspect):solarEclipse?36*Math.max(1,1/camera.aspect):lunarEclipse?45*Math.max(1,1/camera.aspect):coorbital?(coorbital==='coorbital-sun'?9:8.2)*Math.max(1,1/camera.aspect):motion==='jupiter-resonance'?macroFamilyFocusDistance('jupiter',resonantStates(integration.families.states),direction,camera.aspect,false)*1.35:motion==='earth-seasons'?1.1:(motion==='moon-phase'||motion==='moon-lock')?macroFamilyFocusDistance('earth',integration.families.states,direction,camera.aspect,false)*(window.innerWidth>800?Math.max(1.35,element.clientWidth/Math.max(200,element.clientWidth-370)):1.15):motion==='mercury-resonance'?3.2:orbitalLesson?5.5:medium?16:material?.id==='stream'?integratedScene.streamBounds.radius/Math.sin(THREE.MathUtils.degToRad(camera.fov/2))*Math.max(1,1/camera.aspect)*1.15:material?.id==='meteor'?.8:material?.id==='zodiacal'?10:material?.id==='e-ring'?2.1:journey?.id==='jupiter-aurora'?.8:journey?.id==='jupiter-magnet'?4.5:journey?.id==='io-torus'?2:journey?.id==='aurora'?.55:journey?.id==='sun'?1.8:enceladusRequested?enceladusRadius*8.5:integration.target==='sun'&&SOLAR_LESSONS.some(s=>matchesSolarLesson(integration.parts,s.id))?1.8:integration.target==='pluto-system'&&integration.binary.smallMoons?24:isMacroFamily(integration.target)&&!integration.intent?macroFamilyFocusDistance(integration.target,integration.families.moons?integration.families.states:[],direction,camera.aspect,integration.families.rings):INTEGRATED_FOCUS_DISTANCE[integration.target]);
         controls.target.copy(target);camera.position.copy(target).add(offset);controls.update();controls.enableDamping=true;
         previousParent=followingPosition?followingPosition.clone():null;lastIntegratedRequest=integration.request;
       }else if(followingPosition&&previousParent){const delta=followingPosition.clone().sub(previousParent);camera.position.add(delta);controls.target.add(delta);previousParent.copy(followingPosition);}
@@ -932,7 +932,10 @@ export function MacroStructure({ active=true,onSpeedChange,onHomeTool,initialPan
         : id === 'E03' || id === 'E04' ? '[aria-label="全景卫星与环系"]'
         : id === 'E05' ? '.region-members' : id === 'E06' ? '.macro-learning-detail'
         : ['E07', 'E08', 'E09', 'E10', 'E11'].includes(id) ? '.region-member-detail'
-        : id === 'E12' ? '.comet-panel' : null;
+        : id === 'E12' ? '.comet-panel'
+        : id === 'E13' || id === 'E15' ? (stageFlags.heliosphereExplorer ? '[data-boundary-comparison]' : '.macro-learning-detail')
+        : id === 'E14' ? '[data-material-journey]'
+        : id === 'E16' ? '[data-environment-journey]' : null;
       const root = infoScroll.current, node = selector ? root?.querySelector<HTMLElement>(selector) : null;
       if (root && node) {
         root.scrollTo({top: root.scrollTop + node.getBoundingClientRect().top - root.getBoundingClientRect().top - 12, behavior: 'instant'});
@@ -954,8 +957,9 @@ export function MacroStructure({ active=true,onSpeedChange,onHomeTool,initialPan
     if(row.id==='E11'){chooseMember('sedna');setPanelTab('integrated');return;}
     if(row.id==='E12'){focusComet('hale-bopp');return;}
     if(row.id==='E20'){openHistory();return;}
-    if(row.id==='E14'){setPhenomenonParts(defaultPhenomenonParts());focusIntegrated('dust');return;}
-    if(row.id==='E16'){setPhenomenonParts(defaultPhenomenonParts());focusIntegrated('earth',stageFlags.environment?'environment':'belts');return;}
+    if((row.id==='E13'||row.id==='E15')&&stageFlags.structure&&stageFlags.heliosphereExplorer){chooseBoundary(row.id==='E13'?'oort':'heliosphere');return;}
+    if(row.id==='E14'){chooseMaterialStep('stream');return;}
+    if(row.id==='E16'){chooseEnvironmentStep('magnet');return;}
     if(row.id==='E17'){setPanelTab('integrated');requestAnimationFrame(()=>infoScroll.current?.querySelector('[data-motion-lessons]')?.scrollIntoView({block:'start'}));return;}
     const entry=row.entry;if(!entry)return;
     requestAnimationFrame(()=>infoScroll.current?.scrollTo({top:0}));
@@ -965,12 +969,12 @@ export function MacroStructure({ active=true,onSpeedChange,onHomeTool,initialPan
   };
   const contentEntryHandled = useRef(false);
   useEffect(() => {
-    if (!active || !initialContentId || contentEntryHandled.current || !scientificFrame) return;
+    if (!active || !initialContentId || contentEntryHandled.current || !scientificFrame || timeControls.loading || timeControls.error) return;
     const row = CONTENT_COVERAGE.find(item => item.id === initialContentId);
     if (!row || row.stages.some(id => !stageFlags[id])) return;
     contentEntryHandled.current = true;
     visitHomeContent(row);
-  }, [active, initialContentId, scientificFrame, stageFlags]);
+  }, [active, initialContentId, scientificFrame, stageFlags, timeControls.loading, timeControls.error]);
   const phenomenonStatus=(id:typeof INTEGRATED_ITEMS[number]['id'])=>{const item=INTEGRATED_ITEMS.find(i=>i.id===id)!;if(!stageFlags[item.stage])return '阶段已隐藏';if(!integratedChoices[id])return '已关闭';if(planetFocus)return '专注中隐藏';if(item.target==='earth'&&!scientificFrame)return '等待真实地球位置';if(PHENOMENON_PARTS.filter(p=>p.group===id).every(p=>!phenomenonParts[p.id]))return '细分效果已关闭';return presenceText(sceneSnapshot,id==='dust'?'stream':id);};
   const erisStatus=!stageFlags.members?'阶段 03 已隐藏':!stageFlags.families?'阶段 04 已隐藏':planetFocus?'专注行星中隐藏':!effectiveLayers.dwarfs?'区域成员图层已关闭':erisData.error?'家族历表加载失败 · 可重试':!erisState?'等待阋神星家族当前历表':!erisChoices.moon?'阋卫一已关闭':presenceText(sceneSnapshot,'eris-system');
   const focusEris=()=>{if(!stageFlags.members||!stageFlags.families){onOpenStages();return;}chooseMember('eris');setErisChoices(v=>({...v,moon:true}));setPanelTab('integrated');requestAnimationFrame(()=>infoScroll.current?.querySelector('[data-eris-system]')?.scrollIntoView({block:'start'}));};

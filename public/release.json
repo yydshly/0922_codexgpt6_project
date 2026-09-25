@@ -1,7 +1,7 @@
 {
-  "version": "2026.09.25-r09.6",
+  "version": "2026.09.25-r09.7",
   "date": "2026-09-25",
-  "baselineCommit": "8ad26680fe4581e0f4f1fa646d1c15fd8f87df7c",
+  "baselineCommit": "4cf816f3937c9a9bf1cc65da66bd4d5e92a48aab",
   "acceptance": "pending-user-review",
   "scope": [
     "R06 motion and events",
@@ -13,7 +13,8 @@
     "Panorama texture status and selective recovery",
     "Unified closeout plan and 25-item coverage evidence checklist",
     "C02 core coverage entries and representative interaction review",
-    "C02 outer-body explanation focus and source attribution review"
+    "C02 outer-body explanation focus and source attribution review",
+    "C02 environment entry isolation, explanations and representative journey review"
   ],
   "automatedTests": 328,
   "topicSteps": 27,

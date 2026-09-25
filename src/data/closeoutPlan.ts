@@ -10,8 +10,8 @@ export const CLOSEOUT_STEPS = [
   {
     "id": "C02",
     "title": "核对内容完整性",
-    "status": "第二组复验中",
-    "done": "25 项均已登记；E01–E12 完成入口与代表交互复验，完整子项与其余 13 项仍需继续，不等同 12 类全面验收。"
+    "status": "第三组复验中",
+    "done": "25 项均已登记；E01–E16 完成入口与代表交互复验，完整子项与其余 9 项仍需继续，不等同 16 类全面验收。"
   },
   {
     "id": "C03",
@@ -226,37 +226,41 @@ export const COVERAGE_AUDIT = [
   {
     "id": "E13",
     "reports": [
+      "docs/C02-ENVIRONMENT-COVERAGE-AUDIT.md",
       "docs/R05-ENVIRONMENT-LINKS.md"
     ],
     "check": "全景现象 → 太阳系的边界是哪一种？ → 遥远冰质天体 / 放在同一空间。 核对：复验日球层与奥尔特云的不同边界含义；不以虚构逐体实测补齐推断模型。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验奥尔特云入口、三步边界对照与阶段关闭后的基础说明；完整角度和用户验收待继续（C02 第三组）",
     "findingIds": []
   },
   {
     "id": "E14",
     "reports": [
+      "docs/C02-ENVIRONMENT-COVERAGE-AUDIT.md",
       "docs/R05-ENVIRONMENT-LINKS.md"
     ],
     "check": "全景现象 → 物质从哪里来，会变成什么？六步定位；独立详解仍可阅读。 核对：复验碎屑—流星、尘埃—黄道光、喷流—E 环六步联系；不承诺流星雨预报。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验碎屑入口、六步选中状态与流星演示独立时间；完整画面和异常场景待继续（C02 第三组）",
     "findingIds": []
   },
   {
     "id": "E15",
     "reports": [
+      "docs/C02-ENVIRONMENT-COVERAGE-AUDIT.md",
       "docs/R05-ENVIRONMENT-LINKS.md"
     ],
     "check": "全景现象 → 太阳系边界对照 / 看不见的空间；独立详解继续保留。 核对：复验五种不可见环境解释与三步边界对照；实时通量和完整数值场不在首版范围。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验日球层入口、五类空间解释切换与代表画面；完整流动和用户验收待继续（C02 第三组）",
     "findingIds": []
   },
   {
     "id": "E16",
     "reports": [
+      "docs/C02-ENVIRONMENT-COVERAGE-AUDIT.md",
       "docs/R05-ENVIRONMENT-LINKS.md"
     ],
     "check": "全景现象 → 太阳与行星环境七步定位；阶段 05 控制地球/木星环境，木卫一步骤另需阶段 04。 核对：复验太阳—地球及木星环境联系、开关和日期/示意进度的区别。",
-    "review": "代码与既有证据已核对；本轮逐类画面验收待完成",
+    "review": "本轮复验磁层入口、七步选中状态与手动开关取消高亮；辐射带完整子项及用户验收待继续（C02 第三组）",
     "findingIds": []
   },
   {

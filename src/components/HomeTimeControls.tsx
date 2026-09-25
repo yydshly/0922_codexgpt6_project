@@ -8,7 +8,7 @@ export function HomeTimeControls({date,time,onSpeed}:{date:string;time:MacroTime
   <button type="button" disabled={!date||time.loading} onClick={time.onToggle}>{time.playing?'暂停时间':'播放时间'}</button>
   <label>北京时间 <input aria-label="全景北京时间" type="datetime-local" step="1" value={draft} onFocus={()=>setEditing(true)} onChange={e=>{setEditing(true);setDraft(e.target.value);}}/></label>
   <button disabled={!date||time.loading} type="submit">应用日期</button>
-  <label>倍率 <select aria-label="全景时间倍率" value={time.speed} onChange={e=>onSpeed(Number(e.target.value))}>{[1,3600,21600,86400,8640000].map(value=><option key={value} value={value}>{value===1?'实时':`${value/86400>=1?value/86400+' 天':value/3600+' 小时'}/秒`}</option>)}</select></label>
+  <label>倍率 <select aria-label="全景时间倍率" value={time.speed} onChange={e=>onSpeed(Number(e.target.value))}>{![1,3600,21600,86400,8640000].includes(time.speed)&&<option value={time.speed}>课程 · {time.speed>=86400?`${time.speed/86400} 天/秒`:`${time.speed/3600} 小时/秒`}</option>}{[1,3600,21600,86400,8640000].map(value=><option key={value} value={value}>{value===1?'实时':`${value/86400>=1?value/86400+' 天':value/3600+' 小时'}/秒`}</option>)}</select></label>
   <button type="button" onClick={()=>{setError('');setEditing(false);time.onNow();}}>现在</button>
   <span>历表运动与现象示意分别控制</span>
   {(error||time.error)&&<p role="alert">{error||time.error}</p>}

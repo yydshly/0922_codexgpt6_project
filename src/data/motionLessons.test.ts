@@ -1,6 +1,6 @@
 import {it,expect} from 'vitest';
 import * as THREE from 'three';
-import {motionStepSeconds,motionSeek,motionLessonForView,spinPeriodSeconds} from './motionLessons';
+import {motionPlaybackSpeed,motionCycleSeconds,motionStepSeconds,motionSeek,motionLessonForView,spinPeriodSeconds} from './motionLessons';
 import {bodyById} from './catalog';
 import {referenceAttitude} from '../components/referenceAttitude';
 import {createMotionReference} from '../components/motionReference';
@@ -13,4 +13,10 @@ it('does not silently clamp a lesson step or match another target',()=>{
 });
 it('anchors the reference to the existing body quaternion and scale',()=>{
  const mesh=new THREE.Mesh(new THREE.SphereGeometry(.09)),root=createMotionReference(mesh);expect(root.parent).toBe(mesh);expect(root.visible).toBe(false);const marker=root.children.find(o=>o instanceof THREE.Mesh)!;mesh.quaternion.copy(referenceAttitude(bodyById.earth,0));mesh.updateMatrixWorld(true);const a=marker.getWorldPosition(new THREE.Vector3());mesh.quaternion.copy(referenceAttitude(bodyById.earth,motionStepSeconds('earth-spin')));mesh.updateMatrixWorld(true);const b=marker.getWorldPosition(new THREE.Vector3());expect(a.distanceTo(b)).toBeGreaterThan(.13);expect(a.length()).toBeCloseTo(b.length(),8);
+});
+
+it('recommended playback makes a full cycle observable without changing physical periods',()=>{
+ for(const id of ['earth-spin','earth-orbit','venus-spin'] as const){const cycle=motionCycleSeconds(id),speed=motionPlaybackSpeed(id);expect(cycle/speed).toBeGreaterThan(20);expect(cycle/speed).toBeLessThan(40);}
+ expect(motionCycleSeconds('earth-orbit')).toBe(bodyById.earth.orbitalPeriodDays*86400);
+ for(const id of ['earth','venus'] as const){const lesson=id==='earth'?'earth-spin':'venus-spin';const duration=motionCycleSeconds(lesson)/motionPlaybackSpeed(lesson);const start=referenceAttitude(bodyById[id],0);const end=referenceAttitude(bodyById[id],duration*motionPlaybackSpeed(lesson));expect(start.angleTo(end)).toBeCloseTo(0,6);}
 });

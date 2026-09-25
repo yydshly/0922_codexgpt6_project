@@ -3,7 +3,7 @@ import {INTEGRATED_ITEMS} from '../data/integratedScene';
 import type {StageFlags} from '../data/stages';
 
 const bodySections = [
- {id:'motion-lessons',name:'运动第一课 · 自转与公转',selector:'[data-motion-lessons]'},
+ {id:'motion-lessons',name:'运动课程 · 自转、公转与月相',selector:'[data-motion-lessons]'},
  {id:'boundary-comparison',name:'太阳系边界 · 日球层与奥尔特云',selector:'[data-boundary-comparison]'},
  {id:'space-medium',name:'场、光与粒子 · 五种解释',selector:'[data-space-medium]'},
  {id:'material-journey',name:'物质联系 · 碎屑、黄道光与 E 环',selector:'[data-material-journey]'},

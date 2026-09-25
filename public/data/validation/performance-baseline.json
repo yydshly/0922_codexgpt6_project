@@ -1,0 +1,527 @@
+{
+  "measuredAt": "2026-09-25T09:29:00.069Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/153.0.8010.53",
+    "revision": "@792bf6722e73a45aa9e47c163b9901bdc17f3230",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+    "jsVersion": "15.3.76.13"
+  },
+  "device": {
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+    "logicalCores": 32,
+    "reportedMemoryGB": 16,
+    "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "viewport": [
+      1600,
+      1000
+    ],
+    "dpr": 1,
+    "visibility": "visible"
+  },
+  "stages": [
+    {
+      "title": "从行星薄盘到外围区域",
+      "enabled": true
+    },
+    {
+      "title": "哈雷、67P 与海尔—波普按日期运行",
+      "enabled": true
+    },
+    {
+      "title": "区域代表与地球准卫星入口",
+      "enabled": true
+    },
+    {
+      "title": "六个行星家族、两个矮行星系统与环系",
+      "enabled": true
+    },
+    {
+      "title": "太阳风、磁层、极光与木卫一物质供给",
+      "enabled": true
+    },
+    {
+      "title": "走进磁层内部的粒子区域",
+      "enabled": true
+    },
+    {
+      "title": "太阳大气分层、黑子、日珥与爆发区别",
+      "enabled": true
+    },
+    {
+      "title": "从小颗粒分布到大气中的光迹",
+      "enabled": true
+    },
+    {
+      "title": "分清太阳风边界与引力范围",
+      "enabled": true
+    }
+  ],
+  "date": "2026-09-25T17:27:19",
+  "method": "Actual renderer completion timestamps after 1s settling, 3s sampling (baseline 6s). Forced garbage collection before each JS heap / DOM snapshot. 20 transitions; same module revisits compared. GPU info is live Three resource counts, not driver bytes or a leak proof.",
+  "rows": [
+    {
+      "label": "baseline-solar",
+      "scene": "solar-panorama",
+      "frames": 180,
+      "fps": 30.00284943250778,
+      "p95IntervalMs": 34.299999952316284,
+      "activeScenes": 1,
+      "created": 1,
+      "disposed": 0,
+      "geometries": 101,
+      "textures": 11,
+      "programs": 10,
+      "drawCalls": 103,
+      "triangles": 89110,
+      "jsHeapAfterGC": 14779436,
+      "dom": {
+        "documents": 2,
+        "nodes": 4335,
+        "jsEventListeners": 651
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "1-neighbors",
+      "scene": "stellar-space",
+      "frames": 90,
+      "fps": 29.998651745265718,
+      "p95IntervalMs": 33.60000002384186,
+      "activeScenes": 1,
+      "created": 4,
+      "disposed": 3,
+      "geometries": 12,
+      "textures": 3,
+      "programs": 4,
+      "drawCalls": 13,
+      "triangles": 444,
+      "jsHeapAfterGC": 12079020,
+      "dom": {
+        "documents": 2,
+        "nodes": 1816,
+        "jsEventListeners": 300
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "1-sky",
+      "scene": "stellar-sky",
+      "frames": 90,
+      "fps": 29.997640635247294,
+      "p95IntervalMs": 33.60000002384186,
+      "activeScenes": 1,
+      "created": 5,
+      "disposed": 4,
+      "geometries": 8,
+      "textures": 3,
+      "programs": 3,
+      "drawCalls": 9,
+      "triangles": 4,
+      "jsHeapAfterGC": 15371168,
+      "dom": {
+        "documents": 2,
+        "nodes": 22197,
+        "jsEventListeners": 301
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "1-milkyway",
+      "scene": "milkyway",
+      "frames": 91,
+      "fps": 30.002000133819124,
+      "p95IntervalMs": 33.60000002384186,
+      "activeScenes": 1,
+      "created": 6,
+      "disposed": 5,
+      "geometries": 10,
+      "textures": 2,
+      "programs": 4,
+      "drawCalls": 11,
+      "triangles": 2380,
+      "jsHeapAfterGC": 12161328,
+      "dom": {
+        "documents": 2,
+        "nodes": 1478,
+        "jsEventListeners": 285
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "1-galaxies",
+      "scene": "galaxies",
+      "frames": 90,
+      "fps": 29.996629592180653,
+      "p95IntervalMs": 33.5,
+      "activeScenes": 1,
+      "created": 7,
+      "disposed": 6,
+      "geometries": 14,
+      "textures": 3,
+      "programs": 4,
+      "drawCalls": 16,
+      "triangles": 3570,
+      "jsHeapAfterGC": 12300664,
+      "dom": {
+        "documents": 2,
+        "nodes": 1485,
+        "jsEventListeners": 285
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "1-solar",
+      "scene": "solar-panorama",
+      "frames": 90,
+      "fps": 30.007754813282794,
+      "p95IntervalMs": 34.10000002384186,
+      "activeScenes": 1,
+      "created": 8,
+      "disposed": 7,
+      "geometries": 101,
+      "textures": 11,
+      "programs": 10,
+      "drawCalls": 103,
+      "triangles": 89110,
+      "jsHeapAfterGC": 15721296,
+      "dom": {
+        "documents": 2,
+        "nodes": 4342,
+        "jsEventListeners": 653
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "2-neighbors",
+      "scene": "stellar-space",
+      "frames": 91,
+      "fps": 30,
+      "p95IntervalMs": 33.60000002384186,
+      "activeScenes": 1,
+      "created": 11,
+      "disposed": 10,
+      "geometries": 12,
+      "textures": 3,
+      "programs": 4,
+      "drawCalls": 13,
+      "triangles": 444,
+      "jsHeapAfterGC": 13108624,
+      "dom": {
+        "documents": 2,
+        "nodes": 1823,
+        "jsEventListeners": 302
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "2-sky",
+      "scene": "stellar-sky",
+      "frames": 91,
+      "fps": 29.99700029925489,
+      "p95IntervalMs": 33.699999928474426,
+      "activeScenes": 1,
+      "created": 12,
+      "disposed": 11,
+      "geometries": 8,
+      "textures": 3,
+      "programs": 3,
+      "drawCalls": 9,
+      "triangles": 4,
+      "jsHeapAfterGC": 15916808,
+      "dom": {
+        "documents": 2,
+        "nodes": 22204,
+        "jsEventListeners": 303
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "2-milkyway",
+      "scene": "milkyway",
+      "frames": 90,
+      "fps": 29.99966292465349,
+      "p95IntervalMs": 33.60000002384186,
+      "activeScenes": 1,
+      "created": 13,
+      "disposed": 12,
+      "geometries": 10,
+      "textures": 2,
+      "programs": 4,
+      "drawCalls": 11,
+      "triangles": 2380,
+      "jsHeapAfterGC": 12697692,
+      "dom": {
+        "documents": 2,
+        "nodes": 1485,
+        "jsEventListeners": 287
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "2-galaxies",
+      "scene": "galaxies",
+      "frames": 90,
+      "fps": 30.001685487948762,
+      "p95IntervalMs": 33.5,
+      "activeScenes": 1,
+      "created": 14,
+      "disposed": 13,
+      "geometries": 14,
+      "textures": 3,
+      "programs": 4,
+      "drawCalls": 16,
+      "triangles": 3570,
+      "jsHeapAfterGC": 12846436,
+      "dom": {
+        "documents": 2,
+        "nodes": 1492,
+        "jsEventListeners": 287
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "2-solar",
+      "scene": "solar-panorama",
+      "frames": 90,
+      "fps": 29.997640634041996,
+      "p95IntervalMs": 34.299999952316284,
+      "activeScenes": 1,
+      "created": 15,
+      "disposed": 14,
+      "geometries": 101,
+      "textures": 11,
+      "programs": 10,
+      "drawCalls": 103,
+      "triangles": 89110,
+      "jsHeapAfterGC": 16366584,
+      "dom": {
+        "documents": 2,
+        "nodes": 4349,
+        "jsEventListeners": 655
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "3-neighbors",
+      "scene": "stellar-space",
+      "frames": 90,
+      "fps": 29.996629592180653,
+      "p95IntervalMs": 33.700000047683716,
+      "activeScenes": 1,
+      "created": 18,
+      "disposed": 17,
+      "geometries": 12,
+      "textures": 3,
+      "programs": 4,
+      "drawCalls": 13,
+      "triangles": 444,
+      "jsHeapAfterGC": 13323528,
+      "dom": {
+        "documents": 2,
+        "nodes": 1830,
+        "jsEventListeners": 304
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "3-sky",
+      "scene": "stellar-sky",
+      "frames": 91,
+      "fps": 29.97002997002997,
+      "p95IntervalMs": 33.89999997615814,
+      "activeScenes": 1,
+      "created": 19,
+      "disposed": 18,
+      "geometries": 8,
+      "textures": 3,
+      "programs": 3,
+      "drawCalls": 9,
+      "triangles": 4,
+      "jsHeapAfterGC": 16100736,
+      "dom": {
+        "documents": 2,
+        "nodes": 22211,
+        "jsEventListeners": 305
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "3-milkyway",
+      "scene": "milkyway",
+      "frames": 90,
+      "fps": 30.005731431605344,
+      "p95IntervalMs": 33.699999928474426,
+      "activeScenes": 1,
+      "created": 20,
+      "disposed": 19,
+      "geometries": 10,
+      "textures": 2,
+      "programs": 4,
+      "drawCalls": 11,
+      "triangles": 2380,
+      "jsHeapAfterGC": 12888096,
+      "dom": {
+        "documents": 2,
+        "nodes": 1492,
+        "jsEventListeners": 289
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "3-galaxies",
+      "scene": "galaxies",
+      "frames": 90,
+      "fps": 30.001685487948762,
+      "p95IntervalMs": 33.700000047683716,
+      "activeScenes": 1,
+      "created": 21,
+      "disposed": 20,
+      "geometries": 14,
+      "textures": 3,
+      "programs": 4,
+      "drawCalls": 16,
+      "triangles": 3570,
+      "jsHeapAfterGC": 13018960,
+      "dom": {
+        "documents": 2,
+        "nodes": 1499,
+        "jsEventListeners": 289
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "3-solar",
+      "scene": "solar-panorama",
+      "frames": 90,
+      "fps": 30.016863406408095,
+      "p95IntervalMs": 36.39999997615814,
+      "activeScenes": 1,
+      "created": 22,
+      "disposed": 21,
+      "geometries": 101,
+      "textures": 11,
+      "programs": 10,
+      "drawCalls": 103,
+      "triangles": 89110,
+      "jsHeapAfterGC": 16399008,
+      "dom": {
+        "documents": 2,
+        "nodes": 4356,
+        "jsEventListeners": 657
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "4-neighbors",
+      "scene": "stellar-space",
+      "frames": 90,
+      "fps": 29.998651745265718,
+      "p95IntervalMs": 33.60000002384186,
+      "activeScenes": 1,
+      "created": 25,
+      "disposed": 24,
+      "geometries": 12,
+      "textures": 3,
+      "programs": 4,
+      "drawCalls": 13,
+      "triangles": 444,
+      "jsHeapAfterGC": 13452748,
+      "dom": {
+        "documents": 2,
+        "nodes": 1837,
+        "jsEventListeners": 306
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "4-sky",
+      "scene": "stellar-sky",
+      "frames": 90,
+      "fps": 30.000674172212204,
+      "p95IntervalMs": 33.60000002384186,
+      "activeScenes": 1,
+      "created": 26,
+      "disposed": 25,
+      "geometries": 8,
+      "textures": 3,
+      "programs": 3,
+      "drawCalls": 9,
+      "triangles": 4,
+      "jsHeapAfterGC": 16228040,
+      "dom": {
+        "documents": 2,
+        "nodes": 22218,
+        "jsEventListeners": 307
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "4-milkyway",
+      "scene": "milkyway",
+      "frames": 90,
+      "fps": 29.86577181208054,
+      "p95IntervalMs": 33.59999990463257,
+      "activeScenes": 1,
+      "created": 27,
+      "disposed": 26,
+      "geometries": 10,
+      "textures": 2,
+      "programs": 4,
+      "drawCalls": 11,
+      "triangles": 2380,
+      "jsHeapAfterGC": 13000008,
+      "dom": {
+        "documents": 2,
+        "nodes": 1499,
+        "jsEventListeners": 291
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "4-galaxies",
+      "scene": "galaxies",
+      "frames": 91,
+      "fps": 30.003000300745402,
+      "p95IntervalMs": 33.60000002384186,
+      "activeScenes": 1,
+      "created": 28,
+      "disposed": 27,
+      "geometries": 14,
+      "textures": 3,
+      "programs": 4,
+      "drawCalls": 16,
+      "triangles": 3570,
+      "jsHeapAfterGC": 13126660,
+      "dom": {
+        "documents": 2,
+        "nodes": 1506,
+        "jsEventListeners": 291
+      },
+      "visible": "visible"
+    },
+    {
+      "label": "4-solar",
+      "scene": "solar-panorama",
+      "frames": 91,
+      "fps": 29.96005326231691,
+      "p95IntervalMs": 36.09999990463257,
+      "activeScenes": 1,
+      "created": 29,
+      "disposed": 28,
+      "geometries": 101,
+      "textures": 11,
+      "programs": 10,
+      "drawCalls": 103,
+      "triangles": 89110,
+      "jsHeapAfterGC": 16514412,
+      "dom": {
+        "documents": 2,
+        "nodes": 4363,
+        "jsEventListeners": 659
+      },
+      "visible": "visible"
+    }
+  ],
+  "runtimeErrors": []
+}

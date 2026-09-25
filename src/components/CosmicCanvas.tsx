@@ -1,6 +1,10 @@
-import { useEffect, useRef } from 'react';
+import {disposeSprites} from '../lib/disposeSprites';
+import {sceneDiagnostics} from '../lib/sceneDiagnostics';
+import { useLayoutEffect, useRef, type MutableRefObject } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import {buildStellarScene} from './stellarScene';
+import type {StarCatalogue,StellarView} from '../data/starCatalogue';
 import type { CosmicLevelId } from '../data/cosmicContext';
 
 function seeded(seed: number) {
@@ -51,10 +55,14 @@ function galaxy(scene: THREE.Scene, center: [number, number, number], size: numb
   glow(scene, center, color, .12 * size);
 }
 
-export function CosmicCanvas({ level,active=true }: { level: CosmicLevelId;active?:boolean }) {
+export interface CosmicCamera {position:number[];quaternion:number[];target:number[];fov:number;}
+export interface CosmicCameraBridge {capture:(()=>CosmicCamera)|null;pending:CosmicCamera|null;}
+export function CosmicCanvas({ level,active=true,stars=null,stellarView='space',selectedStar=null,onSelectStar,reset=0,history }: { level: CosmicLevelId;active?:boolean;stars?:StarCatalogue|null;stellarView?:StellarView;selectedStar?:number|null;onSelectStar:(id:number)=>void;reset?:number;history:MutableRefObject<CosmicCameraBridge> }) {
+  const selectRef=useRef(onSelectStar);selectRef.current=onSelectStar;
   const activeRef=useRef(active);activeRef.current=active;
   const host = useRef<HTMLDivElement>(null);
-  useEffect(() => {
+  // OrbitControls must disconnect while the canvas still belongs to its original document.
+  useLayoutEffect(() => {
     const element = host.current;
     if (!element) return;
     let renderer: THREE.WebGLRenderer;
@@ -68,27 +76,14 @@ export function CosmicCanvas({ level,active=true }: { level: CosmicLevelId;activ
     camera.position.set(10, 8, 15);
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true; controls.dampingFactor = .07; controls.minDistance = 4; controls.maxDistance = 45;
-    scene.add(new THREE.Points(pointField(450, next => {
+    if(level!=='neighbors')scene.add(new THREE.Points(pointField(450, next => {
       const azimuth = next() * Math.PI * 2, elevation = Math.asin(next() * 2 - 1), distance = 50 + next() * 18;
       return new THREE.Vector3(Math.cos(elevation) * Math.cos(azimuth) * distance, Math.sin(elevation) * distance, Math.cos(elevation) * Math.sin(azimuth) * distance);
     }, 122806), new THREE.PointsMaterial({ color: '#95b8cc', size: .12, transparent: true, opacity: .44, depthWrite: false })));
 
+    let cleanStars: (()=>void)|undefined;
     if (level === 'neighbors') {
-      glow(scene, [-5.7, .1, .1], '#ffdd9a', .45); // Sun
-      glow(scene, [0, .8, -2.7], '#f39782', .27); // Proxima
-      glow(scene, [1.1, -.55, .8], '#ffe3b5', .36); // Alpha Cen A/B marker
-      glow(scene, [4.9, .35, -1], '#df8c76', .26); // TRAPPIST-1
-      label(scene, '太阳系', [-5.7, 1.15, .1]);
-      label(scene, '比邻星', [0, 1.8, -2.7]);
-      label(scene, '半人马座 α A/B', [1.1, .45, .8], 3.3);
-      label(scene, 'TRAPPIST-1', [4.9, 1.4, -1], 3.1);
-      for (const [location, color] of [[[-5.7, .1, .1], '#86b9d2'], [[4.9, .35, -1], '#cb9b8b']] as const) {
-        for (const radius of [.85, 1.16, 1.55]) {
-          const vertices = Array.from({ length: 90 }, (_, i) => new THREE.Vector3(location[0] + Math.cos(i / 90 * Math.PI * 2) * radius, location[1], location[2] + Math.sin(i / 90 * Math.PI * 2) * radius));
-          scene.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(vertices), new THREE.LineBasicMaterial({ color, transparent: true, opacity: .2 })));
-        }
-      }
-      camera.position.set(13, 10, 24);
+      cleanStars=buildStellarScene(scene,camera,controls,renderer.domElement,stars,stellarView,selectedStar,id=>selectRef.current(id));
     } else if (level === 'milkyway') {
       galaxy(scene, [0, 0, 0], 9.2, '#a7c5de', 41172, 7800);
       glow(scene, [6.1, .13, 1.3], '#ffe1a2', .11);
@@ -108,21 +103,28 @@ export function CosmicCanvas({ level,active=true }: { level: CosmicLevelId;activ
       label(scene, '仙女座星系', [6.1, 1.9, -1], 3);
       camera.position.set(16, 10, 28);
     }
-    controls.target.set(0, 0, 0); controls.update();
+    if(level!=='neighbors'){controls.target.set(0, 0, 0);controls.update();}
+    const saved=history.current.pending;
+    if(saved){camera.position.fromArray(saved.position);camera.quaternion.fromArray(saved.quaternion);camera.fov=saved.fov;controls.target.fromArray(saved.target);camera.updateProjectionMatrix();if(controls.enabled)controls.update();history.current.pending=null;}
+    const capture=()=>({position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),target:controls.target.toArray(),fov:camera.fov});
+    history.current.capture=capture;
     const resize = () => {
       const width = element.clientWidth, height = element.clientHeight;
       if (!width || !height) return;
       renderer.setSize(width, height, false); camera.aspect = width / height; camera.updateProjectionMatrix();
     };
     const observer = new ResizeObserver(resize); observer.observe(element); resize();
-    let handle = 0, last = 0;
-    const render = (now: number) => { handle = requestAnimationFrame(render); if(!activeRef.current){last=now;return;} if (now - last < 30) return; last = now; controls.update(); renderer.render(scene, camera); };
+    const diagnostics=sceneDiagnostics(renderer,level==='neighbors'?`stellar-${stellarView}`:level);
+    let handle = 0;
+    const render = () => { handle = requestAnimationFrame(render); if(!activeRef.current)return; if(controls.enabled)controls.update(); renderer.render(scene, camera);diagnostics.frame(); };
     handle = requestAnimationFrame(render);
     return () => {
-      cancelAnimationFrame(handle); observer.disconnect(); controls.dispose();
-      scene.traverse(object => { if (object instanceof THREE.Sprite) { object.material.map?.dispose(); object.material.dispose(); } else if (object instanceof THREE.Mesh || object instanceof THREE.Points || object instanceof THREE.Line) { object.geometry.dispose(); const material = object.material; (Array.isArray(material) ? material : [material]).forEach(item => item.dispose()); } });
-      renderer.dispose(); renderer.domElement.remove();
+      if(history.current.capture===capture)history.current.capture=null;
+      cancelAnimationFrame(handle); observer.disconnect(); cleanStars?.(); controls.dispose();
+      disposeSprites(scene);
+      scene.traverse(object => { if (object instanceof THREE.Mesh || object instanceof THREE.Points || object instanceof THREE.Line) { object.geometry.dispose(); const material = object.material; (Array.isArray(material) ? material : [material]).forEach(item => item.dispose()); } });
+      diagnostics.dispose();renderer.dispose(); renderer.forceContextLoss(); renderer.domElement.remove();
     };
-  }, [level]);
-  return <div ref={host} className="macro-canvas" role="img" aria-label="可拖动旋转的宇宙邻域三维结构示意，方位与大小不是真实星图"/>;
+  }, [level,stars,stellarView,selectedStar,reset,history]);
+  return <div ref={host} className="macro-canvas" role="img" data-stellar-view={level==='neighbors'?stellarView:undefined} aria-label={level==='neighbors'?(stellarView==='space'?'可拖动旋转的实测邻星距离样本，标记放大':'太阳视点的星表方向图，拖动转向，无空间测距含义'):'可拖动旋转的宇宙邻域三维结构示意，方位与大小不是真实星图'}/>;
 }

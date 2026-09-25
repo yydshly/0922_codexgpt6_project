@@ -3,7 +3,7 @@ import {referenceAttitude as satelliteParentAttitude} from './referenceAttitude'
 import { makeSaturnRingGeometry } from './saturnRingGeometry';
 import { makeFaintRings,updateFaintRings } from './planetaryRings';
 import { ringProfile } from '../data/rings';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { bodyById } from '../data/catalog';
@@ -168,7 +168,7 @@ export function SatelliteSystem(props: SatelliteSystemProps) {
   const latest = useRef(props); latest.current = props;
   const [error, setError] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = host.current;
     if (!element) return;
     const parent = bodyById[props.parentId], parentRadius = parent.radiusKm / KM_PER_UNIT;

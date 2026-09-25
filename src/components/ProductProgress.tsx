@@ -1,3 +1,13 @@
+import releaseNotesUrl from '../../docs/RELEASE-2026-09-25.md?url';
+import viewportAcceptanceUrl from '../../docs/VIEWPORT-ACCEPTANCE.md?url';
+import topicFamilyAcceptanceUrl from '../../docs/TOPIC-FAMILY-ACCEPTANCE.md?url';
+import eventAcceptanceUrl from '../../docs/EVENT-ACCEPTANCE.md?url';
+import motionAcceptanceUrl from '../../docs/MOTION-ACCEPTANCE.md?url';
+import phenomenaAuditUrl from '../../docs/PHENOMENA-AUDIT.md?url';
+import scienceAuditUrl from '../../docs/SCIENCE-AUDIT.md?url';
+import validationReportUrl from '../../docs/R09-VALIDATION.md?url';
+import stellarReportUrl from '../../docs/R08-STELLAR-CONTEXT.md?url';
+import topicReportUrl from '../../docs/R07-TOPIC-ROUTES.md?url';
 import scaleAuditUrl from '../../docs/SCALE-AND-CONTEXT-AUDIT.md?url';
 import navigationReportUrl from '../../docs/NAVIGATION-AUDIT.md?url';
 import { useEffect, useRef } from 'react';
@@ -5,6 +15,22 @@ import { ArrowUpRight, CheckCircle2, Clock3, GitCommitHorizontal, X } from 'luci
 import './ProductProgress.css';
 
 const completed = [
+  {title:'窗口布局与操作复验（本地待验收）',detail:'修复窄窗口隐藏路线撑高侧栏的问题；将统计和自由浏览目录移入正文滚动区，1280×720 的阅读高度由约 158 增至 272 像素，主画布不缩小。三种窗口的定位、滚动和焦点，以及拖动、播放/暂停通过检查；真实设备体验仍待用户验收，未发布。'},
+  {title:'天象、日期与历史恢复验收（本地待验收）',detail:'修复日期框点选后停留旧时间，以及前进后退丢弃已保存镜头的问题。输入草稿明确标注未应用并可取消；三种天象、北京时间换日、遮掩/露出与越界恢复完成专项检查。14 课及阶段开关回归，315 项自动检查通过；专题与家族异常恢复记录见本轮更新；实机/用户验收待完成，未发布。'},
+  {title:'主画面与运动课操作验收（本地待验收）',detail:'检查地球自转、月球同步自转、木星三卫星与返回全景。修复长说明中播放/退出入口滚走的问题：右侧固定播放、讲解、返回全景。共享日期边界判定，保留退出日期与暂停状态，恢复键盘焦点；313 项测试及代表路径浏览器检查通过。小屏仍较拥挤，R09 与用户总验收未完成，未发布。'},
+  {title:'事件与显示边界核验（本地待验收）',detail:'三例事件重算及 66 项一致性检查通过；月食、日食、遮掩的参考时间差仍为 +37.81 / +34.94 / +86.98 秒，不是精度认证。新增“画面有多真实？”入口，明确 10 个线性参考姿态、29 个外观登记对象与 28 个环境部件的不同范围；静态纹理、历史火星模型、卫星说明性姿态与尚未实现项可查。未发布。'},
+  {title:'科学证据集中核验（本地待验收）',detail:'10 组 / 313 个历表包通过档案、状态格式、时间覆盖与跨月衔接检查。核心历表使用产品函数重算 49,657 个独立中点，最大约 78.37 米；一年和十年物理检查重跑通过。数据与实现页逐组列出来源和范围，区分本轮重算与既有报告。事件、外观/朝向及示意说明仍需集中复核，未推送。'},
+  {title:'绘制节奏与共享几何清理（本地待验收）',detail:'主全景和宇宙视图移除强制跳帧，轨道时间和周期保持不变。修复光晕/恒星标记共享几何残留；40 次切换后，同类场景节点与监听稳定。本参考环境太阳系绘制提交约 47.74–55.47 次/秒；不是全设备屏幕帧率保证。311 项检查通过，科学总验收与实机体验仍待确认，未推送。'},
+  {title:'数据与性能第一批核验（本地待验收）',detail:'5 颗代表恒星完成原版/新版星表交叉核对，最大方向差 1.986 毫角秒；两版来自同一任务，不能当作独立望远镜测量。修复跨场景镜头监听残留，查询列表减少约九成节点，仍可搜全目录。20 次切换复测完成；掉帧和少量资源增长仍待处理，R09 未通过总验收，未推送。'},
+  {title:'第六条宇宙位置路线与跨尺度返回（本地待验收）',detail:'五步连接太阳系整体、邻星距离、同一颗星的方向、银河系和邻近星系。右侧统一专题入口，恒星目录预取/失败重试；前进后退恢复场景、目标和镜头，保留日期。六路线 27 步、310 自动检查与构建通过；独立星位核对、R09 总验收及用户验收仍待完成，未推送。'},
+  {title:'恒星观察三步引导（本地待验收）',detail:'找到太阳 → 看波江座 ε 的测距 → 回到太阳看同一颗星。主画面标明观察位置、目标、距离连线；两种视角保持选择。补波江座 ε、巴纳德星名称与来源；暗邻星单独标注辅助方向，未纳入测距样本的对象明确禁用空间切换。自由检索与参数折叠，三步/切换/异常选择及窄屏回归通过，未推送。'},
+  {title:'R08 星表与邻星第一批（本地待验收）',detail:'接入 Hipparcos-2 的 2,936 个筛选亮星方向与 32 个可信测距样本；主窗口支持固定太阳视点与三维邻域两种观察，点选、检索、参数及原始记录来源。明确固定 J1991.25、非完整清单及星点大小增强。307 项自动检查、构建及浏览器交互/故障恢复通过。专题第六路线、独立星位样本扩充及整批验收仍待完成；未推送。'},
+  {title:'R07 逐体清单与覆盖核对（本地待验收）',detail:'53 个当前动态目标与 1 个独立历史案例统一检索；支持中文、英文及母星搜索，同画布定位与参数来源，返回保留筛选。修正卡戎/准卫星就绪统计、天象入口、环系恢复及仅开启辐射带时的入口。全部 53 个成员走查和两类网络故障恢复通过；301 项测试通过，尚未推送。'},
+  {title:'R07 五条内部专题路线（本地待验收）',detail:'共 22 步串联整体边界、地月、巨行星、小天体、太阳风与地球。右侧统一入口，在同一主画布定位；保留日期，切换暂停，按阶段及资料门控。每步给出观察任务、显示边界、来源模块和下一步；手动切走会提示偏离，历史恢复专题步骤。全清单覆盖对照与 R07 用户验收仍待完成。'},
+  {title:'R06 整批操作联动检查（本地待验收）',detail:'14 节课程顺序切换、播放、重置和同一主画布检查通过。修复关闭依赖阶段后时间仍播放、重开后旧课程自动恢复的问题；关闭时退出并暂停。增加课程序号、分组与下一节名称，补齐潮汐目录阶段提示。297 项测试与构建通过；用户验收后进入 R07，不表示已实现地面可见性或完整天象预测。'},
+  {title:'遮掩双视角：三维空间与地球所见（本地待验收）',detail:'默认进入可拖动的真正三维球体；球体半径与间距同一比例，方向箭头指向远处地球。保留固定观测视圆，一键切换不改变日期、倍率或播放状态；两模式和镜头纳入历史。共用同一接收时刻的含光行时位置，不把自由镜头可见性当成地球遮掩结论。297 项测试通过，实际鼠标拖动与固定视线检查通过。'},
+  {title:'R06 木卫一遮掩案例（本地待验收）',detail:'接入 2026-01-12 木星掩木卫一：固定地心视线、单程光行时、同角尺度视圆、消失/重现阶段按钮与 30 秒步进。IMCCE TT 掩始独立核对差约 +87.0 秒；不把 EC.F 当成掩结束。案例包 480 个中点最大投影插值差 0.220 km。未计算卫星食亮度或城市可见性；R06 整批联动与用户验收仍待完成。'},
+  {title:'日月食两例已部署 · 1995d1c',detail:'月食截面与日食球面、独立来源对照、报告与 289 项测试已提交推送；Pages 工作流 36105115469 成功。下方本地状态为历史记录，用户验收独立进行。'},
   {title:'R06 日全食球面案例（本地待验收）',detail:'新增 2026-08-12 日全食：同日 JPL 状态计算月影锥与三维地球参考球面，区分偏食区与小范围全食区。复用 8 小时控制、日月食切换、全景清单与阶段门控；NASA TT 对照偏差约 +34.9 秒。289 项测试及浏览器回归通过。无地理路径或城市可见性；卫星遮掩和 R06 整批验收仍待完成。'},
   {title:'R06 月全食案例与独立资料核对（本地待验收）',detail:'接入 2026-03-03 月全食影区截面、无食/半影/偏食/全食判断、8 小时播放与时刻切换、轴距曲线和 NASA 资料对照。模型最近影轴时刻晚约 37.8 秒，食分 1.1295 对资料 1.1507；分别说明球形几何、大气与视位置修正缺失，不提供当地可见性。日食和卫星遮掩仍待补。'},
   {title:'准卫星参照系已部署 · cbfccf4',detail:'双参照系、两年历表与原始缓存、280 项测试及截图已提交推送；Pages 工作流 36101285631 成功。以下本地状态保留为历史记录，用户验收独立进行。'},
@@ -104,10 +130,11 @@ export function ProductProgress({ onClose }: { onClose: () => void }) {
       <header className="product-progress-header"><div><span className="eyebrow">BUILD LOG / ORBIT</span><h2 id="product-progress-title">建设记录</h2><p>记录已实现的能力、当前优化和下一步验收依据。</p></div><button ref={closeButton} className="product-progress-close" onClick={onClose} aria-label="关闭建设记录"><X size={18}/></button></header>
       <div className="product-progress-content">
         <p className="product-progress-intro">我们将真实数据、物理近似和视觉示意分别标注。每轮先提交可运行的基线，再记录问题、优化和验证结果，便于对照验收。</p>
+        <section className="product-progress-next" data-validation-summary data-release="2026.09.25-r09"><h3>本次交付：2026.09.25-r09</h3><p>14 节运动课程、六专题 27 步、成员与恒星目录，以及来源核验、异常恢复和窗口布局修复已纳入本次交付。</p><p>315 项自动检查与本地构建通过。用户总验收、真实设备长期体验仍待完成；发布成功不代表全部目标已验收。下方条目保留建设当时的状态，部署结果请查看提交记录对应的 Actions。</p><a href={releaseNotesUrl} download="RELEASE-2026-09-25.md">下载本次交付摘要与验收步骤</a></section>
         <section><div className="product-progress-section-heading"><CheckCircle2 size={16}/><h3>已有能力与逐轮记录</h3></div><div className="product-progress-list">{completed.map(item => <article key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></article>)}</div></section>
         <section><div className="product-progress-section-heading"><Clock3 size={16}/><h3>近期更新 · 发布与本地验收</h3></div><ol className="product-progress-steps">{improvements.map(item => <li key={item.title}><strong>{item.title}</strong><p>{item.detail}</p></li>)}</ol></section>
         <section className="product-progress-next"><h3>验收时重点看什么？</h3><p>总规划：从顶部整体规划查看 M0–M6，切换元素覆盖、数据与实现、验收与后续。请确认首版范围、顺序与完成标准；规划中的功能不是本次新增的观测能力。</p><p>当前优先使用“整体规划 → 当前版本验收”：按五步检查并记录问题；从场景右上角返回整体规划继续。总规划的元素覆盖页另列出每类内容的依据、入口、缺口与发布状态。</p><p>本轮先打开“综合全景 → 内容目录 → 尺度与距离”。依次切换地月、日地和日海王星，观察共同尺度下的空旷程度；向下对照真实与压缩距离。关闭后改观测日期再打开，核对新快照。窗口中的圆形是球体截面，虚线只是中心标记；放开距离不会把行星轨道改成球状。</p><p>先从主页打开“综合全景 → 全景现象”，定位土星或天王星系统，点选卫星并前进一天，核对参数与位置一起变化；再依次定位太阳活动、地球磁层和日球层环境。应在同一画布内靠近，返回原视角后仍看到整体结构；改变观测日期时近地效果随地球移动。独立详解需明确点击阅读入口。示意进度不改变观测日期，放大现象不是当日实测。</p><p>真实比例下天体非常小是物理尺度的结果。查看参数与数据清单时，注意球体外观、瞬时参考轨道、真实历表位置和十体物理模型的不同来源。</p></section>
-        <nav className="product-progress-links" aria-label="建设记录相关资料"><a href={navigationReportUrl} download="按钮与主画面对照检查.md">下载按钮与主画面对照检查</a> <a href={scaleAuditUrl} download="SCALE-AND-CONTEXT-AUDIT.md">下载比例与近景排查记录</a><a href="https://github.com/yydshly/0922_codexgpt6_project/commits/main/" target="_blank" rel="noreferrer"><GitCommitHorizontal size={14}/>查看提交记录<ArrowUpRight size={13}/></a><a href="https://github.com/yydshly/0922_codexgpt6_project/blob/main/docs/PRODUCT-PROGRESS.md" target="_blank" rel="noreferrer">查看完整建设记录<ArrowUpRight size={13}/></a></nav>
+        <nav className="product-progress-links" aria-label="建设记录相关资料"><a href={viewportAcceptanceUrl} download="VIEWPORT-ACCEPTANCE.md">下载窗口与操作验收记录</a><a href={topicFamilyAcceptanceUrl} download="TOPIC-FAMILY-ACCEPTANCE.md">下载专题与卫星异常恢复记录</a><a href={eventAcceptanceUrl} download="EVENT-ACCEPTANCE.md">下载天象与日期验收记录</a><a href={motionAcceptanceUrl} download="MOTION-ACCEPTANCE.md">下载主画面与运动课验收记录</a><a href={phenomenaAuditUrl} download="PHENOMENA-AUDIT.md">下载现象与显示核验记录</a><a href={scienceAuditUrl} download="SCIENCE-AUDIT.md">下载科学证据核验记录</a><a href={validationReportUrl} download="R09-VALIDATION.md">下载数据与性能验收记录</a><a href={stellarReportUrl} download="R08-STELLAR-CONTEXT.md">下载星表与邻星来源及检查记录</a><a href={topicReportUrl} download="R07-TOPIC-ROUTES.md">下载五条专题路线与检查记录</a><a href={navigationReportUrl} download="按钮与主画面对照检查.md">下载按钮与主画面对照检查</a> <a href={scaleAuditUrl} download="SCALE-AND-CONTEXT-AUDIT.md">下载比例与近景排查记录</a><a href="https://github.com/yydshly/0922_codexgpt6_project/commits/main/" target="_blank" rel="noreferrer"><GitCommitHorizontal size={14}/>查看提交记录<ArrowUpRight size={13}/></a><a href="https://github.com/yydshly/0922_codexgpt6_project/blob/main/docs/PRODUCT-PROGRESS.md" target="_blank" rel="noreferrer">查看完整建设记录<ArrowUpRight size={13}/></a></nav>
       </div>
     </section>
   </div>;

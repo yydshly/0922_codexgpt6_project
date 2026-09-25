@@ -1,5 +1,5 @@
 import {createSolarFlare} from './solarFlare';
-import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
+import {useEffect, useLayoutEffect,useRef,useState,type KeyboardEvent} from 'react';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {publicAsset} from '../data/publicAsset';
@@ -8,7 +8,7 @@ import './SpaceEnvironment.css';
 import './SolarActivity.css';
 function ActivityCanvas({layers,progress,reset}:{layers:SolarActivityLayers;progress:number;reset:number}){
  const host=useRef<HTMLDivElement>(null),latest=useRef({layers,progress,reset});latest.current={layers,progress,reset};const [error,setError]=useState('');
- useEffect(()=>{
+ useLayoutEffect(()=>{
   const element=host.current;if(!element)return;let renderer:THREE.WebGLRenderer;
   try{renderer=new THREE.WebGLRenderer({antialias:true});}catch{setError('当前设备无法显示三维画面，说明和来源仍可阅读。');return;}
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setClearColor('#090f1b');renderer.outputColorSpace=THREE.SRGBColorSpace;element.appendChild(renderer.domElement);
@@ -37,7 +37,7 @@ function ActivityCanvas({layers,progress,reset}:{layers:SolarActivityLayers;prog
    for(let i=0;i<360;i++){const y=1-2*(i+.5)/360,a=i*2.399963,rad=Math.sqrt(1-y*y),r=2.5+((i*.381966+state.progress*2)%1)*11;windPositions.set([-5+r*rad*Math.cos(a),r*y,r*rad*Math.sin(a)],i*3);}windGeometry.attributes.position.needsUpdate=true;
    controls.update();for(const data of labelData){if(data.id==='cme')data.point.copy(cme.position).add(new THREE.Vector3(0,-state.cmeRadius-.8,0));const p=data.point.clone().project(camera),visible=data.id==='sun'||data.id==='cme'?data.id==='sun'||cme.visible:data.id==='flare'?flare.visible:corona.visible;data.label.style.display=visible&&p.z>-1&&p.z<1&&Math.abs(p.x)<.91&&Math.abs(p.y)<.9?'block':'none';data.label.style.left=`${(p.x*.5+.5)*width}px`;data.label.style.top=`${(-p.y*.5+.5)*height}px`;}
    renderer.render(scene,camera);
-  };draw();return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Line||o instanceof THREE.Points){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){if('map'in m)(m.map as THREE.Texture|null)?.dispose();m.dispose();}}});renderer.dispose();renderer.domElement.remove();labelData.forEach(d=>d.label.remove());};
+  };draw();return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Line||o instanceof THREE.Points){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){if('map'in m)(m.map as THREE.Texture|null)?.dispose();m.dispose();}}});renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();labelData.forEach(d=>d.label.remove());};
  },[]);
  return <div className="environment-canvas" ref={host}>{error&&<p className="environment-error" role="status">{error}</p>}</div>;
 }

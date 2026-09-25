@@ -142,3 +142,15 @@
 
 .macro-family-context:focus-within{outline:2px solid #ade0c9;outline-offset:2px}
 @media(max-width:800px){.macro-current-target{top:48px;max-width:calc(100% - 24px)}.macro-current-target small{font-size:9px;max-width:100%}.macro-family-context{font-size:10px;margin:4px 10px}}
+
+.motion-quick-controls{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;flex:none;border-bottom:1px solid #38545d;background:#19302e}
+.motion-quick-controls button{flex:1;min-height:32px;border:1px solid #50796b;border-radius:4px;padding:6px 8px;color:#dcf0e6;font-size:11px;white-space:nowrap}
+.motion-quick-controls button:hover{background:#305346}.motion-quick-controls button:disabled{opacity:.5;cursor:not-allowed}.motion-quick-controls small{width:100%;font-size:10px;color:#e7d5af;line-height:1.5}
+.motion-quick-controls :focus-visible,[data-motion-current]:focus-visible,.macro-current-target:focus-visible{outline:2px solid #cce8ad;outline-offset:2px}
+
+.home-time-draft{display:flex;align-items:center;flex-wrap:wrap;gap:8px;width:100%;color:#eed5a1;font-size:11px}.home-time-draft button{padding:3px 8px}
+
+/* Keep navigation/playback fixed; supporting counts and index scroll with the reading. */
+.macro-info-scroll>.macro-layer-summary{padding:0 0 10px;margin-bottom:10px}
+.macro-info-scroll>.macro-contents-nav{padding:8px 0;margin-bottom:14px}
+@media(max-width:800px){.macro-info{height:380px;min-height:380px}.macro-info-scroll{overscroll-behavior:contain}}

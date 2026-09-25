@@ -3,3 +3,17 @@
 data-sources/eros-shape/*.tab -text
 data-sources/eros-shape/*.lbl -text
 data-sources/eros-shape/*.txt -text
+
+data-sources/stars/hip2-selected.dat text eol=lf
+
+data-sources/stars/hipparcos-1997-checkpoints.tsv -text
+
+# Keep generated scientific reports portable across validation and deployment.
+public/data/validation-report.json text eol=lf
+public/data/validation/science-audit.json text eol=lf
+
+public/data/validation/phenomena-audit.json text eol=lf
+public/data/events/*.json text eol=lf
+
+# Preserve the downloaded catalogue description verbatim.
+data-sources/stars/ReadMe -text

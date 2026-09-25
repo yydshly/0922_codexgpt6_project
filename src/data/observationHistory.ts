@@ -23,3 +23,13 @@ export function orientBookmark(view:CameraBookmark,angle:'oblique'|'edge'|'top')
  const length=Math.hypot(...direction);
  return {...view,position:view.target.map((v,i)=>v+direction[i]/length*distance) as Vec3,target:[...view.target],up:angle==='top'?[0,0,-1]:[0,1,0],anchor:view.anchor?[...view.anchor]:null};
 }
+
+export interface SolarObservationRoute {
+ target:string|null;member:string|null;zone:string;tab:string;family:string;view:string;reset:number;
+ familySelected:string|null;binarySelected:string|null;intent:string|null;environment:string|null;
+ material:string|null;medium:string|null;boundary:string|null;motion:string|null;occultationView:'space'|'earth';
+}
+/** Use the same route identity for live views, history restoration and camera presets. */
+export function solarObservationKey(v:SolarObservationRoute){
+ return JSON.stringify([v.target,v.member,v.zone,v.tab,v.family,v.view,v.reset,v.familySelected,v.binarySelected,v.intent,v.environment,v.material,v.medium,v.boundary,v.motion,v.motion==='io-occultation'?v.occultationView:null]);
+}

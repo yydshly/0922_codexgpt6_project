@@ -12,3 +12,9 @@
 @media(max-width:700px){.data-journey-overlay{padding:9px}.data-journey-dialog{max-height:calc(100dvh - 18px)}.data-journey-header{padding:19px}.data-journey-header h2{font-size:21px}.data-journey-content{padding:18px}.data-journey-flow{grid-template-columns:1fr}.data-journey-mode>div{grid-template-columns:1fr;gap:2px}}
 
 .loading-data-link{display:block;margin:7px auto 0;font-size:11px;color:#b2e4d3;text-decoration:underline;text-underline-offset:3px}
+
+.science-audit{margin-top:22px;padding-top:20px;border-top:1px solid #344b55;font-size:12px;line-height:1.8;overflow-wrap:anywhere}.science-audit h3{font-size:16px;color:#d4eddf;margin-bottom:7px}.science-audit p{color:#b7c9ce;margin:7px 0}.science-audit-results{display:grid;gap:9px;margin:12px 0}.science-audit-results article{border:1px solid #355047;border-radius:6px;background:#19312d;padding:12px 14px}.science-audit strong{color:#d1e9db}.science-audit summary{cursor:pointer;color:#bde6d6;padding:10px 0}.science-audit details{border-top:1px solid #34454e;margin-top:12px}.science-audit-package{padding:12px;border:1px solid #34454e;border-radius:5px;margin-bottom:10px}.science-audit h4{color:#dfebe6}.science-audit small{color:#91adb5}.science-audit ul{padding-left:20px;color:#b7c9ce}.science-audit [role=alert] button{padding:6px 12px;border:1px solid #819a89;border-radius:4px}.science-audit-scope{padding:10px 13px;border-left:2px solid #b5a677;background:#1c2931}
+
+.data-audit-jump{margin-top:12px;padding:8px 12px;border:1px solid #4a7163;background:#28483d;border-radius:4px;color:#d5efdf;font-size:12px}.data-audit-jump:focus-visible{outline:2px solid #bde6d6;outline-offset:3px}
+
+.data-audit-jump + .data-audit-jump{margin-left:8px}.phenomena-audit-results>.science-audit-results article{background:#202e35;border-color:#52606b}.phenomena-event b{color:#f0d4a0;white-space:nowrap}

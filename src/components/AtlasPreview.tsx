@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import type { AtlasBody } from '../data/atlas';
@@ -8,7 +8,7 @@ import { makeAtlasMesh, makeDeepStars } from './celestialEffects';
 export function AtlasPreview({ body }: { body: AtlasBody }) {
   const host = useRef<HTMLDivElement>(null);
   const [error, setError] = useState(false);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = host.current;
     if (!element) return;
     let renderer: THREE.WebGLRenderer;

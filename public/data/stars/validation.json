@@ -1,0 +1,89 @@
+{
+  "generated": "2026-09-25T09:44:52.490Z",
+  "comparison": "Hipparcos-2 (van Leeuwen 2007) against original ESA Hipparcos 1997",
+  "epoch": "J1991.25",
+  "frame": "ICRS",
+  "source": {
+    "catalogue": "I/239/hip_main",
+    "edition": "ESA Hipparcos 1997",
+    "source": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=I%2F239%2Fhip_main&HIP=16537%2C87937%2C54035%2C8102%2C108870&-out=HIP%2CRAICRS%2CDEICRS%2CPlx%2Ce_Plx&-out.max=100",
+    "retrieved": "2026-09-25",
+    "sha256": "f730193babd234efefcf52c8ff50dccc8527c6b715c6544c90069c30728cef63",
+    "referenceFrame": "ICRS",
+    "epoch": "J1991.25",
+    "independence": "Different catalogue reduction of the same Hipparcos mission; not an independent observing instrument."
+  },
+  "thresholdMas": 20,
+  "criterion": "20 mas gross coordinate import/frame sanity threshold; not an accuracy or navigation guarantee",
+  "independence": "Independent reduction/version cross-check; both catalogues derive from the same observing mission. Parallax differences are reported, not treated as independent noise.",
+  "count": 5,
+  "maxSeparationMas": 1.9862027682283323,
+  "passed": true,
+  "rows": [
+    {
+      "hip": 8102,
+      "originalRaDeg": 26.02136441,
+      "originalDecDeg": -15.93955597,
+      "revisedRaDeg": 26.021364586713265,
+      "revisedDecDeg": -15.939555724635493,
+      "separationMas": 1.0744429281488166,
+      "originalParallaxMas": 274.17,
+      "originalParallaxErrorMas": 0.8,
+      "revisedParallaxMas": 273.96,
+      "revisedParallaxErrorMas": 0.17,
+      "parallaxDifferenceMas": -0.21000000000003638
+    },
+    {
+      "hip": 16537,
+      "originalRaDeg": 53.23509009,
+      "originalDecDeg": -9.45830584,
+      "revisedRaDeg": 53.23509021798133,
+      "revisedDecDeg": -9.45830603660428,
+      "separationMas": 0.8411232876385251,
+      "originalParallaxMas": 310.75,
+      "originalParallaxErrorMas": 0.85,
+      "revisedParallaxMas": 310.94,
+      "revisedParallaxErrorMas": 0.16,
+      "parallaxDifferenceMas": 0.18999999999999773
+    },
+    {
+      "hip": 54035,
+      "originalRaDeg": 165.83588409,
+      "originalDecDeg": 35.98146424,
+      "revisedRaDeg": 165.83588431768308,
+      "revisedDecDeg": 35.981463719949176,
+      "separationMas": 1.9862027682283323,
+      "originalParallaxMas": 392.4,
+      "originalParallaxErrorMas": 0.91,
+      "revisedParallaxMas": 392.64,
+      "revisedParallaxErrorMas": 0.67,
+      "parallaxDifferenceMas": 0.2400000000000091
+    },
+    {
+      "hip": 87937,
+      "originalRaDeg": 269.45402305,
+      "originalDecDeg": 4.66828815,
+      "revisedRaDeg": 269.45402262789094,
+      "revisedDecDeg": 4.668287809128218,
+      "separationMas": 1.9492909092585908,
+      "originalParallaxMas": 549.01,
+      "originalParallaxErrorMas": 1.58,
+      "revisedParallaxMas": 548.31,
+      "revisedParallaxErrorMas": 1.51,
+      "parallaxDifferenceMas": -0.7000000000000455
+    },
+    {
+      "hip": 108870,
+      "originalRaDeg": 330.82266498,
+      "originalDecDeg": -56.77980602,
+      "revisedRaDeg": 330.8226648468939,
+      "revisedDecDeg": -56.77980580842403,
+      "separationMas": 0.805645840913537,
+      "originalParallaxMas": 275.76,
+      "originalParallaxErrorMas": 0.69,
+      "revisedParallaxMas": 276.06,
+      "revisedParallaxErrorMas": 0.28,
+      "parallaxDifferenceMas": 0.30000000000001137
+    }
+  ]
+}

@@ -241,7 +241,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "全景目录 → 共轨与准卫星；日心/地心旋转视角切换，日期不变。爱神星原入口保留。",
     "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
-    "release": "运动课程及准卫星已部署 cbfccf4；日月食案例本地待验收",
+    "release": "日月食及之前课程已部署 1995d1c；木卫一遮掩本地待验收",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -495,8 +495,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
   {
     "id": "E17",
     "title": "运行关系与天象",
-    "status": "课程已接入 / 日月食案例待验收",
-    "current": "运行关系与准卫星课程已发布；月全食截面、日全食球面与独立资料核对本地待验收",
+    "status": "课程与日月食已接入 / 遮掩待验收",
+    "current": "运行关系、准卫星与日月食已发布；木卫一遮掩双视角本地待验收",
     "target": "四组运行课程、共轨参照系案例，以及日月食和卫星遮掩案例验证",
     "phase": "M4",
     "evidence": "同日 JPL 状态 + NAIF 参考姿态 + NASA 机制解释",
@@ -506,6 +506,9 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
         "coorbital"
     ],
     "modules": [
+      "src/data/occultation.ts",
+      "src/components/OccultationReadout.tsx",
+      "public/data/events/io-occultation-2026-01-12.json",
       "src/data/solarEclipse.ts",
       "src/components/SolarEclipseReadout.tsx",
       "public/data/events/solar-2026-08-12.json",
@@ -522,9 +525,9 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
       "id": "planetary"
     },
     "stages": [],
-    "how": "全景目录 → 日月食案例；场景清单 → 进入日食/进入月食。保留运动课程入口，卫星遮掩待补。",
-    "validation": "日食模型最近影轴时刻比参考晚 34.9 秒；月食晚 37.8 秒，食分差 -0.0212；原始历表哈希与同时间尺度比较可复算。无当地可见性、潮汐演化或长期共振求解。",
-    "release": "运动课程及准卫星已部署 cbfccf4；日月食案例本地待验收",
+    "how": "全景目录 → 日月食与遮掩；场景清单 → 日食/月食/遮掩案例；遮掩提供可拖动三维空间与固定地球所见。保留运动课程入口。",
+    "validation": "遮掩计入单程光行时，掩始比 IMCCE 晚约 87 秒；日食最近影轴时刻晚 34.9 秒；月食晚 37.8 秒，食分差 -0.0212；原始历表哈希与同时间尺度比较可复算。无当地可见性、潮汐演化或长期共振求解。",
+    "release": "日月食及之前课程已部署 1995d1c；木卫一遮掩本地待验收",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {

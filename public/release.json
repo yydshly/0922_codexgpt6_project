@@ -1,0 +1,15 @@
+{
+  "version": "2026.09.25-r09",
+  "date": "2026-09-25",
+  "baselineCommit": "1995d1c9c3a21f610747896cf97c87f92d9e6346",
+  "acceptance": "pending-user-review",
+  "scope": [
+    "R06 motion and events",
+    "R07 routes and member directory",
+    "R08 stellar catalogue",
+    "R09 validation and interaction fixes"
+  ],
+  "automatedTests": 315,
+  "topicSteps": 27,
+  "motionLessons": 14
+}

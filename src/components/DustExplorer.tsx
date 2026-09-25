@@ -1,4 +1,4 @@
-import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
+import {useEffect, useLayoutEffect,useRef,useState,type KeyboardEvent} from 'react';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {publicAsset} from '../data/publicAsset';
@@ -20,7 +20,7 @@ const defaults=():Layers=>({dust:true,stream:true,orbit:true,atmosphere:true,tra
 
 function DustCanvas({view,layers,progress,reset,side}:{view:View;layers:Layers;progress:number;reset:number;side:boolean}){
  const host=useRef<HTMLDivElement>(null),latest=useRef({view,layers,progress,reset,side});latest.current={view,layers,progress,reset,side};const [error,setError]=useState('');
- useEffect(()=>{
+ useLayoutEffect(()=>{
   const element=host.current;if(!element)return;let renderer:THREE.WebGLRenderer;
   try{renderer=new THREE.WebGLRenderer({antialias:true});}catch{setError('当前设备无法绘制三维场景，右侧介绍和来源仍可阅读。');return;}
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setClearColor('#091421');renderer.outputColorSpace=THREE.SRGBColorSpace;element.appendChild(renderer.domElement);
@@ -55,7 +55,7 @@ function DustCanvas({view,layers,progress,reset,side}:{view:View;layers:Layers;p
    const tail=meteorDemoState(Math.max(0,c.progress-.055));trailGeometry.setFromPoints([rock.position,new THREE.Vector3(tail.x,tail.y,0)]);
    controls.update();for(const item of labelData){if(item.layer==='orbit')item.point.copy(earth.position).add(new THREE.Vector3(0,-.6,0));const p=item.point.clone().project(camera);item.label.style.display=c.view===item.view&&(!item.layer||c.layers[item.layer as keyof Layers])&&p.z>-1&&p.z<1&&Math.abs(p.x)<.88&&Math.abs(p.y)<.82?'block':'none';item.label.style.left=`${(p.x*.5+.5)*width}px`;item.label.style.top=`${(-p.y*.5+.5)*height}px`;}
    renderer.render(scene,camera);
-  };draw();return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Points||o instanceof THREE.Line){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){if('map'in m)(m.map as THREE.Texture|null)?.dispose();m.dispose();}}});renderer.dispose();renderer.domElement.remove();labelData.forEach(l=>l.label.remove());};
+  };draw();return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Points||o instanceof THREE.Line){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){if('map'in m)(m.map as THREE.Texture|null)?.dispose();m.dispose();}}});renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();labelData.forEach(l=>l.label.remove());};
  },[]);
  return <div ref={host} className="environment-canvas">{error&&<p className="environment-error" role="status">{error}</p>}</div>;
 }

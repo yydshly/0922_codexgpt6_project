@@ -1,3 +1,4 @@
+import {solarObservationKey,type SolarObservationRoute} from './observationHistory';
 import {describe,it,expect} from 'vitest';
 import {emptyHistory,recordObservation,traverseObservation,relocateBookmark,orientBookmark,type CameraBookmark} from './observationHistory';
 describe('observation history',()=>{
@@ -29,4 +30,17 @@ describe('observation history',()=>{
   expect(orientBookmark(saved,'top').up).toEqual([0,0,-1]);expect(saved.position).toEqual([13,24,30]);
  });
 
+});
+
+describe('camera route identity',()=>{
+ const route:SolarObservationRoute={target:'body:sun',member:null,zone:'all',tab:'zones',family:'planets',view:'oblique',reset:7,familySelected:null,binarySelected:null,intent:null,environment:null,material:null,medium:null,boundary:null,motion:'io-occultation',occultationView:'space'};
+ it('restores the same key from a saved view but distinguishes occultation reference frames',()=>{
+  expect(solarObservationKey({...route})).toBe(solarObservationKey(route));
+  expect(solarObservationKey({...route,occultationView:'earth'})).not.toBe(solarObservationKey(route));
+ });
+ it('ignores an inactive occultation mode but rejects a different camera request',()=>{
+  const earth={...route,motion:'earth-spin'};
+  expect(solarObservationKey({...earth,occultationView:'earth'})).toBe(solarObservationKey(earth));
+  expect(solarObservationKey({...earth,reset:8})).not.toBe(solarObservationKey(earth));
+ });
 });

@@ -1,0 +1,22 @@
+{
+  "catalogue": "I/311 Hipparcos-2",
+  "author": "Floor van Leeuwen (2007)",
+  "release": "CDS corrected files 2008-09-16",
+  "retrieved": "2026-09-25",
+  "source": "https://cdsarc.cds.unistra.fr/ftp/I/311/hip2.dat.gz",
+  "schema": "https://cdsarc.cds.unistra.fr/ftp/I/311/ReadMe",
+  "epoch": "J1991.25",
+  "frame": "ICRS",
+  "units": {
+    "ra": "rad",
+    "dec": "rad",
+    "parallax": "mas",
+    "parallaxError": "mas",
+    "hp": "Hipparcos Hp mag"
+  },
+  "originalRecords": 117955,
+  "originalSha256": "c45d6325bd59dd691764af173a9702e543804a2b6c1d9fea59210e8332e50a4a",
+  "selectedSha256": "7ef468cad069fdc1d1201a3717c95c8e659e456720fe4f64b96e149a450db676",
+  "filter": "Sn=5, F2<3, RA/Dec formal errors <2 mas; sky: Hp<=6 and Hp error<=0.02; nearby: parallax>1000/15 mas, 0<relative formal error<=0.05, nearest 32 passing rows",
+  "warning": "Filtered samples, not a complete sky or nearest-star census. Fixed catalogue epoch; no proper-motion propagation, apparent-place or horizon corrections. Distances only supplied for nearby selection. Markers not stellar radii."
+}

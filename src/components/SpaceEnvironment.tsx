@@ -1,6 +1,6 @@
 import {NEAR_EARTH_LAYERS,NEAR_EARTH_SOURCES,type NearEarthLayer} from '../data/nearEarth';
 import {makeNearEarthRegion} from './nearEarthRegions';
-import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
+import {useEffect, useLayoutEffect,useRef,useState,type KeyboardEvent} from 'react';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {publicAsset} from '../data/publicAsset';
@@ -48,7 +48,7 @@ function aurora(){
 function EnvironmentCanvas(options:CanvasOptions){
  const host=useRef<HTMLDivElement>(null),latest=useRef(options);latest.current=options;
  const [error,setError]=useState('');
- useEffect(()=>{
+ useLayoutEffect(()=>{
   const element=host.current;if(!element)return;
   let renderer:THREE.WebGLRenderer;
   try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});}catch{setError('当前设备无法显示三维场景；右侧介绍与来源仍可阅读。');return;}
@@ -77,7 +77,7 @@ function EnvironmentCanvas(options:CanvasOptions){
    controls.update();for(const a of anchors){const p=a.point.clone().project(camera);a.label.style.display=current.labels&&(!a.layer||current.layers[a.layer as keyof EnvironmentLayers])&&p.z>-1&&p.z<1&&Math.abs(p.x)<.92&&Math.abs(p.y)<.9?'block':'none';a.label.style.left=`${(p.x*.5+.5)*width}px`;a.label.style.top=`${(-p.y*.5+.5)*height}px`;}
    renderer.render(scene,camera);
   };raf=requestAnimationFrame(draw);
-  return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Line||o instanceof THREE.Points){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){if('map'in m)(m.map as THREE.Texture|null)?.dispose();m.dispose();}}});renderer.dispose();renderer.domElement.remove();anchors.forEach(a=>a.label.remove());};
+  return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Line||o instanceof THREE.Points){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){if('map'in m)(m.map as THREE.Texture|null)?.dispose();m.dispose();}}});renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();anchors.forEach(a=>a.label.remove());};
  },[]);
  return <div className="environment-canvas" ref={host}>{error&&<p className="environment-error" role="status">{error}</p>}</div>;
 }

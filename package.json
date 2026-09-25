@@ -10,7 +10,11 @@
     "test": "vitest run",
     "validate:physics": "tsx scripts/validate-physics.ts",
     "validate:lunar-eclipse": "tsx scripts/validate-lunar-eclipse.ts",
-    "validate:solar-eclipse": "tsx scripts/validate-solar-eclipse.ts"
+    "validate:solar-eclipse": "tsx scripts/validate-solar-eclipse.ts",
+    "validate:occultation": "tsx scripts/validate-occultation.ts",
+    "validate:stars": "tsx scripts/validate-stars.ts",
+    "validate:science": "tsx scripts/validate-science.ts",
+    "validate:phenomena": "tsx scripts/validate-phenomena.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.7.0",

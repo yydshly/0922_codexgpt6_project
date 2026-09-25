@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-25T10:49:49.674Z",
+  "integrityPassed": true,
+  "accuracyCertified": false,
+  "checks": [
+    "lunar: all numeric report values finite",
+    "lunar: input archive public/data/2026-03.json",
+    "lunar: ordered events inside fixed window",
+    "lunar: difference uses common TDB scale",
+    "lunar: increasing sample times",
+    "lunar: complete display window",
+    "lunar: geometric total eclipse",
+    "solar: all numeric report values finite",
+    "solar: input archive public/data/2026-08.json",
+    "solar: ordered events inside fixed window",
+    "solar: difference uses common TDB scale",
+    "solar: increasing sample times",
+    "solar: complete display window",
+    "solar: umbra intersects sphere",
+    "io: all numeric report values finite",
+    "io: input archive public/data/2026-01.json",
+    "io: input archive public/data/satellites/jupiter-2026-01.json",
+    "io: ordered events inside fixed window",
+    "io: difference uses common TDB scale",
+    "io: increasing sample times",
+    "io: complete display window",
+    "io: light-time and held-out interpolation",
+    "io: disappearance is first to second contact",
+    "io: archived independent reference",
+    "sun: archived linear W coefficients (Mars historical IAU 2009)",
+    "sun: finite unit attitude and model period closure 0",
+    "sun: finite unit attitude and model period closure 820497669.184",
+    "sun: finite unit attitude and model period closure 883612869.184",
+    "mercury: archived linear W coefficients (Mars historical IAU 2009)",
+    "mercury: finite unit attitude and model period closure 0",
+    "mercury: finite unit attitude and model period closure 820497669.184",
+    "mercury: finite unit attitude and model period closure 883612869.184",
+    "venus: archived linear W coefficients (Mars historical IAU 2009)",
+    "venus: finite unit attitude and model period closure 0",
+    "venus: finite unit attitude and model period closure 820497669.184",
+    "venus: finite unit attitude and model period closure 883612869.184",
+    "earth: archived linear W coefficients (Mars historical IAU 2009)",
+    "earth: finite unit attitude and model period closure 0",
+    "earth: finite unit attitude and model period closure 820497669.184",
+    "earth: finite unit attitude and model period closure 883612869.184",
+    "moon: archived linear W coefficients (Mars historical IAU 2009)",
+    "moon: finite unit attitude and model period closure 0",
+    "moon: finite unit attitude and model period closure 820497669.184",
+    "moon: finite unit attitude and model period closure 883612869.184",
+    "mars: archived linear W coefficients (Mars historical IAU 2009)",
+    "mars: finite unit attitude and model period closure 0",
+    "mars: finite unit attitude and model period closure 820497669.184",
+    "mars: finite unit attitude and model period closure 883612869.184",
+    "jupiter: archived linear W coefficients (Mars historical IAU 2009)",
+    "jupiter: finite unit attitude and model period closure 0",
+    "jupiter: finite unit attitude and model period closure 820497669.184",
+    "jupiter: finite unit attitude and model period closure 883612869.184",
+    "saturn: archived linear W coefficients (Mars historical IAU 2009)",
+    "saturn: finite unit attitude and model period closure 0",
+    "saturn: finite unit attitude and model period closure 820497669.184",
+    "saturn: finite unit attitude and model period closure 883612869.184",
+    "uranus: archived linear W coefficients (Mars historical IAU 2009)",
+    "uranus: finite unit attitude and model period closure 0",
+    "uranus: finite unit attitude and model period closure 820497669.184",
+    "uranus: finite unit attitude and model period closure 883612869.184",
+    "neptune: archived linear W coefficients (Mars historical IAU 2009)",
+    "neptune: finite unit attitude and model period closure 0",
+    "neptune: finite unit attitude and model period closure 820497669.184",
+    "neptune: finite unit attitude and model period closure 883612869.184",
+    "solar-atmosphere: source registry and teaching limits present",
+    "enceladus-interior: source registry and teaching limits present"
+  ],
+  "events": [
+    {
+      "id": "lunar",
+      "file": "lunar-2026-03-03.json",
+      "title": "2026-03-03 月全食",
+      "meaning": "影轴最近时刻与 NASA 食甚参考时刻之差",
+      "limit": "球形几何影锥；未计大气影子扩大、光行时、扁率和地形，不预测当地可见性。",
+      "report": "data/events/lunar-2026-03-03.json",
+      "sha256": "fb81d45cb5832a4e418c31a875b9e3391400d05d7ca59967d22a359651115c4f",
+      "deltaSeconds": 37.807716846466064,
+      "reference": "2026-03-03 11:34:52.1 TT (TD)",
+      "source": "https://eclipse.gsfc.nasa.gov/LEplot/LEplot2001/LE2026Mar03T.pdf",
+      "inputs": {
+        "file": "data/2026-03.json",
+        "sha256": "1da127ce821e962d22d9160e6f0b63e09aba12bb02fa2a1354a741f12b69c9f3",
+        "positionSource": "NASA/JPL Horizons",
+        "frame": "ECLIPJ2000",
+        "stateKind": "display centers",
+        "correction": "NONE",
+        "radii": "project JPL mean radii",
+        "timeScale": "TDB seconds since J2000"
+      },
+      "extra": "本影食分差 -0.0212"
+    },
+    {
+      "id": "solar",
+      "file": "solar-2026-08-12.json",
+      "title": "2026-08-12 日全食",
+      "meaning": "影轴最近时刻与 NASA 食甚参考时刻之差",
+      "limit": "参考地球球面的全食条件；未生成地理路径、城市可见性，未计光行时、扁率和地形。",
+      "report": "data/events/solar-2026-08-12.json",
+      "sha256": "33f325a803c96c9287fb9d7fdc5faf532ce5b5aa7ac07428bc5a5d3e70b2a2c2",
+      "deltaSeconds": 34.94297170639038,
+      "reference": "2026-08-12 17:47:05.2 TT (TDT)",
+      "source": "https://eclipse.gsfc.nasa.gov/SEbeselm/SEbeselm2001/SE2026Aug12Tbeselm.html",
+      "inputs": {
+        "file": "data/2026-08.json",
+        "sha256": "116816298262326e2c350fc2f4b9dd71cb0f9b8c8bd81d8f1d5ce6b0fd8bf0df",
+        "positionSource": "NASA/JPL Horizons",
+        "frame": "ECLIPJ2000",
+        "stateKind": "display centers",
+        "correction": "NONE",
+        "radii": "project JPL mean radii",
+        "timeScale": "TDB seconds since J2000"
+      },
+      "extra": null
+    },
+    {
+      "id": "io",
+      "file": "io-occultation-2026-01-12.json",
+      "title": "2026-01-12 木星遮掩木卫一",
+      "meaning": "掩始时刻与 IMCCE 参考时刻之差",
+      "limit": "地心接收视角，含迭代单程光行时；忽略木星扁率、光行差及当地观测条件，不是木卫一进入木星影子的卫星食。",
+      "report": "data/events/io-occultation-2026-01-12.json",
+      "sha256": "7132c0d7882d0cda45d80ba2f67b3ad144e35bdd73bb0d94f161d7274e72d110",
+      "deltaSeconds": 86.98303854465485,
+      "reference": "2026-01-12 06:33:08.7 TT",
+      "source": "https://promenade.imcce.fr/en/images/phe/phen%20jup%202026_eng.pdf",
+      "inputs": [
+        {
+          "file": "public/data/2026-01.json",
+          "sha256": "3c9b0f58caed1dd67489770d442f98ed03bf384fe33c3cd44ab4bdbee39042e0"
+        },
+        {
+          "file": "public/data/satellites/jupiter-2026-01.json",
+          "sha256": "eb5c36df4c5bfd773ae6cb90b02d9acbe830644c76033316f021db7017760b1b"
+        }
+      ],
+      "extra": "消失过程时长差 -1.04 秒；留出点投影插值差 0.220 km"
+    }
+  ],
+  "attitude": {
+    "source": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc",
+    "archiveSha256": "3dff7b1dbeceaa01f25467767d3fa25816051c85d162d1edf04acb310ee28bb1",
+    "objects": [
+      {
+        "id": "sun",
+        "name": "太阳",
+        "rateDegPerDay": 14.1844,
+        "renderedHours": 609.1198781760244,
+        "note": "光球静态纹理随参考自转推进；并非火焰燃烧模拟。黑子、日珥等示意另行控制，不跟随真实活动或差异自转。",
+        "model": "pck00011 线性子午线系数近似"
+      },
+      {
+        "id": "mercury",
+        "name": "水星",
+        "rateDegPerDay": 6.1385108,
+        "renderedHours": 1407.5075016565909,
+        "note": "静态岩石表面纹理；未绘制稀薄外逸层。没有云层或天气模拟。",
+        "model": "pck00011 线性子午线系数近似"
+      },
+      {
+        "id": "venus",
+        "name": "金星",
+        "rateDegPerDay": -1.4813688,
+        "renderedHours": -5832.443615661407,
+        "note": "看到的是静态大气云图，不是裸露地表。图像随本体参考姿态转动，未模拟云层超旋转。",
+        "model": "pck00011 线性子午线系数近似"
+      },
+      {
+        "id": "earth",
+        "name": "地球",
+        "rateDegPerDay": 360.9856235,
+        "renderedHours": 23.93447117430703,
+        "note": "陆海静态纹理，云层和大气光晕可独立开关。云图与地表一同转动，不是当日云量或天气；光晕厚度为视觉增强。",
+        "model": "pck00011 线性子午线系数近似"
+      },
+      {
+        "id": "moon",
+        "name": "月球",
+        "rateDegPerDay": 13.17635815,
+        "renderedHours": 655.7198811418161,
+        "note": "月球静态纹理与参考姿态已共用于全景和精细观测。没有大气光晕；未完整计算天平动，贴图经度未作导航级配准。",
+        "model": "pck00011 线性子午线系数近似"
+      },
+      {
+        "id": "mars",
+        "name": "火星",
+        "rateDegPerDay": 350.89198226,
+        "renderedHours": 24.622962155909363,
+        "note": "静态地表纹理，未模拟季节极冠变化、沙尘暴和稀薄大气散射。",
+        "model": "IAU 2009 历史系数的线性近似"
+      },
+      {
+        "id": "jupiter",
+        "name": "木星",
+        "rateDegPerDay": 870.536,
+        "renderedHours": 9.924919819513496,
+        "note": "静态云带纹理，没有可见固体表面；未模拟不同纬度的风速与风暴变化。",
+        "model": "pck00011 线性子午线系数近似"
+      },
+      {
+        "id": "saturn",
+        "name": "土星",
+        "rateDegPerDay": 810.7939024,
+        "renderedHours": 10.656222221732387,
+        "note": "静态大气纹理；环另用有来源的环段尺度。没有流体云层、环粒子动力学或球体扁率模型。",
+        "model": "pck00011 线性子午线系数近似"
+      },
+      {
+        "id": "uranus",
+        "name": "天王星",
+        "rateDegPerDay": -501.1600928,
+        "renderedHours": -17.240000000255407,
+        "note": "静态大气纹理；极轴与逆行按参考姿态计算，不能把极轴倾角再叠加一次。未模拟天气和扁率。",
+        "model": "pck00011 线性子午线系数近似"
+      },
+      {
+        "id": "neptune",
+        "name": "海王星",
+        "rateDegPerDay": 541.1397757,
+        "renderedHours": 15.966299998597572,
+        "note": "静态大气纹理，颜色经过可视化处理；未模拟风暴。资料自转周期和本项目采用的线性子午线模型周期分别列出。",
+        "model": "pck00011 线性子午线系数近似"
+      }
+    ],
+    "appearanceObjects": 29,
+    "limit": "仅核对线性子午线系数及模型周期闭合；极轴固定于 J2000，未完整计算岁差、章动和天平动，也未独立验证绝对姿态。火星使用档案保留的 IAU 2009 历史模型。19 颗扩展卫星的外观登记不等于其姿态已实测复现；卫星家族近景采用朝向母星的说明性姿态。"
+  },
+  "schematics": [
+    {
+      "id": "solar-atmosphere",
+      "manifest": "data/solar-atmosphere/manifest.json",
+      "sha256": "0535587f180246c713210141871e53383211df7fa6c09bc755ba8d136449e21a",
+      "sources": [
+        {
+          "title": "NASA Layers of the Sun",
+          "url": "https://science.nasa.gov/blogs/the-sun-spot/2023/09/26/layers-of-the-sun/",
+          "supports": "Photosphere, chromosphere, irregular transition region and corona; ordered spatial relationship."
+        },
+        {
+          "title": "NASA Sunspots",
+          "url": "https://science.nasa.gov/sun/sunspots/",
+          "supports": "Cooler dark magnetic regions, not holes."
+        },
+        {
+          "title": "NASA What is a solar prominence?",
+          "url": "https://www.nasa.gov/image-article/what-solar-prominence/",
+          "supports": "Magnetically supported plasma anchored near the photosphere and extending into the corona."
+        },
+        {
+          "title": "NASA Solar Flares FAQs",
+          "url": "https://science.nasa.gov/blogs/solar-cycle-25/2022/06/10/solar-flares-faqs/",
+          "supports": "Radiative flares and plasma/magnetic CME are different phenomena."
+        }
+      ],
+      "limits": [
+        "Procedural shapes, colors, opacity and geometry are chosen for teaching.",
+        "The corona has no fixed outer edge represented by this mesh.",
+        "Sunspots and prominence loops are stationary teaching examples, not date-dependent activity or differential rotation.",
+        "Flare/CME progress is separate from ephemeris time.",
+        "This source registry is an editorial record, not an archived observation dataset or a copy of NASA source pages."
+      ]
+    },
+    {
+      "id": "enceladus-interior",
+      "manifest": "data/enceladus-interior/manifest.json",
+      "sha256": "2c74e7e1107b9adc4fb23dc446a4b8245c6ae849f750c5f2563ce556898465f9",
+      "sources": [
+        {
+          "title": "NASA · 土卫二观测概览",
+          "url": "https://science.nasa.gov/saturn/moons/enceladus/",
+          "evidence": "Cassini observed south polar water vapor and ice particles."
+        },
+        {
+          "title": "NASA · 全球海洋的摆动证据（2015）",
+          "url": "https://www.nasa.gov/news-release/cassini-finds-global-ocean-in-saturns-moon-enceladus/",
+          "evidence": "Measured libration supports an ice shell decoupled from the interior by a global ocean."
+        },
+        {
+          "title": "NASA · 喷流与土星 E 环",
+          "url": "https://science.nasa.gov/missions/cassini/the-moon-with-the-plume/",
+          "evidence": "Enceladus supplies material to the diffuse E ring."
+        }
+      ],
+      "limits": [
+        "Body position and radius use existing satellite ephemeris/catalog.",
+        "Cut faces, colors and layer widths are schematic.",
+        "Model south is local negative Y, an explanatory pose; not the observed pole direction at the selected date.",
+        "Static plume dots are not individual measured particles or measured velocities.",
+        "No automatic current-event, habitability or life detection claim.",
+        "E-ring material supply is explained, not simulated by individual grain trajectories."
+      ]
+    }
+  ],
+  "parts": [
+    {
+      "id": "chromosphere",
+      "group": "solar",
+      "name": "色球（层厚增强）"
+    },
+    {
+      "id": "transition",
+      "group": "solar",
+      "name": "过渡区（层厚增强）"
+    },
+    {
+      "id": "sunspots",
+      "group": "solar",
+      "name": "黑子示例"
+    },
+    {
+      "id": "prominence",
+      "group": "solar",
+      "name": "日珥示例"
+    },
+    {
+      "id": "corona",
+      "group": "solar",
+      "name": "日冕"
+    },
+    {
+      "id": "flare",
+      "group": "solar",
+      "name": "耀斑亮斑"
+    },
+    {
+      "id": "cme",
+      "group": "solar",
+      "name": "CME 物质云团"
+    },
+    {
+      "id": "incomingWind",
+      "group": "environment",
+      "name": "太阳风来流示意"
+    },
+    {
+      "id": "magnet",
+      "group": "environment",
+      "name": "磁层与边界"
+    },
+    {
+      "id": "dipole",
+      "group": "environment",
+      "name": "磁场参考线"
+    },
+    {
+      "id": "aurora",
+      "group": "environment",
+      "name": "极光"
+    },
+    {
+      "id": "jupiterMagnet",
+      "group": "environment",
+      "name": "木星磁层示意"
+    },
+    {
+      "id": "ioTorus",
+      "group": "environment",
+      "name": "木卫一等离子体环"
+    },
+    {
+      "id": "jupiterAurora",
+      "group": "environment",
+      "name": "木星极光示意"
+    },
+    {
+      "id": "innerBelt",
+      "group": "belts",
+      "name": "内辐射带"
+    },
+    {
+      "id": "outerBelt",
+      "group": "belts",
+      "name": "外辐射带"
+    },
+    {
+      "id": "plasmasphere",
+      "group": "belts",
+      "name": "等离子体层"
+    },
+    {
+      "id": "zodiacal",
+      "group": "dust",
+      "name": "尘埃与散射路径示意"
+    },
+    {
+      "id": "stream",
+      "group": "dust",
+      "name": "碎屑流"
+    },
+    {
+      "id": "meteor",
+      "group": "dust",
+      "name": "地球旁流星示例"
+    },
+    {
+      "id": "parkerField",
+      "group": "helio",
+      "name": "帕克螺旋参考场"
+    },
+    {
+      "id": "currentSheet",
+      "group": "helio",
+      "name": "起伏电流片示意"
+    },
+    {
+      "id": "photonRays",
+      "group": "helio",
+      "name": "光传播方向示意"
+    },
+    {
+      "id": "chargedParticles",
+      "group": "helio",
+      "name": "局部带电粒子轨迹"
+    },
+    {
+      "id": "neutralAtoms",
+      "group": "helio",
+      "name": "中性原子自由飞行示意"
+    },
+    {
+      "id": "sheath",
+      "group": "helio",
+      "name": "日鞘"
+    },
+    {
+      "id": "medium",
+      "group": "helio",
+      "name": "外部星际介质"
+    },
+    {
+      "id": "neutrals",
+      "group": "helio",
+      "name": "中性原子示例"
+    }
+  ],
+  "remaining": [
+    "三例事件仅验证已知时窗及简化模型；没有通用天象搜索、当地可见性或导航精度认证。",
+    "区域点云、环境场线、粒子和内部剖面尚无逐点观测拟合；本轮核对来源记录和说明边界，没有将示意当作实测。",
+    "完整姿态、纹理经度配准、天气及所有扩展目标的形状与自转尚未实现。",
+    "真实设备性能、完整产品视觉体验和用户验收仍待完成。"
+  ]
+}

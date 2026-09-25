@@ -1,0 +1,44 @@
+import fs from 'node:fs';
+const target=(await(await fetch('http://127.0.0.1:9223/json')).json()).find(t=>t.type==='page'&&t.url.includes('127.0.0.1:4180'));
+const ws=new WebSocket(target.webSocketDebuggerUrl);await new Promise(r=>ws.addEventListener('open',r,{once:true}));
+let id=0;const pending=new Map(),errors=[];
+ws.addEventListener('message',e=>{const m=JSON.parse(e.data);if(m.id){pending.get(m.id)?.(m);pending.delete(m.id);}if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails.text);});
+const call=(method,params={})=>new Promise((resolve,reject)=>{pending.set(++id,m=>m.error?reject(m.error):resolve(m.result));ws.send(JSON.stringify({id,method,params}));});
+const run=async expression=>{const r=await call('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(r.exceptionDetails)throw Error(JSON.stringify(r.exceptionDetails));return r.result.value;};
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const click=async(text,selector='button')=>{await run(`(()=>{const b=[...document.querySelectorAll(${JSON.stringify(selector)})].find(b=>b.textContent.trim()===${JSON.stringify(text)});if(!b)throw Error('Missing '+${JSON.stringify(text)});b.focus();b.click()})()`);await wait(500);};
+const assert=async(expression,label)=>{if(!await run(expression))throw Error(label);console.log('PASS',label);};
+const shot=async name=>fs.writeFileSync('.cache/'+name+'.png',Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+const guide=async()=>{await click('阶段导览',await run("!!document.querySelector('.macro-header')")?'.macro-header button':'button');};
+const visit=async i=>{await run(`document.querySelectorAll('.stage-guide article')[${i}].querySelectorAll('button')[1].click()`);await wait(2000);};
+
+await call('Runtime.enable');await call('Network.enable');
+const date=async value=>{await run(`(()=>{const i=document.querySelector('.home-time input');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(i,${JSON.stringify(value)});i.dispatchEvent(new Event('input',{bubbles:true}));i.dispatchEvent(new Event('change',{bubbles:true}));})()`);await click('应用日期','.home-time button');await wait(1800);};
+try{
+ await call('Network.setCacheDisabled',{cacheDisabled:true});await call('Page.reload',{ignoreCache:true});await wait(3000);
+ await click('成员清单','.observation-path button');await run("document.querySelector('[data-directory-member=io] button').click()");await wait(800);
+ await assert("document.querySelector('[aria-label=\"卫星当前参数\"]')?.textContent.includes('木卫一')",'Io initial data available');
+ await call('Network.setBlockedURLs',{urls:['*data/satellites/jupiter-2027-06.json*']});await date('2027-06-15T12:00');
+ await assert("!document.querySelector('[aria-label=\"卫星当前参数\"]')",'missing month removes stale satellite parameters');
+ await assert("![...document.querySelectorAll('.macro-world-label')].some(n=>n.textContent.trim()==='木卫一'&&getComputedStyle(n).visibility!=='hidden')",'missing month removes satellite label');
+ await click('成员清单','.observation-path button');
+ await assert("document.querySelector('[data-directory-member=io] button').disabled",'failed Io member disabled');
+ await assert("!document.querySelector('[data-directory-member=titan] button').disabled",'Saturn family remains usable');
+ await call('Network.setBlockedURLs',{urls:[]});await click('重试此类资料','[data-directory-member=io] button');await wait(1400);
+ await assert("!document.querySelector('[data-directory-member=io] button').disabled",'retry restores current month');
+ await run("document.querySelector('[data-directory-member=titan] button').click()");await wait(600);
+ await click('← 后退','.observation-path button');
+ await assert("document.querySelector('[aria-label=\"卫星当前参数\"]')?.textContent.includes('木卫一')",'history restores selected Io');
+ await assert("document.querySelector('.home-time input').value.startsWith('2027-06-15')",'history preserves current date');
+ await click('专题路线','.observation-path button');await run("document.querySelector('[data-topic-route=giants]').click()");await wait(600);await click('专题下一步','[data-topic-routes] button');
+ await call('Network.setBlockedURLs',{urls:['*data/satellites/saturn-2027-07.json*']});await date('2027-07-15T12:00');
+ await assert("document.querySelector('[data-topic-current] [role=status]').textContent!=='本步画面已定位'",'topic no longer claims missing family is located');
+ await shot('family-topic-failure');
+ await assert("[...document.querySelectorAll('[data-topic-routes] button')].some(b=>b.textContent==='重试本专题卫星历表'&&!b.disabled)",'topic offers direct retry');
+ await call('Network.setBlockedURLs',{urls:[]});await click('重试本专题卫星历表','[data-topic-routes] button');await wait(1600);
+ await assert("document.querySelector('[data-topic-current] [role=status]').textContent==='本步画面已定位'",'topic retry restores matched scene');
+ await shot('family-topic-restored');
+ await click('专题下一步','[data-topic-routes] button');await assert("document.querySelector('[data-topic-current] [role=status]').textContent==='本步画面已定位'",'recovered Enceladus next step');
+ await click('退出专题并恢复全景','[data-topic-routes] button');await click('现在','.home-time button');
+ if(errors.length)throw Error(JSON.stringify(errors));console.log('FAMILY RECOVERY PASS');
+}finally{await call('Network.setBlockedURLs',{urls:[]});await call('Network.setCacheDisabled',{cacheDisabled:false});ws.close();}

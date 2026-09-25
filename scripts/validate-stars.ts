@@ -1,0 +1,23 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {parseStarCatalogue,starDirection} from '../src/data/starCatalogue';
+const sourcePath='data-sources/stars/hipparcos-1997-checkpoints.tsv';
+const bytes=readFileSync(sourcePath),source=bytes.toString('utf8');
+const provenance=JSON.parse(readFileSync('data-sources/stars/hipparcos-1997-checkpoints.provenance.json','utf8'));
+if(createHash('sha256').update(bytes).digest('hex')!==provenance.sha256)throw Error('Archived comparison source checksum mismatch');
+if(!source.includes('ICRS, Epoch=J1991.25'))throw Error('Comparison catalogue epoch/frame not confirmed');
+const data=parseStarCatalogue(JSON.parse(readFileSync('public/data/stars/hip2-subset.json','utf8')));
+const catalogue=new Map([...data.sky,...data.nearby].map(s=>[s.hip,s]));
+const checkpoints=source.split(/\r?\n/).filter(l=>/^\s*\d+\t/.test(l)).map(l=>l.split('\t').map(Number));
+const rows=checkpoints.map(([hip,raDeg,decDeg,parallax,error])=>{
+ const star=catalogue.get(hip);if(!star)throw Error(`Missing HIP ${hip}`);
+ const a=starDirection(star.ra,star.dec),b=starDirection(raDeg*Math.PI/180,decDeg*Math.PI/180);
+ const cross=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+ const separationMas=Math.atan2(Math.hypot(...cross),a.reduce((sum,v,i)=>sum+v*b[i],0))*180/Math.PI*3600000;
+ return {hip,originalRaDeg:raDeg,originalDecDeg:decDeg,revisedRaDeg:star.ra*180/Math.PI,revisedDecDeg:star.dec*180/Math.PI,separationMas,originalParallaxMas:parallax,originalParallaxErrorMas:error,revisedParallaxMas:star.parallax,revisedParallaxErrorMas:star.parallaxError,parallaxDifferenceMas:star.parallax-parallax};
+});
+const thresholdMas=20;
+const passed=rows.length===5&&rows.every(r=>Number.isFinite(r.separationMas)&&r.separationMas<thresholdMas);
+const report={generated:new Date().toISOString(),comparison:'Hipparcos-2 (van Leeuwen 2007) against original ESA Hipparcos 1997',epoch:'J1991.25',frame:'ICRS',source:provenance,thresholdMas,criterion:'20 mas gross coordinate import/frame sanity threshold; not an accuracy or navigation guarantee',independence:'Independent reduction/version cross-check; both catalogues derive from the same observing mission. Parallax differences are reported, not treated as independent noise.',count:rows.length,maxSeparationMas:Math.max(...rows.map(r=>r.separationMas)),passed,rows};
+writeFileSync('public/data/stars/validation.json',JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify(report,null,2));if(!passed)process.exitCode=1;

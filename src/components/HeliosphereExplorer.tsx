@@ -1,4 +1,4 @@
-import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
+import {useEffect, useLayoutEffect,useRef,useState,type KeyboardEvent} from 'react';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {publicAsset} from '../data/publicAsset';
@@ -10,7 +10,7 @@ import './HeliosphereExplorer.css';
 interface CanvasState {layers:HelioLayers;cut:boolean;side:boolean;progress:number;reset:number}
 function HelioCanvas(props:CanvasState){
  const host=useRef<HTMLDivElement>(null),latest=useRef(props);latest.current=props;const [error,setError]=useState('');
- useEffect(()=>{
+ useLayoutEffect(()=>{
   const element=host.current;if(!element)return;let renderer:THREE.WebGLRenderer;
   try{renderer=new THREE.WebGLRenderer({antialias:true});}catch{setError('当前设备无法绘制三维图，分层说明和资料来源仍可阅读。');return;}
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setClearColor('#091522');renderer.outputColorSpace=THREE.SRGBColorSpace;element.appendChild(renderer.domElement);
@@ -49,7 +49,7 @@ function HelioCanvas(props:CanvasState){
    for(let i=0;i<75;i++)neutrals.geometry.attributes.position.setXYZ(i,...neutralPoint(i,c.progress));neutrals.geometry.attributes.position.needsUpdate=true;
    controls.update();for(const l of labels){const p=l.point.clone().project(camera),cutHidden=c.cut&&l.layer==='sheath'&&inHelioCut(l.point.x,l.point.z);l.elementLabel.style.display=(!l.layer||c.layers[l.layer])&&!cutHidden&&p.z>-1&&p.z<1&&Math.abs(p.x)<.87&&Math.abs(p.y)<.87?'block':'none';l.elementLabel.style.left=`${(p.x*.5+.5)*width}px`;l.elementLabel.style.top=`${(-p.y*.5+.5)*height}px`;}
    renderer.render(scene,camera);
-  };draw();return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Line||o instanceof THREE.Points){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){if('map'in m)(m.map as THREE.Texture|null)?.dispose();m.dispose();}}});renderer.dispose();renderer.domElement.remove();labels.forEach(l=>l.elementLabel.remove());};
+  };draw();return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Line||o instanceof THREE.Points){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){if('map'in m)(m.map as THREE.Texture|null)?.dispose();m.dispose();}}});renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();labels.forEach(l=>l.elementLabel.remove());};
  },[]);
  return <div ref={host} className="environment-canvas">{error&&<p className="environment-error" role="status">{error}</p>}</div>;
 }

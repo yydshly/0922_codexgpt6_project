@@ -1,0 +1,10 @@
+{
+  "catalogue": "I/239/hip_main",
+  "edition": "ESA Hipparcos 1997",
+  "source": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=I%2F239%2Fhip_main&HIP=16537%2C87937%2C54035%2C8102%2C108870&-out=HIP%2CRAICRS%2CDEICRS%2CPlx%2Ce_Plx&-out.max=100",
+  "retrieved": "2026-09-25",
+  "sha256": "f730193babd234efefcf52c8ff50dccc8527c6b715c6544c90069c30728cef63",
+  "referenceFrame": "ICRS",
+  "epoch": "J1991.25",
+  "independence": "Different catalogue reduction of the same Hipparcos mission; not an independent observing instrument."
+}

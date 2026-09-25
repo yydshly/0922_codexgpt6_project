@@ -1,0 +1,19 @@
+{
+  "method": "GC and heap snapshot without calling DOM.getDetachedDomNodes first. Different cycle counts; diagnostic evidence, not a device memory guarantee. Each snapshot ends in solar panorama.",
+  "samples": [
+    {
+      "sample": "before: 3 solar/cosmic return cycles",
+      "nativeThreeCanvases": 5,
+      "nodeDescriptions": {
+        "<canvas data-engine=\"three.js r180\" width=\"1070\" height=\"815\" style=\"display: block; touch-action: none;\">": 5
+      }
+    },
+    {
+      "sample": "after: 8 solar/cosmic return cycles",
+      "nativeThreeCanvases": 1,
+      "nodeDescriptions": {
+        "<canvas data-engine=\"three.js r180\" width=\"1070\" height=\"815\" style=\"display: block; touch-action: none;\">": 1
+      }
+    }
+  ]
+}

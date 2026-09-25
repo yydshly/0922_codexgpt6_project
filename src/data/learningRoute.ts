@@ -19,7 +19,7 @@ export const LEARNING_STEPS:LearningStep[]=[
  {id:'pluto',chapter:3,title:'冥王星—卡戎：远缘双体',path:'太阳系 › 远缘天体 › 冥王星 › 卡戎',why:'延续区域到成员、母体到卫星的观察顺序。',look:'对照两颗球体、共同质心和相对运行，比较与地月系统的呈现。',boundary:'双体局部统一比例；到太阳的距离仍被压缩。',destination:{kind:'target',id:'pluto-system'},stages:['families']},
  {id:'heliosphere',chapter:4,title:'日球层：太阳风的环境边界',path:'太阳系 › 空间环境 › 日球层',why:'看完主要成员后，再理解包围它们的空间环境。',look:'区分环境边界与天体轨道；从侧栏可展开日球层详解。',boundary:'轮廓为模型示意，不是太阳系硬壳或引力终点。',destination:{kind:'zone',id:'heliosphere'},stages:['structure']},
  {id:'oort',chapter:4,title:'奥尔特云：认识推断的外围',path:'太阳系 › 遥远外围 › 奥尔特云',why:'与日球层对照，理解不同“边界”回答不同问题。',look:'观察远缘球状分布，并阅读它的证据和不确定范围。',boundary:'这是推断模型，不能把散点当作逐颗实测天体。',destination:{kind:'zone',id:'oort'},stages:['structure']},
- {id:'neighbors',chapter:5,title:'邻近恒星：离开太阳系尺度',path:'太阳系 › 恒星邻域',why:'先建立太阳系内部关系，再把它放回更大的空间。',look:'比较太阳与其他恒星系统，注意尺度单位切换到光年。',boundary:'当前邻域是概念结构图，尚非完整实测星表。',destination:{kind:'cosmic',id:'neighbors'},stages:[]},
+ {id:'neighbors',chapter:5,title:'邻近恒星：离开太阳系尺度',path:'太阳系 › 恒星邻域',why:'先建立太阳系内部关系，再把它放回更大的空间。',look:'比较太阳与其他恒星系统，注意尺度单位切换到光年。',boundary:'邻域已接入筛选星表；固定 J1991.25，不是完整普查或今晚星图。',destination:{kind:'cosmic',id:'neighbors'},stages:[]},
  {id:'galaxy',chapter:5,title:'银河系：太阳系所属的星系',path:'太阳系 › 银河系',why:'把刚才的恒星邻域放到整个星系中理解。',look:'辨认太阳所在区域与银河结构，区分恒星系统和星系。',boundary:'银河形态与画面标记为模型示意，不是外部实拍。',destination:{kind:'cosmic',id:'milkyway'},stages:[]},
  {id:'galaxies',chapter:5,title:'邻近星系：更大的宇宙背景',path:'银河系 › 邻近星系',why:'完成由整体到成员、再回到更大尺度的主线。',look:'比较星系尺度；回顾太阳、行星、卫星、星系的所属关系。',boundary:'独立取景，图中大小与方位不等于真实共同尺度。',destination:{kind:'cosmic',id:'galaxies'},stages:[]},
 ];

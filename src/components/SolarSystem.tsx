@@ -2,7 +2,7 @@ import {referenceAttitude} from './referenceAttitude';
 import { ringProfile,ringSystemBounds } from '../data/rings';
 import { makeSaturnRingGeometry } from './saturnRingGeometry';
 import { makeFaintRings,updateFaintRings } from './planetaryRings';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { BODIES, AU_KM, bodyById } from '../data/catalog';
@@ -254,7 +254,7 @@ export function SolarSystem(props:Props) {
   const latest=useRef(props);latest.current=props;
   const [error,setError]=useState('');
 
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     if(!host.current) return;
     const element=host.current;
     let renderer:THREE.WebGLRenderer;

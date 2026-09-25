@@ -1,3 +1,6 @@
+import {SOLAR_ECLIPSE_SOURCE} from './solarEclipse';
+import {eclipseCase} from './eclipseCases';
+import {LUNAR_ECLIPSE_SOURCE} from './lunarEclipse';
 import {COORBITAL_SOURCE,isCoorbital} from './coorbital';
 import {GANYMEDE_PERIOD,ORBIT_RESONANCE_SOURCE} from './tidalModule';
 import {LOCK_SOURCE} from './spinOrbit';
@@ -17,15 +20,17 @@ export const MOTION_LESSONS=[
  {id:'jupiter-resonance',target:'jupiter',body:'earth',name:'木星卫星轨道共振',title:'轨道共振：木卫一、二、三约 4:2:1',text:'在同一主画面只保留木星及木卫一、木卫二、木卫三。播放当前日期的卫星历表，比较内侧与外侧卫星的运动；再用一个木卫三平均公转周期进行计数对照。',note:'这是不同卫星之间的轨道共振，不是卫星自身的自转—公转比。轨道按真实历表运行，不为展示整数比而改成匀速圆轨道。',source:ORBIT_RESONANCE_SOURCE},
  {id:'coorbital-sun',target:'body:sun',body:'earth',name:'准卫星 · 日心视角',title:'共轨与准卫星：先看它们都绕太阳',text:'蓝色地球与橙色 Kamoʻoalewa 沿同年历表轨迹运动，太阳固定在中心。先观察两者相近的绕日运行，再切换随地球公转的旋转视角。',note:'线为当年采样轨迹，不是实体环；球体是放大的定位符号，不表示真实大小比例。',source:COORBITAL_SOURCE},
  {id:'coorbital-earth',target:'body:sun',body:'earth',name:'准卫星 · 地心旋转视角',title:'共轨与准卫星：旋转参照系中的伴随路径',text:'地球设为原点，坐标轴随日地连线在黄道面上的投影旋转。橙色曲线是同一组历表换参照系后的路径；金色箭头指示黄道面投影的太阳方向，太阳在局部画面外。',note:'旋转参照系不是地面观测视角；环绕形态不等于受地球束缚的卫星轨道。日期与日心视角完全相同。',source:COORBITAL_SOURCE},
+ {id:'lunar-eclipse',target:'body:sun',body:'earth',name:'2026 年 3 月月全食',title:'月食案例：月球穿过地球的本影与半影',text:'主画面切到月球所在距离的影区截面，用同日太阳、地球和月球位置计算。太阳和地球在截面之外；截面圆圈不是轨道或实体壳层。',note:'所有截面半径与偏移采用同一千米比例。可旋转检查，但默认正视最适合比较；月球暗化仅帮助辨认影区，不是实拍或亮度预测。',source:LUNAR_ECLIPSE_SOURCE},
+ {id:'solar-eclipse',target:'body:sun',body:'earth',name:'2026 年 8 月日全食',title:'日食案例：月影落在地球球面上',text:'从月球一侧看地球参考球面，观察月影随日期移动。主画面保留球面曲率与真实比例的局部影区；太阳与月球在局部画面外，右侧顺序图解释三者关系。',note:'网格为形状参考，不是经纬线或地理全食带。阴影颜色为教学编码，不是实际亮度。日期驱动同刻历表，未计算地面城市可见性。',source:SOLAR_ECLIPSE_SOURCE},
 ] as const;
 export type MotionLessonId=typeof MOTION_LESSONS[number]['id'];
 export type MotionLesson=typeof MOTION_LESSONS[number];
 export function motionLessonForView(id:MotionLessonId|null,target:IntegratedTarget|null){return MOTION_LESSONS.find(s=>s.id===id&&s.target===target)??null;}
 export function spinPeriodSeconds(id:'earth'|'venus'|'mercury'){return 360/Math.abs(bodyById[id].rotationRateDegPerDay!)*86400;}
-export function motionStepSeconds(id:MotionLessonId){return isCoorbital(id)?30*86400:id==='jupiter-resonance'?GANYMEDE_PERIOD/4:id==='moon-lock'?bodyById.moon.orbitalPeriodDays*86400/4:id==='mercury-resonance'?bodyById.mercury.orbitalPeriodDays*86400/2:id==='moon-phase'?3*86400:(id==='earth-orbit'||id==='earth-seasons')?30*86400:spinPeriodSeconds(id==='venus-spin'?'venus':'earth')/4;}
+export function motionStepSeconds(id:MotionLessonId){return eclipseCase(id)?900:isCoorbital(id)?30*86400:id==='jupiter-resonance'?GANYMEDE_PERIOD/4:id==='moon-lock'?bodyById.moon.orbitalPeriodDays*86400/4:id==='mercury-resonance'?bodyById.mercury.orbitalPeriodDays*86400/2:id==='moon-phase'?3*86400:(id==='earth-orbit'||id==='earth-seasons')?30*86400:spinPeriodSeconds(id==='venus-spin'?'venus':'earth')/4;}
 export function motionSeek(time:number,delta:number,start:number,end:number):number|null{const next=time+delta;return Number.isFinite(next)&&next>=start&&next<=end?next:null;}
 
 // Observation seconds per wall-clock second; these never alter the physical rates.
-export function motionPlaybackSpeed(id:MotionLessonId){return isCoorbital(id)?10*86400:id==='jupiter-resonance'?21600:id==='moon-lock'||id==='moon-phase'?86400:id==='mercury-resonance'?5*86400:id==='earth-spin'?3600:10*86400;}
-export function motionCycleSeconds(id:MotionLessonId){return isCoorbital(id)?365.25*86400:id==='jupiter-resonance'?GANYMEDE_PERIOD:id==='moon-lock'?bodyById.moon.orbitalPeriodDays*86400:id==='mercury-resonance'?2*bodyById.mercury.orbitalPeriodDays*86400:id==='moon-phase'?MEAN_PHASE_DAYS*86400:(id==='earth-orbit'||id==='earth-seasons')?bodyById.earth.orbitalPeriodDays*86400:spinPeriodSeconds(id==='venus-spin'?'venus':'earth');}
-export function motionSpeedLabel(speed:number){return speed===1?'实时 · 1 秒/秒':speed>=86400?`${(speed/86400).toLocaleString('zh-CN',{maximumFractionDigits:2})} 天/秒`:`${(speed/3600).toLocaleString('zh-CN',{maximumFractionDigits:2})} 小时/秒`;}
+export function motionPlaybackSpeed(id:MotionLessonId){return eclipseCase(id)?240:isCoorbital(id)?10*86400:id==='jupiter-resonance'?21600:id==='moon-lock'||id==='moon-phase'?86400:id==='mercury-resonance'?5*86400:id==='earth-spin'?3600:10*86400;}
+export function motionCycleSeconds(id:MotionLessonId){return eclipseCase(id)?8*3600:isCoorbital(id)?365.25*86400:id==='jupiter-resonance'?GANYMEDE_PERIOD:id==='moon-lock'?bodyById.moon.orbitalPeriodDays*86400:id==='mercury-resonance'?2*bodyById.mercury.orbitalPeriodDays*86400:id==='moon-phase'?MEAN_PHASE_DAYS*86400:(id==='earth-orbit'||id==='earth-seasons')?bodyById.earth.orbitalPeriodDays*86400:spinPeriodSeconds(id==='venus-spin'?'venus':'earth');}
+export function motionSpeedLabel(speed:number){return speed===1?'实时 · 1 秒/秒':speed>=60&&speed<3600?`${(speed/60).toLocaleString('zh-CN',{maximumFractionDigits:2})} 分钟/秒`:speed>=86400?`${(speed/86400).toLocaleString('zh-CN',{maximumFractionDigits:2})} 天/秒`:`${(speed/3600).toLocaleString('zh-CN',{maximumFractionDigits:2})} 小时/秒`;}

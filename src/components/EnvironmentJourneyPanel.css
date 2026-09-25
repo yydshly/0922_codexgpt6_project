@@ -13,3 +13,5 @@
 [data-tidal-module]{border-top:1px solid #63877c;margin-top:16px;padding-top:16px}.tidal-mechanism{margin:14px 0;padding:12px;border:1px solid #56747e;border-radius:8px;background:#11242c}.tidal-mechanism svg{display:block;width:100%;height:auto}.tidal-mechanism svg text{fill:#cee1e3;font-size:12px}
 
 [data-coorbital-module]{margin:14px 0;padding:12px;border:1px solid #736548;border-radius:8px;background:#201c132b;}
+
+[data-eclipse-module]{margin:14px 0;padding:12px;border:1px solid #7a6685;border-radius:8px;background:#251c302b;}[data-lunar-eclipse] svg{display:block;width:100%;height:auto;margin:10px 0;}[data-lunar-eclipse=detail] dd{font-size:14px;overflow-wrap:anywhere;}

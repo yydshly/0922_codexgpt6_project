@@ -1,0 +1,627 @@
+{
+  "version": "solar-eclipse-2026-08-12-geometric-v1",
+  "sourceCredit": "Eclipse Predictions by Fred Espenak, NASA's GSFC",
+  "sources": [
+    "https://eclipse.gsfc.nasa.gov/SEbeselm/SEbeselm2001/SE2026Aug12Tbeselm.html",
+    "https://science.nasa.gov/eclipses/types/"
+  ],
+  "reference": {
+    "ttLabel": "2026-08-12 17:47:05.2 TT (TDT)",
+    "tdb": 839828825.198998,
+    "utcUsingProjectLeapSeconds": "2026-08-12T17:45:56.016Z",
+    "catalogUtLabel": "2026-08-12 17:45:53.8 UT",
+    "catalogDeltaTSeconds": 71.4
+  },
+  "model": {
+    "minimumTdb": 839828860.1419697,
+    "minimumUtc": "2026-08-12T17:46:30.959Z",
+    "deltaSeconds": 34.94297170639038,
+    "axisDistanceKm": 5722.484208116959,
+    "surfaceUmbraKm": 66.36309495501963,
+    "stage": "本影轴穿过地球 · 全食条件"
+  },
+  "input": {
+    "file": "data/2026-08.json",
+    "sha256": "116816298262326e2c350fc2f4b9dd71cb0f9b8c8bd81d8f1d5ce6b0fd8bf0df",
+    "positionSource": "NASA/JPL Horizons",
+    "frame": "ECLIPJ2000",
+    "stateKind": "display centers",
+    "correction": "NONE",
+    "radii": "project JPL mean radii",
+    "timeScale": "TDB seconds since J2000"
+  },
+  "window": {
+    "start": 839814425.198998,
+    "end": 839843225.198998
+  },
+  "limits": [
+    "Earth-centered shadow-axis frame; all lengths in km. Surface classification uses the sphere intersection, not the Earth-center plane.",
+    "No geographic mapping, local circumstances, light-time, aberration, Earth oblateness, lunar topography or radiometry.",
+    "Independent geometric closest-axis time is compared in TDB with NASA TT; this is model discrepancy, not interpolation error.",
+    "Single event bracket; not a general event or hybrid eclipse solver."
+  ],
+  "curve": [
+    {
+      "time": 839814425.198998,
+      "offsetKm": 15597.817147762773,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839814725.198998,
+      "offsetKm": 15317.790745194892,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839815025.198998,
+      "offsetKm": 15038.585118956951,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839815325.198998,
+      "offsetKm": 14760.247520740995,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839815625.198998,
+      "offsetKm": 14482.828667741653,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839815925.198998,
+      "offsetKm": 14206.383050088396,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839816225.198998,
+      "offsetKm": 13930.969269455176,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839816525.198998,
+      "offsetKm": 13656.65041209741,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839816825.198998,
+      "offsetKm": 13383.494460064632,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839817125.198998,
+      "offsetKm": 13111.574744726415,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839817425.198998,
+      "offsetKm": 12840.970446959049,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839817725.198998,
+      "offsetKm": 12571.767149258885,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839818025.198998,
+      "offsetKm": 12304.057445123619,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839818325.198998,
+      "offsetKm": 12037.941611244238,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839818625.198998,
+      "offsetKm": 11773.528349147588,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839818925.198998,
+      "offsetKm": 11510.9356033005,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839819225.198998,
+      "offsetKm": 11250.291461717417,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839819525.198998,
+      "offsetKm": 10991.73514777448,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839819825.198998,
+      "offsetKm": 10735.418109278122,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839820125.198998,
+      "offsetKm": 10481.50521284214,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839820425.198998,
+      "offsetKm": 10230.176049675338,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839820725.198998,
+      "offsetKm": 9981.626358270483,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839821025.198998,
+      "offsetKm": 9736.069567898365,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839821325.198998,
+      "offsetKm": 9493.738463523821,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839821625.198998,
+      "offsetKm": 9254.886969142315,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839821925.198998,
+      "offsetKm": 9019.792040392993,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839822225.198998,
+      "offsetKm": 8788.755650803818,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839822525.198998,
+      "offsetKm": 8562.106843577947,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839822825.198998,
+      "offsetKm": 8340.20380965647,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839823125.198998,
+      "offsetKm": 8123.435933856694,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839823425.198998,
+      "offsetKm": 7912.225730041743,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839823725.198998,
+      "offsetKm": 7707.030560064471,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839824025.198998,
+      "offsetKm": 7508.343999733354,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839824325.198998,
+      "offsetKm": 7316.696680636659,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839824625.198998,
+      "offsetKm": 7132.656397893461,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839824925.198998,
+      "offsetKm": 6956.827237078234,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839825225.198998,
+      "offsetKm": 6789.847439726093,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839825525.198998,
+      "offsetKm": 6632.38570564952,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839825825.198998,
+      "offsetKm": 6485.13562888067,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839826125.198998,
+      "offsetKm": 6348.807993990339,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839826425.198998,
+      "offsetKm": 6224.120732387841,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839826725.198998,
+      "offsetKm": 6111.786463316357,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839827025.198998,
+      "offsetKm": 6012.497727339151,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839827325.198998,
+      "offsetKm": 5926.910256635698,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839827625.198998,
+      "offsetKm": 5855.624899056112,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839827925.198998,
+      "offsetKm": 5799.169089417565,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839828225.198998,
+      "offsetKm": 5757.978996414343,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839828525.198998,
+      "offsetKm": 5732.383613619343,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839828825.198998,
+      "offsetKm": 5722.592062308868,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839829125.198998,
+      "offsetKm": 5728.685204534799,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839829425.198998,
+      "offsetKm": 5750.612332280596,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839829725.198998,
+      "offsetKm": 5788.1932434981045,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839830025.198998,
+      "offsetKm": 5841.125509286426,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839830325.198998,
+      "offsetKm": 5908.996265119315,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839830625.198998,
+      "offsetKm": 5991.297487699079,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839830925.198998,
+      "offsetKm": 6087.443514743105,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839831225.198998,
+      "offsetKm": 6196.789525620729,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839831525.198998,
+      "offsetKm": 6318.649811670111,
+      "axisHits": true,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839831825.198998,
+      "offsetKm": 6452.314882803351,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839832125.198998,
+      "offsetKm": 6597.06672824741,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839832425.198998,
+      "offsetKm": 6752.191826634798,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839832725.198998,
+      "offsetKm": 6916.991747089957,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839833025.198998,
+      "offsetKm": 7090.791379376117,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839833325.198998,
+      "offsetKm": 7272.944970037552,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839833625.198998,
+      "offsetKm": 7462.8402246513615,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839833925.198998,
+      "offsetKm": 7659.900775823875,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839834225.198998,
+      "offsetKm": 7863.587321665791,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839834525.198998,
+      "offsetKm": 8073.397720692606,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839834825.198998,
+      "offsetKm": 8288.866299268131,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839835125.198998,
+      "offsetKm": 8509.56258967233,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839835425.198998,
+      "offsetKm": 8735.08967895035,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839835725.198998,
+      "offsetKm": 8965.082312780301,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839836025.198998,
+      "offsetKm": 9199.204866577536,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839836325.198998,
+      "offsetKm": 9437.149268756108,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839836625.198998,
+      "offsetKm": 9678.632938133942,
+      "axisHits": false,
+      "penumbraTouches": true
+    },
+    {
+      "time": 839836925.198998,
+      "offsetKm": 9923.39677957804,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839837225.198998,
+      "offsetKm": 10171.203267544059,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839837525.198998,
+      "offsetKm": 10421.834636207066,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839837825.198998,
+      "offsetKm": 10675.091186463571,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839838125.198998,
+      "offsetKm": 10930.789714142946,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839838425.198998,
+      "offsetKm": 11188.762059485116,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839838725.198998,
+      "offsetKm": 11448.853774452064,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839839025.198998,
+      "offsetKm": 11710.92290321386,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839839325.198998,
+      "offsetKm": 11974.838868980485,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839839625.198998,
+      "offsetKm": 12240.48146047474,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839839925.198998,
+      "offsetKm": 12507.739910631284,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839840225.198998,
+      "offsetKm": 12776.512060074012,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839840525.198998,
+      "offsetKm": 13046.703598283426,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839840825.198998,
+      "offsetKm": 13318.227375857237,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839841125.198998,
+      "offsetKm": 13591.002781066225,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839841425.198998,
+      "offsetKm": 13864.955175016674,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839841725.198998,
+      "offsetKm": 14140.015379862076,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839842025.198998,
+      "offsetKm": 14416.119214720618,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839842325.198998,
+      "offsetKm": 14693.207075221922,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839842625.198998,
+      "offsetKm": 14971.223551844549,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839842925.198998,
+      "offsetKm": 15250.117083675323,
+      "axisHits": false,
+      "penumbraTouches": false
+    },
+    {
+      "time": 839843225.198998,
+      "offsetKm": 15529.83964398479,
+      "axisHits": false,
+      "penumbraTouches": false
+    }
+  ]
+}

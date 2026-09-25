@@ -216,7 +216,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     "id": "E07",
     "title": "近地小行星",
     "status": "已有代表 / 待验收",
-    "current": "爱神星形状与参数；Kamoʻoalewa 同日历表、全景标记及两种参照系对照（本地待验收）",
+    "current": "爱神星形状与参数；Kamoʻoalewa 同日历表、全景标记及两种参照系对照（已发布，待用户验收）",
     "target": "至少一个可靠近地代表及地球轨道关系；补共轨或准卫星认识案例",
     "phase": "M3",
     "evidence": "JPL 几何历表 + SBDB 参数快照 + PDS NEAR 形状网格；材质与补光示意",
@@ -241,7 +241,7 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
     ],
     "how": "全景目录 → 共轨与准卫星；日心/地心旋转视角切换，日期不变。爱神星原入口保留。",
     "validation": "两年 3 小时独立检查点验证实际 6 小时插值；见 R01 数据报告。外观非精确形状。",
-    "release": "潮汐锁定与共振已部署 4a87895；准卫星本地待验收",
+    "release": "运动课程及准卫星已部署 cbfccf4；日月食案例本地待验收",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {
@@ -495,8 +495,8 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
   {
     "id": "E17",
     "title": "运行关系与天象",
-    "status": "课程已接入 / 事件待补",
-    "current": "自转/公转、月相/季节及锁定/共振课程已发布；准卫星两视角本地待验收",
+    "status": "课程已接入 / 日月食案例待验收",
+    "current": "运行关系与准卫星课程已发布；月全食截面、日全食球面与独立资料核对本地待验收",
     "target": "四组运行课程、共轨参照系案例，以及日月食和卫星遮掩案例验证",
     "phase": "M4",
     "evidence": "同日 JPL 状态 + NAIF 参考姿态 + NASA 机制解释",
@@ -506,7 +506,13 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
         "coorbital"
     ],
     "modules": [
-      "src/components/MotionLessonPanel.tsx",
+      "src/data/solarEclipse.ts",
+      "src/components/SolarEclipseReadout.tsx",
+      "public/data/events/solar-2026-08-12.json",
+      "src/data/lunarEclipse.ts",
+        "src/components/LunarEclipseReadout.tsx",
+        "public/data/events/lunar-2026-03-03.json",
+        "src/components/MotionLessonPanel.tsx",
         "src/components/coorbitalScene.ts",
         "src/components/MacroMotionPanel.tsx",
       "src/data/macroPlanetOrbits.ts"
@@ -516,9 +522,9 @@ export const CONTENT_COVERAGE:CoverageItem[] = [
       "id": "planetary"
     },
     "stages": [],
-    "how": "全景目录 → 运动课程、潮汐锁定与共振或共轨与准卫星；日月食尚无案例入口。",
-    "validation": "课程联动、参照系变换与数据插值已检查；不表示潮汐演化或长期共振验证，天象事件仍待补。",
-    "release": "潮汐锁定与共振已部署 4a87895；准卫星本地待验收",
+    "how": "全景目录 → 日月食案例；场景清单 → 进入日食/进入月食。保留运动课程入口，卫星遮掩待补。",
+    "validation": "日食模型最近影轴时刻比参考晚 34.9 秒；月食晚 37.8 秒，食分差 -0.0212；原始历表哈希与同时间尺度比较可复算。无当地可见性、潮汐演化或长期共振求解。",
+    "release": "运动课程及准卫星已部署 cbfccf4；日月食案例本地待验收",
     "acceptance": "待用户逐项验收（发布不等于验收）"
   },
   {

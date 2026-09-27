@@ -9,6 +9,8 @@ import { ProductDirections } from './ProductDirections';
 import './ExpansionRoadmap.css';
 
 interface ExpansionRoadmapProps {
+  onOpenLaunchBase: () => void;
+  canOpenLaunchBase: boolean;
   onVisit:(entry:CoverageEntry,tab:PlanTab,scroll:number,filter?:string)=>void;
   initialFilter?:string;
   initialScroll?:number;
@@ -23,7 +25,7 @@ function RoadmapList({ items }: { items: string[] }) {
   return <ul className="roadmap-list">{items.map(item => <li key={item}><i aria-hidden="true"/><span>{item}</span></li>)}</ul>;
 }
 
-export function ExpansionRoadmap({ onClose, onExplore, onValidation,onVisit,stages,initialTab,initialFilter,initialScroll=0 }: ExpansionRoadmapProps) {
+export function ExpansionRoadmap({ onOpenLaunchBase,canOpenLaunchBase,onClose, onExplore, onValidation,onVisit,stages,initialTab,initialFilter,initialScroll=0 }: ExpansionRoadmapProps) {
   const [page, setPage] = useState<'master' | 'integration' | 'products'>('master');
   const [selectedId, setSelectedId] = useState('satellites');
   const selected = ROADMAP_STAGES.find(stage => stage.id === selectedId) ?? ROADMAP_STAGES[0];
@@ -76,11 +78,11 @@ export function ExpansionRoadmap({ onClose, onExplore, onValidation,onVisit,stag
     <nav className="roadmap-page-nav" aria-label="规划类别">
       <button ref={masterButton} aria-pressed={page === 'master'} aria-controls="roadmap-page-content" onClick={() => showPage('master')}><Route size={15}/>总规划</button>
       <button ref={integrationButton} aria-pressed={page === 'integration'} aria-controls="roadmap-page-content" onClick={() => showPage('integration')}><Route size={15}/>工程扩展</button>
-      <button ref={productsButton} aria-pressed={page === 'products'} aria-controls="roadmap-page-content" onClick={() => showPage('products')}><Compass size={15}/>产品方向<span>卫星 · 飞船 · 仙侠</span></button>
+      <button ref={productsButton} aria-pressed={page === 'products'} aria-controls="roadmap-page-content" onClick={() => showPage('products')}><Compass size={15}/>产品方向<span>地球出发 · 发射入轨</span></button>
     </nav>
     <div className="roadmap-scroll" ref={scroll}>
       <div className="roadmap-content" id="roadmap-page-content">
-        {page === 'master' ? <MasterPlan onVisit={(entry,tab,filter)=>onVisit(entry,tab,scroll.current?.scrollTop??0,filter)} initialFilter={initialFilter} stages={stages} initialTab={initialTab}/> : page === 'products' ? <ProductDirections onViewRoadmap={() => showPage('integration')}/> : <>
+        {page === 'master' ? <MasterPlan onVisit={(entry,tab,filter)=>onVisit(entry,tab,scroll.current?.scrollTop??0,filter)} initialFilter={initialFilter} stages={stages} initialTab={initialTab}/> : page === 'products' ? <ProductDirections onOpenLaunchBase={onOpenLaunchBase} canOpenLaunchBase={canOpenLaunchBase} onViewRoadmap={() => showPage('integration')}/> : <>
         <p className="master-legacy-note">这里保留天体接入、沙盒和飞船的工程细分。认知版已完成本轮验收并冻结。以下六组是历史工程细分与候选能力，是否启动由「产品方向」中的目标和前提决定。</p>
         <section className="roadmap-baseline" aria-labelledby="roadmap-baseline-title">
           <div className="roadmap-baseline-copy"><span className="roadmap-section-kicker"><i/>当前已有</span><h2 id="roadmap-baseline-title">从真实观测出发。</h2><p>{ROADMAP_BASELINE.summary}</p><div className="roadmap-existing-actions"><button onClick={onExplore}><Compass size={14}/>查看当前天体<ArrowRight size={13}/></button><button onClick={onValidation}><ShieldCheck size={14}/>查看物理验证<ArrowRight size={13}/></button></div></div>

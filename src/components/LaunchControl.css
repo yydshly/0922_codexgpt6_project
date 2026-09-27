@@ -1,0 +1,45 @@
+.launch-control h2 { font-size: 26px; font-weight: 450; margin: 10px 0; }
+.launch-control p, .launch-control small { color: #adc0be; font-size: 11px; line-height: 1.85; }
+.launch-flight-state { border-left: 3px solid #e9b66e; padding: 12px 15px; background: #203231; margin: 20px 0; }
+.launch-flight-state > strong { display: block; font-size: 34px; font-weight: 450; color: #f4deb5; font-variant-numeric: tabular-nums; }
+.launch-flight-state p { margin: 4px 0 0; }
+.launch-prechecks { list-style: none; padding: 0; display: grid; gap: 14px; }
+.launch-prechecks li { display: flex; gap: 13px; font-size: 12px; }
+.launch-prechecks li > span { color: #d7bf86; min-width: 20px; }
+.launch-prechecks small { display: block; }
+.launch-flight-actions { display: grid; gap: 8px; margin: 20px 0; }
+.launch-flight-actions button { padding: 11px 8px; font-size: 12px; }
+.launch-flight-actions .launch-ignite { background: #d9be86; color: #14262a; font-weight: 650; }
+.launch-flight-actions .launch-ignite:disabled { background: #233832; color: #91a59d; }
+.launch-flight-actions .launch-cancel { border-color: #bd865f; color: #ffd3b7; }
+.launch-flight-error { padding: 9px; background: #57372d; }
+.launch-telemetry { margin: 20px 0; }
+.launch-telemetry > div { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #30434a; gap: 8px; }
+.launch-telemetry dt { color: #9db0b5; font-size: 11px; }
+.launch-telemetry dd { margin: 0; font-size: 17px; color: #eadcc0; font-variant-numeric: tabular-nums; }
+.launch-events h3 { font-size: 13px; font-weight: 500; }
+.launch-events ol { list-style: none; padding: 0; border-left: 1px solid #506665; }
+.launch-events li { padding: 6px 0 9px 13px; font-size: 11px; line-height: 1.8; }
+.launch-events time { display: block; color: #e3bd81; }
+.launch-flight-boundary { border-top: 1px solid #385253; padding: 15px 0; font-size: 11px; }
+.launch-flight-boundary summary { cursor: pointer; color: #dfc994; }
+.launch-flight-boundary a { color: #d8c38e; display: block; margin: 9px 0; }
+.launch-flight-mode .launch-map-labels { display: none; }
+.launch-flight-mode .launch-world-title { max-width: 270px; }
+.launch-flight-mode .launch-pad-status { color: #ffdab0; }
+.ascent-rate { display: flex; gap: 7px; }
+.ascent-rate button { flex: 1; padding: 9px; font-size: 12px; }
+.ascent-rate button[aria-pressed=true] { color: #11252a; background: #dfca99; }
+.ascent-separation { background: #1b3333; padding: 13px; border: 1px solid #48665d; }
+.ascent-separation h3 { font-size: 13px; margin: 0; }
+.ascent-control .launch-telemetry dd { font-size: 14px; }
+.launch-ascent-marker { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -110%); padding: 9px 12px; font-size: 11px !important; background: #142932e6 !important; border-color: #e7c289 !important; }
+.launch-ascent-marker::after { content: ''; width: 5px; height: 5px; border-radius: 50%; position: absolute; left: calc(50% - 2px); bottom: -7px; background: #f2cd88; }
+@media (max-width: 760px) { .launch-flight-mode .launch-world-title p { display: none; } .launch-flight-mode .launch-world-title h2 { font-size: 21px; } }
+.orbit-procedure { padding: 0; list-style: none; border-left: 2px solid #425967; }
+.orbit-procedure li { padding: 8px 12px; color: #8da5b3; font-size: 12px; }
+.orbit-procedure li[aria-current] { color: #d5eddd; background: #233c39; }
+.orbit-verdict { margin: 18px 0; padding: 13px; border: 1px solid #6c6447; border-radius: 8px; background: #252a27; }
+.orbit-verdict.orbit-in-target { border-color: #577e6b; background: #1e3530; }
+.orbit-verdict progress { width: 100%; height: 8px; accent-color: #bee1bd; display: block; margin: 10px 0; }
+.orbit-verdict label,.orbit-verdict small,.orbit-scale-note { font-size: 11px; line-height: 1.7; color: #adc0c7; }

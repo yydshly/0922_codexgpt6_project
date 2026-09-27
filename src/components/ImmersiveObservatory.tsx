@@ -23,11 +23,11 @@ import { PanoramaTextureLoader, type TextureLoadItem } from './PanoramaTextureLo
 import { createImmersiveRingGuide, projectRingAnchor } from './immersiveRingGuide';
 import './ImmersiveObservatory.css';
 
-interface Props { frame: StateFrame; start: number; end: number; entry: ImmersiveEntry; onClose: () => void; onReturn: (time: number) => void }
+interface Props { onOpenMission?: () => void; frame: StateFrame; start: number; end: number; entry: ImmersiveEntry; onClose: () => void; onReturn: (time: number) => void }
 interface SceneControls { reset: () => void; retry: () => void }
 
 /** Parent-centred moving scene. Publish planet and satellite states at one coherent epoch. */
-export function ImmersiveObservatory({ frame: entryFrame, start, end, entry, onReturn: returnToPanorama }: Props) {
+export function ImmersiveObservatory({ frame: entryFrame, start, end, entry, onReturn: returnToPanorama, onOpenMission }: Props) {
   const host = useRef<HTMLDivElement>(null), root = useRef<HTMLDivElement>(null);
   const bridge = useRef<SceneControls | null>(null);
   const ringMarker = useRef<HTMLDivElement>(null);
@@ -356,7 +356,7 @@ export function ImmersiveObservatory({ frame: entryFrame, start, end, entry, onR
     <div className="imm-vignette" aria-hidden="true"/>
     <header className="imm-header">
       <button onClick={onClose} className="imm-back"><ArrowLeft size={16}/>返回全景</button>
-      <div className="imm-brand">ORBIT <span>沉浸观景</span></div>
+      <div className="imm-brand">ORBIT <span>沉浸观景</span></div>{onOpenMission && <button onClick={onOpenMission} title="返回独立任务保存的时刻，靠近 E01 卫星">E01 卫星 · 任务近景</button>}
       <button onClick={() => setClean(v => !v)} aria-pressed={clean}><Maximize2 size={15}/>{clean ? '显示界面' : '纯画面'}</button>
     </header>
     {clean && <div className="imm-pure-clock"><span>{date.replace('T', ' ')} · 北京时间 · {clock.playing ? '天体运动中' : '已暂停'}</span>{clock.playing && <button onClick={clock.pause}>暂停天体运动</button>}</div>}

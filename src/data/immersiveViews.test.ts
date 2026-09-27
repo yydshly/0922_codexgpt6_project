@@ -37,4 +37,13 @@ describe('沉浸取景的局部空间与真实光照', () => {
       expect(frame.positions).toEqual(before);
     }
   });
+  it('地球完整取景在相同光照方向拉远，包含完整球体的角直径', () => {
+    const frame = frameAt();
+    const full = immersiveCameraPose('earth-limb', frame, 'globe');
+    const limb = immersiveCameraPose('earth-limb', frame, 'limb');
+    expect(full.position.clone().normalize().distanceTo(limb.position.clone().normalize())).toBeLessThan(1e-12);
+    const diameterDeg = 2 * Math.asin(1.018 / full.position.length()) * 180 / Math.PI;
+    expect(diameterDeg).toBeLessThan(full.fov * .7);
+    expect(full.position.length()).toBeGreaterThan(limb.position.length());
+  });
 });

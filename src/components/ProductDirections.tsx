@@ -2,6 +2,7 @@ import { useId, useState } from 'react';
 import { ArrowRight, Check, ChevronRight, CircleDot, Compass, History, Layers3, Orbit, Rocket, Route, ShieldCheck, Sparkles, Telescope } from 'lucide-react';
 import { HUMAN_SPACE_REMAINING, HUMAN_SPACE_ROUTES, PRODUCT_DECISION_PATHS, PRODUCT_DIRECTIONS, PRODUCT_FOUNDATION, PLANET_CONTROL_LEVELS } from '../data/productDirections';
 import futurePlanUrl from '../../docs/POST-ACCEPTANCE-PLAN.md?url';
+import launchDeliveryUrl from '../../docs/EARTH-LAUNCH-DELIVERY.md?url';
 import earthLaunchPlanUrl from '../../docs/EARTH-TO-ORBIT-PLAN.md?url';
 import './ProductDirections.css';
 
@@ -15,16 +16,16 @@ export function ProductDirections({ onViewRoadmap, onOpenLaunchBase, canOpenLaun
 
   return <section className={`product-directions ${selected?.fantasy ? 'product-directions-fantasy' : ''}`} aria-label="当前主线与候选产品方向">
     <div className="product-directions-intro">
-      <span className="product-planning-notice"><i/>地球出发六步已本地接入 · 等待本轮验收</span>
+      <span className="product-planning-notice"><i/>地球出发六步已交付 · 等待本轮体验验收</span>
       <h2>从地球出发，亲历一次航天任务。</h2>
-      <p>地球成为任务基地与出发点：组装载具、检查点火、上升分级、进入轨道，再部署一颗卫星。认知版与沉浸观景已经归档；这里展示下一阶段规划。</p>
+      <p>地球成为任务基地与出发点：组装载具、检查点火、上升分级、进入轨道，再部署一颗卫星。认知版与沉浸观景已经归档；这里展示本轮交付和后续候选方向。</p>
       <button className="product-launch-entry" onClick={onOpenLaunchBase} disabled={!canOpenLaunchBase} title={canOpenLaunchBase ? '进入三维基地，保留原观测状态' : '请在真实太阳系模式下等待历表就绪'}><Rocket size={16}/>进入地球基地<ArrowRight size={15}/></button>
       {!canOpenLaunchBase && <p>基地入口需要真实太阳系模式及已就绪的历表。</p>}
-      <a className="product-plan-link" href={earthLaunchPlanUrl} download="从地球启航六步规划.md">下载地球出发六步规划 ↗</a>
+      <a className="product-plan-link" href={launchDeliveryUrl} download="地球出发首版交付与验收.md">查看本批交付与三组验收操作 ↗</a><a className="product-plan-link" href={earthLaunchPlanUrl} download="从地球启航六步规划.md">下载地球出发六步规划 ↗</a>
     </div>
 
     <section className="product-human-space" aria-labelledby="product-earth-launch-title">
-      <div className="product-section-heading"><span className="product-mini-label">EARTH TO ORBIT / 本地教学首版</span><h3 id="product-earth-launch-title">一个起点，六步完成首次入轨任务。</h3><p>建议首版：一个简化发射场、一套有限兼容部件、一种无人载荷和辅助飞行。组装同时包含运载火箭与载荷，部件选择会影响质量、推力和燃料。</p></div>
+      <div className="product-section-heading"><span className="product-mini-label">EARTH TO ORBIT / 教学首版</span><h3 id="product-earth-launch-title">一个起点，六步完成首次入轨任务。</h3><p>首版范围：一个简化发射场、一套有限兼容部件、一种无人载荷和辅助飞行。组装同时包含运载火箭与载荷，部件选择会影响质量、推力和燃料。</p></div>
       <ol className="product-launch-steps">{[
         ['地球基地', '从地球进入发射场，明确任务和目标轨道，建立地面到太空的空间关系。'],
         ['组装载具', '选择发动机、燃料级段与载荷，检查兼容性、质量和起飞条件。'],
@@ -32,8 +33,8 @@ export function ProductDirections({ onViewRoadmap, onOpenLaunchBase, canOpenLaun
         ['上升与分级', '经历稠密到稀薄大气、辅助转弯和级段分离，连续观察地球曲率变化。'],
         ['入轨与关机', '根据位置、速度和目标轨道判断结果；达到高度不等于已经入轨。'],
         ['部署与观察', '释放一颗卫星，切换全景与沉浸观察，保存、恢复或重新开始任务。'],
-      ].map(([title, description], index) => <li key={title}><span>{String(index + 1).padStart(2, '0')} · {index === 0 ? '已接入，继续推进' : '本地可用，待验收'}</span><h4>{title}</h4><p>{description}</p></li>)}</ol>
-      <p className="product-human-other">六步已在本地接入：从组装点火到分级入轨，完成实际滑行一圈后释放独立卫星，切换近景、全景或沉浸观察，保存并恢复飞行。当前待用户验收，尚未发布；月球航程、再入回收和更远任务另行规划。</p>
+      ].map(([title, description], index) => <li key={title}><span>{String(index + 1).padStart(2, '0')} · {'功能已交付，待体验验收'}</span><h4>{title}</h4><p>{description}</p></li>)}</ol>
+      <p className="product-human-other">六步已交付：从组装点火到分级入轨，完成实际滑行一圈后释放独立卫星，切换近景、全景或沉浸观察，保存并恢复飞行。当前待用户体验验收；月球航程、再入回收和更远任务另行规划。</p>
       <p className="product-human-sources">原理参考：<a href="https://spaceplace.nasa.gov/launching-into-space/en/" target="_blank" rel="noreferrer">NASA 发射与入轨 ↗</a> · <a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/guide-to-rockets/" target="_blank" rel="noreferrer">NASA 火箭基础 ↗</a></p>
     </section>
 

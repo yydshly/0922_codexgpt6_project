@@ -15,6 +15,7 @@ import { AscentControl } from './AscentControl';
 import { OrbitControl } from './OrbitControl';
 import { DeploymentControl, type MissionFocus } from './DeploymentControl';
 import { FlightSavePanel } from './FlightSavePanel';
+import { LaunchJourneyPanel } from './LaunchJourneyPanel';
 import type { MissionRequest, MissionSummary } from '../launch/missionSummary';
 import { FlightEnvironmentPanel } from './FlightEnvironmentPanel';
 import { atmosphereLayer, DEFAULT_ENVIRONMENT, type SpaceObjectKind } from '../launch/flightEnvironment';
@@ -54,11 +55,12 @@ export function EarthLaunchBase({ frame, onClose, active = true, request, onMiss
   const [assemblyPart, setAssemblyPart] = useState<AssemblyPart>('all');
   const [flightMode, setFlightMode] = useState(false), [checked, setChecked] = useState(false), [followRocket, setFollowRocket] = useState(true);
   const flight = useLiftoff(applied, frame.time, config => { setApplied(config); setDraft(config); });
+  const [journeyPanel, setJourneyPanel] = useState(false);
   const [savePanel, setSavePanel] = useState(false), [missionFocus, setMissionFocus] = useState<MissionFocus>('pair'), [cleanView, setCleanView] = useState(false);
   const focusMission = (focus: MissionFocus) => { setMissionFocus(focus); setEnvironmentOverview(false); setEnvironmentPanel(false); setFollowRocket(true); };
   const immersiveMission = () => { focusMission('satellite'); setCleanView(true); setSavePanel(false); };
   const continueDeployment = () => { flight.send({ type: 'continue-deployment' }); focusMission('pair'); };
-  const saveFlight = () => { setSavePanel(true); flight.send({ type: 'save' }); };
+  const saveFlight = () => { setJourneyPanel(false); setSavePanel(true); flight.send({ type: 'save' }); };
   const satelliteMarker = useRef<HTMLButtonElement>(null);
   const flightRef = useRef(flight); flightRef.current = flight;
   const [step4Guide, setStep4Guide] = useState(false), [environmentPanel, setEnvironmentPanel] = useState(false), [environmentOverview, setEnvironmentOverview] = useState(false);
@@ -75,6 +77,8 @@ export function EarthLaunchBase({ frame, onClose, active = true, request, onMiss
   const enterFlight = () => { setStep4Guide(false); setView('ground'); setLocation('pad'); setEyeLevel(false); setFlightMode(true); };
   const resetFlight = () => { setCleanView(false); setMissionFocus('pair'); flight.reset(); setChecked(false); setEnvironmentOverview(false); setEnvironmentPanel(false); };
   const openAssembly = () => { if (flightLocked) return; setFlightMode(false); setView('vehicle'); };
+  const openJourney = () => { flight.send({ type: 'pause', value: true }); setJourneyPanel(true); setSavePanel(false); setStep4Guide(false); setEnvironmentPanel(false); setCleanView(false); };
+  const returnToOperation = () => { setJourneyPanel(false); enterFlight(); requestAnimationFrame(() => { const panel = root.current?.querySelector<HTMLElement>('.launch-sidebar'); panel?.scrollTo({top:0}); panel?.querySelector<HTMLButtonElement>('.launch-flight-actions button:not(:disabled)')?.focus(); }); };
   const editing = view === 'vehicle', appliedStats = deriveVehicle(applied), draftStats = deriveVehicle(draft);
   const dirty = !sameVehicle(draft, lastSaved.draft) || !sameVehicle(applied, lastSaved.applied);
   const updateDraft = (config: VehicleConfig) => { setDraft(config); setConfigStatus(''); };
@@ -350,7 +354,7 @@ export function EarthLaunchBase({ frame, onClose, active = true, request, onMiss
 
   return <section hidden={!active} className={`${cleanView ? 'launch-clean' : ''} launch-base ${editing ? 'launch-assembly-mode' : ''} ${flightMode ? 'launch-flight-mode' : ''}`} ref={root} role="dialog" aria-modal="true" aria-labelledby="launch-base-title" onKeyDown={event => {
     event.stopPropagation();
-    if (event.key === 'Escape') { event.preventDefault(); if (step4Guide) setStep4Guide(false); else if (savePanel) setSavePanel(false); else if (environmentPanel) setEnvironmentPanel(false); else if (cleanView) setCleanView(false); else onClose(); }
+    if (event.key === 'Escape') { event.preventDefault(); if (journeyPanel) setJourneyPanel(false); else if (step4Guide) setStep4Guide(false); else if (savePanel) setSavePanel(false); else if (environmentPanel) setEnvironmentPanel(false); else if (cleanView) setCleanView(false); else onClose(); }
     if (event.key === 'Tab') {
       const items = [...(root.current?.querySelectorAll<HTMLElement>('button:not(:disabled), select, input, a[href], summary, canvas[tabindex="0"]') ?? [])].filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden');
       const first = items[0], last = items.at(-1);
@@ -358,10 +362,11 @@ export function EarthLaunchBase({ frame, onClose, active = true, request, onMiss
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     }
   }} onKeyUp={event => event.stopPropagation()}>
-    <header className="launch-header"><button onClick={onClose}><ArrowLeft size={15}/>{flightLocked ? '返回太阳系 · 保留任务' : '返回观测'}</button><div><span>ORBIT / EARTH LAUNCH PROGRAM</span><h1 id="launch-base-title">从地球启航</h1></div><button aria-expanded={savePanel} onClick={() => { setCleanView(false); setSavePanel(v => !v); }}>飞行存档</button>{deploymentMode && <button onClick={() => setCleanView(v => !v)}>{cleanView ? '显示任务面板' : '沉浸画面'}</button>}<button className="launch-step4-entry" onClick={() => ascentMode ? setEnvironmentPanel(true) : setStep4Guide(true)}>{ascentMode ? '飞行环境与说明' : '04 上升与分级 →'}</button></header>
+    <header className="launch-header"><button onClick={onClose}><ArrowLeft size={15}/>{flightLocked ? '返回太阳系 · 保留任务' : '返回观测'}</button><div><span>ORBIT / EARTH LAUNCH PROGRAM</span><h1 id="launch-base-title">从地球启航</h1></div><button aria-expanded={savePanel} onClick={() => { setCleanView(false); setJourneyPanel(false); setSavePanel(v => !v); }}>飞行存档</button>{deploymentMode && <button onClick={() => setCleanView(v => !v)}>{cleanView ? '显示任务面板' : '沉浸画面'}</button>}<button className="launch-step4-entry" onClick={() => ascentMode ? setEnvironmentPanel(true) : setStep4Guide(true)}>{ascentMode ? '飞行环境与说明' : '04 上升与分级 →'}</button></header>
     {savePanel && <FlightSavePanel ready={flight.ready} saved={flight.saved} status={flight.storageStatus} onSave={saveFlight} onRestore={raw => flight.send({ type: 'restore', raw })} onClose={() => setSavePanel(false)}/>}
+    {journeyPanel && <LaunchJourneyPanel state={flight.state} ready={flight.ready && !failure} error={flight.error || failure} onClose={() => setJourneyPanel(false)} onCurrent={returnToOperation} onAssembly={() => { setJourneyPanel(false); openAssembly(); }} onSave={() => { setJourneyPanel(false); setSavePanel(true); }}/>}
     <div className="launch-layout">
-      <aside className="launch-sidebar">
+      <aside className="launch-sidebar"><button className="launch-journey-entry" aria-expanded={journeyPanel} onClick={openJourney}>任务总览与验收<span>查看六步进度 ↗</span></button>
         {flightMode && deploymentMode ? <DeploymentControl state={flight.state} rate={flight.rate} paused={flight.paused} ready={flight.ready && !failure} error={flight.error || (failure ? '请先重建三维画面。' : '')} send={flight.send} onFocus={focusMission} onOverview={orbitOverview} onImmersive={immersiveMission} onSave={saveFlight} onReset={resetFlight}/> : flightMode && orbitMode ? <OrbitControl state={flight.state} rate={flight.rate} paused={flight.paused} ready={flight.ready && !failure} error={flight.error || (failure ? '请先重建三维画面。' : '')} onRate={value => flight.send({ type: 'rate', value })} onPause={() => flight.send({ type: 'pause', value: !flight.paused })} onCutoff={() => flight.send({ type: 'cutoff' })} onCoast={() => flight.send({ type: 'coast' })} onReset={resetFlight} onOverview={orbitOverview} onContinue={continueDeployment}/> : flightMode && ascentMode ? <AscentControl state={flight.state} rate={flight.rate} paused={flight.paused} ready={flight.ready && !failure} error={flight.error || (failure ? '请先重建三维画面。' : '')} onPause={() => flight.send({ type: 'pause', value: !flight.paused })} onRate={value => flight.send({ type: 'rate', value })} onSeparate={() => flight.send({ type: 'separate' })} onReset={resetFlight} onContinue={continueOrbit}/> : flightMode ? <LaunchControl config={applied} state={flight.state} paused={flight.paused} ready={flight.ready && !failure} error={flight.error || (failure ? '请先重建三维画面，再继续试飞。' : '')} checked={checked} onCheck={() => setChecked(true)} onStart={() => { flight.send({ type: 'pause', value: false }); flight.send({ type: 'start' }); }} onPause={() => flight.send({ type: 'pause', value: !flight.paused })} onCancel={() => flight.send({ type: 'cancel' })} onReset={resetFlight} onContinue={continueAscent}/> : editing ? <VehicleAssembly config={draft} onChange={updateDraft} onSave={() => persist()} onLoad={restore} onReset={() => { setDraft({ ...BASELINE_VEHICLE }); setConfigStatus('已恢复基准草稿，尚未覆盖保存或发射台配置。'); }} onApply={applyVehicle} status={configStatus} dirty={dirty}/> : <>
         <div className="launch-intro"><span className="launch-kicker">你的第一座航天基地</span><h2>{LAUNCH_SITE.name}</h2><p>探索从脚下的地球开始。认识发射场，准备把第一颗卫星送入轨道。</p></div>
         <nav className="launch-locations" aria-label="查看基地设施">{BASE_LOCATIONS.map((p, i) => <button key={p.id} onClick={() => setBaseLocation(p.id)} aria-pressed={view === 'ground' && location === p.id}><span>{i === 0 ? '↗' : `0${i}`}</span><span>{p.label}</span><ArrowUpRight size={14}/></button>)}</nav>

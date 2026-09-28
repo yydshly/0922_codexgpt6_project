@@ -1,3 +1,5 @@
+import satelliteGuideUrl from '../../docs/SATELLITE-MISSION-GUIDE.md?url';
+import boosterNotesUrl from '../../docs/BOOSTER-DESCENT.md?url';
 import disposalNotesUrl from '../../docs/SATELLITE-DISPOSAL-CHOICES.md?url';
 import demoCloseoutUrl from '../../docs/FLIGHT-DEMO-CLOSEOUT.md?url';
 import demoNotesUrl from '../../docs/FLIGHT-ENDINGS-AND-DEMO.md?url';
@@ -166,7 +168,7 @@ export function ProductProgress({ onClose }: { onClose: () => void }) {
   return <div className="product-progress-overlay" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
     <section className="product-progress-dialog" role="dialog" aria-modal="true" aria-labelledby="product-progress-title">
       <header className="product-progress-header"><div><span className="eyebrow">BUILD LOG / ORBIT</span><h2 id="product-progress-title">建设记录</h2><p>记录已实现的能力、当前优化和下一步验收依据。</p></div><button ref={closeButton} className="product-progress-close" onClick={onClose} aria-label="关闭建设记录"><X size={18}/></button></header>
-      <div className="product-progress-content">
+      <div className="product-progress-content"><section className="product-progress-intro"><strong>卫星做什么、怎样工作 · 本批提交</strong><p>地球出发左侧可随时查看任务用途、供电到交付的流程、当前轨道与教学通信窗口，并明确成像覆盖、分辨率和重访能力尚未实现。主画面新增可开关的对日、星下点和通信辅助线，区分几何可见与实际下传；另用路径图解释星链宽带、星间中转和手机直连，不冒充已经模拟通信星座。与工作操作区和参数面板关联。用户已查看卫星页面并授权提交；上线以对应部署工作流为准。</p><a href={satelliteGuideUrl}>查看卫星任务说明与来源</a></section><section className="product-progress-intro"><strong>一级最终去向 · 本批提交</strong><p>从本次实际分离状态接续无推力轨迹，主画面跟随和历史回放，完成后点击入口即播放，支持暂停、重播与进度控制，读取空气、阻力与参考受热，保留 0 m 参考终点。一级、二级和卫星分别记录；不宣称完整存活或回收成功。随本批完整提交，独立验证记录保留。</p><a href={boosterNotesUrl}>查看一级模型、来源与验收</a></section>
         <section className="product-progress-intro" data-demo-closeout><strong>演示收尾 · 参数统一、章节回看、方案对比</strong><p>地球出发的自动演示中，已到达章节可回看；E01 / E02 先比较配置，再比较各自实际跑完的结果。补齐离轨到地表参考面的步长、倍率与中途失败检查。本批提交远端，待体验验收。后续能力按独立阶段推进。</p><a href={demoCloseoutUrl} download="全程演示三项收尾与验收.md">查看三项范围、验证与验收</a></section>
         <section className="product-progress-intro" data-satellite-disposal><strong>新增 · 发射前选择 E01 / E02 末期方案</strong><p>E01 保留无推进在轨退役；E02 预装 35 kg 设备和 40 kg 推进剂，完成卫星工作后按指令窗口、反向点火、储能处理、再入参考下降运行。提供自身燃料、电量、轨道、空气与热流曲线，兼容保存恢复；不宣称完全销毁。自由驾驶与材料解体仍后置。本批待体验验收。</p><a href={disposalNotesUrl} download="卫星任务末期方案与动力离轨.md">查看入口、参数与边界</a></section>
         <section className="product-progress-intro" data-flight-demo><strong>新增 · 一键全程演示与两条路线结尾</strong><p>地球出发顶部「▶ 从头到尾演示」自动执行七章，支持暂停和退出返回原任务。二级可从 20 km 检查点继续至 0 m 等效物体参考点；E01 结束业务与储能处理后仍在轨。材料解体与真实落区未实现；卫星动力离轨见本批 E02 补充。本批独立交付，待体验验收；旧归档标签保持不变。</p><a href={demoNotesUrl} download="全程自动演示与路线结尾.md">查看操作、来源与验证记录</a></section>

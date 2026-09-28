@@ -1,10 +1,11 @@
+import type { BoosterRecord } from '../launch/boosterDescent';
 import { DEMO_CHAPTERS, type DemoStatus } from '../launch/fullFlightDemo';
 import type { FlightState } from '../launch/liftoff';
 import { flightPhaseName, flightTime } from './LaunchControl';
 import { FlightEnding } from './FlightEnding';
 import { DemoPlanComparison } from './DemoPlanComparison';
 import type { SatellitePlan } from '../launch/satellitePlan';
-export function FullFlightDemoPanel({ busy, demo, state, onPause, onExit, onSpeed, onResults, onRevisit, onPlan }: { busy: boolean; demo: DemoStatus; state: FlightState; onPause: () => void; onExit: () => void; onSpeed: (v: 1 | 3) => void; onResults: () => void; onRevisit: (chapter: number) => void; onPlan: (plan: SatellitePlan) => void }) {
+export function FullFlightDemoPanel({ booster, busy, demo, state, onPause, onExit, onSpeed, onResults, onRevisit, onPlan }: { booster?:BoosterRecord|null; busy: boolean; demo: DemoStatus; state: FlightState; onPause: () => void; onExit: () => void; onSpeed: (v: 1 | 3) => void; onResults: () => void; onRevisit: (chapter: number) => void; onPlan: (plan: SatellitePlan) => void }) {
   const chapter = demo.plan === 'powered' && demo.chapter===0 ? {title:'准备与点火',description:'E02：500 kg 卫星基体加装 35 kg 设备和 40 kg 推进剂，共 575 kg。离轨设备从起飞开始计入质量。'} : demo.plan === 'powered' && demo.chapter===6 ? {title:'E02 动力离轨与结尾',description:'结束业务后保留控制能力，执行卫星自身反向点火，再处理剩余储能并观察再入。不会自动判定全部烧毁。'} : DEMO_CHAPTERS[demo.chapter];
   return <section className="full-flight-demo" aria-label="从头到尾自动演示" aria-busy={busy}>
     {busy && <p role="status">正在恢复章节与读数，请稍候…</p>}<fieldset className="demo-interactions" disabled={busy} aria-label="演示操作">
@@ -18,6 +19,6 @@ export function FullFlightDemoPanel({ busy, demo, state, onPause, onExit, onSpee
     <details className="demo-chapters"><summary>章节回看 · 已到达 {demo.visited.length} / 7 章</summary><p>点击已到达的章节，暂停在该章起点，再点「继续全程演示」。未到达的章节需先顺序运行。</p><ol>{DEMO_CHAPTERS.map((c,i)=><li key={i}><button disabled={!demo.visited.includes(i)} aria-current={demo.chapter===i?'step':undefined} onClick={()=>onRevisit(i)}>{i+1}. {demo.plan==='powered'&&i===6?'E02 动力离轨与结尾':c.title}{!demo.visited.includes(i)?' · 未到达':''}</button></li>)}</ol></details>
     <DemoPlanComparison demo={demo} onPlan={onPlan}/>
     <details><summary>本次路线与当前发生的事</summary><ol>{DEMO_CHAPTERS.map((c,i) => <li key={c.title} aria-current={demo.chapter===i?'step':undefined}>{demo.plan==='powered'&&i===6?'E02 动力离轨与结尾':c.title}</li>)}</ol><p>{state.message}</p><p>阶段命令由演示自动执行；没有预录视频或伪造成功状态。长时段压缩播放，倍率增加计算次数。鼠标可自由旋转和缩放，阶段切换才自动取景。</p></details>
-    {demo.finished && <><FlightEnding state={state}/><button onClick={onResults}>查看本次任务结果与摘要</button></>}
+    {demo.finished && <><FlightEnding state={state} booster={booster}/><button onClick={onResults}>查看本次任务结果与摘要</button></>}
   </fieldset></section>;
 }

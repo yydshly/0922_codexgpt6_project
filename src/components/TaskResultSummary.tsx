@@ -1,3 +1,4 @@
+import type { BoosterRecord } from '../launch/boosterDescent';
 import { useState } from 'react';
 import { satelliteName } from '../launch/satellitePlan';
 import type { FlightState } from '../launch/liftoff';
@@ -11,16 +12,21 @@ function PackageCard({ step }: { step: PackageProgress }) {
   </article>;
 }
 
-export function TaskResultSummary({ state, ready, onCurrent, onSave }: { state: FlightState; ready: boolean; onCurrent: () => void; onSave: () => void }) {
+export function BoosterResult({record}:{record:BoosterRecord}) {
+  return <article className="task-package" data-booster-result><strong>一级 · {record.status==='surface-reference'?'地表参考记录':record.status==='stopped'?'参考计算停止':'记录中'}</strong><p>T+{record.latest.time.toFixed(2)} s · {(record.latest.altitudeM/1000).toFixed(3)} km · {record.reason}</p></article>;
+}
+
+export function TaskResultSummary({ booster, state, ready, onCurrent, onSave }: { booster?:BoosterRecord|null; state: FlightState; ready: boolean; onCurrent: () => void; onSave: () => void }) {
   const result = postDeploymentProgress(state), [downloadStatus, setDownloadStatus] = useState('');
   const download = () => {
-    const url = URL.createObjectURL(new Blob([taskResultMarkdown(state, flightPhaseName(state))], { type: 'text/markdown;charset=utf-8' }));
+    const url = URL.createObjectURL(new Blob([taskResultMarkdown(state, flightPhaseName(state), booster)], { type: 'text/markdown;charset=utf-8' }));
     const link = document.createElement('a'); link.href = url; link.download = `${satelliteName(state)}-任务结果摘要.md`; link.hidden = true;
     document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 30000);
     setDownloadStatus('已生成当前结果摘要；摘要不能恢复飞行。自动演示为临时任务，不覆盖原存档。');
   };
   return <section className="task-result-summary" aria-label="本次部署后任务结果">
-    <h3>同一次任务，两条结果线。</h3><p>共同起点 P1 之后，二级走 P2 → P3，卫星走 P4 → P5。可以从 P1 直接进入卫星工作；未执行的路线不会自动算完成。</p>
+    {booster && <BoosterResult record={booster}/>}
+    <h3>部署以后，二级与卫星两条结果线。</h3><p>共同起点 P1 之后，二级走 P2 → P3，卫星走 P4 → P5。可以从 P1 直接进入卫星工作；未执行的路线不会自动算完成。</p>
     <div className="task-result-verdict" data-task-finished={result.branchFinished}>
       <strong>{result.stopped ? '本段已停止，先看原因' : result.branchFinished ? state.satelliteDisposal ? '动力离轨教学分支已到参考终点' : '无推进教学分支已到终点' : '按本次记录继续'}</strong><p>{result.next}</p>
       <div><button disabled={!ready} onClick={onCurrent}>返回当前步骤操作 →</button><button onClick={download}>下载本次结果摘要</button><button disabled={!ready} onClick={onSave}>打开飞行存档</button></div>

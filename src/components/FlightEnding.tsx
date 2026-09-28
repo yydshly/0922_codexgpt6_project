@@ -1,9 +1,10 @@
+import type { BoosterRecord } from '../launch/boosterDescent';
 import type { FlightState } from '../launch/liftoff';
 
 /** A factual ending, not a manufactured disposal success. Shared by manual and automatic routes. */
-export function FlightEnding({ state: s }: { state: FlightState }) {
+export function FlightEnding({ state: s, booster }: { state: FlightState; booster?:BoosterRecord|null }) {
   return <section className="flight-ending" aria-label="二级与卫星的最终去向">
-    <h3>最后，两者去了哪里？</h3>
+    <h3>最后，各个对象去了哪里？</h3>{booster && <article data-booster-ending><strong>一级 · {booster.status==='surface-reference'?'到达地表参考面':booster.status==='stopped'?'参考计算停止':'仍在记录'}</strong><p>一级记录 T+{booster.latest.time.toFixed(2)} s，高度 {(booster.latest.altitudeM/1000).toFixed(3)} km。{booster.reason}</p><small>从同次实际分离出发，采用无推力等效参数；未模拟材料结局或回收。在「一级去向」入口回看。</small></article>}
     <article><strong>二级 · {s.reentry?.lower?.contactTime != null ? '参考下降到达地表' : '查看本次下降记录'}</strong>
       <p>{s.reentry?.lower?.contactTime != null ? `等效物体在 T+${s.reentry.lower.contactTime.toFixed(1)} s 到达 0 m，接触前相对空气速度约 ${s.reentry.lower.speedMS!.toFixed(1)} m/s。这是参考模型的终点。` : s.reentry ? '本次再入以二级的独立记录为准。20 km 只是检查点，可继续等效物体参考下降至地表。' : '本次没有执行二级再入路线；当前只保留分流时的二级历史状态，不能判定它已落地或烧毁。'}</p>
       <small>未求解材料与结构解体，不表示完整箭体存活、安全着陆或真实残骸落点。真实再入可能烧蚀、解体，部分材料可能到达地表。</small>

@@ -9,12 +9,12 @@ import reportUrl from '../../docs/SATELLITE-OPERATIONS.md?url';
 import './AvoidancePanel.css';
 import './OperationsPanel.css';
 
-interface ControlProps { onMaintenance:()=>void; state: FlightState; paused: boolean; ready: boolean; error: string; rate: number; send: (command: LaunchCommand) => void; onOpen: () => void; onOverview: () => void; onSatellite: () => void; onSave: () => void; onReset: () => void }
-export function OperationsControl({ state: s, paused, ready, error, rate, send, onOpen, onOverview, onSatellite, onSave, onReset, onMaintenance }: ControlProps) {
+interface ControlProps { onGuide:()=>void; onMaintenance:()=>void; state: FlightState; paused: boolean; ready: boolean; error: string; rate: number; send: (command: LaunchCommand) => void; onOpen: () => void; onOverview: () => void; onSatellite: () => void; onSave: () => void; onReset: () => void }
+export function OperationsControl({ onGuide, state: s, paused, ready, error, rate, send, onOpen, onOverview, onSatellite, onSave, onReset, onMaintenance }: ControlProps) {
   const o = s.operations!, running = OPS_RUNNING.includes(s.phase), disabled = !ready || !!error;
   const step = s.phase === 'ops-ready' || s.phase === 'ops-align' ? 0 : s.phase === 'ops-power-ready' || s.phase === 'ops-cycle' ? 1 : 2;
   return <div className="launch-control operations-control">
-    <span className="launch-kicker">P4 / {satelliteName(s)} 卫星开始工作</span><h2>把观测带回地球。</h2>
+    <span className="launch-kicker">P4 / {satelliteName(s)} 卫星开始工作</span><h2>把观测带回地球。</h2><p>本次任务：完成一次对地观测数据的采集与交付。这里用数据量演示工作过程，尚未生成真实遥感图像。</p><button onClick={onGuide}>这颗卫星做什么？范围和能力 →</button>
     <FlightStageGuide steps={['对日定向 · 建立发电', '日夜循环 · 观测并保存', '地面站窗口 · 下传数据']} current={s.phase === 'ops-failed' ? null : step} complete={s.phase === 'ops-complete'}><p>接续同一颗已部署的卫星。先定向与发电，再观察一圈日夜，最后等待通信窗口下传。</p></FlightStageGuide>
     <div className="launch-flight-state"><small role="status">{running && paused ? '已暂停 · ' : ''}{OPS_LABELS[s.phase as OperationsPhase]}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
     {s.phase === 'ops-complete' && <section className="avoidance-entry"><strong>{s.satelliteEquipment ? '第五段：E02 任务末期离轨' : '第五段：卫星维护与退役'}</strong><p>{s.satelliteEquipment ? '继承当前电量、轨道和发射前携带的离轨燃料，核对条件后执行动力离轨。' : '继承当前电量与轨道，先检查一圈能源；E01 无推进器，任务结束后会保留退役在轨结果。'}</p><button disabled={disabled} onClick={onMaintenance}>{s.satelliteEquipment ? '下一段：动力离轨 →' : '下一段：维护与退役 →'}</button></section>}
@@ -52,8 +52,8 @@ function Plot({ samples, fields, title, unit, ceiling }: { samples: OperationsSa
   </svg><figcaption>{fields.map(f=><span key={f.key} style={{color:f.color}}>{f.name}</span>)}<span>灰底 · 地影</span></figcaption></figure>;
 }
 
-interface Props { state:FlightState; paused:boolean; onClose:()=>void; onSatellite:()=>void; onOverview:()=>void }
-export function OperationsPanel({state:s,paused,onClose,onSatellite,onOverview}:Props) {
+interface Props { onGuide:()=>void; state:FlightState; paused:boolean; onClose:()=>void; onSatellite:()=>void; onOverview:()=>void }
+export function OperationsPanel({onGuide,state:s,paused,onClose,onSatellite,onOverview}:Props) {
   const close=useRef<HTMLButtonElement>(null),[tab,setTab]=useState<'power'|'data'>('power');
   useEffect(()=>{const opener=document.activeElement as HTMLElement|null;close.current?.focus();return()=>{if(opener?.isConnected)opener.focus({preventScroll:true});};},[]);
   const o=s.operations;
@@ -61,7 +61,7 @@ export function OperationsPanel({state:s,paused,onClose,onSatellite,onOverview}:
   const best=Math.max(...o.links.map(l=>l.elevationDeg));
   return <section className="avoidance-panel operations-panel" aria-label="卫星工作参数与曲线">
     <header><div><small>部署之后 / 第四段</small><h2>卫星 · 能源与任务</h2></div><button ref={close} onClick={onClose}>收起工作分析</button></header>
-    <section className="avoidance-explanation"><span>本段 +{(o.elapsedS/60).toFixed(1)} 分钟 · {OPS_RUNNING.includes(s.phase) ? paused ? '已暂停' : '计算中' : '检查点冻结'} · {o.reserveMode?'低电量保护':'正常供电'}</span><h3>{o.transmitting?'窗口内：具备下传条件':o.collecting?'日照下：具备观测条件':o.shadow?'进入地影：由电池供电':'太阳翼受光：先供应负载，再充电'}</h3><p>{OPS_RUNNING.includes(s.phase)&&!paused?s.message:'当前时间冻结；参数表示此刻可用能力，电量与数据量不会在暂停期间变化。操作按钮在左侧。'}</p></section>
+    <button onClick={onGuide}>先了解用途、工作流程与覆盖边界 →</button><section className="avoidance-explanation"><span>本段 +{(o.elapsedS/60).toFixed(1)} 分钟 · {OPS_RUNNING.includes(s.phase) ? paused ? '已暂停' : '计算中' : '检查点冻结'} · {o.reserveMode?'低电量保护':'正常供电'}</span><h3>{o.transmitting?'窗口内：具备下传条件':o.collecting?'日照下：具备观测条件':o.shadow?'进入地影：由电池供电':'太阳翼受光：先供应负载，再充电'}</h3><p>{OPS_RUNNING.includes(s.phase)&&!paused?s.message:'当前时间冻结；参数表示此刻可用能力，电量与数据量不会在暂停期间变化。操作按钮在左侧。'}</p></section>
     <div className="avoidance-actions"><button onClick={onSatellite}>看翼板与卫星定向</button><button onClick={onOverview}>看日夜与通信连线</button></div>
     <dl className="avoidance-readings"><div><dt>发电 / 总用电</dt><dd>{o.generationW.toFixed(0)} / {o.loadW.toFixed(0)} W</dd></div><div><dt>翼板入射角</dt><dd>{(Math.acos(Math.min(1,o.incidence))*180/Math.PI).toFixed(1)}°</dd></div><div><dt>已经历日照 / 地影</dt><dd>{(o.sunlightS/60).toFixed(1)} / {(o.eclipseS/60).toFixed(1)} min</dd></div><div><dt>最佳站仰角 / 门槛</dt><dd>{best.toFixed(1)}° / 10°</dd></div></dl>
     <nav className="avoidance-tabs" aria-label="卫星工作图表"><button aria-pressed={tab==='power'} onClick={()=>setTab('power')}>发电与电池</button><button aria-pressed={tab==='data'} onClick={()=>setTab('data')}>数据与通信窗口</button></nav>

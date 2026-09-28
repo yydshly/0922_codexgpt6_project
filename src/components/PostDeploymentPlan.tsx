@@ -1,3 +1,4 @@
+import boosterNotesUrl from '../../docs/BOOSTER-DESCENT.md?url';
 import demoCloseoutUrl from '../../docs/FLIGHT-DEMO-CLOSEOUT.md?url';
 import disposalNotesUrl from '../../docs/SATELLITE-DISPOSAL-CHOICES.md?url';
 import demoNotesUrl from '../../docs/FLIGHT-ENDINGS-AND-DEMO.md?url';
@@ -15,6 +16,7 @@ export function PostDeploymentPlan() {
     <p><strong>本批新增 · 从头到尾演示：</strong>地球出发顶部一键运行七章；可暂停、退出返回原任务。二级参考下降与卫星退役各自给出结果。原归档标签保留，本批独立交付，待体验验收。</p><a className="post-plan-download" href={demoNotesUrl} download="全程自动演示与路线结尾.md">查看演示入口、结尾和模型边界 ↗</a>
     <p><strong>新增 · 先选任务末期方案：</strong>顶部选择 E01 或 E02 再运行全程演示；组装页也可预装 E02 离轨组件。E01 退役后仍在轨；E02 用自己的推进剂降低轨道，再观察等效物体再入。硬件从发射时计入质量，不给已发射卫星补装设备。</p><a className="post-plan-download" href={disposalNotesUrl} download="卫星任务末期方案与动力离轨.md">查看两种方案、参数、来源与验收方法 ↗</a>
     <p><strong>演示完善 · 回看与对比：</strong>自动演示内可回看已到达章节，对比两种方案及各自实际跑完的结果；参数区分卫星当前状态与二级历史记录。三项收尾后进入体验验收，不自动追加其他模块。</p><a className="post-plan-download" href={demoCloseoutUrl}>查看本次收尾与验收步骤 ↗</a>
+    <p><strong>一级去哪了：</strong>实际分离后可从左侧入口跟随和回看一级参考下降；结尾保留独立时刻并写入任务摘要。无推力，不包含回收与材料解体。</p><a className="post-plan-download" href={boosterNotesUrl}>查看一级去向与模型边界 ↗</a>
     <details>
       <summary>查看已归档范围、前提与边界</summary>
       <div className="post-plan-routes" aria-label="部署后的两条路线">

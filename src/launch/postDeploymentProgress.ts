@@ -1,3 +1,4 @@
+import type { BoosterRecord } from './boosterDescent';
 import type { FlightState } from './liftoff';
 import { AVOIDANCE, AVOIDANCE_RUNNING } from './avoidance';
 import { DEORBIT, DEORBIT_RUNNING } from './deorbit';
@@ -66,12 +67,13 @@ export function postDeploymentProgress(s: FlightState) {
   return { steps, records, next, stopped, branchFinished: s.phase === 'life-observed' || s.phase === 'disposal-complete' };
 }
 
-export function taskResultMarkdown(s: FlightState, phaseLabel: string) {
+export function taskResultMarkdown(s: FlightState, phaseLabel: string, booster?:BoosterRecord|null) {
   const report = postDeploymentProgress(s);
   return [`# 本次 ${satelliteName(s)} 任务结果摘要`, '', `任务时刻：${recordTime(s.time)}；阶段：${phaseLabel}。`,
     '本文件只描述导出时的教学计算结果，不是可恢复的飞行存档，不代表用户验收或真实任务遥测。', '', '## 部署后任务路径', '',
     ...report.steps.flatMap(step => [`### ${step.id} ${step.title} · ${PACKAGE_STATUS_TEXT[step.status]}`, '', step.detail, '', ...step.facts.map(f => `- ${f}`), '']),
     '## 两个对象分别在哪里', '', ...(report.records.length ? report.records.flatMap(record => [`### ${record.title}`, '', `${record.historical ? '历史记录' : '当前计算'}：${recordTime(record.time)}；${record.outcome}。`, '', ...record.facts.map(f => `- ${f}`), '', record.boundary, '']) : ['尚未进入部署段，没有二级与卫星的独立记录。', '']),
+    ...(booster ? ['## 一级独立参考记录', '', `时刻 T+${booster.latest.time.toFixed(2)} s；高度 ${(booster.latest.altitudeM/1000).toFixed(3)} km；等效质量 ${booster.massKg.toFixed(1)} kg。`, '', booster.reason, '', '原任务分离状态驱动的无推力派生轨迹；未判定真实落海、烧毁或回收成功。', ''] : []),
     '## 接下来', '', report.next, '', '需要恢复这次任务，请另用“飞行存档”保存并导出 JSON 文件。此摘要不会覆盖浏览器存档。', '',
     '## 共同边界', '', '近地点降低、简化钝化、到达 20 km 检查点、等效物体参考下降到 0 m、卫星业务结束，是不同结果。均不能单独证明完整空间处置。E02 可用预装发动机进行教学离轨；材料解体、真实落区及多年自然衰减寿命尚未实现。', ''].join('\n');
 }

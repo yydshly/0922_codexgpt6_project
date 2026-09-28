@@ -6,7 +6,7 @@ export type LaunchCommand = { type: 'reset'; config: VehicleConfig; baseTime: nu
 let session: FlightSession | undefined, demo: FullFlightDemo | undefined, last = performance.now(), lastRecord = -Infinity;
 const publish = (error = '', extra = {}, includeRecord = true) => {
   if (includeRecord) lastRecord = performance.now();
-  self.postMessage({ state: session?.clock.simulation.snapshot(), ...(includeRecord ? { ascentRecord: session?.ascentRecord.snapshot() } : {}), config: session?.config, baseTime: session?.baseTime, paused: demo ? demo.status.paused : session?.clock.paused ?? true, rate: session?.rate ?? 1, demo: demo?.status ?? DEMO_IDLE, error, ...extra });
+  self.postMessage({ state: session?.clock.simulation.snapshot(), ...(includeRecord ? { ascentRecord: session?.ascentRecord.snapshot(), boosterRecord: session?.boosterDescent?.snapshot() ?? null } : {}), config: session?.config, baseTime: session?.baseTime, paused: demo ? demo.status.paused : session?.clock.paused ?? true, rate: session?.rate ?? 1, demo: demo?.status ?? DEMO_IDLE, error, ...extra });
 };
 self.onmessage = ({ data }: MessageEvent<LaunchCommand>) => {
   try {

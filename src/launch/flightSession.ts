@@ -9,6 +9,7 @@ import { LifecycleClock, LifecycleSimulation } from './satelliteLifecycle';
 import { OperationsClock, OperationsSimulation } from './satelliteOperations';
 import { ReentryClock, ReentrySimulation } from './reentry';
 import { AscentRecord } from './ascentRecord';
+import { BoosterDescent } from './boosterDescent';
 
 export const LEGACY_FLIGHT_VERSION = 'earth-flight-1/e3-1/e4-1/e5-1/e6-1';
 export const P1_FLIGHT_VERSION = 'earth-flight-1/e3-1/e4-1/e5-1/e6-1/p1-1';
@@ -54,7 +55,8 @@ export function parseFlightSave(raw: string): FlightSave {
 export class FlightSession {
   clock: Clock;
   ascentRecord = new AscentRecord();
-  private observe = (state: FlightState) => this.ascentRecord.observe(state);
+  boosterDescent?: BoosterDescent;
+  private observe = (state: FlightState) => { this.ascentRecord.observe(state); this.boosterDescent?.advanceTo(state.time); };
   journal: FlightJournal[] = [{ action: 'reset', steps: 0 }];
   readonly config: VehicleConfig;
   constructor(config: VehicleConfig, readonly baseTime: number) { this.config = parseVehicle(config); this.clock = new LiftoffClock(new LiftoffSimulation(this.config)); }
@@ -73,7 +75,7 @@ export class FlightSession {
       this.clock = new AscentClock(new AscentSimulation(this.config, departure)); this.ascentRecord = record; this.pause(true);
     }
     else if (action === 'continue-ascent' && c instanceof LiftoffClock) this.clock = new AscentClock(new AscentSimulation(this.config, c.simulation.snapshot()));
-    else if (action === 'separate' && c instanceof AscentClock && before === 'stage-ready') { c.simulation.separate(); this.pause(false); }
+    else if (action === 'separate' && c instanceof AscentClock && before === 'stage-ready') { c.simulation.separate(); this.boosterDescent=new BoosterDescent(this.state); this.pause(false); }
     else if (action === 'continue-orbit' && c instanceof AscentClock) { this.clock = new OrbitClock(new OrbitSimulation(this.config, c.simulation.snapshot())); this.pause(true); }
     else if (action === 'cutoff' && c instanceof OrbitClock && before === 'orbit-burn') c.simulation.cutoff();
     else if (action === 'coast' && c instanceof OrbitClock && before === 'orbit-review') { c.simulation.startCoast(); this.pause(false); }
@@ -120,6 +122,7 @@ export class FlightSession {
     const before = this.clock.simulation.stepsTaken;
     if ((this.clock instanceof DeploymentClock || this.clock instanceof ReentryClock || this.clock instanceof OperationsClock || this.clock instanceof LifecycleClock || this.clock instanceof SatelliteDisposalClock)) this.clock.advance(seconds); else this.clock.advance(seconds, this.observe);
     this.journal.at(-1)!.steps += this.clock.simulation.stepsTaken - before;
+    this.boosterDescent?.advanceTo(this.state.time);
   }
   /** Used for deterministic replay and tests; same individual physical steps as the live clock. */
   advanceSteps(count: number) {

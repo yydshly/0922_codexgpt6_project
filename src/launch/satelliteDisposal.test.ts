@@ -2,7 +2,9 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { BASELINE_VEHICLE, deriveVehicle, parseVehicle, sameVehicle } from './vehicle';
 import { FullFlightDemo } from './fullFlightDemo';
 import { FlightSession, GROUND_FLIGHT_VERSION, parseFlightSave } from './flightSession';
-import { SatelliteDisposalSimulation, satelliteDisposalPlan } from './satelliteDisposal';
+import { SatelliteDisposalSimulation, SatelliteDisposalClock, satelliteDisposalPlan } from './satelliteDisposal';
+import { flightTelemetry, FLIGHT_RUNNING_PHASES } from './flightTelemetry';
+import { completedDemoResult } from './demoComparison';
 import type { FlightState } from './liftoff';
 import { add, norm, scale } from './ascent';
 import { postDeploymentProgress, taskResultMarkdown } from './postDeploymentProgress';
@@ -73,4 +75,47 @@ describe('Satellite disposal choices and powered route',()=>{
   expect(session.state.reentry).toBeUndefined();
   expect(postDeploymentProgress(session.state).steps.slice(1,3).map(p=>p.status)).toEqual(['unvisited','unvisited']);
  },30000);
+ it('reports the active satellite engine and heating instead of frozen carrier readings',()=>{
+  const restored=FlightSession.restore(burnSave),s=restored.state,r=flightTelemetry(s,restored.config);
+  expect(r.flowKgS).toBeCloseTo(200/(9.80665*220),9);expect(r.object).toContain('E02');
+  expect(r.boosterFuelKg).toBe(0);expect(r.upperFuelKg).toBe(0);expect(r.satelliteFuelKg).toBe(s.satelliteEquipment!.fuelKg);
+  expect(FLIGHT_RUNNING_PHASES).toContain('disposal-burn');expect(r.thermalModel).toBe(true);
+  s.satelliteDisposal!.heatFluxWm2=12345;s.satelliteDisposal!.temperatureK=234;s.satelliteDisposal!.mach=12;
+  expect(flightTelemetry(s,restored.config).heatFluxWm2).toBe(12345);expect(flightTelemetry(s,restored.config).ambientTemperatureK).toBe(234);
+  expect(flightTelemetry(s,restored.config).surfaceTemperatureK).toBeNull();
+  delete s.satelliteDisposal;s.thrustN=0;
+  expect(flightTelemetry(s,restored.config).heatFluxWm2).toBeNull();expect(flightTelemetry(s,restored.config).thermalModel).toBe(false);
+  expect(completedDemoResult(handoff,BASE)).toBeNull();expect(demo.status.results.powered?.burnedKg).toBeGreaterThan(1);
+ });
+ it('converges through the entire disposal route including the atmosphere and reference surface',()=>{
+  const run=(step:number,rate?:number,frame=1/60)=>{
+   const sim=new SatelliteDisposalSimulation(handoff,BASE,step),clock=new SatelliteDisposalClock(sim);
+   if(rate){clock.setRate(rate);clock.pause(false);}
+   for(const action of ['command','align','ignite','passivate','coast','enter','lower'] as const){
+    sim[action]();let loops=0;while(sim.running){if(++loops>3000000)throw Error('clock stalled');if(rate)clock.advance(frame);else sim.step();}
+    expect(sim.state.phase).not.toBe('disposal-failed');
+   }
+   return sim.state;
+  };
+  const coarse=run(.25),fine=run(.125),finest=run(.0625);
+  const distance=(a:FlightState,b:FlightState)=>norm(add(a.deployment!.satellite.position,scale(b.deployment!.satellite.position,-1)));
+  expect(distance(coarse,fine)).toBeLessThan(2);expect(distance(fine,finest)).toBeLessThan(distance(coarse,fine));
+  for(const s of [coarse,fine,finest]){
+   expect(s.phase).toBe('disposal-complete');expect(Math.abs(s.heightM)).toBeLessThan(1e-5);
+   expect(Math.abs(s.time-finest.time)).toBeLessThan(.02);
+   expect(Math.abs(s.satelliteDisposal!.heatLoadJm2/finest.satelliteDisposal!.heatLoadJm2-1)).toBeLessThan(.005);
+   expect(s.deployment!.carrier).toEqual(handoff.deployment!.carrier);
+   expect(s.satelliteDisposal!.burnedKg+s.satelliteDisposal!.ventedKg+s.satelliteEquipment!.fuelKg).toBeCloseTo(40,7);
+  }
+  for(const [rate,frame] of [[1,1/60],[10,1/30],[100,1/60]] as const)expect(run(.25,rate,frame)).toEqual(coarse);
+ },60000);
+ it('stops an active burn when electricity runs out, preserves evidence and prevents later commands',()=>{
+  const sim=new SatelliteDisposalSimulation(handoff,BASE);sim.command();while(sim.running)sim.step();sim.align();while(sim.running)sim.step();sim.ignite();
+  sim.step();const before=sim.snapshot();sim.state.operations!.energyJ=0;sim.step();
+  expect(sim.state.phase).toBe('disposal-failed');expect(sim.state.satelliteDisposal!.outcome).toBe('stopped');
+  expect(sim.state.time).toBeGreaterThan(before.time);expect(sim.state.satelliteDisposal!.burnedKg).toBeGreaterThan(before.satelliteDisposal!.burnedKg);
+  expect(sim.state.thrustN).toBe(0);expect(sim.state.satelliteDisposal!.groundAt).toBeNull();
+  expect(completedDemoResult(sim.state,BASE)).toBeNull();expect(()=>sim.passivate()).toThrow();expect(()=>sim.coast()).toThrow();
+  const frozen=sim.snapshot();sim.step();expect(sim.state).toEqual(frozen);
+ });
 });

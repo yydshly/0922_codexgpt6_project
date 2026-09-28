@@ -1,4 +1,5 @@
 import disposalNotesUrl from '../../docs/SATELLITE-DISPOSAL-CHOICES.md?url';
+import demoCloseoutUrl from '../../docs/FLIGHT-DEMO-CLOSEOUT.md?url';
 import demoNotesUrl from '../../docs/FLIGHT-ENDINGS-AND-DEMO.md?url';
 import launchArchiveUrl from '../../docs/EARTH-LAUNCH-ARCHIVE.md?url';
 import controlBacklogUrl from '../../docs/SPACECRAFT-CONTROL-BACKLOG.md?url';
@@ -166,6 +167,7 @@ export function ProductProgress({ onClose }: { onClose: () => void }) {
     <section className="product-progress-dialog" role="dialog" aria-modal="true" aria-labelledby="product-progress-title">
       <header className="product-progress-header"><div><span className="eyebrow">BUILD LOG / ORBIT</span><h2 id="product-progress-title">建设记录</h2><p>记录已实现的能力、当前优化和下一步验收依据。</p></div><button ref={closeButton} className="product-progress-close" onClick={onClose} aria-label="关闭建设记录"><X size={18}/></button></header>
       <div className="product-progress-content">
+        <section className="product-progress-intro" data-demo-closeout><strong>演示收尾 · 参数统一、章节回看、方案对比</strong><p>地球出发的自动演示中，已到达章节可回看；E01 / E02 先比较配置，再比较各自实际跑完的结果。补齐离轨到地表参考面的步长、倍率与中途失败检查。本批提交远端，待体验验收。后续能力按独立阶段推进。</p><a href={demoCloseoutUrl} download="全程演示三项收尾与验收.md">查看三项范围、验证与验收</a></section>
         <section className="product-progress-intro" data-satellite-disposal><strong>新增 · 发射前选择 E01 / E02 末期方案</strong><p>E01 保留无推进在轨退役；E02 预装 35 kg 设备和 40 kg 推进剂，完成卫星工作后按指令窗口、反向点火、储能处理、再入参考下降运行。提供自身燃料、电量、轨道、空气与热流曲线，兼容保存恢复；不宣称完全销毁。自由驾驶与材料解体仍后置。本批待体验验收。</p><a href={disposalNotesUrl} download="卫星任务末期方案与动力离轨.md">查看入口、参数与边界</a></section>
         <section className="product-progress-intro" data-flight-demo><strong>新增 · 一键全程演示与两条路线结尾</strong><p>地球出发顶部「▶ 从头到尾演示」自动执行七章，支持暂停和退出返回原任务。二级可从 20 km 检查点继续至 0 m 等效物体参考点；E01 结束业务与储能处理后仍在轨。材料解体与真实落区未实现；卫星动力离轨见本批 E02 补充。本批独立交付，待体验验收；旧归档标签保持不变。</p><a href={demoNotesUrl} download="全程自动演示与路线结尾.md">查看操作、来源与验证记录</a></section>
         <section className="product-progress-intro" data-launch-archive><strong>地球出发教学版 · 已阶段归档</strong><p>2026.09.28-earth-launch-r1：E1–E6 与 P1–P5 的已有教学范围、任务结果、存档体验和火箭外形统一归档。二级再入止于 20 km；无推进 E01 退役后仍在轨。归档不新增逐项体验验收通过记录。</p><p>航天器操控只记录为后期选项，未排期、未实现。本版停止自动扩展，后续问题另行登记。</p><div className="product-progress-links"><a href={launchArchiveUrl} download="地球出发教学版阶段归档.md">下载阶段归档与验证记录</a><a href={controlBacklogUrl} download="航天器操控后期实现记录.md">下载航天器操控后续记录</a></div></section>

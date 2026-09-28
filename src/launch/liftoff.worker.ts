@@ -2,7 +2,7 @@ import type { SatellitePlan } from './satellitePlan';
 import type { VehicleConfig } from './vehicle';
 import { FlightSession, type FlightAction } from './flightSession';
 import { DEMO_IDLE, FullFlightDemo } from './fullFlightDemo';
-export type LaunchCommand = { type: 'reset'; config: VehicleConfig; baseTime: number } | { type: Exclude<FlightAction, 'reset'> | 'save' | 'demo-exit' } | { type: 'demo-start'; plan?: SatellitePlan } | { type: 'demo-speed'; value: 1 | 3 } | { type: 'restore'; raw: string } | { type: 'pause'; value: boolean } | { type: 'rate'; value: number };
+export type LaunchCommand = { type: 'reset'; config: VehicleConfig; baseTime: number } | { type: Exclude<FlightAction, 'reset'> | 'save' | 'demo-exit' } | { type: 'demo-start'; plan?: SatellitePlan } | { type: 'demo-revisit'; chapter: number } | { type: 'demo-plan'; plan: SatellitePlan } | { type: 'demo-speed'; value: 1 | 3 } | { type: 'restore'; raw: string } | { type: 'pause'; value: boolean } | { type: 'rate'; value: number };
 let session: FlightSession | undefined, demo: FullFlightDemo | undefined, last = performance.now(), lastRecord = -Infinity;
 const publish = (error = '', extra = {}, includeRecord = true) => {
   if (includeRecord) lastRecord = performance.now();
@@ -16,6 +16,10 @@ self.onmessage = ({ data }: MessageEvent<LaunchCommand>) => {
       demo = new FullFlightDemo(session, data.plan); session = demo.session;
     } else if (data.type === 'demo-exit') {
       if (demo) { session = demo.stop(); demo = undefined; }
+    } else if (data.type === 'demo-revisit' || data.type === 'demo-plan') {
+      if (!demo) throw Error('请先进入全程演示。');
+      if (data.type === 'demo-revisit') demo.revisit(data.chapter); else demo.restartPlan(data.plan);
+      session = demo.session;
     } else if (data.type === 'demo-speed') {
       if (!demo || ![1,3].includes(data.value)) throw Error('演示倍率无效。'); demo.setSpeed(data.value);
     } else if (data.type === 'pause') {

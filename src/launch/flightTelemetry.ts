@@ -1,4 +1,6 @@
 import { satelliteName } from './satellitePlan';
+import { DISPOSAL_RUNNING } from './satelliteDisposal';
+import { STANDARD_GRAVITY } from './vehicle';
 import { LIFE_RUNNING } from './satelliteLifecycle';
 import { OPS_RUNNING } from './satelliteOperations';
 import { REENTRY, REENTRY_RUNNING } from './reentry';
@@ -8,7 +10,7 @@ import { compileVehicle, type VehicleConfig } from './vehicle';
 import { flightEnvironmentReading } from './flightPhenomena';
 
 export const COUNTDOWN_SOURCE = 'https://www.nasa.gov/missions/artemis/orion/artemis-i-launch-countdown-101/';
-export const FLIGHT_RUNNING_PHASES = ['countdown', 'ignition', 'ascending', 'ascent', 'separating', 'upper-burn', 'orbit-burn', 'orbit-coast', 'deploying', 'deployed-coast', 'avoidance-align', 'avoidance-burn', 'avoidance-coast', ...DEORBIT_RUNNING, ...REENTRY_RUNNING, ...OPS_RUNNING, ...LIFE_RUNNING];
+export const FLIGHT_RUNNING_PHASES = ['countdown', 'ignition', 'ascending', 'ascent', 'separating', 'upper-burn', 'orbit-burn', 'orbit-coast', 'deploying', 'deployed-coast', 'avoidance-align', 'avoidance-burn', 'avoidance-coast', ...DEORBIT_RUNNING, ...REENTRY_RUNNING, ...OPS_RUNNING, ...LIFE_RUNNING, ...DISPOSAL_RUNNING];
 
 /** Display-only interpretation of the existing launch clock; no new commands or event timestamps. */
 export function ignitionReading(s: FlightState) {
@@ -24,8 +26,9 @@ export function ignitionReading(s: FlightState) {
 export function flightTelemetry(s: FlightState, config: VehicleConfig) {
   const env = flightEnvironmentReading(s), vehicle = compileVehicle(config), a = s.ascent, stage = a?.stage ?? 0;
   const held = !s.released && !a;
+  const thermal = s.satelliteDisposal ?? (!s.operations ? s.reentry : undefined), equipment = s.satelliteEquipment;
   return {
-    ...env, stage, object: s.operations ? `${satelliteName(s)} 卫星 · ${s.satelliteDisposal ? '任务末期离轨' : '工作任务'}` : s.deployment?.released ? '运载二级 · 卫星已独立' : stage === 1 ? '二级与连接中的载荷' : '整箭 · 一级工作段',
+    ...env, stage, object: s.operations ? `${satelliteName(s)} 卫星 · ${s.satelliteDisposal ? '任务末期离轨' : s.lifecycle ? '维护与退役' : '工作任务'}` : s.deployment?.released ? '运载二级 · 卫星已独立' : stage === 1 ? '二级与连接中的载荷' : '整箭 · 一级工作段',
     verticalMS: s.speedMS, horizontalMS: a?.horizontalMS ?? 0,
     inertialMS: a ? Math.hypot(...a.velocity) : null,
     upwardAccelerationMS2: s.accelerationMS2, gravityMS2: s.weightN / s.massKg,
@@ -34,10 +37,11 @@ export function flightTelemetry(s: FlightState, config: VehicleConfig) {
     supportN: held ? s.weightN + s.dragN - s.thrustN : 0, held,
     densityFraction: env.density / LIFTOFF.densityKgM3,
     massKg: s.massKg, throttle: s.throttle,
-    flowKgS: env.powered ? vehicle.stages[stage].massFlowKgS * s.throttle : 0,
+    flowKgS: !env.powered ? 0 : s.satelliteDisposal && equipment ? s.thrustN / (STANDARD_GRAVITY * equipment.ispS) : s.operations ? 0 : vehicle.stages[stage].massFlowKgS * s.throttle,
+    satelliteFuelKg: equipment?.fuelKg ?? null, thermalModel: !!thermal,
     boosterFuelKg: s.operations ? 0 : a?.boosterFuelKg ?? s.fuelKg, upperFuelKg: s.operations ? 0 : a?.upperFuelKg ?? vehicle.stages[1].fuelKg,
     pitchDeg: a?.pitchDeg ?? 90, cd: s.operations ? 1 : s.reentry ? REENTRY.cd : LIFTOFF.cd, areaM2: s.operations ? 4.4 : s.reentry ? REENTRY.areaM2 : LIFTOFF.areaM2,
-    ambientTemperatureK: s.operations ? null : s.reentry?.temperatureK ?? null, surfaceTemperatureK: null, heatFluxWm2: s.operations ? null : s.reentry?.heatFluxWm2 ?? null, mach: s.operations ? null : s.reentry?.mach ?? null,
+    ambientTemperatureK: thermal?.temperatureK ?? null, surfaceTemperatureK: null, heatFluxWm2: thermal?.heatFluxWm2 ?? null, mach: thermal?.mach ?? null,
   };
 }
 

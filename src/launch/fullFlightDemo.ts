@@ -2,9 +2,10 @@ import { satellitePlan, type SatellitePlan } from './satellitePlan';
 import { FlightSession, type FlightAction } from './flightSession';
 import { BASELINE_VEHICLE } from './vehicle';
 import type { FlightState } from './liftoff';
+import { completedDemoResult, type DemoResult } from './demoComparison';
 
-export interface DemoStatus { active: boolean; paused: boolean; finished: boolean; error: string; chapter: number; speed: 1 | 3; holdS: number; plan: SatellitePlan }
-export const DEMO_IDLE: DemoStatus = { active: false, paused: true, finished: false, error: '', chapter: 0, speed: 1, holdS: 0, plan: 'unpowered' };
+export interface DemoStatus { active: boolean; paused: boolean; finished: boolean; error: string; chapter: number; speed: 1 | 3; holdS: number; plan: SatellitePlan; visited: number[]; results: Partial<Record<SatellitePlan, DemoResult>> }
+export const DEMO_IDLE: DemoStatus = { active: false, paused: true, finished: false, error: '', chapter: 0, speed: 1, holdS: 0, plan: 'unpowered', visited: [], results: {} };
 export const DEMO_CHAPTERS = [
   { title: '准备与点火', description: '使用基准两级火箭与 500 kg 无推进卫星。自动检查起飞条件，观察倒计时、建压和离台。' },
   { title: '上升与分级', description: '辅助转弯、耗油、阻力与分级来自同一计算；一级燃尽后自动分离并启动二级。' },
@@ -29,19 +30,37 @@ const transitions: Partial<Record<FlightState['phase'], Exclude<FlightAction, 'r
 /** Runs real, journalled commands in a separate session. No fabricated checkpoints or state injection. */
 export class FullFlightDemo {
   readonly original: FlightSession;
-  readonly session: FlightSession;
-  status: DemoStatus = { ...DEMO_IDLE, active: true, paused: false };
+  session: FlightSession;
+  status: DemoStatus = { ...DEMO_IDLE, active: true, paused: false, visited: [], results: {} };
+  private checkpoints = new Map<number, string>();
   private lastPhase = '';
-  constructor(original: FlightSession, plan: SatellitePlan = satellitePlan(original.config)) { this.original = original; original.pause(true); this.status.plan=plan; this.session = new FlightSession({...BASELINE_VEHICLE, ...(plan === 'powered' ? {satellitePlan: plan} : {})}, original.baseTime); }
+  constructor(original: FlightSession, plan: SatellitePlan = satellitePlan(original.config)) { this.original = original; original.pause(true); this.status.plan=plan; this.session = new FlightSession({...BASELINE_VEHICLE, ...(plan === 'powered' ? {satellitePlan: plan} : {})}, original.baseTime); this.rememberChapter(); }
+  private rememberChapter() {
+    const chapter = demoChapter(this.session.state); this.status.chapter = chapter;
+    if (!this.checkpoints.has(chapter)) { this.checkpoints.set(chapter, JSON.stringify(this.session.save())); this.status.visited = [...this.checkpoints.keys()].sort((a,b)=>a-b); }
+  }
+  revisit(chapter: number) {
+    if (!Number.isInteger(chapter) || !this.checkpoints.has(chapter)) throw Error('只能回看本方案已经实际运行过的章节。');
+    const restored = FlightSession.restore(this.checkpoints.get(chapter)!);
+    this.session = restored; this.lastPhase = '';
+    Object.assign(this.status, { chapter, paused: true, finished: false, error: '', holdS: 0 });
+  }
+  restartPlan(plan: SatellitePlan) {
+    if (!['powered','unpowered'].includes(plan)) throw Error('演示方案无效。');
+    this.session = new FlightSession({...BASELINE_VEHICLE, ...(plan === 'powered' ? { satellitePlan: plan } : {})}, this.original.baseTime);
+    this.checkpoints.clear(); this.lastPhase = '';
+    Object.assign(this.status, { plan, chapter: 0, paused: true, finished: false, error: '', holdS: 0, visited: [] });
+    this.rememberChapter();
+  }
   pause(v: boolean) { this.status.paused = v || this.status.finished || !!this.status.error; this.session.pause(this.status.paused); }
   setSpeed(v: 1 | 3) { this.status.speed = v; }
   stop() { this.pause(true); this.original.pause(true); return this.original; }
   advance(seconds: number) {
     if (this.status.paused || this.status.finished || this.status.error || !Number.isFinite(seconds) || seconds <= 0) return;
     const s = this.session.state, phase = s.phase;
-    this.status.chapter = demoChapter(s);
+    this.rememberChapter();
     if (phase === 'aborted' || phase.endsWith('-failed')) { this.status.error = s.message; this.pause(true); return; }
-    if (phase === 'life-observed' || phase === 'disposal-complete') { this.status.finished = true; this.pause(true); return; }
+    if (phase === 'life-observed' || phase === 'disposal-complete') { const result = completedDemoResult(s, this.session.baseTime); if (result) this.status.results[result.plan] = result; this.status.finished = true; this.pause(true); return; }
     if (phase !== this.lastPhase) { this.lastPhase = phase; this.status.holdS = 0; }
     try {
       if (!this.session.running) {
@@ -50,7 +69,7 @@ export class FullFlightDemo {
         const disposalActions = {'disposal-review':'command-disposal','disposal-commanded':'align-disposal','disposal-armed':'ignite-disposal','disposal-cutoff':'passivate-disposal','disposal-coast-ready':'coast-disposal','disposal-interface':'enter-disposal','disposal-boundary':'lower-disposal'} as const;
         const action = s.satelliteEquipment && phase === 'ops-complete' ? 'prepare-disposal' : disposalActions[phase as keyof typeof disposalActions] ?? transitions[phase];
         if (!action) throw Error(`演示停在未安排的检查点：${phase}`);
-        this.session.action(action); this.session.pause(false); this.lastPhase = ''; return;
+        this.session.action(action); this.rememberChapter(); this.session.pause(false); this.lastPhase = ''; return;
       }
       const rate = ['disposal-align','disposal-burn'].includes(phase) ? 10 : !s.ascent ? 1 : !s.orbit || phase === 'orbit-burn' ? 10 : ['avoidance-align','avoidance-burn','deorbit-align','deorbit-burn','ops-align'].includes(phase) ? 1 : 100;
       if (this.session.rate !== rate) this.session.setRate(rate);

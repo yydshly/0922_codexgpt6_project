@@ -8,11 +8,13 @@ import type { FlightState } from './liftoff';
 
 let demo: FullFlightDemo, deorbit: FlightState, ground: FlightState, oldBoundary: string;
 const chapters = new Set<number>();
+const chapterStates = new Map<number, string>();
 beforeAll(() => {
   demo = new FullFlightDemo(new FlightSession(BASELINE_VEHICLE, 843800000)); demo.setSpeed(3);
   for (let ticks = 0; !demo.status.finished && !demo.status.error; ticks++) {
     if (ticks > 15000) throw Error(`Demo stalled ${demo.session.state.phase}`);
     demo.advance(.25); chapters.add(demo.status.chapter);
+    if (!chapterStates.has(demo.status.chapter)) chapterStates.set(demo.status.chapter, flightChecksum(demo.session.state));
     if (demo.session.state.phase === 'deorbit-complete' && !deorbit) deorbit = structuredClone(demo.session.state);
     if (demo.session.state.phase === 'reentry-complete' && !oldBoundary) { const save = demo.session.save(); save.version = P5_FLIGHT_VERSION; oldBoundary = JSON.stringify(save); }
     if (demo.session.state.phase === 'reentry-surface' && !ground) ground = structuredClone(demo.session.state);
@@ -62,4 +64,20 @@ describe('Full flight demonstration and honest route endings', () => {
     const restored = FlightSession.restore(JSON.stringify(demo.session.save()));
     expect(restored.state).toEqual(demo.session.state); expect(restored.clock.paused).toBe(true);
   }, 30000);
+  it('revisits computed chapters paused, retains results across plans, and protects the original task', () => {
+    const original = demo.original, checksum = flightChecksum(original.state), result = structuredClone(demo.status.results.unpowered);
+    expect(result?.deliveredMB).toBe(240); expect(result?.satelliteAltitudeM).toBeGreaterThan(80000);
+    expect(demo.status.visited).toEqual([0,1,2,3,4,5,6]);
+    for (const chapter of [6,4,1,0,5]) {
+      demo.revisit(chapter); expect(flightChecksum(demo.session.state)).toBe(chapterStates.get(chapter));
+      expect(demo.status.chapter).toBe(chapter); expect(demo.status.paused).toBe(true); expect(demo.status.finished).toBe(false);
+      const before = flightChecksum(demo.session.state); demo.advance(1); expect(flightChecksum(demo.session.state)).toBe(before);
+    }
+    demo.pause(false); for (let i=0;i<20;i++) demo.advance(.25);
+    expect(demo.status.error).toBe(''); expect(demo.session.state.phase).not.toBe('ops-ready');
+    demo.restartPlan('powered'); expect(demo.session.config.satellitePlan).toBe('powered'); expect(demo.status.visited).toEqual([0]);
+    expect(demo.status.results.unpowered).toEqual(result); expect(demo.status.results.powered).toBeUndefined();
+    expect(()=>demo.revisit(6)).toThrow('实际运行'); expect(()=>demo.revisit(NaN)).toThrow();
+    expect(demo.session.baseTime).toBe(original.baseTime); expect(demo.stop()).toBe(original); expect(flightChecksum(original.state)).toBe(checksum);
+  },30000);
 });

@@ -1,3 +1,4 @@
+import demoCloseoutUrl from '../../docs/FLIGHT-DEMO-CLOSEOUT.md?url';
 import disposalNotesUrl from '../../docs/SATELLITE-DISPOSAL-CHOICES.md?url';
 import demoNotesUrl from '../../docs/FLIGHT-ENDINGS-AND-DEMO.md?url';
 import archiveUrl from '../../docs/EARTH-LAUNCH-ARCHIVE.md?url';
@@ -13,6 +14,7 @@ export function PostDeploymentPlan() {
     <p>已实现释放、独立运动与存档；已接入分离分析、一次侧向机动、二级离轨与简化钝化。部署检查通过后从分离分析依次继续；P3 已接续下降、减速与驻点热流估算；本批新增 20 km 检查点之后的 0 m 等效物体参考下降，不判定材料存活或真实落区；P4 已接入卫星定向、充放电、日夜观测与窗口下传。P5 已接入能源维护与任务结束，保留退役在轨对象；E02 新增发射前预装设备与动力离轨教学；长期寿命、材料解体和真实落区仍未实现。</p>
     <p><strong>本批新增 · 从头到尾演示：</strong>地球出发顶部一键运行七章；可暂停、退出返回原任务。二级参考下降与卫星退役各自给出结果。原归档标签保留，本批独立交付，待体验验收。</p><a className="post-plan-download" href={demoNotesUrl} download="全程自动演示与路线结尾.md">查看演示入口、结尾和模型边界 ↗</a>
     <p><strong>新增 · 先选任务末期方案：</strong>顶部选择 E01 或 E02 再运行全程演示；组装页也可预装 E02 离轨组件。E01 退役后仍在轨；E02 用自己的推进剂降低轨道，再观察等效物体再入。硬件从发射时计入质量，不给已发射卫星补装设备。</p><a className="post-plan-download" href={disposalNotesUrl} download="卫星任务末期方案与动力离轨.md">查看两种方案、参数、来源与验收方法 ↗</a>
+    <p><strong>演示完善 · 回看与对比：</strong>自动演示内可回看已到达章节，对比两种方案及各自实际跑完的结果；参数区分卫星当前状态与二级历史记录。三项收尾后进入体验验收，不自动追加其他模块。</p><a className="post-plan-download" href={demoCloseoutUrl}>查看本次收尾与验收步骤 ↗</a>
     <details>
       <summary>查看已归档范围、前提与边界</summary>
       <div className="post-plan-routes" aria-label="部署后的两条路线">

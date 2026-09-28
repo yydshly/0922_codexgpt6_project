@@ -9,17 +9,19 @@ export function OrbitControl({ state: s, rate, paused, ready, error, onRate, onP
   const progress = Math.min(100, o.coastAngleRad / (2 * Math.PI) * 100), disabled = !ready || !!error;
   return <div className="launch-control orbit-control">
     <span className="launch-kicker">05 / 入轨、关机与验证</span><h2>让速度托住旅程。</h2>
-    <p>先加速并调整方向，再关机。让真实计算的轨迹绕地一圈，检验它是否留在目标轨道。</p>
-    <ol className="orbit-procedure" aria-label="入轨三步"><li aria-current={s.phase === 'orbit-burn' ? 'step' : undefined}>1　加速 · 让预测轨道进入目标</li><li aria-current={s.phase === 'orbit-review' ? 'step' : undefined}>2　关机 · 检查后开始滑行</li><li aria-current={['orbit-coast', 'orbit-complete', 'orbit-failed'].includes(s.phase) ? 'step' : undefined}>3　绕地一圈 · 核验结果</li></ol>
-    <div className="launch-flight-state"><small role="status">{paused && running ? '已暂停 · ' : ''}{flightPhaseName(s)}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
-    <div className="ascent-rate" aria-label="入轨时间倍率">{[1, 10, 100].map(value => <button key={value} aria-pressed={rate === value} disabled={disabled || value === 100 && s.phase === 'orbit-burn'} onClick={() => onRate(value)}>{value} 倍</button>)}</div><small>100 倍用于关机后滑行；计算不及时时减慢推进。</small>
-    {error && <p className="launch-flight-error" role="alert">{error}</p>}
     <div className="launch-flight-actions">
       {running && <button className="launch-ignite" onClick={onPause} disabled={disabled}>{paused ? s.phase === 'orbit-burn' ? '开始 / 继续入轨加速 →' : '继续滑行' : '暂停模拟'}</button>}
       {s.phase === 'orbit-burn' && <button onClick={onCutoff} disabled={disabled}>手动关机，查看结果</button>}
       {s.phase === 'orbit-review' && <button className="launch-ignite" onClick={onCoast} disabled={disabled}>开始无动力滑行验证 →</button>}
       {s.phase === 'orbit-complete' && <button className="launch-ignite" disabled={disabled} onClick={onContinue}>继续第 6 步：部署卫星 →</button>}<button onClick={onOverview}>查看整条预测轨道</button><button onClick={onReset}>重置并返回发射准备</button>
     </div>
+
+    <p>先加速并调整方向，再关机。让真实计算的轨迹绕地一圈，检验它是否留在目标轨道。</p>
+    <ol className="orbit-procedure" aria-label="入轨三步"><li aria-current={s.phase === 'orbit-burn' ? 'step' : undefined}>1　加速 · 让预测轨道进入目标</li><li aria-current={s.phase === 'orbit-review' ? 'step' : undefined}>2　关机 · 检查后开始滑行</li><li aria-current={['orbit-coast', 'orbit-complete', 'orbit-failed'].includes(s.phase) ? 'step' : undefined}>3　绕地一圈 · 核验结果</li></ol>
+    <div className="launch-flight-state"><small role="status">{paused && running ? '已暂停 · ' : ''}{flightPhaseName(s)}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
+    <div className="ascent-rate" aria-label="入轨时间倍率">{[1, 10, 100].map(value => <button key={value} aria-pressed={rate === value} disabled={disabled || value === 100 && s.phase === 'orbit-burn'} onClick={() => onRate(value)}>{value} 倍</button>)}</div><small>100 倍用于关机后滑行；计算不及时时减慢推进。</small>
+    {error && <p className="launch-flight-error" role="alert">{error}</p>}
+
     <section className={`orbit-verdict ${valid && s.phase !== 'orbit-failed' ? 'orbit-in-target' : ''}`}><strong>{s.phase === 'orbit-complete' ? '入轨验证通过' : s.phase === 'orbit-failed' ? '入轨验证未通过' : valid ? '预测轨道达标 · 仍需滑行验证' : '尚未满足任务轨道'}</strong>
       <p>{!e.bound ? '当前为开放轨迹，无法形成闭合绕地轨道。' : e.periapsisM < 0 ? '预测近地点在地球内部：若现在关机，会返回稠密大气，不能绕地持续飞行。' : '目标：近地点与远地点均在 380–420 km，倾角 28.5° ±1°。'} {s.phase === 'orbit-complete' ? '卫星仍连接二级，第 6 步再部署。' : ''}</p>
       {o.cutoff && <><label htmlFor="coast-progress">关机后实际绕行 {progress.toFixed(1)}%</label><progress id="coast-progress" value={progress} max={100}/><small>已滑行 {(o.coastElapsedS / 60).toFixed(1)} 分钟；需要完整一圈并全程达标。</small></>}

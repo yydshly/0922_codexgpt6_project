@@ -5,17 +5,19 @@ interface Props { state: FlightState; rate: number; paused: boolean; ready: bool
 export function AscentControl({ state: s, rate, paused, ready, error, onRate, onPause, onSeparate, onReset, onContinue }: Props) {
   const a = s.ascent!, running = ['ascent', 'separating', 'upper-burn'].includes(s.phase);
   return <div className="launch-control ascent-control">
-    <span className="launch-kicker">04 / 上升、分级与太空过渡</span><h2>告别地面，接力加速。</h2><p>{s.events.some(event => event.label.startsWith('快速体验')) ? '已先计算完整离台结果，沿用剩余燃料和速度；点击继续开始上升。' : '从刚才的离台状态继续。'}一级燃尽后暂停，由你执行分离；二级点火后 30 秒再次冻结复查。</p>
-    <div className="launch-flight-state"><small role="status">{paused && running ? '已暂停 · ' : ''}{flightPhaseName(s)}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
-    <div className="ascent-rate" aria-label="上升时间倍率">{[1, 4, 10].map(value => <button key={value} aria-pressed={rate === value} onClick={() => onRate(value)} disabled={!ready}>{value} 倍</button>)}</div>
-    <p>倍率增加计算次数；卡顿时放慢推进。姿态由辅助程序控制，始终可以拖动镜头。</p>
-    {error && <p className="launch-flight-error" role="alert">{error}</p>}
+    <span className="launch-kicker">04 / 上升、分级与太空过渡</span><h2>告别地面，接力加速。</h2>
     <div className="launch-flight-actions">
       {running && <button onClick={onPause} disabled={!ready || !!error}>{paused ? '继续模拟' : '暂停模拟'}</button>}
       {s.phase === 'stage-ready' && <button className="launch-ignite" onClick={onSeparate} disabled={!ready || !!error}>分离一级，准备二级点火 →</button>}
       {s.phase === 'ascent-complete' && <button className="launch-ignite" onClick={onContinue} disabled={!ready || !!error}>继续第 5 步：入轨与关机 →</button>}<button onClick={onReset}>重置并返回发射准备</button>
       <small>{s.phase === 'ascent-complete' ? '本段已完成。点击上方继续第 5 步：预测轨道、关机与一圈验证。' : '达到高空不等于入轨；当前没有轨道成功判定。'} 试飞状态只保留在此窗口。</small>
     </div>
+    <p>{s.events.some(event => event.label.startsWith('快速体验')) ? '已先计算完整离台结果，沿用剩余燃料和速度；点击继续开始上升。' : '从刚才的离台状态继续。'}一级燃尽后暂停，由你执行分离；二级点火后 30 秒再次冻结复查。</p>
+    <div className="launch-flight-state"><small role="status">{paused && running ? '已暂停 · ' : ''}{flightPhaseName(s)}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
+    <div className="ascent-rate" aria-label="上升时间倍率">{[1, 4, 10].map(value => <button key={value} aria-pressed={rate === value} onClick={() => onRate(value)} disabled={!ready}>{value} 倍</button>)}</div>
+    <p>倍率增加计算次数；卡顿时放慢推进。姿态由辅助程序控制，始终可以拖动镜头。</p>
+    {error && <p className="launch-flight-error" role="alert">{error}</p>}
+
     <dl className="launch-telemetry">
       <div><dt>地球椭球面高度</dt><dd data-ascent-altitude>{(a.altitudeM / 1000).toFixed(2)} <small>km</small></dd></div>
       <div><dt>向上 / 水平对地速度</dt><dd>{s.speedMS.toFixed(0)} / {a.horizontalMS.toFixed(0)} <small>m/s</small></dd></div>

@@ -1,3 +1,4 @@
+import {EarthSurfaceReadout} from './EarthSurfaceReadout';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -415,7 +416,7 @@ export function ImmersiveObservatory({ frame: entryFrame, start, end, entry, onR
       </section>
       {info && <aside className="imm-details" id="imm-details" aria-label="视角与科学依据">
         <div><h2>看懂这个视角</h2><button aria-label="关闭视角说明" onClick={() => setInfo(false)}><X size={17}/></button></div>
-        <p>{view.boundary}</p>
+        <p>{view.boundary}</p>{view.body==='earth'&&<EarthSurfaceReadout host={host}/>}
         <dl><div><dt>当前主体</dt><dd>{bodyById[view.body].name}</dd></div><div><dt>平均半径</dt><dd>{bodyById[view.body].radiusKm.toLocaleString('zh-CN', { maximumFractionDigits: 0 })} km</dd></div><div><dt>镜头距{readoutBody.name}中心</dt><dd>{distanceKm.toLocaleString('zh-CN', { maximumFractionDigits: 0 })} km</dd></div></dl>
         <p>进入时承接全景日期，默认暂停。播放天体运动后，位置、光照与参考自转共同随时间更新；镜头环绕独立控制。返回全景带回当前日期，恢复进入前的播放状态。{familyParent ? '同景天体共享同一距离尺度。辅助放大只改变卫星外观，靠近取景会改变视大小。' : '不同天体独立取景，不能按画面大小比较直径。'}</p>
         <label><input type="checkbox" checked={fill} onChange={e => setFill(e.target.checked)}/>暗面辅助补光 <small>展示增强</small></label>

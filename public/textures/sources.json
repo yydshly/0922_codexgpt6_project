@@ -4,7 +4,7 @@
   "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
   "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
   "attribution": "Planet textures: Solar System Scope / INOVE, CC BY 4.0. Based on NASA imagery and elevation data.",
-  "changes": "Original 2K texture files, no image modifications. Lighting and atmospheric shading are applied at runtime.",
+  "changes": "Original 2K texture files plus an unmodified 8K Earth day map for optional close-up detail. Lighting and atmospheric shading are applied at runtime.",
   "caveat": "Static visualization maps, not live imagery. Source textures include adjusted colors and some reconstructed terrain; atmospheric bands, clouds and surface appearance are not time-resolved.",
   "downloadedAt": "2026-09-22T08:41:47.051528+00:00",
   "textures": [
@@ -72,6 +72,16 @@
       "file": "/textures/saturn-ring.png",
       "sourceUrl": "https://www.solarsystemscope.com/textures/download/2k_saturn_ring_alpha.png",
       "sha256": "4b0644b2f3ef259fd0bfaedd9dc52f9e7d9738f65f50363e8c4dd19f650d7334"
+    },
+    {
+      "file": "/textures/earth-day-8k.jpg",
+      "sourceUrl": "https://www.solarsystemscope.com/textures/download/8k_earth_daymap.jpg",
+      "sha256": "88ab060b6e7d241cfc590c69f528fab2b3247b738d40124cb590999a6fe44abc",
+      "width": 8192,
+      "height": 4096,
+      "bytes": 4565076,
+      "downloadedAt": "2026-09-28T15:40:32.181Z",
+      "usage": "Optional close-up surface texture. Static visualization, not real-time imagery; original file, no image modifications."
     }
   ]
 }

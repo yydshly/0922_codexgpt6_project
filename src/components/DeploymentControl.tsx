@@ -14,24 +14,30 @@ interface Props { onOperations: () => void; onReentry: () => void; onDeorbit: ()
 export function DeploymentControl({ state: s, paused, rate, ready, error, send, onFocus, onOverview, onImmersive, onSave, onReset, onAnalysis, onDeorbit, onReentry, onOperations }: Props) {
   const d = s.deployment!, running = ['deploying', 'deployed-coast', ...AVOIDANCE_RUNNING, ...DEORBIT_RUNNING, ...REENTRY_RUNNING].includes(s.phase), disabled = !ready || !!error;
   return <div className="launch-control deployment-control">
-    <span className="launch-kicker">{d.deorbit ? '部署之后 / 二级任务' : '06 / 释放卫星 · 完成部署检查'}</span><h2>{d.deorbit ? '运输结束，处理二级。' : '从搭载，到独立飞行。'}</h2>
-    <p>{s.reentry ? '二级正在完成运输后的下降观察，卫星仍独立在轨。进入下方“第三段”可看同一时刻的空气、受力与受热；右侧分析面板可收起，主画面始终支持拖动。' : '先打开保留在二级上的教学舱盖，再由弹簧释放卫星。两者从此分别计算位置与速度。轨道全景中两条线非常接近，可能重叠；近景及各自参数可看出差异。'}</p>
-    {!s.reentry && <ol className="orbit-procedure"><li aria-current={s.phase === 'deployment-ready' ? 'step' : undefined}>1　开舱 · 卫星仍连接二级</li><li aria-current={s.phase === 'deployment-open' ? 'step' : undefined}>2　释放 · 给予相反分离冲量</li><li aria-current={d.released ? 'step' : undefined}>3　观察 · 独立绕地与展开翼板</li></ol>}
+    <span className="launch-kicker">{d.avoidance || d.deorbit || s.reentry ? '07 / 二级处置' : '06 / 释放卫星 · 完成部署检查'}</span><h2>{d.avoidance || d.deorbit ? '部署完成，处理二级。' : '从搭载，到独立飞行。'}</h2>
+    <div className="launch-flight-actions">
+      {d.verified && !d.deorbit && <button className="launch-ignite" disabled={disabled || !d.avoidance && !['deployment-complete','deployed-coast','deployment-ended'].includes(s.phase)} onClick={s.phase === 'avoidance-complete' ? onDeorbit : onAnalysis}>{s.phase === 'avoidance-complete' ? '下一步：分析二级离轨 →' : d.avoidance ? '继续二级避让操作 →' : '下一步：分析分离与二级避让 →'}</button>}
+      {d.deorbit && !s.reentry && <button className="launch-ignite" disabled={disabled} onClick={s.phase === 'deorbit-complete' ? onReentry : onDeorbit}>{s.phase === 'deorbit-complete' ? '下一步：下降与再入 →' : '继续二级离轨操作 →'}</button>}
+      {s.reentry && <button className="launch-ignite" disabled={disabled} onClick={onReentry}>查看二级再入操作 →</button>}
+      {['avoidance-complete','reentry-complete','reentry-surface'].includes(s.phase) && <button disabled={disabled} onClick={onOperations}>进入卫星工作任务 →</button>}
+      {s.phase === 'deployment-ready' && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'open-fairing' })}>打开教学载荷舱 →</button>}
+      {s.phase === 'deployment-open' && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'deploy' })}>释放 {satelliteName(s)} 卫星 →</button>}
+      {running && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'pause', value: !paused })}>{paused ? '继续当前阶段' : '暂停模拟'}</button>}
+      {s.phase === 'deployment-complete' && <button disabled={disabled} onClick={() => send({ type: 'continue-deployed' })}>继续在轨观察 →</button>}
+      <details><summary>视角、参数与保存</summary><div className="flight-secondary-actions">      <button onClick={() => onFocus('pair')}>同时观察二级与卫星</button><button onClick={() => onFocus('carrier')}>跟随二级</button>
+      <button disabled={!d.released} onClick={() => onFocus('satellite')}>靠近 {satelliteName(s)} 卫星</button><button onClick={onOverview}>{s.reentry ? '查看下降路径与卫星轨道' : '查看两条预测轨道'}</button>
+      {d.released && <button onClick={onImmersive}>卫星沉浸观察</button>}<button disabled={!ready} onClick={onSave}>保存本次飞行</button></div></details>
+    </div>
+
+    <p>{s.reentry ? '二级正在完成运输后的下降观察，卫星仍独立在轨。进入下方“第三段”可看同一时刻的空气、受力与受热；右侧分析面板可收起，主画面始终支持拖动。' : d.avoidance ? '卫星已独立飞行。当前处理二级的避让、离轨与再入；完成避让后也可转入卫星工作，尚未执行的二级处置会保留为未完成。' : '先打开保留在二级上的教学舱盖，再由弹簧释放卫星。两者从此分别计算位置与速度。轨道全景中两条线非常接近，可能重叠；近景及各自参数可看出差异。'}</p>
+    {!s.reentry && !d.avoidance && <ol className="orbit-procedure"><li aria-current={s.phase === 'deployment-ready' ? 'step' : undefined}>1　开舱 · 卫星仍连接二级</li><li aria-current={s.phase === 'deployment-open' ? 'step' : undefined}>2　释放 · 给予相反分离冲量</li><li aria-current={d.released ? 'step' : undefined}>3　观察 · 独立绕地与展开翼板</li></ol>}
     <div className="launch-flight-state"><small role="status">{running && paused ? '已暂停 · ' : ''}{flightPhaseName(s)}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
     {d.verified && !d.deorbit && <section className="avoidance-entry"><strong>部署之后：先看两者怎样分开</strong><p>比较保持滑行与侧向机动的距离曲线，再逐步转向、点火、观察结果。这里尚未安排离轨。</p><button disabled={disabled || !d.avoidance && !['deployment-complete', 'deployed-coast', 'deployment-ended'].includes(s.phase)} onClick={onAnalysis}>{d.avoidance ? "打开分离分析与操作 →" : "分析分离与二级避让 →"}</button></section>}
     {!s.reentry && (s.phase === 'avoidance-complete' || d.deorbit) && <section className="avoidance-entry"><strong>第二段：二级离轨与钝化</strong><p>先检查轨道与预算，再反向点火降低近地点；最后处理剩余能量。二级仍保留在场景内，尚未模拟再入。</p><button disabled={disabled} onClick={onDeorbit}>{d.deorbit ? '打开离轨与钝化 →' : '分析二级离轨方案 →'}</button></section>}
     {(s.phase === 'deorbit-complete' || s.reentry) && <section className="avoidance-entry"><strong>第三段：下降与再入受热</strong><p>接续二级状态，先滑行至 120 km，再观察密度、阻力、减速与受热曲线；20 km 后可继续等效物体参考下降至地表；仍不判定真实烧毁或安全着陆。</p><button disabled={disabled} onClick={onReentry}>{s.reentry ? '打开再入与受热分析 →' : '下一段：下降与再入受热 →'}</button></section>}
     {['avoidance-complete', 'reentry-complete', 'reentry-surface'].includes(s.phase) && <section className="avoidance-entry"><strong>第四段：卫星开始工作</strong><p>定向发电 → 日夜观测 → 地面站下传。可以从 P1 直接转入卫星线，也可先完成二级任务。</p><button disabled={disabled} onClick={onOperations}>进入卫星工作任务 →</button></section>}
     {error && <p role="alert" className="launch-flight-error">{error}</p>}
-    <div className="launch-flight-actions">
-      {s.phase === 'deployment-ready' && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'open-fairing' })}>打开教学载荷舱 →</button>}
-      {s.phase === 'deployment-open' && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'deploy' })}>释放 {satelliteName(s)} 卫星 →</button>}
-      {running && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'pause', value: !paused })}>{paused ? '继续当前阶段' : '暂停模拟'}</button>}
-      {s.phase === 'deployment-complete' && <button disabled={disabled} onClick={() => send({ type: 'continue-deployed' })}>继续在轨观察 →</button>}
-      <button onClick={() => onFocus('pair')}>同时观察二级与卫星</button><button onClick={() => onFocus('carrier')}>跟随二级</button>
-      <button disabled={!d.released} onClick={() => onFocus('satellite')}>靠近 {satelliteName(s)} 卫星</button><button onClick={onOverview}>{s.reentry ? '查看下降路径与卫星轨道' : '查看两条预测轨道'}</button>
-      {d.released && <button onClick={onImmersive}>卫星沉浸观察</button>}<button disabled={!ready} onClick={onSave}>保存本次飞行</button>
-    </div>
+
     <div className="ascent-rate" aria-label="部署观察倍率">{[1, 10, 100].map(value => <button key={value} disabled={disabled || value > 1 && ['avoidance-align', 'avoidance-burn', 'deorbit-align', 'deorbit-burn'].includes(s.phase)} aria-pressed={rate === value} onClick={() => send({ type: 'rate', value })}>{value} 倍</button>)}</div>
     <section className="deployment-status-note" aria-label="二级与卫星当前状态">
       <h3>{s.phase.endsWith('-failed') ? '本段已停止，请先检查轨道状态' : d.released ? '卫星已释放 · 两个对象分别计算运动' : '卫星仍连接二级 · 一起绕地飞行'}</h3>

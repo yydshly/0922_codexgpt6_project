@@ -4,6 +4,7 @@ import { bodyById } from '../data/catalog';
 import { publicAsset } from '../data/publicAsset';
 import { ringSystemBounds } from '../data/rings';
 import { makeSaturnRingGeometry } from './saturnRingGeometry';
+import { attachEarthSurfaceDetail } from './earthSurfaceDetail';
 
 const vs = `
   varying vec2 vUv;
@@ -112,6 +113,7 @@ export function makePlanetMaterial(body: BodyDefinition, loader: THREE.TextureLo
     texture.colorSpace=THREE.SRGBColorSpace;
     material.uniforms.nightMap.value.dispose();material.uniforms.nightMap.value=texture;
   });
+  if(body.id==='earth')attachEarthSurfaceDetail(material);
   return material;
 }
 

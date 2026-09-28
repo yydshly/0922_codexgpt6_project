@@ -15,10 +15,7 @@ export function LifecycleControl({state:s,paused,ready,error,rate,send,onOpen,on
   const l=s.lifecycle!,o=s.operations!,running=LIFE_RUNNING.includes(s.phase),disabled=!ready||!!error;
   const step = s.phase === 'life-failed' ? null : ['life-ready', 'life-care'].includes(s.phase) ? 0 : ['life-review', 'life-working', 'life-disposal'].includes(s.phase) ? 1 : ['life-contact', 'life-commanded', 'life-closing'].includes(s.phase) ? 2 : 3;
   return <div className="launch-control operations-control lifecycle-control">
-    <span className="launch-kicker">P5 / 维护与任务结束 · 无推进分支</span><h2>维护，或结束任务。</h2>
-    <FlightStageGuide steps={['低负载维护 · 检查一圈', '保留工作 / 核对结束条件', '接收指令 · 电能收尾', '观察退役后的在轨运动']} current={step} complete={s.phase === 'life-observed'}><p>退役是正式结束观测、数据下传等业务，不是暂时休息。先检查能源，再选择保留工作或结束任务。E01 完成电能收尾后仍会绕地球飞行，没有推进器就不能主动离轨。</p></FlightStageGuide>
-    <div className="launch-flight-state"><small role="status">{paused&&running?'已暂停 · ':''}{LIFE_LABELS[s.phase as LifecyclePhase]}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
-    {error&&<p role="alert">{error}</p>}
+    <span className="launch-kicker">09 / 维护与任务结束 · 无推进分支</span><h2>维护，或结束任务。</h2>
     <div className="launch-flight-actions">
       {s.phase==='life-observed'&&<button className="launch-ignite" onClick={onResults}>查看本次任务结果 →</button>}
       {s.phase==='life-ready'&&<button className="launch-ignite" disabled={disabled} onClick={()=>{onOverview();send({type:'start-maintenance'});}}>1 · 开始一圈能源维护 →</button>}
@@ -28,8 +25,13 @@ export function LifecycleControl({state:s,paused,ready,error,rate,send,onOpen,on
       {s.phase==='life-commanded'&&<button className="launch-ignite" disabled={disabled} onClick={()=>send({type:'close-retirement'})}>继续执行电能收尾 →</button>}
       {s.phase==='life-retired'&&<button className="launch-ignite" disabled={disabled} onClick={()=>{onOverview();send({type:'observe-retirement'});}}>4 · 观察退役后 10 分钟 →</button>}
       {running&&<button className="launch-ignite" disabled={disabled} onClick={()=>send({type:'pause',value:!paused})}>{paused?'继续维护与退役计算':'暂停维护与退役计算'}</button>}
-      <div className="flight-secondary-actions"><button onClick={onOpen}>维护记录与退役条件 →</button><button onClick={onSatellite}>{l.mode==='retired'?'靠近退役卫星':'靠近 E01 卫星'}</button><button onClick={onOverview}>查看在轨位置</button><button disabled={!ready} onClick={onSave}>保存本次飞行</button></div>
+      <details><summary>视角、参数与保存</summary><div className="flight-secondary-actions"><button onClick={onOpen}>维护记录与退役条件 →</button><button onClick={onSatellite}>{l.mode==='retired'?'靠近退役卫星':'靠近 E01 卫星'}</button><button onClick={onOverview}>查看在轨位置</button><button disabled={!ready} onClick={onSave}>保存本次飞行</button></div></details>
     </div>
+
+    <FlightStageGuide steps={['低负载维护 · 检查一圈', '保留工作 / 核对结束条件', '接收指令 · 电能收尾', '观察退役后的在轨运动']} current={step} complete={s.phase === 'life-observed'}><p>退役是正式结束观测、数据下传等业务，不是暂时休息。先检查能源，再选择保留工作或结束任务。E01 完成电能收尾后仍会绕地球飞行，没有推进器就不能主动离轨。</p></FlightStageGuide>
+    <div className="launch-flight-state"><small role="status">{paused&&running?'已暂停 · ':''}{LIFE_LABELS[s.phase as LifecyclePhase]}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
+    {error&&<p role="alert">{error}</p>}
+
     <div className="ascent-rate" aria-label="维护退役倍率">{[1,10,100].map(v=><button key={v} disabled={disabled} aria-pressed={v===rate} onClick={()=>send({type:'rate',value:v})}>{v} 倍</button>)}</div>
     <dl className="launch-telemetry"><div><dt>当前业务状态</dt><dd data-life-status>{lifecycleStatus(s)}</dd></div><div><dt>电池 / 充电回路</dt><dd data-life-battery>{(o.energyJ/o.capacityJ*100).toFixed(1)}% / {l.isolated?'已隔离':'连接'}</dd></div><div><dt>接入功率 / 用电</dt><dd data-life-power>{o.generationW.toFixed(0)} / {o.loadW.toFixed(0)} <small>W</small></dd></div><div><dt>推进能力 / 处置结果</dt><dd>0 N · 0 kg <small>推进剂 / 未离轨</small></dd></div></dl>
     {l.mode==='retired'&&<FlightEnding state={s}/>}
@@ -49,7 +51,7 @@ export function LifecyclePanel({state:s,paused,onClose,onSatellite,onOverview}:P
   const close=useRef<HTMLButtonElement>(null);useEffect(()=>{const opener=document.activeElement as HTMLElement|null;close.current?.focus();return()=>{if(opener?.isConnected)opener.focus({preventScroll:true});};},[]);
   const l=s.lifecycle,o=s.operations;if(!l||!o)return <section className="avoidance-panel lifecycle-panel"><h2>正在接续卫星能源与轨道…</h2></section>;
   const assessment=disposalAssessment(s.deployment!.satellite.elements),running=LIFE_RUNNING.includes(s.phase);
-  return <section className="avoidance-panel operations-panel lifecycle-panel" aria-label="卫星维护与退役分析"><header><div><small>部署之后 / 第五段 · 无推进分支</small><h2>维护，还是结束任务？</h2></div><button ref={close} onClick={onClose}>收起维护分析</button></header>
+  return <section className="avoidance-panel operations-panel lifecycle-panel" aria-label="卫星维护与退役分析"><header><div><small>任务步骤 09 / E01 无推进分支</small><h2>维护，还是结束任务？</h2></div><button ref={close} onClick={onClose}>收起维护分析</button></header>
     <section className="avoidance-explanation"><span>P5 +{(l.elapsedS/60).toFixed(1)} 分钟 · {running?paused?'已暂停':'计算中':'检查点冻结'}</span><h3>{lifecycleStatus(s)}</h3><p>{s.message}</p></section>
     <div className="avoidance-actions"><button onClick={onSatellite}>看卫星与翼板</button><button onClick={onOverview}>看当前轨道</button></div>
     <dl className="avoidance-readings"><div><dt>电池 · 沿用 P4 储能</dt><dd>{(o.energyJ/3600).toFixed(1)} / {o.capacityJ/3600} Wh</dd></div><div><dt>太阳翼潜在功率 / 实际接入</dt><dd>{l.potentialW.toFixed(0)} / {o.generationW.toFixed(0)} W</dd></div><div><dt>总用电 / 其中泄放负载</dt><dd>{o.loadW.toFixed(0)} / {l.bleedW.toFixed(0)} W</dd></div><div><dt>有效指令接收 / 所需连续时间</dt><dd data-life-command>{l.commandProgressS.toFixed(1)} / 5 s</dd></div></dl>

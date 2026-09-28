@@ -41,7 +41,7 @@ export function ReentryPanel({ state: s, paused, ready, rate, effects, onEffects
   const samples = enterAt === null ? [] : r.samples.filter(p => p.t >= enterAt - 1e-7).map(p => ({ ...p, t: Math.max(0, p.t - enterAt) }));
   const heat = r.heatFluxWm2 === null ? '范围外 · 不估算' : `${(r.heatFluxWm2 / 1000).toFixed(1)} kW/m²`;
   return <section className="avoidance-panel reentry-panel" aria-label="再入与大气受热">
-    <header><div><small>部署之后 / 第三段</small><h2>二级 · 下降与受热</h2></div><button ref={close} onClick={onClose}>收起再入分析</button></header>
+    <header><div><small>任务步骤 07 / 二级处置 · 下降与再入</small><h2>二级 · 下降与受热</h2></div><button ref={close} onClick={onClose}>收起再入分析</button></header>
     <ol className="deorbit-route"><li>接续离轨</li><li>120 km 检查</li><li>受热与减速</li><li>20 km 检查</li><li>地表参考点</li></ol>
     <section className="avoidance-explanation"><span>{running ? paused ? '模拟暂停' : '计算中' : '检查点冻结'} · 本段 +{r.elapsedS.toFixed(1)} s</span><h3>{title}</h3><p>{description}</p></section>
     <div className="avoidance-actions">

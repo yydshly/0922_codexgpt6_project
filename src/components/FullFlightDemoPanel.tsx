@@ -1,3 +1,4 @@
+import { demoTaskLocation } from '../launch/taskJourney';
 import { SatelliteDemoCapability } from './SatelliteDemoCapability';
 import { useEffect, useRef } from 'react';
 import { ProjectNotes } from './ProjectNotes';
@@ -33,7 +34,7 @@ export function FullFlightDemoPanel({ booster, busy, demo, state, onPause, onRea
     {busy && <p role="status">正在恢复章节与读数，请稍候…</p>}<fieldset className="demo-interactions" disabled={busy} aria-label="演示操作">
     <small>独立演示 · 原任务与浏览器存档保留</small>
     <h2 ref={title} tabIndex={-1}>{demo.finished ? '演示结束 · 查看两条路线的结果' : `${demo.chapter + 1} / ${DEMO_CHAPTERS.length} · ${chapter.title}`}</h2>
-    <p>{chapter.description}</p>
+    <small>{demoTaskLocation(demo.chapter)} · 章节按观看顺序组织，任务步骤表示实际工作阶段。</small><p>{chapter.description}</p>
     <div className="demo-controls">{!demo.finished && <button disabled={!!demo.error} onClick={onPause}>{demo.paused ? '继续全程演示' : '暂停全程演示'}</button>}<button onClick={onExit}>退出演示，返回原任务</button></div>
     <DemoPlaybackStatus state={state} demo={demo} busy={busy}/>
     <SatelliteDemoCapability state={state} onView={onCapability}/>

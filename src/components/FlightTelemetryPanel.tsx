@@ -5,6 +5,7 @@ import { flightTelemetry, FLIGHT_RUNNING_PHASES, telemetryNumber as number } fro
 import { flightPhaseName, flightTime } from './LaunchControl';
 import { IgnitionSequence } from './IgnitionSequence';
 import { flightForceInsight } from '../launch/flightForces';
+import { AirLoadExplanation, CalculationLabel } from './TaskExplanation';
 import './FlightTelemetryPanel.css';
 
 interface Props { state: FlightState; config: VehicleConfig; ready: boolean; paused: boolean; forces: boolean; forcesVisible: boolean; onForces: (value: boolean) => void; onPause: () => void; onClose: () => void; onPhenomena: () => void }
@@ -18,6 +19,7 @@ export function FlightTelemetryPanel({ state: s, config, ready, paused, forces, 
     <header><div><small>FLIGHT / TELEMETRY</small><h2>全程飞行参数</h2></div><button ref={close} onClick={onClose} aria-label="关闭飞行参数">收起</button></header>
     <div className="telemetry-current"><strong data-telemetry-time>{flightTime(s.time)}</strong><span data-telemetry-status>{status}</span><small>{flightPhaseName(s)}</small><p>参数对象：{r.object}。{s.operations ? '当前推进卫星；二级为独立标时的历史记录。' : s.deployment ? '跟随卫星时，这里仍显示运载二级。' : '与主画面共用任务时间。'}</p>{running && <button disabled={!ready} onClick={onPause}>{paused ? '继续飞行' : '暂停飞行'}</button>}</div>
     <p className="telemetry-live-note">打开、关闭和切换参数不会自动暂停；需要停下来阅读时，点击「暂停飞行」。以下为本次教学计算，不是实测遥测。</p>
+    <CalculationLabel/>
     {ready && !s.operations && <section className="telemetry-force-guide"><h3 data-force-insight>{insight.title}</h3><p>{insight.text}</p><label><input type="checkbox" checked={forces} onChange={e => onForces(e.target.checked)}/>在主画面显示三维受力图</label>{forces && !forcesVisible && <button onClick={() => onForces(true)}>回到运载火箭近景查看受力 →</button>}{forces && <p>图例显示力的大小；方向看箭头。读数与主画面共用同一时刻。</p>}<details><summary>受力与箭长的含义 · 来源</summary><p>各力按本帧同一比例画长短；缩放比例会随时间调整，小于最大力 1% 的箭头省略，数值保留。箭头并排移开便于阅读，不表示真实作用点。</p><p>推力、引力、阻力沿用本次模型的方向和数值；地面约束只在支撑未释放时存在。本模型尚未计算升力、气动力矩或结构变形，受力图也不新增这些计算。合力决定加速度，速度并不需要与合力同向。</p><a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/four-rocket-forces/" target="_blank" rel="noreferrer">NASA · 火箭受力与矢量合成 ↗</a></details></section>}
     <div className="telemetry-tabs" role="group" aria-label="参数分类">{([['motion', '运动与受力'], ['air', '空气与受热'], ['engine', '动力与燃料']] as const).map(([id, label]) => <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>)}</div>
     {!ready ? <p>计算尚未就绪，暂不显示数值。</p> : <>
@@ -35,7 +37,7 @@ export function FlightTelemetryPanel({ state: s, config, ready, paused, forces, 
         {metric('twr', '瞬时推重比', r.twr, '', '推力 ÷ 引力；支撑锁定时大于 1 也不离台。')}
         {metric('support', '地面约束反力 · 向上为正', r.supportN / 1000, 'kN', r.held ? '负值表示支撑把火箭向下锁住。' : '已离台，无地面约束力。')}
       </dl><p className="telemetry-model-note">推力、引力和阻力有各自方向；转弯后不能简单用三个大小相减当成净加速度。这里不计算升力、侧风或结构弯曲。</p></>}
-      {tab === 'air' && <><dl className="telemetry-grid">
+      {tab === 'air' && <><AirLoadExplanation reading={r}/><dl className="telemetry-grid">
         {metric('density', '空气密度 ρ', r.density, 'kg/m³', '每立方米空气的质量；不是氧气占比。', 4)}
         {metric('density-percent', '相对海平面密度', r.densityFraction * 100, '%', '以模型 1.225 kg/m³ 为 100%。', 3)}
         {metric('pressure', '环境静压 p', r.pressurePa / 1000, 'kPa', '与迎风动压不同。', 3)}

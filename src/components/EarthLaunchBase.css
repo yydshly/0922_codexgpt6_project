@@ -162,3 +162,6 @@
 .demo-interactions{border:0;margin:0;padding:0;min-width:0;display:grid;gap:12px}
 
 .launch-booster-entry{padding:12px!important;border-color:#a79062!important;color:#edcb95!important;margin-bottom:10px}.launch-booster-entry small{display:block;margin-top:4px;color:#bdc9bf}
+
+.launch-scene-tools select{max-width:150px;border:1px solid #526a70;border-radius:5px;background:#142c32;color:#e1e9de;padding:9px;font:inherit;font-size:11px}.launch-scene-tools select:focus-visible{outline:2px solid #efc987;outline-offset:3px}
+.launch-earth-detail{position:absolute;left:24px;bottom:136px;max-width:calc(100% - 48px);padding:6px 9px;background:#10252de6;border:1px solid #36535d;border-radius:4px;pointer-events:none}

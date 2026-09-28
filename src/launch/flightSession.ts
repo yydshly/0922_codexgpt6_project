@@ -10,6 +10,7 @@ import { OperationsClock, OperationsSimulation } from './satelliteOperations';
 import { ReentryClock, ReentrySimulation } from './reentry';
 import { AscentRecord } from './ascentRecord';
 import { BoosterDescent } from './boosterDescent';
+import { replayMatches } from './flightReplayComparison';
 
 export const LEGACY_FLIGHT_VERSION = 'earth-flight-1/e3-1/e4-1/e5-1/e6-1';
 export const P1_FLIGHT_VERSION = 'earth-flight-1/e3-1/e4-1/e5-1/e6-1/p1-1';
@@ -54,6 +55,7 @@ export function parseFlightSave(raw: string): FlightSave {
 }
 export class FlightSession {
   clock: Clock;
+  restoredWithRoundoff = false;
   ascentRecord = new AscentRecord();
   boosterDescent?: BoosterDescent;
   private observe = (state: FlightState) => { this.ascentRecord.observe(state); this.boosterDescent?.advanceTo(state.time); };
@@ -135,7 +137,11 @@ export class FlightSession {
   static restore(raw: string): FlightSession {
     const save = parseFlightSave(raw), session = new FlightSession(save.config, save.baseTime);
     for (const [index, item] of save.journal.entries()) { if (index > 0) session.action(item.action as Exclude<FlightAction, 'reset'>); session.advanceSteps(item.steps); }
-    if (flightChecksum(session.clock.simulation.snapshot()) !== save.checksum) throw Error('重算结果与存档不一致，未替换当前飞行。');
+    const replayed = session.clock.simulation.snapshot();
+    if (flightChecksum(replayed) !== save.checksum) {
+      if (!replayMatches(save.snapshot, replayed)) throw Error('重算结果与存档不一致，未替换当前飞行。');
+      session.restoredWithRoundoff = true;
+    }
     session.setRate(save.rate); session.pause(true); return session;
   }
 }

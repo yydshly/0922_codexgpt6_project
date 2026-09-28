@@ -26,7 +26,7 @@ export function OperationsSceneGuide({ state, options, onChange, onGuide, onOver
       </label>)}
       <button onClick={onPower}>近看太阳翼对准</button>
       <p className="operations-guide-key">黄箭头：指向太阳；近景蓝箭头：板面朝向，不是飞行方向。橙/绿实线：正在采集/下传，虚线：方向或可见关系。均为标注，不是可见光束或覆盖边界。</p>
-      {!overview && reading.shadow && <p className="operations-guide-key">地影中的教学补光仅用于看清模型，不参与发电；当前仍由电池供电。</p>}
+      {!overview && reading.shadow && <p className="operations-guide-key">地影中的教学补光仅用于看清模型，不参与发电。{reading.supply}</p>}
       <details className="operations-footprint-controls" open={footprintOpen} onToggle={e=>setFootprintOpen(e.currentTarget.open)}>
         <summary>04 观测范围 · 假设视场</summary>
         <label><input type="checkbox" checked={footprint.enabled} onChange={e=>{onFootprintChange({...footprint,enabled:e.target.checked});if(e.target.checked)onFootprintFocus();}}/><strong>显示地表轮廓与边界线</strong></label>

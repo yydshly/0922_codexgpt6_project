@@ -1,0 +1,15 @@
+.macro-panel-navigation{display:flex;align-items:stretch;gap:4px;padding:9px 10px;flex:none;border-bottom:1px solid #304a55;font-size:11px}
+.macro-panel-navigation>button,.macro-reference-menu>summary{border:1px solid transparent;border-radius:5px;padding:8px 6px;color:#abc5cf;white-space:nowrap;font:inherit;cursor:pointer;min-height:34px}
+.macro-panel-navigation>button{flex:1;min-width:0}
+.macro-panel-navigation>button[aria-pressed=true],.macro-reference-menu>summary[data-active=true]{background:#27473f;color:#e1f4e9;border-color:#547a6d}
+.macro-panel-navigation>button:hover,.macro-reference-menu>summary:hover{background:#203d41;color:#fff}
+.macro-reference-menu{position:relative;flex:none}
+.macro-reference-menu>summary{display:flex;align-items:center;gap:5px;box-sizing:border-box;list-style:none}
+.macro-reference-menu>summary::after{content:'▾';font-size:10px}
+.macro-reference-options{position:absolute;right:0;top:calc(100% + 6px);z-index:40;width:242px;max-width:calc(100vw - 34px);padding:8px;background:#112b35;border:1px solid #52766e;border-radius:8px;box-shadow:0 12px 32px #0008}
+.macro-reference-options p{margin:4px 6px 8px;color:#adc6cb;font-size:10px;line-height:1.6}
+.macro-reference-options button{display:block;width:100%;text-align:left;padding:9px;border-radius:5px;color:#deebe8;font:inherit;cursor:pointer}
+.macro-reference-options button:hover,.macro-reference-options button[aria-pressed=true]{background:#27473f}
+.macro-reference-options strong,.macro-reference-options small{display:block;line-height:1.65}
+.macro-reference-options small{color:#a9c5cc;font-size:10px}
+.macro-panel-navigation :focus-visible{outline:2px solid #bddbc2;outline-offset:2px}

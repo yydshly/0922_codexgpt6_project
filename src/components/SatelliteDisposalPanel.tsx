@@ -26,17 +26,19 @@ export function SatelliteDisposalControl({state:s,paused,ready,error,rate,send,o
  const q=s.satelliteDisposal!,e=s.satelliteEquipment!,action=actions[s.phase as DisposalPhase],running=DISPOSAL_RUNNING.includes(s.phase),disabled=!ready||!!error;
  const index=q.groundAt!==null?4:q.entryAt!==null?3:q.cutoffAt!==null?2:q.burnAt!==null?1:0;
  return <div className="launch-control operations-control disposal-control">
-  <span className="launch-kicker">E02 / 任务末期 · 预留动力离轨</span><h2>完成工作，再执行离轨。</h2>
+  <span className="launch-kicker">09 / E02 任务末期 · 预留动力离轨</span><h2>完成工作，再执行离轨。</h2>
+    <div className="launch-flight-actions">
+   {action&&<button className="launch-ignite" disabled={disabled||s.phase==='disposal-review'&&!q.plan.allowed} onClick={()=>{onSatellite();send({type:action[1]} as LaunchCommand);}}>{action[0]}</button>}
+   {running&&<button className="launch-ignite" disabled={disabled} onClick={()=>send({type:'pause',value:!paused})}>{paused?'继续卫星离轨计算':'暂停卫星离轨计算'}</button>}
+   {s.phase==='disposal-complete'&&<button onClick={onResults}>查看两条路线的结果 →</button>}
+   <details><summary>视角、参数与保存</summary><div className="flight-secondary-actions"><button onClick={onOpen}>离轨参数、曲线与来源 →</button><button onClick={onSatellite}>靠近当前计算对象</button><button onClick={onOverview}>查看下降轨迹</button><button disabled={!ready} onClick={onSave}>保存本次飞行</button></div></details>
+  </div>
+
   <FlightStageGuide steps={['核对资源 · 接收指令','反向定向 · 点火','关机核对 · 储能处理','下降 · 再入受热','参考终点 · 材料结局未求解']} current={index} complete={q.groundAt!==null}><p>发动机负责降低轨道；进入空气后发生减速和受热。没有控制落区、完整烧毁或安全着陆的保证。</p></FlightStageGuide>
   <div className="launch-flight-state"><small role="status">{running&&paused?'已暂停 · ':''}{DISPOSAL_LABELS[s.phase as DisposalPhase]}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
   {error&&<p role="alert">{error}</p>}
   {s.phase==='disposal-review'&&<p>{q.plan.reason}<br/>可用理想速度增量 {q.plan.availableMS.toFixed(1)} m/s；有限点火预测耗油 {q.plan.predictedFuelKg.toFixed(2)} kg。</p>}
-  <div className="launch-flight-actions">
-   {action&&<button className="launch-ignite" disabled={disabled||s.phase==='disposal-review'&&!q.plan.allowed} onClick={()=>{onSatellite();send({type:action[1]} as LaunchCommand);}}>{action[0]}</button>}
-   {running&&<button className="launch-ignite" disabled={disabled} onClick={()=>send({type:'pause',value:!paused})}>{paused?'继续卫星离轨计算':'暂停卫星离轨计算'}</button>}
-   {s.phase==='disposal-complete'&&<button onClick={onResults}>查看两条路线的结果 →</button>}
-   <div className="flight-secondary-actions"><button onClick={onOpen}>离轨参数、曲线与来源 →</button><button onClick={onSatellite}>靠近当前计算对象</button><button onClick={onOverview}>查看下降轨迹</button><button disabled={!ready} onClick={onSave}>保存本次飞行</button></div>
-  </div>
+
   <div className="ascent-rate" aria-label="卫星离轨倍率">{[1,10,100].map(v=><button key={v} disabled={disabled} aria-pressed={rate===v} onClick={()=>send({type:'rate',value:v})}>{v} 倍</button>)}</div>
   <dl className="launch-telemetry"><div><dt>当前高度 / 近地点</dt><dd data-disposal-height>{(s.heightM/1000).toFixed(2)} / {(s.deployment!.satellite.elements.periapsisM/1000).toFixed(2)} km</dd></div><div><dt>卫星总质量 / 剩余推进剂</dt><dd data-disposal-fuel>{s.massKg.toFixed(2)} / {e.fuelKg.toFixed(2)} kg</dd></div><div><dt>实际推力 / 电量</dt><dd>{s.thrustN.toFixed(0)} N / {(s.operations!.energyJ/s.operations!.capacityJ*100).toFixed(1)}%</dd></div><div><dt>点火耗油 / 对称排放</dt><dd>{q.burnedKg.toFixed(2)} / {q.ventedKg.toFixed(2)} kg</dd></div></dl>
   {q.groundAt!==null&&<FlightEnding state={s}/>}<button onClick={onReset}>重置为新的地面任务</button>

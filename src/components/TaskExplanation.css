@@ -1,0 +1,24 @@
+.calculation-label { display: flex; flex-wrap: wrap; gap: 5px; margin: 12px 0; }
+.calculation-label span { border: 1px solid #476568; border-radius: 3px; padding: 3px 6px; font-size: 10px; color: #b9d6d5; }
+.task-explanation { margin: 16px 0; padding: 13px; background: #172f36; border: 1px solid #46615d; border-radius: 7px; }
+.task-explanation figcaption { color: #e2e6cc; font-size: 14px; line-height: 1.6; }
+.task-explanation figcaption > small { display: block; color: #b6cccc; font-size: 10px; margin: 4px 0 10px; }
+.explanation-flow { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; list-style: none; padding: 0; margin: 12px 0; }
+.explanation-flow > li { position: relative; min-width: 0; padding: 10px 6px; background: #0f242d; border-top: 2px solid #84c3cf; text-align: center; }
+.explanation-flow > li + li::before { content: '→'; position: absolute; left: -13px; top: 42%; width: 13px; color: #b3cdc4; font-size: 12px; }
+.power-flow > li:last-child::before { content: '⇄'; }
+.explanation-flow span,.explanation-flow small { display: block; font-size: 10px; color: #b7cdd0; line-height: 1.6; }
+.explanation-flow strong { display: block; margin: 6px 0; color: #e2e8d6; font-size: 19px; font-weight: 500; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.explanation-flow strong small { display: inline; }
+.explanation-flow .explanation-action { font-size: 13px; }
+.explanation-flow [data-tone=sun] { border-color: #eaca89; }
+.explanation-flow [data-tone=battery],.explanation-flow [data-active=true] { border-color: #b1d59c; background: #244039; }
+.explanation-flow [data-tone=warning] { border-color: #e8a185; }
+.task-explanation p,.task-receipt p { font-size: 11px; line-height: 1.75; color: #bdcfcc; }
+.task-explanation .explanation-boundary { font-size: 10px; color: #aac0c4; margin-bottom: 0; }
+.task-receipt { margin: 14px 0; padding: 12px; border: 1px solid #57716c; border-radius: 6px; background: #1c3439; }
+.task-receipt h3 { margin: 0 0 10px; font-size: 15px; font-weight: 500; color: #dce9d0; }
+.task-receipt h3 small { display: block; margin-top: 4px; color: #adc5c7; font-size: 10px; }
+.task-receipt dl { margin: 0; }.task-receipt dl > div { padding: 9px 0; border-top: 1px solid #385452; }
+.task-receipt dt { font-size: 10px; color: #aac4c3; }.task-receipt dd { margin: 4px 0 0; font-size: 12px; color: #e1e6cf; line-height: 1.7; }
+.task-receipt dd small { display: block; font-size: 10px; color: #b4c9c8; }.task-receipt p { margin-bottom: 0; }

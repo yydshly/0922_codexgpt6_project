@@ -1,9 +1,9 @@
-import {useId, type RefObject} from 'react';
+import {useEffect, useId, useState, type RefObject} from 'react';
 import {INTEGRATED_ITEMS} from '../data/integratedScene';
 import type {StageFlags} from '../data/stages';
 
 const bodySections = [
- {id:'topics',name:'六条专题路线 · 整体到细节',selector:'[data-topic-routes]'},
+ {id:'topics',name:'专题路线 · 按问题深入',selector:'[data-topic-routes]'},
  {id:'eclipse-module',name:'日月食与遮掩 · 案例对照',selector:'[data-eclipse-module]'},
  {id:'coorbital-module',name:'共轨与准卫星 · 两种参照视角',selector:'[data-coorbital-module]'},
  {id:'tidal-module',name:'潮汐锁定与共振 · 原理到案例',selector:'[data-tidal-module]'},
@@ -34,8 +34,10 @@ const readingSections = [
 const pick=(ids:string[])=>ids.map(id=>bodySections.find(item=>item.id===id)!);
 const groups = [{name:'1 · 整体与尺度',items:pick(['topics','distances','sizes','orbits'])},{name:'2 · 恒星与行星',items:pick(['primary','motion','motion-lessons','earth','appearance'])},{name:'3 · 卫星家族',items:pick(['families','tidal-module','eclipse-module','binary','enceladus'])},{name:'4 · 区域与小天体',items:pick(['members','coorbital-module','eros-shape','comets'])},{name:'5 · 空间现象（延伸）',items:[...pick(['environment-journey','material-journey','space-medium','boundary-comparison']),...phenomenonSections]},{name:'6 · 演示与来源',items:readingSections}];
 
-export function MacroContentsNav({scroller,stages}:{scroller:RefObject<HTMLDivElement|null>;stages:StageFlags}) {
+export function MacroContentsNav({scroller,stages,onStages}:{scroller:RefObject<HTMLDivElement|null>;stages:StageFlags;onStages:()=>void}) {
  const id=useId();
+ const [notice,setNotice]=useState('');
+ useEffect(()=>setNotice(''),[stages]);
  const available=(key:string)=>{
   if(key==='tidal-module'||key==='eclipse-module'||key==='motion-lessons')return stages.structure;
   if(key==='boundary-comparison')return stages.structure&&stages.heliosphereExplorer;
@@ -49,24 +51,29 @@ export function MacroContentsNav({scroller,stages}:{scroller:RefObject<HTMLDivEl
   return !item||stages[item.stage];
  };
  const jump=(key:string)=>{
+  setNotice('');
+  if(!available(key)){setNotice('此模块所需阶段尚未开启，请先查看阶段开关。');return;}
   const root=scroller.current;
-  if(!root)return;
+  if(!root){setNotice('说明面板尚未就绪，请稍后重试。');return;}
   if(key==='start'){root.scrollTo({top:0,behavior:'instant'});return;}
   const section=groups.flatMap(group=>group.items).find(item=>item.id===key);
   const target=section&&root.querySelector<HTMLElement>(section.selector);
-  if(!target)return;
+  if(!target||target.closest('[hidden]')){setNotice('当前未找到这段说明，请重新打开全景现象后重试。');return;}
   // Scroll only the sidebar, never the page or the 3D camera.
   if(target instanceof HTMLDetailsElement)target.open=true;
+  if(key==='topics'){const choices=target.querySelector('details');if(choices)choices.open=true;}
   root.scrollTo({top:root.scrollTop+target.getBoundingClientRect().top-root.getBoundingClientRect().top-12,behavior:'instant'});
   target.tabIndex=-1;
   target.focus({preventScroll:true});
  };
  return <nav className="macro-contents-nav" aria-label="全景内容目录">
-  <label htmlFor={id}>自由浏览</label>
+  <label htmlFor={id}>说明目录</label>
   <select id={id} value="" onChange={event=>jump(event.target.value)} aria-describedby={`${id}-hint`}>
-   <option value="" disabled>按层级查找模块…</option><option value="start">回到全景介绍</option>
-   {groups.map(group=><optgroup key={group.name} label={group.name}>{group.items.map(item=><option key={item.id} value={item.id}>{item.name}{available(item.id)?'':'（阶段未开启）'}</option>)}</optgroup>)}
+   <option value="" disabled>选择要阅读的说明…</option><option value="start">回到说明顶部</option>
+   {groups.map(group=><optgroup key={group.name} label={group.name}>{group.items.map(item=><option key={item.id} value={item.id} disabled={!available(item.id)}>{item.name}{available(item.id)?'':'（阶段未开启）'}</option>)}</optgroup>)}
   </select>
-  <p id={`${id}-hint`}>这里是自由查阅，不是学习顺序；按主线请用“学习路线”。</p>
+  <p id={`${id}-hint`}>只跳转右侧说明；点击说明中的“定位”才移动主画面。按顺序观看请用上方“学习路线”。</p>
+  {groups.some(group=>group.items.some(item=>!available(item.id)))&&<p>部分模块未开启。<button onClick={onStages}>查看阶段开关</button></p>}
+  {notice&&<p role="status">{notice}</p>}
  </nav>;
 }

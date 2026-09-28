@@ -2,7 +2,7 @@
 
 日期：2026-09-28。范围：在已有发射与两种任务末期路线之上，补齐卫星工作的可见过程和一致说明。
 
-**当前为待验收版 `2026.09.28-satellite-rc1`，用户体验验收待确认。** 本批从 `22b7cfd` 整理提交，网页上线以[对应 GitHub Pages 部署](https://github.com/yydshly/0922_codexgpt6_project/actions/workflows/deploy-pages.yml)成功为准。原 `earth-launch-2026.09.28` 标签保留，不代表本批内容已归档。
+**后续状态：2026-09-29 已纳入认知体验阶段归档。** 用户认可当前能力已够用，以理解为核心收尾；版本 `2026.09.29-understanding-r1`，范围、602 项回归和限制见[阶段归档](UNDERSTANDING-STAGE-ARCHIVE.md)。以下保留 `2026.09.28-satellite-rc1` 当时的开发与验收记录。网页上线以[对应 GitHub Pages 部署](https://github.com/yydshly/0922_codexgpt6_project/actions/workflows/deploy-pages.yml)成功为准，旧 `earth-launch-2026.09.28` 标签保留。
 
 ## 固定交付范围
 

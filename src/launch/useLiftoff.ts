@@ -12,7 +12,7 @@ import { FlightWorkerConnection } from './flightWorkerConnection';
 interface FlightReply {
   demo?: DemoStatus; state?: FlightState; ascentRecord?: AscentRecordData; boosterRecord?: BoosterRecord | null;
   paused: boolean; error: string; rate: number; baseTime: number; config: VehicleConfig;
-  saved?: FlightSave; restored?: boolean; restoreFailed?: boolean; storageError?: string;
+  saved?: FlightSave; restored?: boolean; restoredWithRoundoff?: boolean; restoreFailed?: boolean; storageError?: string;
 }
 
 export function useLiftoff(config: VehicleConfig, initialBaseTime: number, onRestored: (config: VehicleConfig) => void) {
@@ -61,7 +61,7 @@ export function useLiftoff(config: VehicleConfig, initialBaseTime: number, onRes
         if (data.restored) awaitingRecovery = false;
         setPaused(data.paused); setError(data.error); setRate(data.rate); if (Number.isFinite(data.baseTime)) setBaseTime(data.baseTime);
         if (data.saved) { setSaved(data.saved); try { setStorageStatus(storeFlight(data.saved)); } catch (e) { setStorageStatus((e as Error).message); } }
-        if (data.restored) { restoredConfig.current = data.config; restoreCallback.current(data.config); setRestoring(false); setRestoredCount(n => n + 1); setStorageStatus('已重算并恢复存档；配置、燃料、时间与事件均已恢复。当前已暂停，由你继续。'); }
+        if (data.restored) { restoredConfig.current = data.config; restoreCallback.current(data.config); setRestoring(false); setRestoredCount(n => n + 1); setStorageStatus(data.restoredWithRoundoff ? '存档已恢复：不同计算环境只有微小舍入差异，已采用本机重算结果。任务阶段与事件一致，原文件未改写。当前已暂停，由你继续。' : '已重算并恢复存档；配置、燃料、时间与事件均已恢复。当前已暂停，由你继续。'); }
         if (data.restoreFailed) { setRestoring(false); setStorageStatus(`${data.storageError ?? '恢复失败'} 原飞行仍保留，可继续或重试。`); }
       }, stop,
     );

@@ -1,0 +1,368 @@
+{
+  "conditions": {
+    "date": "2026-09-29",
+    "origin": "http://127.0.0.1:4180/",
+    "viewport": "1440 × 900 / DPR 1",
+    "hardware": {
+      "threads": 32,
+      "memory": 16,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+    },
+    "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "scope": "Local production preview in dedicated headless Chrome profile; not remote Pages or a presented-GPU-FPS benchmark."
+  },
+  "loading": {
+    "cold": {
+      "interactiveMs": 1005.2000000178814,
+      "resources": 43,
+      "transferBytes": 9695135,
+      "longTasks": [
+        {
+          "start": 122.80000001192093,
+          "duration": 425
+        },
+        {
+          "start": 549,
+          "duration": 67
+        },
+        {
+          "start": 731.8000000119209,
+          "duration": 124
+        },
+        {
+          "start": 885.5,
+          "duration": 57
+        },
+        {
+          "start": 1011.3000000119209,
+          "duration": 59
+        }
+      ],
+      "errors": [],
+      "failedRequests": []
+    },
+    "weak": {
+      "downloadBitsPerSecond": 5000000,
+      "latencyMs": 80,
+      "cacheDisabled": true,
+      "interactiveMs": 3563.9000000059605,
+      "textureSettledMs": 16685.09999999404,
+      "texture": "ready",
+      "transferBytes": 9695753,
+      "errors": [],
+      "failedRequests": []
+    }
+  },
+  "frameIntervals": {
+    "note": "10-second page requestAnimationFrame samples. Callback rates are not displayed GPU frame rates; samples have different scheduling conditions and do not demonstrate an improvement.",
+    "panorama": {
+      "frames": 380,
+      "elapsedMs": 10072.399999999994,
+      "fps": 37.72685755132841,
+      "medianMs": 20.80000000000291,
+      "p95Ms": 66.69999999999709,
+      "over100ms": 0
+    },
+    "base": {
+      "frames": 436,
+      "elapsedMs": 10032.299999988085,
+      "fps": 43.459625409977555,
+      "medianMs": 16.80000000000291,
+      "p95Ms": 37.60000000000582,
+      "over100ms": 1
+    },
+    "satellite": {
+      "fps": 158.76824635110833,
+      "p95Ms": 12.599999999998545,
+      "over100ms": 0
+    }
+  },
+  "switching": {
+    "cycles": 20,
+    "before": {
+      "Documents": 2,
+      "Nodes": 4842,
+      "JSHeapUsedSize": 19281184
+    },
+    "after": {
+      "Documents": 2,
+      "Nodes": 4886,
+      "JSHeapUsedSize": 22892232
+    },
+    "keyboardTabSamples": [
+      {
+        "text": "新建全程演示",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "飞行存档",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "开始组装载具 →",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "使用当前配置，准备发射 →",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "↗基地全貌",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "01发射台",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "02组装厂房",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "03任务中心",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "任务目标",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "载具方案",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "来源与边界",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "任务资料、参数与回看",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": " 基地现场",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": " 地球定位",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": " 近地视角",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "箭体与塔架地面仰望连接臂近景",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "教学日光",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "发射台",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "01地球基地当前阶段",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "02组装载具进入本步",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "03检查点火进入本步",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "04上升分级查看进入条件",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "返回观测",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "新建全程演示",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "飞行存档",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "开始组装载具 →",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "使用当前配置，准备发射 →",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "↗基地全貌",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "01发射台",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "02组装厂房",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "03任务中心",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "任务目标",
+        "inside": true,
+        "inert": false
+      },
+      {
+        "text": "载具方案",
+        "inside": true,
+        "inert": false
+      }
+    ],
+    "saveEscapeFocus": "飞行存档",
+    "baseEscapeFocus": "macro-launch-entry",
+    "errors": [],
+    "failedRequests": []
+  },
+  "browserRestoration": {
+    "restored": [
+      {
+        "name": "ascent",
+        "status": "最近操作：存档已恢复：不同计算环境只有微小舍入差异，已采用本机重算结果。任务阶段与事件一致，原文件未改写。当前已暂停，由你继续。",
+        "time": "T + 45.9 s"
+      },
+      {
+        "name": "eclipse",
+        "status": "最近操作：存档已恢复：不同计算环境只有微小舍入差异，已采用本机重算结果。任务阶段与事件一致，原文件未改写。当前已暂停，由你继续。",
+        "time": "T + 13203.9 s"
+      },
+      {
+        "name": "transmitting",
+        "status": "最近操作：存档已恢复：不同计算环境只有微小舍入差异，已采用本机重算结果。任务阶段与事件一致，原文件未改写。当前已暂停，由你继续。",
+        "time": "T + 16675.9 s"
+      },
+      {
+        "name": "complete",
+        "status": "最近操作：存档已恢复：不同计算环境只有微小舍入差异，已采用本机重算结果。任务阶段与事件一致，原文件未改写。当前已暂停，由你继续。",
+        "time": "T + 16734.9 s"
+      },
+      {
+        "name": "unpowered",
+        "status": "最近操作：存档已恢复：不同计算环境只有微小舍入差异，已采用本机重算结果。任务阶段与事件一致，原文件未改写。当前已暂停，由你继续。",
+        "time": "T + 27139.1 s"
+      },
+      {
+        "name": "powered",
+        "status": "最近操作：存档已恢复：不同计算环境只有微小舍入差异，已采用本机重算结果。任务阶段与事件一致，原文件未改写。当前已暂停，由你继续。",
+        "time": "T + 19768.3 s"
+      }
+    ],
+    "rejected": {
+      "status": "最近操作：重算结果与存档不一致，未替换当前飞行。 原飞行仍保留，可继续或重试。",
+      "time": "T + 19768.3 s"
+    },
+    "resumedData": {
+      "start": "236 / 4 MB",
+      "frozen": "232 / 8 MB"
+    },
+    "satelliteFrameSample": {
+      "fps": 158.76824635110833,
+      "p95Ms": 12.599999999998545,
+      "over100ms": 0
+    },
+    "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "errors": [],
+    "failedRequests": []
+  },
+  "nodeRestoration": [
+    {
+      "key": "unpowered",
+      "phase": "life-observed",
+      "roundoff": true,
+      "paused": true,
+      "secondExact": true
+    },
+    {
+      "key": "ascent",
+      "phase": "ascent",
+      "roundoff": true,
+      "paused": true,
+      "secondExact": true
+    },
+    {
+      "key": "eclipse",
+      "phase": "ops-cycle",
+      "roundoff": true,
+      "paused": true,
+      "secondExact": true
+    },
+    {
+      "key": "transmitting",
+      "phase": "ops-downlink",
+      "roundoff": true,
+      "paused": true,
+      "secondExact": true
+    },
+    {
+      "key": "complete",
+      "phase": "ops-complete",
+      "roundoff": true,
+      "paused": true,
+      "secondExact": true
+    },
+    {
+      "key": "powered",
+      "phase": "disposal-complete",
+      "roundoff": true,
+      "paused": true,
+      "secondExact": true
+    }
+  ]
+}

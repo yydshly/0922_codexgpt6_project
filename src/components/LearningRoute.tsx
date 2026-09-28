@@ -38,6 +38,6 @@ export function LearningRoute({index,following,reason,onGo,onExit,onFinish,onSta
   {following&&next<LEARNING_STEPS.length&&<p className="learning-next-context">{nextReason?`下一节暂不可用：${nextReason}`:LEARNING_STEPS[next].chapter!==step.chapter?`接下来进入第 ${LEARNING_STEPS[next].chapter+1} 章「${LEARNING_CHAPTERS[LEARNING_STEPS[next].chapter]}」。`:'完成观察后，再进入下一节。'}</p>}
   {following&&previousReason&&<p role="status">上一节暂不可用：{previousReason}</p>}
   {(blocked||nextReason||previousReason)&&<button onClick={onStages}>查看阶段开关</button>}
-  <p className="learning-branch">更多工具和自由目录是延伸阅读；退出恢复全景显示，日期与阶段开关保持不变。</p>
+  <p className="learning-branch">说明目录与资料用于延伸阅读；退出恢复全景显示，日期与阶段开关保持不变。</p>
  </section>;
 }

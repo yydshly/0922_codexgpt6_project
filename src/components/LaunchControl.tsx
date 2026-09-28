@@ -21,6 +21,15 @@ export function LaunchControl({ config, state: s, paused, ready, error, checked,
   const v = deriveVehicle(config), running = ['countdown', 'ignition', 'ascending'].includes(s.phase);
   return <div className="launch-control">
     <span className="launch-kicker">03 / 发射准备与离台</span><h2>准备，让它升空。</h2>
+    <div className="launch-flight-actions">
+      {s.phase === 'ready' && <><button onClick={onCheck} disabled={!ready || !!error || checked}>{checked ? '发射前检查已通过' : '执行发射前检查'}</button><button className="launch-ignite" onClick={onStart} disabled={!checked || !ready || !!error}>开始 10 秒倒计时 →</button></>}
+      {running && <button onClick={onPause} disabled={!ready || !!error}>{paused ? '继续模拟' : '暂停模拟'}</button>}
+      {['countdown', 'ignition'].includes(s.phase) && <button className="launch-cancel" onClick={onCancel}>取消发射并关机</button>}
+      {s.phase === 'complete' && <button className="launch-ignite" onClick={onContinue} disabled={!ready || !!error}>继续第 4 步：上升与分级 →</button>}
+      {(s.phase !== 'ready' || !!error) && <button onClick={onReset}>重置本次试飞</button>}
+      <small>{s.phase === 'complete' ? '点击上方继续第 4 步，沿用当前时间、速度和剩余燃料。本段完成不等于入轨。' : '推力、耗油与上升由同一计算驱动；点火时仍可能未离台。'} 重置恢复已应用配置的初始加注量。</small>
+    </div>
+
     <p>本段从发射台竖直升高约 150 m 后冻结，先观察离台过程。完成后可继续第 4 步，体验上升转弯与分级；第 5 步继续入轨与关机验证。</p>
     <div className="launch-flight-state"><small role="status">{paused && running ? '模拟已暂停 · ' : ''}{s.phase === 'ignition' ? ignitionReading(s).label : flightPhaseName(s)}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.phase === 'ignition' ? '点火后先建立推力；支撑在 T=0 检查推力条件后释放。' : s.message}</p></div>
     <IgnitionSequence state={s}/>
@@ -30,14 +39,7 @@ export function LaunchControl({ config, state: s, paused, ready, error, checked,
       <li><span>{checked && ready ? '✓' : '03'}</span><div>离台模型就绪<small>{ready ? '竖直姿态辅助 · 独立任务时钟 · 1 倍速' : '正在启动发射计算…'}</small></div></li>
     </ol>
     {error && <p className="launch-flight-error" role="alert">{error}</p>}
-    <div className="launch-flight-actions">
-      {s.phase === 'ready' && <><button onClick={onCheck} disabled={!ready || !!error || checked}>{checked ? '发射前检查已通过' : '执行发射前检查'}</button><button className="launch-ignite" onClick={onStart} disabled={!checked || !ready || !!error}>开始 10 秒倒计时 →</button></>}
-      {running && <button onClick={onPause} disabled={!ready || !!error}>{paused ? '继续模拟' : '暂停模拟'}</button>}
-      {['countdown', 'ignition'].includes(s.phase) && <button className="launch-cancel" onClick={onCancel}>取消发射并关机</button>}
-      {s.phase === 'complete' && <button className="launch-ignite" onClick={onContinue} disabled={!ready || !!error}>继续第 4 步：上升与分级 →</button>}
-      {(s.phase !== 'ready' || !!error) && <button onClick={onReset}>重置本次试飞</button>}
-      <small>{s.phase === 'complete' ? '点击上方继续第 4 步，沿用当前时间、速度和剩余燃料。本段完成不等于入轨。' : '推力、耗油与上升由同一计算驱动；点火时仍可能未离台。'} 重置恢复已应用配置的初始加注量。</small>
-    </div>
+
     <dl className="launch-telemetry" aria-label="离台实时参数">
       <div><dt>相对发射台升高</dt><dd data-flight-height>{s.heightM.toFixed(1)} <small>m</small></dd></div>
       <div><dt>向上速度</dt><dd data-flight-speed>{s.speedMS.toFixed(2)} <small>m/s</small></dd></div>

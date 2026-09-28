@@ -50,7 +50,7 @@ export function AvoidancePanel({ onDeorbit, state: s, paused, ready, rate, send,
   const actual = separationSample(p.elapsedS, d.carrier.position, d.satellite.position, plan.along, plan.direction);
   const action = (type: 'align-avoidance' | 'ignite-avoidance' | 'observe-avoidance') => { if (type !== 'observe-avoidance') onCarrier(); send({ type }); };
   return <section className="avoidance-panel" aria-label="二级与卫星分离分析">
-    <header><div><small>部署之后 / 第一段</small><h2>二级与卫星 · 分离分析</h2></div><button ref={close} onClick={onClose}>收起分析</button></header>
+    <header><div><small>任务步骤 07 / 二级处置 · 分离与避让</small><h2>二级与卫星 · 分离分析</h2></div><button ref={close} onClick={onClose}>收起分析</button></header>
     <section className="avoidance-explanation"><span>{running ? paused ? '模拟暂停' : '计算中' : '检查点冻结'} · 分析起点后 {p.elapsedS.toFixed(1)} s</span><h3>{title}</h3><p>{why}</p></section>
     <div className="avoidance-actions">
       {s.phase === 'avoidance-complete' && <button className="avoidance-primary" disabled={!ready} onClick={onDeorbit}>下一段：二级离轨与钝化 →</button>}

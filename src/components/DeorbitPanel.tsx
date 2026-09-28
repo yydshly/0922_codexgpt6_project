@@ -38,7 +38,7 @@ export function DeorbitPanel({ state: s, paused, ready, rate, send, onClose, onC
   const action = (type: 'align-deorbit' | 'ignite-deorbit' | 'passivate-deorbit') => { onCarrier(); send({ type }); };
   const remaining = s.ascent!.upperFuelKg, hasPassivation = q.passivationStart !== null;
   return <section className="avoidance-panel deorbit-panel" aria-label="二级离轨与钝化">
-    <header><div><small>部署之后 / 第二段</small><h2>二级 · 离轨与钝化</h2></div><button ref={close} onClick={onClose}>收起处置分析</button></header>
+    <header><div><small>任务步骤 07 / 二级处置 · 离轨与钝化</small><h2>二级 · 离轨与钝化</h2></div><button ref={close} onClick={onClose}>收起处置分析</button></header>
     <ol className="deorbit-route"><li>轨道方案</li><li>反向点火</li><li>剩余能量</li><li>保留结果</li></ol>
     <section className="avoidance-explanation"><span>{running ? paused ? '模拟暂停' : '计算中' : '检查点冻结'} · 本段 +{q.elapsedS.toFixed(1)} s</span><h3>{title}</h3><p>{detail}</p></section>
     <div className="avoidance-actions">

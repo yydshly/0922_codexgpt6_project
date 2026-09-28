@@ -52,6 +52,6 @@ export function FlightSavePanel({ ready, recovery = false, busy = false, paused,
       catch (err) { setError((err as Error).message); }
     }}/>
     {error && <p role="alert">{error}</p>}{status && <p role="status">最近操作：{status}</p>}
-    <details><summary>保存、恢复与兼容说明</summary><p>打开此面板会暂停飞行。保存会覆盖浏览器中的上次存档；导入和恢复会替换当前任务，但不会自动改写浏览器存档或原文件。</p><p>文件结构与校验码检查通过后，还需按模型版本重算；跨版本或不同计算环境重算不一致时，会拒绝替换当前飞行。建议导出文件备份。</p></details>
+    <details><summary>保存、恢复与兼容说明</summary><p>打开此面板会暂停飞行。保存会覆盖浏览器中的上次存档；导入和恢复会替换当前任务，但不会自动改写浏览器存档或原文件。</p><p>文件结构与校验码检查通过后，还需按模型版本重算。不同计算环境仅有微小舍入差异时，采用本机重算结果并说明；任务阶段、事件或数值差异超限时，拒绝替换当前飞行。建议导出文件备份。</p></details>
   </section>;
 }

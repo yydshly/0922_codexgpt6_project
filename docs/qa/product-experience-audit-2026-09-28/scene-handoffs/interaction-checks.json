@@ -1,0 +1,12 @@
+{
+  "rapid": {
+    "count": 1,
+    "display": "none",
+    "stage": "当前任务 · E01 · 无推进留轨任务步骤 02 / 9 · 组装载具编辑草稿，应用后才用于发射",
+    "assembly": true
+  },
+  "reduced": "none",
+  "interrupted": "none",
+  "errors": [],
+  "failedRequests": []
+}

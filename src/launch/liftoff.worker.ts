@@ -28,7 +28,7 @@ self.onmessage = ({ data }: MessageEvent<LaunchCommand>) => {
       demo.pause(true); throw Error('请先退出演示并返回原任务，再执行手动操作或保存。');
     } else if (data.type === 'reset') session = new FlightSession(data.config, data.baseTime);
     else if (data.type === 'restore') {
-      session?.pause(true); const restored = FlightSession.restore(data.raw); session = restored; last = performance.now(); publish('', { restored: true }); return;
+      session?.pause(true); const restored = FlightSession.restore(data.raw); session = restored; last = performance.now(); publish('', { restored: true, restoredWithRoundoff: restored.restoredWithRoundoff }); return;
     } else if (!session) throw Error('发射计算尚未就绪');
     else if (data.type === 'save') { session.pause(true); publish('', { saved: session.save() }); return; }
     else if (data.type === 'rate') session.setRate(data.value);

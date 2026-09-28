@@ -76,12 +76,12 @@ export class OperationsSimulation {
   state: FlightState; stepsTaken = 0; private satellite: Particle; private nextSample = 0;
   constructor(handoff: FlightState, readonly baseTime: number, readonly stepS: number = OPS.stepS) {
     const d = handoff.deployment;
-    if (!['avoidance-complete', 'reentry-complete'].includes(handoff.phase) || !d?.verified || !d.released || d.panels < 1 || !handoff.ascent || !d.satellite.elements.periodS || d.satellite.elements.periapsisM < 80000) throw Error('请先完成 P1 分离检查或 P3 教学再入，保留已展开翼板的有效在轨卫星。');
+    if (!['avoidance-complete', 'reentry-complete', 'reentry-surface'].includes(handoff.phase) || !d?.verified || !d.released || d.panels < 1 || !handoff.ascent || !d.satellite.elements.periodS || d.satellite.elements.periapsisM < 80000) throw Error('请先完成 P1 分离检查或 P3 教学再入，保留已展开翼板的有效在轨卫星。');
     if (![1, .5, .25].includes(stepS)) throw Error('不支持的卫星工作步长。');
     this.state = structuredClone(handoff); this.state.phase = 'ops-ready';
     this.satellite = { position: [...d.satellite.position], velocity: [...d.satellite.velocity], fuel: 0 };
     const capacityJ = OPS.batteryWh * 3600 * d.satellite.massKg / 500, sun = operationsSun(baseTime, handoff.time).direction;
-    this.state.operations = { startTime: handoff.time, carrierRecordTime: handoff.time, origin: handoff.phase === 'reentry-complete' ? 'P3' : 'P1', elapsedS: 0, cycleStart: null, cyclePeriodS: d.satellite.elements.periodS, initialDirection: [...d.direction], direction: [...d.direction], arrayNormal: [...d.direction], sunDirection: sun,
+    this.state.operations = { startTime: handoff.time, carrierRecordTime: handoff.time, origin: handoff.reentry ? 'P3' : 'P1', elapsedS: 0, cycleStart: null, cyclePeriodS: d.satellite.elements.periodS, initialDirection: [...d.direction], direction: [...d.direction], arrayNormal: [...d.direction], sunDirection: sun,
       shadow: inEarthShadow(d.satellite.position, sun), previousShadow: inEarthShadow(d.satellite.position, sun), eclipseSeen: false, sunlightAfterEclipse: false, eclipseS: 0, sunlightS: 0, incidence: 0,
       capacityJ, initialEnergyJ: capacityJ * OPS.initialCharge, energyJ: capacityJ * OPS.initialCharge, reserveMode: false, generationW: 0, loadW: 0, generatedJ: 0, consumedJ: 0, lossJ: 0, shuntedJ: 0, unservedJ: 0,
       collectedMB: 0, bufferMB: 0, deliveredMB: 0, collecting: false, transmitting: false, activeStation: null, links: [], samples: [] };

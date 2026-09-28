@@ -5,9 +5,9 @@ import { LIFTOFF, type FlightState } from './liftoff';
 import { orbitalElements } from './orbitInsertion';
 
 export const REENTRY = { version: 'reentry-0.1', stepS: .25, interfaceM: 120000, endM: 20000, maxS: 7200, cd: 1.2, areaM2: Math.PI * 2.15 ** 2, noseRadiusM: 2.15, heatingMaxM: 80000, heatingMinMach: 5 } as const;
-export const REENTRY_LABELS = { 'reentry-ready': '再入条件说明', 'reentry-coast': '向再入区滑行', 'reentry-interface': '120 km 检查点', 'reentry-atmosphere': '大气减速与受热', 'reentry-complete': '20 km 教学边界', 'reentry-failed': '再入计算停止' } as const;
+export const REENTRY_LABELS = { 'reentry-ready': '再入条件说明', 'reentry-coast': '向再入区滑行', 'reentry-interface': '120 km 检查点', 'reentry-atmosphere': '大气减速与受热', 'reentry-complete': '20 km · 可继续参考下降', 'reentry-lower': '等效物体 · 继续下降至地表', 'reentry-surface': '等效物体到达地表 · 非着陆判定', 'reentry-failed': '再入计算停止' } as const;
 export type ReentryPhase = keyof typeof REENTRY_LABELS;
-export const REENTRY_RUNNING: readonly string[] = ['reentry-coast', 'reentry-atmosphere'];
+export const REENTRY_RUNNING: readonly string[] = ['reentry-coast', 'reentry-atmosphere', 'reentry-lower'];
 
 /** Geometric altitude; independent interpolated reference quantities, not a live atmosphere. */
 export function reentryAtmosphere(heightM: number) {
@@ -31,10 +31,13 @@ export interface ReentryTelemetry {
   startTime: number; startMassKg: number; startFuelKg: number; startAltitudeM: number; startDirection: V3;
   elapsedS: number; entryTime: number | null; temperatureK: number; mach: number | null; heatFluxWm2: number | null; heatLoadJm2: number; heatingSeconds: number;
   dragG: number; peakHeat: { value: number; altitudeM: number; t: number } | null; peakPressure: { value: number; altitudeM: number; t: number };
-  samples: ReentrySample[]; outcome: 'pending' | 'model-boundary' | 'stopped';
+  samples: ReentrySample[]; outcome: 'pending' | 'model-boundary' | 'surface-reference' | 'stopped';
+  lower?: { startTime: number; contactTime: number | null; speedMS: number | null };
 }
-export function entryReading(p: Particle, massKg: number, time: number) {
-  const force = ascentForces(p, reentryModel(massKg, p.fuel), time, 0), atmo = reentryAtmosphere(force.height);
+export function entryReading(p: Particle, massKg: number, time: number, groundGuard = false) {
+  const model = reentryModel(massKg, p.fuel);
+  if (groundGuard) model.atmosphere = h => reentryAtmosphere(Math.max(0, h));
+  const force = ascentForces(p, model, time, 0), atmo = reentryAtmosphere(groundGuard ? Math.max(0, force.height) : force.height);
   // Below 86 km, fixed-composition ideal-gas sound speed is a useful teaching approximation.
   const mach = force.height <= 86000 ? force.airSpeed / Math.sqrt(1.4 * 287.05 * atmo.temperatureK) : null;
   const heatFluxWm2 = force.height <= REENTRY.heatingMaxM && mach !== null && mach >= REENTRY.heatingMinMach ? stagnationHeatFlux(force.density, force.airSpeed, REENTRY.noseRadiusM) : null;
@@ -62,8 +65,15 @@ export class ReentrySimulation {
   private event(label: string) { this.state.events.push({ time: this.state.time, label }); }
   startCoast() { if (this.state.phase !== 'reentry-ready') throw Error('请先查看再入条件。'); this.state.phase = 'reentry-coast'; this.state.message = '无推力滑行向较低高度，卫星独立绕地。自动停在下降穿过 120 km 的教学检查点；这不是大气的硬边界。'; this.event('开始再入前滑行'); }
   startEntry() { if (this.state.phase !== 'reentry-interface') throw Error('请先到达 120 km 检查点。'); this.state.phase = 'reentry-atmosphere'; this.state.message = '继续下降：空气相对速度驱动阻力，标准大气密度随高度变化。橙色迎风包络为热流强弱的放大示意；箭体是否解体尚未计算。'; this.event('继续大气段，开始观察减速与受热'); }
+  startLower() {
+    if (this.state.phase !== 'reentry-complete') throw Error('请先到达 20 km 检查点。');
+    this.state.reentry!.lower = { startTime: this.state.time, contactTime: null, speedMS: null };
+    this.state.reentry!.outcome = 'pending'; this.state.phase = 'reentry-lower';
+    this.state.message = '继续同一等效质量与阻力模型至地表。球形标记代表计算质点，不代表完整箭体或真实残骸；没有材料解体与落区预测。';
+    this.event('从 20 km 继续等效物体参考下降，不作残骸存活判断');
+  }
   private refresh() {
-    const s = this.state, r = s.reentry!, d = s.deployment!, a = s.ascent!, current = entryReading(this.carrier, r.startMassKg, s.time), f = current.force;
+    const s = this.state, r = s.reentry!, d = s.deployment!, a = s.ascent!, current = entryReading(this.carrier, r.startMassKg, s.time, !!r.lower), f = current.force;
     for (const [p, body] of [[this.carrier, d.carrier], [this.satellite, d.satellite]] as const) Object.assign(body, { position: [...p.position], velocity: [...p.velocity], fixedPosition: rotateEarth(p.position, -s.time), elements: orbitalElements(p.position, p.velocity), altitudeM: surfaceAt(p.position).height });
     const vertical = dot(f.relative, f.up), direction = r.startDirection;
     Object.assign(s, { heightM: f.height - LIFTOFF.padHeightM, speedMS: vertical, massKg: r.startMassKg, thrustN: 0, throttle: 0, dragN: f.drag, weightN: r.startMassKg * LAUNCH_EARTH.gmM3S2 / norm(this.carrier.position) ** 2, accelerationMS2: dot(f.acceleration, f.up) });
@@ -82,19 +92,25 @@ export class ReentrySimulation {
   }
   step() {
     if (!this.running) return;
-    const s = this.state, r = s.reentry!, target = s.phase === 'reentry-coast' ? REENTRY.interfaceM : REENTRY.endM, model = reentryModel(r.startMassKg, this.carrier.fuel);
+    const s = this.state, r = s.reentry!, target = s.phase === 'reentry-coast' ? REENTRY.interfaceM : s.phase === 'reentry-lower' ? 0 : REENTRY.endM, model = reentryModel(r.startMassKg, this.carrier.fuel);
+    // Guard RK4 trial points below the surface only for the optional new segment.
+    // The 0 m crossing is split below; no physical underground step is retained.
+    if (r.lower) model.atmosphere = h => reentryAtmosphere(Math.max(0, h));
     const advance = (dt: number) => integrateAscent(this.carrier, model, s.time, dt, () => 0);
     let dt = Math.min(this.stepS, REENTRY.maxS - r.elapsedS), next = advance(dt), boundary = surfaceAt(next.position).height <= target;
     // Split descending height crossings; neither a frame nor a multiplier can skip a checkpoint.
     if (boundary) { let lo = 0, hi = dt; for (let i = 0; i < 32; i++) { const mid = (lo + hi) / 2; if (surfaceAt(advance(mid).position).height > target) lo = mid; else hi = mid; } dt = (lo + hi) / 2; next = advance(dt); }
-    const mid = entryReading(advance(dt / 2), r.startMassKg, s.time + dt / 2);
+    const mid = entryReading(advance(dt / 2), r.startMassKg, s.time + dt / 2, !!r.lower);
     if (mid.heatFluxWm2 !== null) { r.heatLoadJm2 += mid.heatFluxWm2 * dt; r.heatingSeconds += dt; }
     this.carrier = next; this.satellite = integrateAscent(this.satellite, { dry: s.deployment!.satellite.massKg, cdArea: 4.4 }, s.time, dt, () => 0);
     s.time += dt; this.stepsTaken++; this.refresh();
     if (![...this.carrier.position, ...this.carrier.velocity, r.heatLoadJm2].every(Number.isFinite) || s.deployment!.satellite.altitudeM < 80000 || r.elapsedS >= REENTRY.maxS - 1e-7) { s.phase = 'reentry-failed'; r.outcome = 'stopped'; s.message = '已到计算时长或轨迹边界，保留当前状态；不能据此宣称已完成再入。'; this.sample(); this.event(s.message); }
     else if (boundary) {
       if (s.phase === 'reentry-coast') { s.phase = 'reentry-interface'; r.entryTime = s.time; s.message = '已下降至 120 km，时间冻结。这是本演示检查点，不是空气突然出现的位置；确认后进入大气减速段。'; }
-      else { s.phase = 'reentry-complete'; r.outcome = 'model-boundary'; s.message = '计算已停在 20 km 教学边界。图中完整箭体只是等效质点的显示载体；没有材料与解体求解，不能判定残骸、烧毁、落区或安全着陆。卫星仍在轨。'; }
+      else if (s.phase === 'reentry-lower') {
+        s.phase = 'reentry-surface'; r.outcome = 'surface-reference'; r.lower!.contactTime = s.time; r.lower!.speedMS = s.ascent!.airSpeedMS;
+        s.message = '等效物体已到达地球椭球面，参考下降结束并冻结；未把它标记为安全着陆、完整箭体存活或真实残骸落点。卫星仍独立在轨，接下来展示卫星任务。';
+      } else { s.phase = 'reentry-complete'; r.outcome = 'model-boundary'; s.message = '计算已停在 20 km 教学边界。图中完整箭体只是等效质点的显示载体；没有材料与解体求解，不能判定残骸、烧毁、落区或安全着陆。卫星仍在轨。'; }
       this.sample(); this.event(s.message);
     }
   }

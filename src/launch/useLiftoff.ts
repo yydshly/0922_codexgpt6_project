@@ -1,3 +1,4 @@
+import { DEMO_IDLE, type DemoStatus } from './fullFlightDemo';
 import { useEffect, useRef, useState } from 'react';
 import { LiftoffSimulation, type FlightState } from './liftoff';
 import type { LaunchCommand } from './liftoff.worker';
@@ -8,6 +9,7 @@ import { AscentRecord, type AscentRecordData } from './ascentRecord';
 
 export function useLiftoff(config: VehicleConfig, initialBaseTime: number, onRestored: (config: VehicleConfig) => void) {
   const worker = useRef<Worker | null>(null), restoredConfig = useRef<VehicleConfig | null>(null), restoreCallback = useRef(onRestored); restoreCallback.current = onRestored;
+  const [demo, setDemo] = useState<DemoStatus>({ ...DEMO_IDLE });
   const [state, setState] = useState<FlightState>(() => new LiftoffSimulation(config).snapshot());
   const [ascentRecord, setAscentRecord] = useState<AscentRecordData>(() => new AscentRecord().snapshot());
   const [paused, setPaused] = useState(false), [ready, setReady] = useState(false), [error, setError] = useState(''), [storageStatus, setStorageStatus] = useState('');
@@ -18,7 +20,8 @@ export function useLiftoff(config: VehicleConfig, initialBaseTime: number, onRes
     setReady(false); setError('');
     try {
       const w = new Worker(new URL('./liftoff.worker.ts', import.meta.url), { type: 'module' }); worker.current = w;
-      w.onmessage = ({ data }: MessageEvent<{ state?: FlightState; ascentRecord?: AscentRecordData; paused: boolean; error: string; rate: number; baseTime: number; config: VehicleConfig; saved?: FlightSave; restored?: boolean; restoreFailed?: boolean; storageError?: string }>) => {
+      w.onmessage = ({ data }: MessageEvent<{ demo?: DemoStatus; state?: FlightState; ascentRecord?: AscentRecordData; paused: boolean; error: string; rate: number; baseTime: number; config: VehicleConfig; saved?: FlightSave; restored?: boolean; restoreFailed?: boolean; storageError?: string }>) => {
+        setDemo(data.demo ?? { ...DEMO_IDLE });
         if (data.ascentRecord) setAscentRecord(data.ascentRecord);
         if (data.state) { setState(data.state); setReady(true); } setPaused(data.paused); setError(data.error); setRate(data.rate); if (Number.isFinite(data.baseTime)) setBaseTime(data.baseTime);
         if (data.saved) { setSaved(data.saved); try { setStorageStatus(storeFlight(data.saved)); } catch (e) { setStorageStatus((e as Error).message); } }
@@ -36,6 +39,6 @@ export function useLiftoff(config: VehicleConfig, initialBaseTime: number, onRes
     if (config === restoredConfig.current) { restoredConfig.current = null; return; }
     worker.current?.postMessage({ type: 'reset', config, baseTime: initialBaseTime } satisfies LaunchCommand);
   }, [config, initialBaseTime]);
-  return { state, ascentRecord, paused, ready: ready && !restoring, error, rate, baseTime, saved, storageStatus, restoring, restoredCount,
+  return { demo, state, ascentRecord, paused, ready: ready && !restoring, error, rate, baseTime, saved, storageStatus, restoring, restoredCount,
     send: (command: LaunchCommand) => { if (command.type === 'restore') { setRestoring(true); setStorageStatus('正在按原配置重算飞行，请稍候…'); } worker.current?.postMessage(command); }, reset: () => setGeneration(n => n + 1) };
 }

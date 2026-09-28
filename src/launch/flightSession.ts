@@ -14,12 +14,13 @@ export const P1_FLIGHT_VERSION = 'earth-flight-1/e3-1/e4-1/e5-1/e6-1/p1-1';
 export const P2_FLIGHT_VERSION = 'earth-flight-1/e3-1/e4-1/e5-1/e6-1/p1-1/p2-1';
 export const P3_FLIGHT_VERSION = P2_FLIGHT_VERSION + '/p3-1';
 export const P4_FLIGHT_VERSION = P3_FLIGHT_VERSION + '/p4-1';
-export const FLIGHT_VERSION = P4_FLIGHT_VERSION + '/p5-1';
-export const FLIGHT_ACTIONS = ['reset', 'start', 'cancel', 'preview-ascent', 'continue-ascent', 'separate', 'continue-orbit', 'cutoff', 'coast', 'continue-deployment', 'open-fairing', 'deploy', 'continue-deployed', 'analyze-avoidance', 'skip-avoidance', 'align-avoidance', 'ignite-avoidance', 'observe-avoidance', 'analyze-deorbit', 'skip-deorbit', 'align-deorbit', 'ignite-deorbit', 'passivate-deorbit', 'prepare-reentry', 'coast-reentry', 'enter-reentry', 'prepare-operations', 'align-operations', 'observe-operations', 'downlink-operations', 'prepare-maintenance', 'start-maintenance', 'keep-maintenance', 'review-retirement', 'command-retirement', 'close-retirement', 'observe-retirement'] as const;
+export const P5_FLIGHT_VERSION = P4_FLIGHT_VERSION + '/p5-1';
+export const FLIGHT_VERSION = P5_FLIGHT_VERSION + '/ground-1';
+export const FLIGHT_ACTIONS = ['reset', 'start', 'cancel', 'preview-ascent', 'continue-ascent', 'separate', 'continue-orbit', 'cutoff', 'coast', 'continue-deployment', 'open-fairing', 'deploy', 'continue-deployed', 'analyze-avoidance', 'skip-avoidance', 'align-avoidance', 'ignite-avoidance', 'observe-avoidance', 'analyze-deorbit', 'skip-deorbit', 'align-deorbit', 'ignite-deorbit', 'passivate-deorbit', 'prepare-reentry', 'coast-reentry', 'enter-reentry', 'descend-reentry', 'prepare-operations', 'align-operations', 'observe-operations', 'downlink-operations', 'prepare-maintenance', 'start-maintenance', 'keep-maintenance', 'review-retirement', 'command-retirement', 'close-retirement', 'observe-retirement'] as const;
 export type FlightAction = typeof FLIGHT_ACTIONS[number];
 export interface FlightJournal { action: FlightAction; steps: number }
 export interface FlightSave {
-  version: typeof FLIGHT_VERSION | typeof LEGACY_FLIGHT_VERSION | typeof P1_FLIGHT_VERSION | typeof P2_FLIGHT_VERSION | typeof P3_FLIGHT_VERSION | typeof P4_FLIGHT_VERSION; savedAt: string; baseTime: number; config: VehicleConfig; rate: number;
+  version: typeof FLIGHT_VERSION | typeof P5_FLIGHT_VERSION | typeof LEGACY_FLIGHT_VERSION | typeof P1_FLIGHT_VERSION | typeof P2_FLIGHT_VERSION | typeof P3_FLIGHT_VERSION | typeof P4_FLIGHT_VERSION; savedAt: string; baseTime: number; config: VehicleConfig; rate: number;
   journal: FlightJournal[]; snapshot: FlightState; checksum: string;
 }
 type Clock = LiftoffClock | AscentClock | OrbitClock | DeploymentClock | ReentryClock | OperationsClock | LifecycleClock;
@@ -28,7 +29,7 @@ export function flightChecksum(snapshot: FlightState) { let h = 2166136261; cons
 export function parseFlightSave(raw: string): FlightSave {
   if (raw.length > 2_000_000) throw Error('飞行存档过大。');
   const value = JSON.parse(raw) as FlightSave;
-  if (!value || ![FLIGHT_VERSION, LEGACY_FLIGHT_VERSION, P1_FLIGHT_VERSION, P2_FLIGHT_VERSION, P3_FLIGHT_VERSION, P4_FLIGHT_VERSION].includes(value.version)) throw Error('飞行存档版本不兼容，请保留原文件。');
+  if (!value || ![FLIGHT_VERSION, P5_FLIGHT_VERSION, LEGACY_FLIGHT_VERSION, P1_FLIGHT_VERSION, P2_FLIGHT_VERSION, P3_FLIGHT_VERSION, P4_FLIGHT_VERSION].includes(value.version)) throw Error('飞行存档版本不兼容，请保留原文件。');
   parseVehicle(value.config);
   if (!Number.isFinite(value.baseTime) || value.baseTime < 800000000 || value.baseTime > 900000000 || !Number.isFinite(Date.parse(value.savedAt)) || ![1, 4, 10, 100].includes(value.rate)) throw Error('存档日期或倍率无效。');
   if (!Array.isArray(value.journal) || value.journal.length < 1 || value.journal.length > 200 || value.journal[0].action !== 'reset') throw Error('存档操作记录无效。');
@@ -36,10 +37,11 @@ export function parseFlightSave(raw: string): FlightSave {
   for (const [i, item] of value.journal.entries()) {
     if (!FLIGHT_ACTIONS.includes(item.action) || i > 0 && item.action === 'reset' || !Number.isInteger(item.steps) || item.steps < 0 || item.steps > 100000) throw Error('存档计算步数或操作无效。');
     if (value.version === LEGACY_FLIGHT_VERSION && item.action.endsWith('-avoidance')) throw Error('旧版存档不能包含新的避让操作。');
-    if (value.version !== FLIGHT_VERSION && value.version !== P4_FLIGHT_VERSION && value.version !== P2_FLIGHT_VERSION && value.version !== P3_FLIGHT_VERSION && item.action.endsWith('-deorbit')) throw Error('旧版存档不能包含离轨操作。');
-    if (value.version !== FLIGHT_VERSION && value.version !== P4_FLIGHT_VERSION && value.version !== P3_FLIGHT_VERSION && item.action.endsWith('-reentry')) throw Error('旧版存档不能包含再入操作。');
-    if (value.version !== FLIGHT_VERSION && value.version !== P4_FLIGHT_VERSION && item.action.endsWith('-operations')) throw Error('旧版存档不能包含卫星工作操作。');
-    if (value.version !== FLIGHT_VERSION && (item.action.endsWith('-maintenance') || item.action.endsWith('-retirement'))) throw Error('旧版存档不能包含维护退役操作。');
+    if (value.version !== FLIGHT_VERSION && value.version !== P5_FLIGHT_VERSION && value.version !== P4_FLIGHT_VERSION && value.version !== P2_FLIGHT_VERSION && value.version !== P3_FLIGHT_VERSION && item.action.endsWith('-deorbit')) throw Error('旧版存档不能包含离轨操作。');
+    if (value.version !== FLIGHT_VERSION && value.version !== P5_FLIGHT_VERSION && value.version !== P4_FLIGHT_VERSION && value.version !== P3_FLIGHT_VERSION && item.action.endsWith('-reentry')) throw Error('旧版存档不能包含再入操作。');
+    if (value.version !== FLIGHT_VERSION && value.version !== P5_FLIGHT_VERSION && value.version !== P4_FLIGHT_VERSION && item.action.endsWith('-operations')) throw Error('旧版存档不能包含卫星工作操作。');
+    if (value.version !== FLIGHT_VERSION && value.version !== P5_FLIGHT_VERSION && (item.action.endsWith('-maintenance') || item.action.endsWith('-retirement'))) throw Error('旧版存档不能包含维护退役操作。');
+    if (item.action === 'descend-reentry' && value.version !== FLIGHT_VERSION) throw Error('旧版存档不能包含地表参考下降。');
     total += item.steps;
   }
   if (total > 100000 || !value.snapshot || !Number.isFinite(value.snapshot.time) || !Array.isArray(value.snapshot.events) || value.snapshot.events.length > 300 || value.checksum !== flightChecksum(value.snapshot)) throw Error('存档校验失败，请保留原文件。');
@@ -88,6 +90,7 @@ export class FlightSession {
     else if (action === 'prepare-reentry' && c instanceof DeploymentClock) { this.clock = new ReentryClock(new ReentrySimulation(c.simulation.snapshot())); this.pause(true); }
     else if (action === 'coast-reentry' && c instanceof ReentryClock) { c.simulation.startCoast(); this.pause(false); }
     else if (action === 'enter-reentry' && c instanceof ReentryClock) { c.simulation.startEntry(); c.setRate(10); this.pause(false); }
+    else if (action === 'descend-reentry' && c instanceof ReentryClock) { c.simulation.startLower(); c.setRate(10); this.pause(false); }
     else if (action === 'prepare-operations' && (c instanceof DeploymentClock || c instanceof ReentryClock)) { this.clock = new OperationsClock(new OperationsSimulation(c.simulation.snapshot(), this.baseTime)); this.pause(true); }
     else if (action === 'align-operations' && c instanceof OperationsClock) { c.simulation.align(); c.setRate(1); this.pause(false); }
     else if (action === 'observe-operations' && c instanceof OperationsClock) { c.simulation.observe(); c.setRate(100); this.pause(false); }

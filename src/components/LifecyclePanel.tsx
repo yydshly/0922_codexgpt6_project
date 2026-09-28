@@ -1,3 +1,4 @@
+import { FlightEnding } from './FlightEnding';
 import { useEffect, useId, useRef } from 'react';
 import type { FlightState } from '../launch/liftoff';
 import type { LaunchCommand } from '../launch/liftoff.worker';
@@ -31,6 +32,7 @@ export function LifecycleControl({state:s,paused,ready,error,rate,send,onOpen,on
     </div>
     <div className="ascent-rate" aria-label="维护退役倍率">{[1,10,100].map(v=><button key={v} disabled={disabled} aria-pressed={v===rate} onClick={()=>send({type:'rate',value:v})}>{v} 倍</button>)}</div>
     <dl className="launch-telemetry"><div><dt>当前业务状态</dt><dd data-life-status>{lifecycleStatus(s)}</dd></div><div><dt>电池 / 充电回路</dt><dd data-life-battery>{(o.energyJ/o.capacityJ*100).toFixed(1)}% / {l.isolated?'已隔离':'连接'}</dd></div><div><dt>接入功率 / 用电</dt><dd data-life-power>{o.generationW.toFixed(0)} / {o.loadW.toFixed(0)} <small>W</small></dd></div><div><dt>推进能力 / 处置结果</dt><dd>0 N · 0 kg <small>推进剂 / 未离轨</small></dd></div></dl>
+    {l.mode==='retired'&&<FlightEnding state={s}/>}
     {l.mode==='retired'&&<section className="orbit-verdict"><strong>已结束业务，尚未完成空间处置</strong><p>卫星保留在场景中。充电与主用电回路断开，保留 5% 教学残余电量；没有完全钝化认证。当前位置继续由引力和简化阻力计算，不预测坠落日期。</p>{s.phase==='life-observed'&&<p>本次无推进分支已完成，可保存和验收。带推进卫星的变轨、离轨及长期寿命另需模型，不能自动添加发动机。</p>}</section>}
     <button onClick={onReset}>重置为新的地面任务</button>
   </div>;

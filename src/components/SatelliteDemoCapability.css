@@ -1,0 +1,11 @@
+.satellite-demo-capability{display:grid;gap:10px;padding:13px;border:1px solid #698273;border-radius:8px;background:#172e32;min-width:0}
+.satellite-demo-capability h3{font-size:15px;line-height:1.5;margin:0;color:#e4eacb}
+.satellite-demo-capability ol{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0;margin:0}
+.satellite-demo-capability li{display:flex;align-items:center;gap:6px;padding:6px;border-radius:4px;color:#a3b9bb;font-size:11px;line-height:1.5}
+.satellite-demo-capability li[aria-current=step]{background:#385646;color:#e7f4d3}
+.satellite-demo-capability li span{font-variant-numeric:tabular-nums}
+.satellite-demo-capability>dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0}
+.satellite-demo-capability dt{font-size:10px;color:#a6bfc6}.satellite-demo-capability dd{font-size:13px;margin:3px 0;color:#f0d2a5;overflow-wrap:anywhere}
+.satellite-demo-capability button{padding:9px;font-size:12px}.satellite-demo-capability small{font-size:10px}
+.launch-sidebar:has(>.full-flight-demo){display:flex;flex-direction:column;gap:10px}
+.launch-sidebar>.full-flight-demo{order:-1;padding-top:0;flex-shrink:0}

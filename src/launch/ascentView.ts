@@ -1,3 +1,5 @@
+import { createObservationFootprintView } from './observationFootprintView';
+import { DEFAULT_FOOTPRINT, type FootprintOptions } from './observationFootprint';
 import { createOperationsView } from './operationsView';
 import type { OperationsGuides } from './operationsGuides';
 import { createReentryEffect } from './reentryEffects';
@@ -26,7 +28,9 @@ export function createAscentView(loader: PanoramaTextureLoader) {
   const root = new THREE.Group(), planet = new THREE.Group(), vehicle = createLaunchVehicle(), booster = createLaunchVehicle();
   root.add(planet, vehicle.root, booster.root);
   const satellite = createLaunchSatellite(); root.add(satellite.root); satellite.root.visible = false;
+  const arrayNormalAnchor: { center: THREE.Vector3 | null } = { center: null };
   const operations = createOperationsView(); root.add(operations.root);
+  const footprint = createObservationFootprintView(); root.add(footprint.root);
   const environment = createAscentEnvironmentView(); root.add(environment.root);
   const basis = baseBasis(), localDirection = (v: THREE.Vector3) => new THREE.Vector3(v.dot(basis.east), v.dot(basis.up), v.dot(basis.south));
   planet.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(localDirection(new THREE.Vector3(1, 0, 0)), localDirection(new THREE.Vector3(0, 0, 1)), localDirection(new THREE.Vector3(0, -1, 0))));
@@ -76,11 +80,12 @@ export function createAscentView(loader: PanoramaTextureLoader) {
   const groundGrid = new THREE.GridHelper(240, 24, '#9abcb4', '#547b82'); groundGrid.position.y = .08; groundReference.add(groundGrid);
   root.add(groundReference); groundReference.visible = false;
   let currentConfig: VehicleConfig | undefined;
-  return { root, operationAnchors: operations.anchors, operationMaterials: operations.materials, update(state: FlightState, config: VehicleConfig, lightDirection: THREE.Vector3, options: EnvironmentOptions, overview: boolean, kind: SpaceObjectKind | 'all', focus: 'carrier' | 'satellite' | 'pair' = 'carrier', forceOverlay = false, boosterSample?:BoosterSample, boosterTrail:BoosterSample[] = [], operationsGuides?:OperationsGuides) {
-    const a = state.ascent!;
+  return { root, arrayNormalAnchor, footprintAnchor:footprint.anchor, operationAnchors: operations.anchors, operationMaterials: operations.materials, update(state: FlightState, config: VehicleConfig, lightDirection: THREE.Vector3, options: EnvironmentOptions, overview: boolean, kind: SpaceObjectKind | 'all', focus: 'carrier' | 'satellite' | 'pair' = 'carrier', forceOverlay = false, boosterSample?:BoosterSample, boosterTrail:BoosterSample[] = [], operationsGuides?:OperationsGuides, footprintOptions:FootprintOptions=DEFAULT_FOOTPRINT, regionalView=false) {
+    const a = state.ascent!; arrayNormalAnchor.center = null; satellite.setArrayGuides(false);
     if (currentConfig !== config) { vehicle.update(config); booster.update(config); currentConfig = config; }
     vehicle.setFlightStage(a.stage === 0 ? 'whole' : 'upper'); booster.setFlightStage('booster');
     if(boosterSample){
+      footprint.hide();
       const b=boosterSample,origin=fixedToLocal(new THREE.Vector3(...b.fixedPosition)),direction=localDirection(new THREE.Vector3(...b.fixedDirection)).normalize(),point=b.model==='entry';
       vehicle.root.visible=satellite.root.visible=operations.root.visible=environment.root.visible=orbitLine.visible=targetLine.visible=orbitMarker.visible=satelliteOrbit.visible=false;
       booster.root.visible=!point;booster.root.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction);booster.root.position.copy(direction).multiplyScalar(-17.75);
@@ -102,7 +107,8 @@ export function createAscentView(loader: PanoramaTextureLoader) {
     const satelliteEntry = disposal?.entryAt != null;
     vehicle.root.visible = !o && !state.reentry?.lower;
     if (o) lightDirection = localDirection(new THREE.Vector3(...rotateEarth(o.sunDirection, -state.time))).normalize();
-    operations.update(state, origin, overview, operationsGuides);
+    operations.update(state, origin, overview, operationsGuides, regionalView);
+    footprint.update(state,origin,overview,footprintOptions);
     const viewAltitude = d && focus === 'satellite' ? d.satellite.altitudeM : a.altitudeM;
     path.material.color.set(state.reentry ? '#ffb367' : '#eabf73');
     satelliteOrbit.material.color.set(state.lifecycle?.mode === 'retired' ? '#9eabb9' : !o && state.reentry ? '#84deda' : '#ebb78b');
@@ -123,8 +129,14 @@ export function createAscentView(loader: PanoramaTextureLoader) {
     satellite.root.visible = !!d?.released && !satelliteEntry;
     satellite.setPropulsion(!!state.satelliteEquipment, state.phase === 'disposal-burn' ? 1 : 0, state.time);
     if (d && satelliteCenter) { satellite.root.position.copy(satelliteCenter); satellite.root.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), localDirection(new THREE.Vector3(...rotateEarth(o?.direction ?? d.direction, -state.time))).normalize()); satellite.update(config.payloadKg, d.panels); satellite.pointArrays(o ? localDirection(new THREE.Vector3(...rotateEarth(o.arrayNormal, -state.time))).applyQuaternion(satellite.root.quaternion.clone().invert()) : undefined); }
+    const showArrayGuides = !!o && state.phase.startsWith('ops-') && !overview && operationsGuides?.power !== false;
+    satellite.setArrayGuides(showArrayGuides);
+    if (showArrayGuides) {
+      const face = satellite.arrayFaceFrames()[1];
+      arrayNormalAnchor.center = root.worldToLocal(face.center.addScaledVector(face.normal, 1.6 * satellite.root.scale.x));
+    }
     planet.position.copy(localDirection(basis.origin.clone().negate())).sub(origin);
-    orbitLine.visible = targetLine.visible = !!state.orbit && !state.reentry && !o; orbitMarker.visible = !!state.orbit && overview;
+    orbitLine.visible = targetLine.visible = !!state.orbit && !state.reentry && !o; orbitMarker.visible = !!state.orbit && overview;orbitMarker.scale.setScalar(regionalView?.08:1);
     satelliteOrbit.visible = !!d?.released && overview && !satelliteEntry;
     if (state.orbit && (lastOrbitTime !== state.time || lastOrbitPhase !== state.phase)) {
       const elements = state.orbit.elements, points = sampleOrbit(elements), q = cross(elements.normal, elements.periDirection);
@@ -151,7 +163,8 @@ export function createAscentView(loader: PanoramaTextureLoader) {
     noseMaterial.opacity = .5 * Math.min(1, Math.sqrt(a.dynamicPressurePa / 30000));
     if (lastPathTime !== state.time) { const points = a.trail.slice(-800); points.forEach((p, i) => fixedToLocal(new THREE.Vector3(...p)).sub(origin).toArray(pathPositions, i * 3)); pathGeometry.attributes.position.needsUpdate = true; pathGeometry.setDrawRange(0, points.length); lastPathTime = state.time; }
     path.visible = (!!disposal || !o && !!state.reentry) && overview || (!d && a.altitudeM > 2000); stars.material.opacity = overview ? .65 : .65 * THREE.MathUtils.smoothstep(viewAltitude, 55000, 120000);
-    hemi.intensity = o ? o.shadow ? .14 : .4 : THREE.MathUtils.lerp(1.4, .6, THREE.MathUtils.smoothstep(viewAltitude, 10000, 100000));
+    // Labelled teaching fill reveals the panel fronts in a close-up eclipse; it never enters the power ledger.
+    hemi.intensity = o ? o.shadow ? !overview && state.phase.startsWith('ops-') ? 1.4 : .14 : .4 : THREE.MathUtils.lerp(1.4, .6, THREE.MathUtils.smoothstep(viewAltitude, 10000, 100000));
     sun.visible = hemi.visible = !!state.reentry || overview || viewAltitude >= 4000;
     const apsis = (radius: number) => fixedToLocal(new THREE.Vector3(...rotateEarth(scale(state.orbit!.elements.periDirection, radius), -state.time))).sub(origin);
     const periCenter = !state.reentry && state.orbit && state.orbit.elements.eccentricity > 1e-6 ? apsis(R + state.orbit.elements.periapsisM) : null;

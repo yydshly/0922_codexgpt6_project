@@ -1,15 +1,15 @@
 import { SatelliteNetworkGuide } from './SatelliteNetworkGuide';
+import { ProjectNotes } from './ProjectNotes';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import type { FlightState } from '../launch/liftoff';
 import type { VehicleConfig } from '../launch/vehicle';
 import { satellitePlan, satelliteWetKg } from '../launch/satellitePlan';
 import { GROUND_STATIONS, OPS, OPS_LABELS, type OperationsPhase } from '../launch/satelliteOperations';
 import { flightTime } from './LaunchControl';
-import notesUrl from '../../docs/SATELLITE-MISSION-GUIDE.md?url';
 import './SatelliteMissionGuide.css';
 
-interface Props { state:FlightState; config:VehicleConfig; onClose:()=>void; onOverview:()=>void; onParameters:()=>void }
-export function SatelliteMissionGuide({state:s,config,onClose,onOverview,onParameters}:Props) {
+interface Props { state:FlightState; config:VehicleConfig; onClose:()=>void; onOverview:()=>void; onParameters:()=>void;onFootprint:()=>void }
+export function SatelliteMissionGuide({state:s,config,onClose,onOverview,onParameters,onFootprint}:Props) {
  const dialog=useRef<HTMLElement>(null),close=useRef<HTMLButtonElement>(null);
  const closeAction=useRef(onClose);closeAction.current=onClose;
  const [tab,setTab]=useState<'mission'|'range'|'ability'|'network'>('mission');
@@ -41,11 +41,12 @@ export function SatelliteMissionGuide({state:s,config,onClose,onOverview,onParam
    {tab==='range'&&<div data-guide-section="range">
     <h3>经过哪里，与拍到多大范围是两回事</h3>
     {body?<><dl className="satellite-orbit-facts"><div><dt>当前椭球参考高度</dt><dd>{(body.altitudeM/1000).toFixed(1)} km</dd></div><div><dt>轨道倾角</dt><dd>{body.elements.inclinationDeg.toFixed(2)}°</dd></div><div><dt>当前轨道周期估算</dt><dd>{body.elements.periodS===null?'当前无闭合轨道周期':`${(body.elements.periodS/60).toFixed(1)} 分钟`}</dd></div></dl><p>这些数值取自本次模拟的卫星状态。轨道倾角描述轨道面相对赤道的倾斜；卫星随轨道经过不同地区，地球也在自转，不能默认始终盯住同一地点或覆盖全球。</p></>:<p className="satellite-guide-note">卫星尚未独立释放，暂不提供“当前卫星轨道”。释放后这里显示本次实际高度、倾角与周期。</p>}
-    <div className="satellite-scope-grid"><article><strong>橙线：观测朝向</strong><p>主画面实线表示正在采集，虚线仅标出星下点方向。没有相机视场和扫描幅宽，不能把线或地球可见部分当成拍摄覆盖区。</p></article><article><strong>绿线：正在下传</strong><p>实线表示正在下传，虚线表示当前几何可见但未下传；没有可见站时不画连线。几何可见不等于正在传送，也不等于观测到了地面站附近。</p></article></div>
+    <div className="satellite-scope-grid"><article><strong>橙线：观测朝向</strong><p>主画面实线表示正在采集，虚线仅标出星下点方向。当前任务未定义真实相机，不能把这条线或可见地球圆盘当成拍摄覆盖区。</p></article><article><strong>绿线：通信关系</strong><p>实线表示正在下传，虚线表示当前几何可见但未下传；没有可见站时不画连线。几何可见不等于正在传送，也不等于观测到了地面站附近。</p></article></div>
+    <section className="satellite-guide-note"><h3>观测能力演示：卫星能朝向多大范围？</h3><p>「从头到尾演示」第 6 章会自动展示这一效果，依次讲解供电、观测与保存、下传和交付，无需另外打开图层。手动任务仍可从下方进入。</p><p>在当前卫星位置，假设相机始终朝向星下点，可以比较 6°、20°、40° 的圆形全视场。主画面会圈出相交的地表范围，显示轮廓两端的直线跨度，并可切入局部镜头。</p><p>这些角度是教学假设，不是 E01/E02 已装相机的规格。它表示此刻的几何范围，不表示已经拍摄；不更改本次任务的采集量和电量。范围变宽不等于照片更清楚。</p><button disabled={!activeOperations} onClick={onFootprint}>在主画面预览观测范围 →</button>{!activeOperations&&<p>卫星进入工作阶段后可查看本次位置对应的预览；发射前和任务末期不代填轨道或拍摄结果。</p>}</section>
     <p>主画面可分别开关三类辅助线：01 黄色对日箭头、02 橙色星下点方向、03 绿色地面通信关系。进入地影时对日方向仍存在，但不代表太阳能穿过地球供电；箭头长度不表示日地距离。</p>
     <h3>通信范围由地面站窗口决定</h3><p>采用 {GROUND_STATIONS.length} 个自定教学站，最低仰角 {OPS.minElevationDeg}°。卫星绕到地球背后或仰角不足时不能在本模型中下传；数据保留，等待后续窗口。未模拟真实射频覆盖、天气、地形或误码。</p>
     <div className="satellite-station-list" aria-label="教学地面站可见条件">{GROUND_STATIONS.map(st=>{const link=activeOperations?o?.links.find(l=>l.id===st.id):undefined;return <p key={st.id}><strong>{st.name}</strong><span>{link?`${link.elevationDeg.toFixed(1)}° · ${o?.transmitting&&o.activeStation===st.id?'正在下传':link.visible?'几何可见，未下传':'窗口外'}`:'教学站位置；当前不展示工作段实时窗口'}</span></p>;})}</div>
-    <p className="satellite-guide-note">有效拍摄面积、空间分辨率、某地重访间隔和全球覆盖率：本版均未求解。补齐载荷视场、任务目标、轨迹和成像条件后才能给出这些指标。</p>
+    <p className="satellite-guide-note">假设视场的几何轮廓已可预览；有效拍摄面积、空间分辨率、某地重访间隔和全球覆盖率仍未求解。真实成像指标还需载荷设计、任务目标和成像条件。</p>
    </div>}
    {tab==='ability'&&<div data-guide-section="ability">
     <h3>这颗卫星具备哪些教学能力？</h3><table><caption>{name} 当前配置 · 自定教学参数</caption><tbody>
@@ -56,14 +57,15 @@ export function SatelliteMissionGuide({state:s,config,onClose,onOverview,onParam
      <tr><th>低电量保护</th><td>电量 ≤{OPS.reserve*100}% 暂停采集和下传，≥{OPS.recover*100}% 才恢复；仍需维持基础用电。</td></tr>
      <tr><th>姿态与推进</th><td>理想辅助对地、对日和对站定向。{powered?'预装推进器用于既定末期离轨流程。':'没有推进器。'} 自由驾驶、姿态力矩与真实机构尚未实现。</td></tr>
     </tbody></table>
-    <h3>能力到哪里为止？</h3><ul><li>本版已接入：轨道运动、日照与地影、能量收支、数据库存及几何通信窗口。</li><li>本版未接入：真实遥感图像、相机分辨率与幅宽、云遮与成像质量、指定城市的观测计划、射频链路预算。</li><li>导航定位、卫星互联网中继、气象反演等属于其他任务和设备配置，本卫星未实现。</li></ul>
+    <h3>能力到哪里为止？</h3><ul><li>本版已接入：轨道运动、日照与地影、能量收支、数据库存及几何通信窗口；另有假设视场的地表轮廓预览。</li><li>本版未接入：真实遥感图像、实际相机分辨率与扫描幅宽、云遮与成像质量、指定城市的观测计划、射频链路预算。</li><li>导航定位、卫星互联网中继、气象反演等属于其他任务和设备配置，本卫星未实现。</li></ul>
     <p>一次交付完成后进入后续阶段；工作段最长 {OPS.maxS/3600} 小时是模拟时限，不是卫星真实寿命。没有有效窗口或越过模型边界时停止并保留结果，不强行算成功。</p>
    </div>}
    {tab==='network'&&<SatelliteNetworkGuide/>}
    <div className="satellite-guide-actions"><button disabled={!s.operations} onClick={onParameters}>{activeOperations?'查看工作参数与曲线':'查看当前任务参数'}</button><button disabled={!activeOperations} onClick={onOverview}>在主画面查看日夜与地面站</button></div>
    {s.operations&&!activeOperations&&<p>当前已进入维护或任务末期阶段，保留本次采集记录；工作段窗口不作为此刻的实时通信结果。</p>}
+   <ProjectNotes file="SATELLITE-DEMO-CLOSEOUT.md" label="本阶段范围与三组验收 · 本地归档候选"/>
    {!s.operations&&<p>部署并完成分离检查后，从「卫星开始工作」进入演示；当前可以先阅读以上说明。</p>}
-   <details><summary>来源、参数出处与完整说明</summary><p>原理参考 NASA；本次设备参数来自项目自身教学配置，不对应现实中的 E01/E02 卫星。来源核对：2026-09-28。</p><a href="https://science.nasa.gov/earth/earth-observatory/catalog-of-earth-satellite-orbits/" target="_blank" rel="noreferrer">NASA · 轨道与对地观察范围</a><a href="https://www.nasa.gov/smallsat-institute/sst-soa/power-subsystems/" target="_blank" rel="noreferrer">NASA · 卫星电源系统</a><a href="https://www.nasa.gov/smallsat-institute/sst-soa/ground-data-systems-and-mission-operations/" target="_blank" rel="noreferrer">NASA · 地面系统与任务运行</a><a href={notesUrl}>项目能力与边界说明</a></details>
+   <details><summary>来源、参数出处与完整说明</summary><p>原理参考 NASA；本次设备参数来自项目自身教学配置，不对应现实中的 E01/E02 卫星。来源核对：2026-09-28。</p><a href="https://science.nasa.gov/earth/earth-observatory/catalog-of-earth-satellite-orbits/" target="_blank" rel="noreferrer">NASA · 轨道与对地观察范围</a><a href="https://www.nasa.gov/smallsat-institute/sst-soa/power-subsystems/" target="_blank" rel="noreferrer">NASA · 卫星电源系统</a><a href="https://www.nasa.gov/smallsat-institute/sst-soa/ground-data-systems-and-mission-operations/" target="_blank" rel="noreferrer">NASA · 地面系统与任务运行</a><ProjectNotes file="SATELLITE-MISSION-GUIDE.md" label="阅读项目能力与边界说明"/></details>
   </section>
  </div>;
 }

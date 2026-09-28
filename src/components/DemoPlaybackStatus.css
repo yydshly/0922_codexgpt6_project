@@ -1,0 +1,5 @@
+.demo-playback-status{display:grid;gap:7px;padding:11px;border:1px solid #587673;border-radius:6px;background:#203833;min-width:0;font-size:12px;line-height:1.65}
+.demo-playback-status>strong{font-size:13px;color:#dceac7}.demo-playback-status .demo-playback-time{color:#c0d1d4;font-variant-numeric:tabular-nums}.demo-playback-status p{margin:0!important;color:#c7d9d6}
+.demo-playback-status[data-playback-kind=paused]{background:#332f22;border-color:#8f825a}.demo-playback-status[data-playback-kind=paused]>strong{color:#eddaa5}
+.demo-playback-status[data-playback-kind=error]{background:#40272a;border-color:#a35d62}.demo-playback-status[data-playback-kind=error]>strong{color:#ffd6ca}
+.demo-checkpoint-progress{display:grid;gap:5px;border-top:1px solid #50645e;padding-top:8px}.demo-checkpoint-progress progress{width:100%;height:5px;accent-color:#bed3a0}.demo-checkpoint-progress span{font-size:11px;color:#d1dab9}.demo-checkpoint-progress b{font-size:12px;font-weight:500;color:#edf0d8}

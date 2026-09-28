@@ -9,6 +9,7 @@ import type { FlightState } from './liftoff';
 import { add, norm, scale } from './ascent';
 import { postDeploymentProgress, taskResultMarkdown } from './postDeploymentProgress';
 import { OPS } from './satelliteOperations';
+import { satelliteDeliveryExplanation } from './satelliteDemo';
 
 const BASE=843800000;let demo:FullFlightDemo, handoff:FlightState, cut:FlightState, armed:FlightState, burnSave:string;
 beforeAll(()=>{
@@ -31,6 +32,11 @@ describe('Satellite disposal choices and powered route',()=>{
   expect(()=>parseVehicle({...BASELINE_VEHICLE,satellitePlan:'destroy'})).toThrow();
  });
  it('uses satellite fuel, lowers orbit and reaches the reference surface without changing the carrier record',()=>{
+  const originalMessage=handoff.message;
+  expect(satelliteDeliveryExplanation(handoff)).toContain('E02 已预装离轨设备');
+  expect(satelliteDeliveryExplanation(handoff)).toContain('尚未执行离轨点火');
+  expect(satelliteDeliveryExplanation(handoff)).not.toContain('无推进退役');
+  expect(handoff.message).toBe(originalMessage);
   const s=demo.session.state,q=s.satelliteDisposal!,e=s.satelliteEquipment!;
   expect(s.phase).toBe('disposal-complete');expect(s.lifecycle).toBeUndefined();expect(q.outcome).toBe('surface-reference');
   expect(q.burnedKg).toBeGreaterThan(1);expect(q.ventedKg).toBeGreaterThan(0);expect(q.burnedKg+q.ventedKg+e.fuelKg).toBeCloseTo(40,7);

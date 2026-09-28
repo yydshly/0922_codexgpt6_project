@@ -3,10 +3,11 @@ import type { FlightSave } from '../launch/flightSession';
 import { hasSessionCopy, readFlightArchive } from '../launch/flightStorage';
 import { flightTime } from './LaunchControl';
 
-interface Props { ready: boolean; paused: boolean; time: number; phase: string; saved: FlightSave | null; status: string; onSave: () => void; onRestore: (raw: string) => void; onClose: () => void }
+interface Props { ready: boolean; recovery?: boolean; busy?: boolean; paused: boolean; time: number; phase: string; saved: FlightSave | null; status: string; onSave: () => void; onRestore: (raw: string) => void; onClose: () => void }
 const savedDate = (date: string) => new Date(date).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false });
 
-export function FlightSavePanel({ ready, paused, time, phase, saved, status, onSave, onRestore, onClose }: Props) {
+export function FlightSavePanel({ ready, recovery = false, busy = false, paused, time, phase, saved, status, onSave, onRestore, onClose }: Props) {
+  const canRestore = (ready || recovery) && !busy;
   const [error, setError] = useState(''), [archive, setArchive] = useState(readFlightArchive);
   const input = useRef<HTMLInputElement>(null), close = useRef<HTMLButtonElement>(null);
   useEffect(() => { setArchive(readFlightArchive()); }, [saved]);
@@ -38,11 +39,11 @@ export function FlightSavePanel({ ready, paused, time, phase, saved, status, onS
     else if (!event.shiftKey && document.activeElement === items.at(-1)) { event.preventDefault(); items[0]?.focus(); }
   }}>
     <header><h2>留住这次旅程</h2><button ref={close} onClick={onClose}>关闭存档面板</button></header>
-    <div className="flight-save-current" aria-live="polite"><span>{paused ? '当前飞行已暂停' : ready ? '正在暂停飞行…' : '正在准备飞行数据…'}</span><strong>{flightTime(time)}</strong><small>{phase} · 关闭面板后，由你继续推进。</small></div>
-    <small>保存将覆盖下方的浏览器存档；导入文件不会自动覆盖它。</small>
-    <div className="launch-flight-actions"><button className="launch-ignite" disabled={!ready} onClick={() => { setError(''); onSave(); }}>保存当前飞行</button><button disabled={!ready} onClick={() => input.current?.click()}>导入飞行文件</button></div>
+    <div className="flight-save-current" aria-live="polite"><span>{recovery ? busy ? '正在重新启动并重算存档…' : '计算中断 · 最后画面已冻结' : paused ? '当前飞行已暂停' : ready ? '正在暂停飞行…' : '正在准备飞行数据…'}</span><strong>{flightTime(time)}</strong><small>{phase} · {recovery ? '恢复成功后才可继续，关闭面板不会恢复计算。' : '关闭面板后，由你继续推进。'}</small></div>
+    <small>{recovery ? '最后画面不能保存为完整任务。选择已有存档恢复；导入和恢复不会覆盖原存档。' : '保存将覆盖下方的浏览器存档；导入文件不会自动覆盖它。'}</small>
+    <div className="launch-flight-actions"><button className="launch-ignite" disabled={!ready || recovery || busy} onClick={() => { setError(''); onSave(); }}>保存当前飞行</button><button disabled={!canRestore} onClick={() => input.current?.click()}>导入飞行文件</button></div>
     <section className="flight-archive-record" aria-label="浏览器中的存档"><h3>浏览器中的存档</h3>
-      {archive.kind === 'stored' ? <><strong data-archive-time>{flightTime(archive.save.snapshot.time)}</strong><small>保存于 {savedDate(archive.save.savedAt)}（北京时间）</small><div className="launch-flight-actions"><button disabled={!ready} onClick={restore}>恢复浏览器存档</button><button onClick={() => download(archive.raw)}>导出浏览器存档</button></div><small>导出的是上面这个时刻。飞行继续后，需要重新保存才会更新。</small></> : <p>{archive.kind === 'empty' ? '还没有存档。可保存当前飞行，或导入以前导出的文件。' : archive.message}</p>}
+      {archive.kind === 'stored' ? <><strong data-archive-time>{flightTime(archive.save.snapshot.time)}</strong><small>保存于 {savedDate(archive.save.savedAt)}（北京时间）</small><div className="launch-flight-actions"><button disabled={!canRestore} onClick={restore}>恢复浏览器存档</button><button onClick={() => download(archive.raw)}>导出浏览器存档</button></div><small>导出的是上面这个时刻。飞行继续后，需要重新保存才会更新。</small></> : <p>{archive.kind === 'empty' ? recovery ? '此浏览器没有飞行存档。可导入以前导出的文件，或关闭面板后重新开始地面任务。' : '还没有存档。可保存当前飞行，或导入以前导出的文件。' : archive.message}</p>}
     </section>
     {hasSessionCopy(saved, archive) && <section className="flight-archive-record" aria-label="本次会话副本"><h3>本次会话中的另一份副本</h3><strong>{flightTime(saved.snapshot.time)}</strong><small>保存于 {savedDate(saved.savedAt)}（北京时间）。这份副本尚未确认写入当前浏览器存档；关闭网页前请导出保留。</small><button onClick={() => download(JSON.stringify(saved))}>导出本次会话副本</button></section>}
     <input hidden ref={input} type="file" accept=".json,application/json" aria-label="导入飞行文件" onChange={async e => {

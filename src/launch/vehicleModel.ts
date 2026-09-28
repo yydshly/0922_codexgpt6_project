@@ -20,7 +20,9 @@ export function createLaunchSatellite() {
   const seams = new THREE.LineSegments(new THREE.EdgesGeometry(body.geometry), new THREE.LineBasicMaterial({ color: '#c6b47e' })); root.add(seams);
   const radiator = new THREE.Mesh(new THREE.BoxGeometry(.018, 1.05, .8), steel); radiator.position.set(-.69, -.05, 0); root.add(radiator);
   const port = new THREE.Mesh(new THREE.CylinderGeometry(.16, .16, .07, 24), steel); port.rotation.x = Math.PI / 2; port.position.set(.18, .1, .63); root.add(port);
-  const arrays = new THREE.Group(); root.add(arrays);
+  const arrays = new THREE.Group(); arrays.name = 'solar arrays'; root.add(arrays);
+  const back = new THREE.MeshStandardMaterial({ color: '#77858f', metalness: .2, roughness: .72 });
+  const arrayFaces: { panel: THREE.Mesh; normal: THREE.Vector3; guide: THREE.ArrowHelper }[] = [];
   const propulsion = new THREE.Group(); propulsion.name = 'E02 propulsion kit'; root.add(propulsion);
   for (const x of [-.42, .42]) { const tank = new THREE.Mesh(new THREE.SphereGeometry(.24, 20, 14), steel); tank.scale.y = 1.3; tank.position.set(x, -.95, 0); propulsion.add(tank); }
   const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(.09, .22, .4, 24, 1, true), new THREE.MeshStandardMaterial({ color: '#35424c', metalness: .6, roughness: .4, side: THREE.DoubleSide })); nozzle.position.y = -1.2; propulsion.add(nozzle);
@@ -33,12 +35,20 @@ export function createLaunchSatellite() {
   const hinges: THREE.Group[] = [];
   for (const side of [-1, 1]) {
     const hinge = new THREE.Group(); hinge.position.set(side * .72, -.65, 0); arrays.add(hinge); hinges.push(hinge);
-    const panel = new THREE.Mesh(new THREE.BoxGeometry(.07, 2.2, 1.25), blue); panel.position.y = 1.1; hinge.add(panel);
-    for (let i = 1; i < 7; i++) { const line = new THREE.Mesh(new THREE.BoxGeometry(.085, .015, 1.26), steel); line.position.y = i * 2.2 / 7; hinge.add(line); }
-    for (const z of [-.625, -.21, .21, .625]) { const line = new THREE.Mesh(new THREE.BoxGeometry(.085, 2.2, .012), steel); line.position.set(0, 1.1, z); hinge.add(line); }
+    // Box faces are +X,-X,+Y,-Y,+Z,-Z. After deployment, both blue fronts face array +Y.
+    const panel = new THREE.Mesh(new THREE.BoxGeometry(.07, 2.2, 1.25), side < 0 ? [blue, back, steel, steel, steel, steel] : [back, blue, steel, steel, steel, steel]);
+    panel.name = side < 0 ? 'left solar panel' : 'right solar panel'; panel.position.y = 1.1; hinge.add(panel);
+    for (let i = 1; i < 7; i++) { const line = new THREE.Mesh(new THREE.BoxGeometry(.008, .015, 1.26), steel); line.position.set(-side * .039, i * 2.2 / 7, 0); hinge.add(line); }
+    for (const z of [-.625, -.21, .21, .625]) { const line = new THREE.Mesh(new THREE.BoxGeometry(.008, 2.2, .012), steel); line.position.set(-side * .039, 1.1, z); hinge.add(line); }
+    const normal = new THREE.Vector3(-side, 0, 0);
+    const guide = new THREE.ArrowHelper(normal, panel.position.clone().addScaledVector(normal, .04), 1.6, '#79dfff', .22, .12);
+    guide.visible = false; hinge.add(guide); arrayFaces.push({ panel, normal, guide });
   }
   const update = (payloadKg: number, deployed: number) => { root.scale.setScalar(payloadKg === 500 ? 1 : .8); hinges.forEach((h, i) => { h.rotation.z = (i === 0 ? 1 : -1) * Math.PI / 2 * deployed; }); };
-  update(500, 0); return { root, update, setPropulsion, pointArrays(normal?: THREE.Vector3) { arrays.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal?.clone().normalize() ?? new THREE.Vector3(0, 1, 0)); } };
+  update(500, 0); return { root, update, setPropulsion, arrayFaces,
+    setArrayGuides(visible: boolean) { arrayFaces.forEach(f => { f.guide.visible = visible; }); },
+    arrayFaceFrames() { root.updateWorldMatrix(true, true); return arrayFaces.map(f => ({ center: f.panel.getWorldPosition(new THREE.Vector3()), normal: f.normal.clone().applyQuaternion(f.panel.getWorldQuaternion(new THREE.Quaternion())).normalize() })); },
+    pointArrays(normal?: THREE.Vector3) { arrays.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal?.clone().normalize() ?? new THREE.Vector3(0, 1, 0)); } };
 }
 
 /** Shared 60 m teaching vehicle. Attachment stations and plume origins match the flight model. */

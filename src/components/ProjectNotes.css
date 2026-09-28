@@ -1,0 +1,21 @@
+.project-notes{min-width:0;max-width:100%;padding:10px 0;border-top:1px solid #3b515b;color:#c7d7dc;font-size:13px;line-height:1.7}
+.project-notes>summary{cursor:pointer;color:#bae1d0;line-height:1.6}
+.project-notes>p{font-size:12px;color:#a4bcc7;margin:10px 0}
+.project-notes-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+.project-notes-body{min-width:0;max-height:55vh;overflow:auto;overscroll-behavior:contain;padding:4px 12px 12px 0;overflow-wrap:anywhere}
+.project-notes-body:focus-visible{outline:2px solid #b9d7a9;outline-offset:2px}
+.project-notes-body h3{font-size:17px;color:#e0edcf;margin:8px 0 16px}
+.project-notes-body h4{font-size:14px;color:#d0e0d4;margin:22px 0 8px}
+.project-notes-body p{margin:10px 0}.project-notes-body li{margin:8px 0}.project-notes-body ol,.project-notes-body ul{padding-left:22px}
+.project-notes-body img{display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #39515c;border-radius:4px}
+.project-notes-body pre{white-space:pre-wrap}.project-notes a,.project-notes .project-note-link{color:#b9e1d3;text-decoration:underline}
+.project-notes .project-note-link{display:inline;background:none;border:0;padding:0;font:inherit;text-align:left;cursor:pointer;border-radius:0}
+.project-notes-table{max-width:100%;overflow:auto;margin:12px 0}.project-notes-table table{border-collapse:collapse;min-width:440px;width:100%;font-size:12px}
+.project-notes-table th,.project-notes-table td{border:1px solid #41565e;padding:9px;text-align:left;vertical-align:top;white-space:normal}
+.project-notes-table th{background:#20373c;color:#d5e9d5}.demo-acceptance-actions{display:grid;gap:8px;margin:12px 0}
+.full-flight-demo,.full-flight-demo .demo-interactions,.demo-acceptance{min-width:0;min-inline-size:0}
+.project-notes-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}.project-notes-toolbar span{font-size:11px;color:#a5bdc4}
+.project-notes .project-notes-close{width:100%;margin-top:10px;padding:9px}
+.full-flight-demo .demo-reading-note{padding:9px;background:#233b37;border-left:2px solid #b9d1a8;color:#d6e5cf;font-size:12px}
+.full-flight-demo h2:focus-visible{outline:2px solid #b9d1a8;outline-offset:4px}
+.demo-acceptance-actions>button,.project-notes-toolbar>button{min-height:38px;padding:8px 10px;line-height:1.5;text-align:center}

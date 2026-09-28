@@ -47,7 +47,7 @@ export function createAscentEnvironmentView() {
     cloudAnchors.push(new THREE.Vector3(x, 1900 + (i % 4) * 650, z)); cloud.scale.set(2800 + i % 3 * 500, 1400, 1); clouds.add(cloud);
   }
   let lastTime = NaN, lastKind: SpaceObjectKind | 'all' = 'all';
-  return { root, update(state: FlightState, options: EnvironmentOptions, overview: boolean, selectedKind: SpaceObjectKind | 'all') {
+  return { root, update(state: FlightState, options: EnvironmentOptions, overview: boolean, selectedKind: SpaceObjectKind | 'all', forceOverlay = false) {
     const a = state.ascent!, origin = fixedToLocal(new THREE.Vector3(...a.fixedPosition));
     objects.visible = overview && options.objects;
     if (objects.visible && (lastTime !== state.time || lastKind !== selectedKind)) {
@@ -78,7 +78,8 @@ export function createAscentEnvironmentView() {
       const index = i * 6; flowPositions.set([Math.cos(angle) * radius, y, Math.sin(angle) * radius, Math.cos(angle) * radius, y - 3 - Math.min(16, a.airSpeedMS * .018), Math.sin(angle) * radius], index);
     }
     stream.geometry.attributes.position.needsUpdate = true;
-    drag.visible = state.dragN > 50; drag.setLength(8 + Math.min(28, state.dragN / 2500), 3, 1.8);
+    // Reentry uses the dedicated heat envelope; force arrows remain an explicit separate control.
+    drag.visible = !state.reentry && !forceOverlay && state.dragN > 50; drag.setLength(8 + Math.min(28, state.dragN / 2500), 3, 1.8);
     return { origin };
   } };
 }

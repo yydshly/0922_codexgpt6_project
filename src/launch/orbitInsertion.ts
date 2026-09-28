@@ -155,11 +155,11 @@ export class OrbitClock {
   constructor(readonly simulation: OrbitSimulation) {}
   pause(value: boolean) { this.paused = value; this.debt = 0; }
   setRate(value: number) { if (![1, 10, 100].includes(value) || value === 100 && this.simulation.state.phase === 'orbit-burn') throw Error('100 倍仅用于关机后滑行'); this.rate = value; this.debt = 0; }
-  advance(seconds: number) {
+  advance(seconds: number, onStep?: (state: FlightState) => void) {
     if (this.paused || !this.simulation.running || !Number.isFinite(seconds) || seconds <= 0) return;
     this.debt += Math.min(seconds, .25) * this.rate;
     let budget = 80;
-    while (this.debt + 1e-9 >= this.simulation.stepS && budget-- > 0 && this.simulation.running) { const dt = this.simulation.stepS; this.simulation.step(); this.debt -= dt; }
+    while (this.debt + 1e-9 >= this.simulation.stepS && budget-- > 0 && this.simulation.running) { const dt = this.simulation.stepS; this.simulation.step(); onStep?.(this.simulation.state); this.debt -= dt; }
     // A 1× coast needs to accumulate a whole 2 s step; a 0.25 s cap would stall it forever.
     this.debt = this.simulation.running ? Math.min(this.debt, Math.max(this.simulation.stepS, .25 * this.rate)) : 0;
   }

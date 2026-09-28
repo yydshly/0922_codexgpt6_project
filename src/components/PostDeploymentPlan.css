@@ -1,0 +1,20 @@
+.post-deployment-plan { margin: 20px 0; padding: 16px; border: 1px solid #48615d; border-radius: 7px; background: #192e31; color: #cadbd6; min-width: 0; overflow-wrap: anywhere; }
+.post-deployment-plan .post-plan-badge { display: inline-block; font-size: 10px; color: #e3c794; border: 1px solid #796442; background: #342e23; border-radius: 4px; padding: 4px 7px; }
+.post-deployment-plan h3 { margin: 12px 0 8px; font-size: 18px; font-weight: 500; color: #dce8dd; }
+.post-deployment-plan p { margin: 9px 0; font-size: 12px; line-height: 1.85; color: #b8cccd; }
+.post-deployment-plan strong { color: #dbe3cd; font-weight: 500; }
+.post-deployment-plan summary { padding: 9px 0; font-size: 12px; line-height: 1.7; color: #e4cfa8; cursor: pointer; }
+.post-deployment-plan summary:focus-visible, .post-deployment-plan a:focus-visible { outline: 2px solid #cee2bc; outline-offset: 4px; }
+.post-plan-routes { border-left: 2px solid #8cbba7; padding: 5px 12px; background: #213a39; margin: 8px 0 12px; }
+.post-plan-routes strong { display: block; }
+.post-plan-packages { list-style: none; padding: 0; margin: 14px 0; }
+.post-plan-packages li { padding: 14px 0; border-top: 1px solid #3e5555; }
+.post-plan-packages small { color: #e3c794; font-size: 10px; }
+.post-plan-packages h4 { margin: 6px 0; font-size: 15px; color: #d6e4df; font-weight: 500; }
+.post-deployment-plan a { color: #d8d2a9; font-size: 12px; line-height: 1.8; }
+.post-plan-evidence { padding: 7px 12px; border: 1px solid #435b5b; border-radius: 4px; }
+.post-plan-download { display: inline-block; margin-top: 4px; }
+.deployment-status-note { border-left: 2px solid #8cbba7; padding: 8px 12px; margin: 16px 0; background: #213a39; }
+.deployment-status-note h3 { margin: 4px 0; font-size: 14px; font-weight: 500; }
+.deployment-status-note p { margin: 7px 0; font-size: 12px; line-height: 1.8; }
+@media(max-width:760px) { .post-deployment-plan { padding: 12px; }.post-deployment-plan h3 { font-size: 16px; } }

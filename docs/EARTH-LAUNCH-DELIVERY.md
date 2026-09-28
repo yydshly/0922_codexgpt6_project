@@ -1,5 +1,7 @@
 # 地球出发教学首版 · 交付与验收
 
+**当前状态（2026-09-28）：已有六步与部署后教学范围已按用户决定阶段归档。** 见 [当前归档范围、边界与证据](EARTH-LAUNCH-ARCHIVE.md)；[航天器操控](SPACECRAFT-CONTROL-BACKLOG.md)只作后期记录。下文保留六步首版交付时的证据与可复查操作；当时的未归档/待验收描述不代表当前发布状态，归档也不新增逐项体验验收记录。
+
 功能提交：[3b11b75](https://github.com/yydshly/0922_codexgpt6_project/commit/3b11b759eb7758a7d3c84a97c3ba7360e67540af)。该提交包含完整六步，2026-09-27 已推送。自动检查与部署已成功，见[对应构建与部署](https://github.com/yydshly/0922_codexgpt6_project/actions/runs/36315643624)。本次用户体验验收尚未记录，不等同于已归档。
 
 ## 当前能做什么

@@ -1,3 +1,6 @@
+import { createOperationsView } from './operationsView';
+import { createReentryEffect } from './reentryEffects';
+import { createPassivationEffect } from './deorbitEffects';
 import * as THREE from 'three';
 import { bodyById } from '../data/catalog';
 import { LAUNCH_EARTH, LAUNCH_MISSION } from '../data/launchMission';
@@ -12,13 +15,15 @@ import type { VehicleConfig } from './vehicle';
 import { createAscentEnvironmentView } from './ascentEnvironmentView';
 import type { EnvironmentOptions, SpaceObjectKind } from './flightEnvironment';
 import { cross, sampleOrbit } from './orbitInsertion';
-import { add, rotateEarth, scale } from './ascent';
+import { add, airVelocity, rotateEarth, scale, unit } from './ascent';
+import { createVehicleExhaust } from './rocketPlume';
 
 /** A moving render origin at the vehicle, in metres; it never modifies the integrated state. */
 export function createAscentView(loader: PanoramaTextureLoader) {
   const root = new THREE.Group(), planet = new THREE.Group(), vehicle = createLaunchVehicle(), booster = createLaunchVehicle();
   root.add(planet, vehicle.root, booster.root);
   const satellite = createLaunchSatellite(); root.add(satellite.root); satellite.root.visible = false;
+  const operations = createOperationsView(); root.add(operations.root);
   const environment = createAscentEnvironmentView(); root.add(environment.root);
   const basis = baseBasis(), localDirection = (v: THREE.Vector3) => new THREE.Vector3(v.dot(basis.east), v.dot(basis.up), v.dot(basis.south));
   planet.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(localDirection(new THREE.Vector3(1, 0, 0)), localDirection(new THREE.Vector3(0, 0, 1)), localDirection(new THREE.Vector3(0, -1, 0))));
@@ -34,11 +39,12 @@ export function createAscentView(loader: PanoramaTextureLoader) {
   earthEffects.clouds.material.fragmentShader = 'uniform float layerOpacity;\n' + earthEffects.clouds.material.fragmentShader.replace('coverage * .94', 'coverage * .94 * layerOpacity');
   earthEffects.atmosphere.material.fragmentShader = 'uniform float layerOpacity;\n' + earthEffects.atmosphere.material.fragmentShader.replace('clamp(opacity, 0.0, .48)', 'clamp(opacity, 0.0, .48) * layerOpacity');
   const hemi = new THREE.HemisphereLight('#cce5fc', '#35475c', 1.4), sun = new THREE.DirectionalLight('#fff0d4', 3); sun.position.set(-600, 500, 800); root.add(hemi, sun);
-  const exhaust = new THREE.Group(); vehicle.root.add(exhaust);
-  const flames: THREE.Mesh[] = [];
-  for (const [radius, color, opacity] of [[1, '#ff943b', .55], [.48, '#fff7cc', .95]] as const) {
-    const flame = new THREE.Mesh(new THREE.ConeGeometry(radius, 1, 32), new THREE.MeshBasicMaterial({ color, transparent: true, opacity, depthWrite: false, blending: THREE.AdditiveBlending })); flame.rotation.z = Math.PI; exhaust.add(flame); flames.push(flame);
-  }
+  const exhaust = createVehicleExhaust(); vehicle.root.add(exhaust.root);
+  const reentry = createReentryEffect(); root.add(reentry.root);
+  const passivation = createPassivationEffect(); vehicle.root.add(passivation.root);
+  const nosePoints = Array.from({ length: 25 }, (_, i) => { const t = i / 24; return new THREE.Vector2(2.19 * Math.cos(t * Math.PI / 2), 54.5 + t * 5.55); });
+  const noseMaterial = new THREE.MeshBasicMaterial({ color: '#ffb14e', transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
+  const aerodynamicOverlay = new THREE.Mesh(new THREE.LatheGeometry(nosePoints, 48), noseMaterial); vehicle.root.add(aerodynamicOverlay);
   const pathPositions = new Float32Array(800 * 3), pathGeometry = new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(pathPositions, 3));
   const path = new THREE.Line(pathGeometry, new THREE.LineBasicMaterial({ color: '#eabf73', transparent: true, opacity: .65 })); path.frustumCulled = false; root.add(path); let lastPathTime = NaN;
   const orbitPositions = new Float32Array(257 * 3), targetPositions = new Float32Array(257 * 3);
@@ -55,12 +61,19 @@ export function createAscentView(loader: PanoramaTextureLoader) {
   for (let i = 0; i < 800; i++) { const p = new THREE.Vector3(random() * 2 - 1, random() * 2 - 1, random() * 2 - 1).normalize().multiplyScalar(1.5e7); p.toArray(starsPositions, i * 3); }
   const stars = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(starsPositions, 3)), new THREE.PointsMaterial({ color: '#bcd3e8', size: 1.3, sizeAttenuation: false, transparent: true, opacity: 0, depthWrite: false })); root.add(stars);
   let currentConfig: VehicleConfig | undefined;
-  return { root, update(state: FlightState, config: VehicleConfig, lightDirection: THREE.Vector3, options: EnvironmentOptions, overview: boolean, kind: SpaceObjectKind | 'all', focus: 'carrier' | 'satellite' | 'pair' = 'carrier') {
+  return { root, update(state: FlightState, config: VehicleConfig, lightDirection: THREE.Vector3, options: EnvironmentOptions, overview: boolean, kind: SpaceObjectKind | 'all', focus: 'carrier' | 'satellite' | 'pair' = 'carrier', forceOverlay = false) {
     const a = state.ascent!;
     if (currentConfig !== config) { vehicle.update(config); booster.update(config); currentConfig = config; }
     vehicle.setFlightStage(a.stage === 0 ? 'whole' : 'upper'); booster.setFlightStage('booster');
     const origin = fixedToLocal(new THREE.Vector3(...a.fixedPosition)), direction = localDirection(new THREE.Vector3(...a.fixedDirection)).normalize();
-    const d = state.deployment;
+    const d = state.deployment, o = state.operations;
+    vehicle.root.visible = !o;
+    if (o) lightDirection = localDirection(new THREE.Vector3(...rotateEarth(o.sunDirection, -state.time))).normalize();
+    operations.update(state, origin, overview);
+    const viewAltitude = d && focus === 'satellite' ? d.satellite.altitudeM : a.altitudeM;
+    path.material.color.set(state.reentry ? '#ffb367' : '#eabf73');
+    satelliteOrbit.material.color.set(state.lifecycle?.mode === 'retired' ? '#9eabb9' : !o && state.reentry ? '#84deda' : '#ebb78b');
+    orbitMarker.material.color.set(state.lifecycle?.mode === 'retired' ? '#9eabb9' : '#d9fcf8');
     const carrierCenter = d ? fixedToLocal(new THREE.Vector3(...d.carrier.fixedPosition)).sub(origin) : new THREE.Vector3();
     const satelliteCenter = d ? fixedToLocal(new THREE.Vector3(...d.satellite.fixedPosition)).sub(origin) : null;
     // In orbital flight the integrated point is the combined centre of mass. The ready E6 layout is identical.
@@ -68,9 +81,9 @@ export function createAscentView(loader: PanoramaTextureLoader) {
     vehicle.root.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
     if (d) vehicle.setDeployment(d.fairingOpen, d.released);
     satellite.root.visible = !!d?.released;
-    if (d && satelliteCenter) { satellite.root.position.copy(satelliteCenter); satellite.root.quaternion.copy(vehicle.root.quaternion); satellite.update(config.payloadKg, d.panels); }
+    if (d && satelliteCenter) { satellite.root.position.copy(satelliteCenter); satellite.root.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), localDirection(new THREE.Vector3(...rotateEarth(o?.direction ?? d.direction, -state.time))).normalize()); satellite.update(config.payloadKg, d.panels); satellite.pointArrays(o ? localDirection(new THREE.Vector3(...rotateEarth(o.arrayNormal, -state.time))).applyQuaternion(satellite.root.quaternion.clone().invert()) : undefined); }
     planet.position.copy(localDirection(basis.origin.clone().negate())).sub(origin);
-    orbitLine.visible = targetLine.visible = !!state.orbit; orbitMarker.visible = !!state.orbit && overview;
+    orbitLine.visible = targetLine.visible = !!state.orbit && !state.reentry && !o; orbitMarker.visible = !!state.orbit && overview;
     satelliteOrbit.visible = !!d?.released && overview;
     if (state.orbit && (lastOrbitTime !== state.time || lastOrbitPhase !== state.phase)) {
       const elements = state.orbit.elements, points = sampleOrbit(elements), q = cross(elements.normal, elements.periDirection);
@@ -81,25 +94,28 @@ export function createAscentView(loader: PanoramaTextureLoader) {
       if (d?.released) { const points = sampleOrbit(d.satellite.elements); points.forEach((p, i) => fixedToLocal(new THREE.Vector3(...rotateEarth(p, -state.time))).sub(origin).toArray(satellitePositions, i * 3)); satelliteGeometry.attributes.position.needsUpdate = true; satelliteGeometry.setDrawRange(0, points.length); }
     }
     for (const material of [surface, earthEffects.clouds.material, earthEffects.atmosphere.material]) material.uniforms.sunDirection.value.copy(lightDirection);
-    sun.position.copy(lightDirection).multiplyScalar(1000);
+    sun.position.copy(lightDirection).multiplyScalar(1000); sun.intensity = o?.shadow ? 0 : 3;
     // Clouds are a static illustrative layer; the close surface uses the authored base until clear of it.
-    earthEffects.clouds.material.uniforms.layerOpacity.value = options.clouds ? overview ? 1 : THREE.MathUtils.smoothstep(a.altitudeM, 14000, 22000) : 0;
-    earthEffects.atmosphere.material.uniforms.layerOpacity.value = options.atmosphere ? overview ? 1 : THREE.MathUtils.smoothstep(a.altitudeM, 20000, 50000) : 0;
-    environment.update(state, options, overview, kind);
-    booster.root.visible = !!a.detached;
+    earthEffects.clouds.material.uniforms.layerOpacity.value = options.clouds ? overview ? 1 : THREE.MathUtils.smoothstep(viewAltitude, 14000, 22000) : 0;
+    earthEffects.atmosphere.material.uniforms.layerOpacity.value = options.atmosphere ? overview ? 1 : THREE.MathUtils.smoothstep(viewAltitude, 20000, 50000) : 0;
+    environment.update(state, focus === 'satellite' ? { ...options, airflow: false } : options, overview, kind, forceOverlay);
+    booster.root.visible = !!a.detached && !state.reentry && !o;
     if (a.detached) { booster.root.position.copy(fixedToLocal(new THREE.Vector3(...a.detached.fixedPosition))).sub(origin); booster.root.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), localDirection(new THREE.Vector3(...a.detached.fixedDirection)).normalize()); }
-    exhaust.visible = state.throttle > 0;
-    const length = (a.stage === 0 ? 25 : 14) * state.throttle * (1 + .6 * (1 - a.pressurePa / 101325));
-    exhaust.position.y = a.stage === 0 ? 0 : 33.7;
-    flames.forEach((flame, i) => { const size = length * (i ? .8 : 1); flame.scale.set(a.stage === 0 ? 1.2 : .9, size, a.stage === 0 ? 1.2 : .9); flame.position.y = -size / 2; });
+    exhaust.update(state.time, a.pressurePa, state.thrustN > 0 ? state.throttle : 0, a.stage, config.boosterEngine, Infinity, state.phase === 'avoidance-burn' || state.phase === 'deorbit-burn');
+    passivation.update(state);
+    const relative = unit(add(a.velocity, scale(airVelocity(a.position), -1)));
+    reentry.update(carrierCenter, localDirection(new THREE.Vector3(...rotateEarth(relative, -state.time))).normalize(), state.reentry?.heatFluxWm2 ?? null, !!state.reentry && !o && options.aerodynamic && !overview && focus === 'carrier');
+    // False colour for locating the nose; q controls readability, NOT temperature.
+    aerodynamicOverlay.visible = options.aerodynamic && !overview && !state.orbit && a.dynamicPressurePa > 1;
+    noseMaterial.opacity = .5 * Math.min(1, Math.sqrt(a.dynamicPressurePa / 30000));
     if (lastPathTime !== state.time) { const points = a.trail.slice(-800); points.forEach((p, i) => fixedToLocal(new THREE.Vector3(...p)).sub(origin).toArray(pathPositions, i * 3)); pathGeometry.attributes.position.needsUpdate = true; pathGeometry.setDrawRange(0, points.length); lastPathTime = state.time; }
-    path.visible = !d && a.altitudeM > 2000; stars.material.opacity = overview ? .65 : .65 * THREE.MathUtils.smoothstep(a.altitudeM, 55000, 120000);
-    hemi.intensity = THREE.MathUtils.lerp(1.4, .6, THREE.MathUtils.smoothstep(a.altitudeM, 10000, 100000));
-    sun.visible = hemi.visible = overview || a.altitudeM >= 4000;
+    path.visible = (!o && !!state.reentry && overview) || (!d && a.altitudeM > 2000); stars.material.opacity = overview ? .65 : .65 * THREE.MathUtils.smoothstep(viewAltitude, 55000, 120000);
+    hemi.intensity = o ? o.shadow ? .14 : .4 : THREE.MathUtils.lerp(1.4, .6, THREE.MathUtils.smoothstep(viewAltitude, 10000, 100000));
+    sun.visible = hemi.visible = overview || viewAltitude >= 4000;
     const apsis = (radius: number) => fixedToLocal(new THREE.Vector3(...rotateEarth(scale(state.orbit!.elements.periDirection, radius), -state.time))).sub(origin);
-    const periCenter = state.orbit && state.orbit.elements.eccentricity > 1e-6 ? apsis(R + state.orbit.elements.periapsisM) : null;
-    const apoCenter = state.orbit?.elements.apoapsisM != null && state.orbit.elements.eccentricity > 1e-6 ? apsis(-R - state.orbit.elements.apoapsisM) : null;
-    const center = d ? focus === 'satellite' && satelliteCenter ? satelliteCenter.clone() : focus === 'pair' && satelliteCenter ? carrierCenter.clone().add(satelliteCenter).multiplyScalar(.5) : carrierCenter : state.orbit ? new THREE.Vector3() : direction.clone().multiplyScalar(a.stage === 0 ? 30 : 47);
-    return { origin, direction, periCenter, apoCenter, carrierCenter, satelliteCenter, planetCenter: planet.position.clone(), boosterCenter: a.detached ? booster.root.position.clone().add(new THREE.Vector3(0, 15, 0).applyQuaternion(booster.root.quaternion)) : null, center, sky: new THREE.Color('#9ab4c3').lerp(new THREE.Color('#163964'), THREE.MathUtils.smoothstep(a.altitudeM, 4000, 35000)).lerp(new THREE.Color('#020710'), THREE.MathUtils.smoothstep(a.altitudeM, 25000, 85000)) };
+    const periCenter = !state.reentry && state.orbit && state.orbit.elements.eccentricity > 1e-6 ? apsis(R + state.orbit.elements.periapsisM) : null;
+    const apoCenter = !state.reentry && state.orbit?.elements.apoapsisM != null && state.orbit.elements.eccentricity > 1e-6 ? apsis(-R - state.orbit.elements.apoapsisM) : null;
+    const center = o && satelliteCenter ? satelliteCenter.clone() : d ? focus === 'satellite' && satelliteCenter ? satelliteCenter.clone() : focus === 'pair' && satelliteCenter ? carrierCenter.clone().add(satelliteCenter).multiplyScalar(.5) : carrierCenter : state.orbit ? new THREE.Vector3() : direction.clone().multiplyScalar(a.stage === 0 ? 30 : 47);
+    return { origin, direction, periCenter, apoCenter, carrierCenter, satelliteCenter, planetCenter: planet.position.clone(), boosterCenter: !o && !state.reentry && a.detached ? booster.root.position.clone().add(new THREE.Vector3(0, 15, 0).applyQuaternion(booster.root.quaternion)) : null, center, sky: new THREE.Color('#9ab4c3').lerp(new THREE.Color('#163964'), THREE.MathUtils.smoothstep(viewAltitude, 4000, 35000)).lerp(new THREE.Color('#020710'), THREE.MathUtils.smoothstep(viewAltitude, 25000, 85000)) };
   } };
 }

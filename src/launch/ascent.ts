@@ -39,9 +39,9 @@ export interface AscentTelemetry {
 export type AscentPhase = 'ascent' | 'stage-ready' | 'separating' | 'upper-burn' | 'ascent-complete' | 'ascent-failed';
 export interface Particle { position: V3; velocity: V3; fuel: number }
 interface Motor { flow: number; sea: number; vacuum: number }
-export interface AscentModel { dry: number; motor?: Motor; cdArea: number; mu?: number; noAir?: boolean; steer?: (state: Particle, time: number) => { direction: V3; pitchDeg: number }; throttle?: (state: Particle, time: number) => number }
+export interface AscentModel { dry: number; motor?: Motor; cdArea: number; mu?: number; noAir?: boolean; atmosphere?: (height: number) => { density: number; pressurePa: number }; steer?: (state: Particle, time: number) => { direction: V3; pitchDeg: number }; throttle?: (state: Particle, time: number) => number }
 export function ascentForces(s: Particle, model: AscentModel, time: number, throttle: number) {
-  const local = surfaceAt(s.position), atmosphere = model.noAir ? { density: 0, pressurePa: 0 } : teachingAtmosphere(local.height);
+  const local = surfaceAt(s.position), atmosphere = model.noAir ? { density: 0, pressurePa: 0 } : (model.atmosphere ?? teachingAtmosphere)(local.height);
   const relative = add(s.velocity, scale(airVelocity(s.position), -1)), airSpeed = norm(relative), mass = model.dry + Math.max(0, s.fuel);
   const guide = model.steer?.(s, time) ?? guidance(s.position, time), motor = model.motor;
   const isp = motor ? motor.vacuum - (motor.vacuum - motor.sea) * atmosphere.pressurePa / 101325 : 0;
@@ -141,11 +141,11 @@ export class AscentClock {
   constructor(readonly simulation: AscentSimulation) {}
   pause(value: boolean) { this.paused = value; this.debt = 0; }
   setRate(value: number) { if (![1, 4, 10].includes(value)) throw Error('不支持的倍率'); this.rate = value; this.debt = 0; }
-  advance(seconds: number) {
+  advance(seconds: number, onStep?: (state: FlightState) => void) {
     if (this.paused || !this.simulation.running || !Number.isFinite(seconds) || seconds <= 0) return;
     this.debt += Math.min(seconds, .25) * this.rate;
     let budget = 60;
-    while (this.debt + 1e-9 >= this.simulation.stepS && budget-- > 0 && this.simulation.running) { this.simulation.step(); this.debt -= this.simulation.stepS; }
+    while (this.debt + 1e-9 >= this.simulation.stepS && budget-- > 0 && this.simulation.running) { this.simulation.step(); onStep?.(this.simulation.state); this.debt -= this.simulation.stepS; }
     if (!this.simulation.running) this.debt = 0; else this.debt = Math.min(this.debt, .25 * this.rate);
   }
 }

@@ -1,0 +1,17 @@
+.ops-figure { margin: 12px 0; }
+.ops-figure figcaption { display: flex; flex-wrap: wrap; gap: 12px; font-size: 10px; color: #b6cdd0; }
+.operations-panel .avoidance-readings dd { font-size: 16px; }
+.operations-control .launch-telemetry dd { font-size: 17px; }
+.operations-control h2 { font-size: 22px; margin: 8px 0 12px; }
+.flight-stage-guide { border-block: 1px solid #344f54; padding: 10px 0; }
+.flight-stage-guide summary { cursor: pointer; color: #adcbc9; font-size: 11px; }
+.flight-stage-guide summary strong { display: block; color: #e0ead4; font-size: 12px; margin: 6px 0 0 14px; font-weight: 500; }
+.flight-stage-guide summary:focus-visible { outline: 2px solid #c4ddbd; outline-offset: 4px; }
+.operations-control .launch-flight-state { margin: 12px 0; padding: 10px; }
+.operations-control .launch-flight-state strong { font-size: 26px; }
+.operations-control .launch-flight-state p { margin-bottom: 0; line-height: 1.65; }
+.operations-control .launch-flight-actions { margin: 12px 0; }
+.flight-secondary-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.flight-secondary-actions button { min-width: 0; }
+.operations-control .orbit-procedure li[aria-current=step] { color: #e8dcac; border-left: 2px solid #c4ddbd; padding-left: 7px; }
+@media(min-width:1200px) { .launch-base:has(.operations-panel) .launch-hud { right: 508px; gap: 8px; }.launch-base:has(.operations-panel) .launch-hud > div { padding: 10px; } }

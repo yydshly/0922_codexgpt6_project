@@ -3,11 +3,14 @@ import { compileVehicle, STANDARD_GRAVITY, type VehicleConfig } from './vehicle'
 import type { AscentPhase, AscentTelemetry } from './ascent';
 import type { OrbitPhase, OrbitTelemetry } from './orbitInsertion';
 import type { DeploymentPhase, DeploymentTelemetry } from './deployment';
+import type { ReentryPhase, ReentryTelemetry } from './reentry';
+import type { LifecyclePhase, LifecycleTelemetry } from './satelliteLifecycle';
+import type { OperationsPhase, OperationsTelemetry } from './satelliteOperations';
 
 /** E3 only: constrained vertical departure, metres/seconds/kg. No orbit or E4 guidance. */
 export const LIFTOFF = { stepS: .05, countdownS: 10, ignitionT: -3, rampS: 2, endHeightM: 150,
   padHeightM: 8.1, maxTimeS: 120, densityKgM3: 1.225, scaleHeightM: 8500, cd: .35, areaM2: Math.PI * (4.3 / 2) ** 2 } as const;
-export type FlightPhase = 'ready' | 'countdown' | 'ignition' | 'ascending' | 'complete' | 'aborted' | AscentPhase | OrbitPhase | DeploymentPhase;
+export type FlightPhase = 'ready' | 'countdown' | 'ignition' | 'ascending' | 'complete' | 'aborted' | AscentPhase | OrbitPhase | DeploymentPhase | ReentryPhase | OperationsPhase | LifecyclePhase;
 export interface FlightEvent { time: number; label: string }
 export interface FlightState {
   phase: FlightPhase; time: number; heightM: number; speedMS: number; fuelKg: number;
@@ -16,6 +19,9 @@ export interface FlightState {
   ascent?: AscentTelemetry;
   orbit?: OrbitTelemetry;
   deployment?: DeploymentTelemetry;
+  reentry?: ReentryTelemetry;
+  operations?: OperationsTelemetry;
+  lifecycle?: LifecycleTelemetry;
 }
 export interface VerticalState { heightM: number; speedMS: number; fuelKg: number }
 export interface VerticalModel { carriedKg: number; flowKgS: number; ispS: number; mu: number; radiusM: number; rho: number; cdArea: number }
@@ -98,11 +104,11 @@ export class LiftoffClock {
   private debt = 0;
   constructor(readonly simulation: LiftoffSimulation) {}
   pause(value: boolean) { this.paused = value; this.debt = 0; }
-  advance(wallSeconds: number) {
+  advance(wallSeconds: number, onStep?: (state: FlightState) => void) {
     if (this.paused || !Number.isFinite(wallSeconds) || wallSeconds <= 0) return;
     this.debt += Math.min(wallSeconds, .25); // Slow down under load rather than leap through launch events.
     let budget = 5;
-    while (this.debt + 1e-9 >= this.simulation.stepS && budget-- > 0) { this.simulation.step(); this.debt -= this.simulation.stepS; }
+    while (this.debt + 1e-9 >= this.simulation.stepS && budget-- > 0) { this.simulation.step(); onStep?.(this.simulation.state); this.debt -= this.simulation.stepS; }
     this.debt = Math.min(this.debt, .25);
   }
 }

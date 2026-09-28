@@ -8,3 +8,33 @@
 .launch-journey-steps { list-style: none; margin: 20px 0; padding: 0; }.launch-journey-steps li { display: grid; grid-template-columns: 28px 1fr auto; gap: 11px; padding: 14px 0; border-bottom: 1px solid #2c4349; }.launch-journey-number { font-size: 12px; color: #a8b8ad; padding-top: 4px; }.launch-journey-steps h3 { font-size: 14px; font-weight: 500; margin: 0; }.launch-journey-steps p { font-size: 11px; margin-bottom: 0; }.launch-journey-steps small { padding-top: 4px; font-size: 10px; color: #899fa5; }.launch-journey-steps [data-status=passed] small { color: #c7e3ac; }.launch-journey-steps [data-status=active] small { color: #efce8c; }.launch-journey-steps [data-status=stopped] small { color: #efb598; }
 .launch-journey-review { border: 1px solid #465f5b; padding: 16px; border-radius: 5px; }.launch-journey-review h3 { font-size: 17px; margin: 0; font-weight: 500; }.launch-journey-review ol { padding-left: 20px; margin: 16px 0; }.launch-journey-review li { padding-bottom: 10px; }.launch-journey-review strong { font-size: 13px; font-weight: 500; color: #e5d8b7; }.launch-journey-review button { padding: 9px 12px; font-size: 12px; }.launch-journey-review a { display: block; margin-top: 13px; font-size: 11px; color: #dac79a; }.launch-journey-panel > footer { font-size: 10px; line-height: 1.9; color: #9bb1b7; padding-top: 18px; }
 @media(max-width:760px) { .launch-journey-panel { position: fixed; top: 106px; bottom: 14px; right: 12px; width: calc(100% - 24px); padding: 0 16px 18px; }.launch-journey-panel h2 { font-size: 19px; }.launch-journey-steps li { grid-template-columns: 23px 1fr; }.launch-journey-steps small { grid-column: 2; padding: 0; }.launch-journey-current > strong { font-size: 17px; } }
+.launch-base-progress { margin: 22px 0; border-top: 1px solid #37504e; padding-top: 16px; }
+.launch-base-progress > summary { cursor: pointer; font-size: 13px; color: #d7ddc7; }
+.task-result-summary { margin: 24px 0; }
+.task-result-summary h3 { font-size: 20px; font-weight: 500; margin: 0; }
+.task-result-verdict { padding: 15px; margin: 16px 0; border: 1px solid #6b816d; border-radius: 6px; background: #233c39; }
+.task-result-verdict > strong { color: #e0ddbf; font-size: 15px; }
+.task-result-verdict > div { display: flex; gap: 7px; flex-wrap: wrap; }
+.task-result-verdict button { font-size: 12px; padding: 9px 10px; }
+.task-result-verdict > small { display: block; color: #b7c9bf; line-height: 1.7; margin-top: 12px; font-size: 11px; }
+.task-object-records { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.task-object-records article { border: 1px solid #3e575b; border-radius: 5px; padding: 13px; min-width: 0; }
+.task-object-records span { color: #b9dbd1; font-size: 12px; }
+.task-object-records h4 { margin: 9px 0; font-size: 15px; line-height: 1.6; font-weight: 500; }
+.task-object-records small { color: #e2c38f; font-size: 11px; }
+.task-object-records ul, .task-package ul { font-size: 11px; color: #b9cbd0; padding-left: 16px; line-height: 1.8; }
+.task-route-map { border-top: 1px solid #3e575b; margin-top: 20px; padding-top: 16px; }
+.task-route-lanes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.task-route-lanes h4 { margin: 15px 0 10px; font-size: 13px; color: #c6d6c2; }
+.task-package { padding: 13px; margin-bottom: 10px; border: 1px solid #40575e; border-radius: 5px; background: #142b33; }
+.task-package > div { display: flex; gap: 9px; align-items: baseline; font-size: 13px; line-height: 1.6; }
+.task-package > div > span { color: #c3c8ad; }
+.task-package strong { font-weight: 500; }
+.task-package > small { display: block; margin-top: 7px; font-size: 11px; color: #b3bfc4; }
+.task-package[data-result=complete] { border-color: #66856b; }
+.task-package[data-result=complete] > small { color: #c4e6b3; }
+.task-package[data-result=boundary] > small, .task-package[data-result=checkpoint] > small, .task-package[data-result=active] > small { color: #efcc8e; }
+.task-package[data-result=stopped] > small { color: #f0b7a3; }
+.task-package details > summary { cursor: pointer; font-size: 11px; color: #a9d2d3; }
+.task-result-summary .task-result-note { border-left: 2px solid #c4b991; padding-left: 12px; }
+@media(max-width:560px) { .task-object-records, .task-route-lanes { grid-template-columns: 1fr; }.task-result-summary h3 { font-size: 18px; }.task-result-verdict button { flex: 1 1 100%; }.task-route-lanes { gap: 0; } }

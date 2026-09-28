@@ -137,3 +137,18 @@
   .launch-clean .launch-world { height: auto; }
 }
 @media(max-width:760px) { .launch-flight-mode .launch-views { max-width: calc(100% - 24px); flex-wrap: wrap; }.launch-apsis-marker { font-size: 9px; } }
+.flight-save-current, .flight-archive-record { padding: 12px; border: 1px solid #3a565b; border-radius: 8px; margin: 14px 0; }
+.flight-save-current { background: #233b35; }
+.flight-save-current span, .flight-save-current strong, .flight-archive-record > strong { display: block; }
+.flight-save-current span { color: #c4ddbd; font-size: 12px; }
+.flight-save-current strong { font-size: 24px; margin: 7px 0; font-variant-numeric: tabular-nums; }
+.flight-archive-record h3 { margin: 0 0 8px; font-size: 14px; }
+.flight-archive-record > strong { color: #e1d6ac; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.launch-save-panel details { font-size: 12px; line-height: 1.7; margin-top: 14px; }
+.launch-save-panel summary { cursor: pointer; }
+.launch-save-panel summary:focus-visible { outline: 2px solid #c4ddbd; outline-offset: 4px; }
+
+.launch-save-backdrop { position: fixed; inset: 0; z-index: 11; background: rgb(3 12 17 / 32%); }
+.launch-save-panel { overscroll-behavior: contain; }
+.launch-base:has(.launch-save-panel) { overflow: hidden; }
+@media(max-width:760px) { .launch-save-panel { position: fixed; top: 82px; max-height: calc(100dvh - 96px); padding: 16px; } }

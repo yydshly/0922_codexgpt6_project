@@ -1,0 +1,4 @@
+.reentry-panel .reentry-heat { font-size: 15px; color: #ffbe86; }
+.reentry-effects { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #e1cbb2; margin-top: 16px; }
+.reentry-effects input { accent-color: #c4ddbd; }
+.reentry-panel .reentry-chart { margin-top: 9px; }

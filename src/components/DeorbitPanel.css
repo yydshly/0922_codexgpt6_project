@@ -1,0 +1,5 @@
+.deorbit-route { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 0; list-style-position: inside; font-size: 11px; color: #c2d4bd; }
+.deorbit-energy { border: 1px solid #435e61; border-radius: 6px; padding: 12px; background: #152e34; }
+.deorbit-energy label { display: block; margin: 16px 0; font-size: 11px; color: #acc4cc; }
+.deorbit-energy strong { float: right; color: #ecdaad; font-weight: 500; }
+.deorbit-energy progress { display: block; width: 100%; height: 7px; margin-top: 9px; accent-color: #99cbb4; }

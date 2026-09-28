@@ -15,8 +15,8 @@ export const ATMOSPHERE_LAYERS = [
   { id: 'exosphere', name: '外逸层', ceilingKm: Infinity, range: '约 700 km 以上', color: '#d1bdd8', description: '极稀薄的外层大气逐渐过渡到空间，没有清晰硬壳；当前试飞并未到达这一层。' },
 ] as const;
 export function atmosphereLayer(heightM: number) { return ATMOSPHERE_LAYERS.find(layer => heightM / 1000 < layer.ceilingKm)!; }
-export interface EnvironmentOptions { clouds: boolean; atmosphere: boolean; airflow: boolean; objects: boolean }
-export const DEFAULT_ENVIRONMENT: EnvironmentOptions = { clouds: true, atmosphere: true, airflow: true, objects: true };
+export interface EnvironmentOptions { clouds: boolean; atmosphere: boolean; airflow: boolean; objects: boolean; aerodynamic: boolean }
+export const DEFAULT_ENVIRONMENT: EnvironmentOptions = { clouds: true, atmosphere: true, airflow: true, objects: true, aerodynamic: false };
 export const SPACE_OBJECT_KINDS = [
   { id: 'satellite', name: '工作卫星', color: '#82e1d5', description: '执行通信、导航或观测等任务的航天器，仍工作的卫星不属于空间碎片。这里是合成圆轨道样本，未接入真实卫星目录。' },
   { id: 'rocket', name: '废弃箭体', color: '#efbd82', description: '一些轨道上的运载火箭级段不再工作。橙色示例不是这次分离的一级；本次一级单独显示实际模拟位置，尚未入轨。' },

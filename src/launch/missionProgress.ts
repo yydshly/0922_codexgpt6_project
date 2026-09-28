@@ -14,14 +14,15 @@ export const MISSION_STEPS = [
 /** Progress is derived from solver milestones, never from clicks, altitude or a manual checklist. */
 export function missionProgress(s: FlightState) {
   const current = s.deployment ? 5 : s.orbit ? 4 : s.ascent ? 3 : 2;
-  const failed = ['aborted', 'ascent-failed', 'orbit-failed', 'deployment-failed'].includes(s.phase);
+  const basicFailed = ['aborted', 'ascent-failed', 'orbit-failed', 'deployment-failed'].includes(s.phase);
+  const failed = s.phase === 'aborted' || s.phase.endsWith('-failed');
   const checks = [
     s.phase === 'complete' || !!s.ascent,
     s.phase === 'ascent-complete' || !!s.orbit,
     s.phase === 'orbit-complete' || !!s.deployment,
     !!s.deployment?.verified,
   ];
-  const statuses: MissionStepStatus[] = ['available', 'configured', ...checks.map((passed, i): MissionStepStatus => i + 2 === current && failed ? 'stopped' : passed ? 'passed' : i + 2 === current && s.phase !== 'ready' ? 'active' : 'pending')];
+  const statuses: MissionStepStatus[] = ['available', 'configured', ...checks.map((passed, i): MissionStepStatus => i + 2 === current && basicFailed ? 'stopped' : passed ? 'passed' : i + 2 === current && s.phase !== 'ready' ? 'active' : 'pending')];
   return { current, failed, checksPassed: checks.filter(Boolean).length, statuses,
-    result: failed ? '任务已停止，请查看原因后决定恢复或重置。' : s.deployment?.verified ? '本次飞行的四段计算检查已通过；保存恢复与使用体验仍请亲自核对。' : '按当前步骤完成操作，再进入下一段；不需要重跑已经通过的检查点。' };
+    result: failed ? `当前阶段已停止：${s.message} 已有检查记录保留，请先查看原因。` : s.deployment?.verified ? '出发到部署的四段检查已通过；后续二级与卫星的结果分别列在下方，不能用部署通过代替任务完成。' : '按当前步骤完成操作，再进入下一段；不需要重跑已经通过的检查点。' };
 }

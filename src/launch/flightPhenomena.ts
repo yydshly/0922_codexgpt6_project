@@ -40,6 +40,7 @@ export type PhenomenonId = typeof FLIGHT_PHENOMENA[number]['id'];
 export function currentPhenomenon(state: FlightState): { id: PhenomenonId; title: string; description: string } {
   const r = flightEnvironmentReading(state);
   if (state.phase === 'aborted' || state.phase.endsWith('-failed')) return { id: state.deployment || state.orbit ? 'coast' : state.ascent ? 'air' : 'pad', title: '任务已停止', description: '画面保留停止时刻；先查看任务原因，冻结画面不表示发动机仍在持续耗油。' };
+  if (state.satelliteDisposal) return { id: state.satelliteDisposal.entryAt != null ? 'air' : 'coast', title: state.phase === 'disposal-burn' ? '卫星自身点火 · 降低轨道' : state.satelliteDisposal.entryAt != null ? '卫星等效物体 · 再入参考下降' : '结束业务 · 保留离轨控制能力', description: 'E02 从发射前携带推进设备。推力、燃料与轨迹共同计算；再入包络是热流假彩色，质点不代表完整卫星或真实残骸。二级仅保留历史记录。' };
   if (state.lifecycle) return { id: 'coast', title: state.lifecycle.mode === 'retired' ? '退役在轨 · 尚未处置' : state.lifecycle.isolated ? '电源隔离 · 电能收尾' : '能源维护 · 无变轨推力', description: '卫星继承原轨道和电量，当前没有推进器。停止业务不等于离轨；储能处理、运动与任务状态分别说明。' };
   if (state.operations) return { id: 'coast', title: state.operations.transmitting ? '通信窗口 · 正在下传' : state.operations.shadow ? '地影中 · 电池供电' : '日照中 · 太阳翼发电', description: '发电、电池与数据库存随任务时间计算；地面站仰角达到 10° 才能下传。当前只推进卫星，二级为历史记录。' };
   if (state.reentry) return { id: 'air', title: state.phase === 'reentry-complete' ? '停在教学边界 · 存活情况未判定' : '无推力下降 · 大气减速与受热', description: '橙色迎风包络读取估算热流，属于放大的假彩色提示；不是发动机喷焰，也不表示已烧毁。卫星独立在轨。' };

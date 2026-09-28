@@ -1,3 +1,4 @@
+import { satelliteWetKg } from './satellitePlan';
 import { add, ascentForces, dot, integrateAscent, norm, scale, surfaceAt, unit, type AscentModel, type Particle, type V3 } from './ascent';
 import { avoidanceDirection, carrierCoastModel } from './avoidance';
 import { orbitalElements } from './orbitInsertion';
@@ -43,7 +44,7 @@ export function predictDeorbit(config: VehicleConfig, carrier: Particle, satelli
   while (t < end - 1e-9) {
     const dt = Math.min(stepS, end - t), before = add(c.position, scale(s.position, -1));
     c = integrateAscent(c, model, plan.startTime + t, dt, time => deorbitThrottle(time - plan.startTime, plan.burnS));
-    s = integrateAscent(s, { dry: config.payloadKg, cdArea: 4.4 }, plan.startTime + t, dt, () => 0);
+    s = integrateAscent(s, { dry: satelliteWetKg(config), cdArea: 4.4 }, plan.startTime + t, dt, () => 0);
     const after = add(c.position, scale(s.position, -1)), change = add(after, scale(before, -1));
     const f = Math.max(0, Math.min(1, -dot(before, change) / Math.max(1e-20, dot(change, change))));
     minimumM = Math.min(minimumM, norm(add(before, scale(change, f)))); t += dt;

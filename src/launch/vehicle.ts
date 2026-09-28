@@ -1,3 +1,4 @@
+import { satellitePlan, satelliteWetKg, type SatellitePlan } from './satellitePlan';
 import { LAUNCH_EARTH, LAUNCH_MISSION } from '../data/launchMission';
 
 export const VEHICLE_SCHEMA = 1;
@@ -17,10 +18,11 @@ export interface VehicleConfig {
   boosterFillPercent: number;
   upperFillPercent: number;
   payloadKg: 250 | 500;
+  satellitePlan?: SatellitePlan;
 }
 export const BASELINE_VEHICLE: Readonly<VehicleConfig> = Object.freeze({ boosterEngine: 'b-standard', upperEngine: 'u-standard', boosterFillPercent: 100, upperFillPercent: 100, payloadKg: 500 });
 export const engineById = (id: EngineId) => ENGINE_OPTIONS.find(engine => engine.id === id)!;
-export const sameVehicle = (a: VehicleConfig, b: VehicleConfig) => Object.keys(BASELINE_VEHICLE).every(key => a[key as keyof VehicleConfig] === b[key as keyof VehicleConfig]);
+export const sameVehicle = (a: VehicleConfig, b: VehicleConfig) => satellitePlan(a) === satellitePlan(b) && Object.keys(BASELINE_VEHICLE).every(key => a[key as keyof VehicleConfig] === b[key as keyof VehicleConfig]);
 
 /** Validate at the data boundary; untrusted storage cannot supply an engine, mass or percentage. */
 export function parseVehicle(value: unknown): VehicleConfig {
@@ -33,7 +35,8 @@ export function parseVehicle(value: unknown): VehicleConfig {
     if (typeof fill !== 'number' || !Number.isFinite(fill) || fill < 0 || fill > 100 || fill % 25 !== 0) throw new Error('加注比例必须是 0–100% 内的 25% 档位。');
   }
   if (v.payloadKg !== 250 && v.payloadKg !== 500) throw new Error('只支持 250 kg 或 500 kg 教学载荷。');
-  return { boosterEngine: v.boosterEngine as EngineId, upperEngine: v.upperEngine as EngineId, boosterFillPercent: v.boosterFillPercent as number, upperFillPercent: v.upperFillPercent as number, payloadKg: v.payloadKg };
+  if (v.satellitePlan !== undefined && !['powered', 'unpowered'].includes(v.satellitePlan as string)) throw Error('卫星处置方案无效。');
+  return { ...(v.satellitePlan === 'powered' ? { satellitePlan: 'powered' as const } : {}), boosterEngine: v.boosterEngine as EngineId, upperEngine: v.upperEngine as EngineId, boosterFillPercent: v.boosterFillPercent as number, upperFillPercent: v.upperFillPercent as number, payloadKg: v.payloadKg };
 }
 
 export function deriveVehicle(input: VehicleConfig) {
@@ -48,7 +51,7 @@ export function deriveVehicle(input: VehicleConfig) {
     return { id: stage.id, engineId: engine.id, dryKg, fuelKg, wetKg: dryKg + fuelKg, thrustN: engine.thrustN,
       ispSeaS: engine.ispSeaS, ispVacuumS: engine.ispVacuumS, massFlowKgS, ratedBurnSeconds: fuelKg / massFlowKgS };
   });
-  const carriedKg = config.payloadKg + LAUNCH_MISSION.fairingKg;
+  const carriedKg = satelliteWetKg(config) + LAUNCH_MISSION.fairingKg;
   const wetKg = stages[0].wetKg + stages[1].wetKg + carriedKg;
   const fuelKg = stages[0].fuelKg + stages[1].fuelKg;
   const twr = stages[0].thrustN / (wetKg * PAD_GRAVITY);
@@ -60,7 +63,7 @@ export function deriveVehicle(input: VehicleConfig) {
   if (!stages[0].fuelKg) issues.push('一级推进剂为空，无法产生持续推力。');
   if (!stages[1].fuelKg) issues.push('二级推进剂为空，无法完成两级任务。');
   if (twr <= 1) issues.push(`起飞推重比仅 ${twr.toFixed(2)}，推力不大于整箭重量；请换标准一级发动机或减少加注量。`);
-  return { config, stages, payloadKg: config.payloadKg, fairingKg: LAUNCH_MISSION.fairingKg, wetKg, fuelKg,
+  return { config, stages, payloadKg: satelliteWetKg(config), fairingKg: LAUNCH_MISSION.fairingKg, wetKg, fuelKg,
     dryAndPayloadKg: wetKg - fuelKg, twr, deltaV1MS, deltaV2MS, idealDeltaVMS: deltaV1MS + deltaV2MS,
     issues, canApply: issues.length === 0 };
 }

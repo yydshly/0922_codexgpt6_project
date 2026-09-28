@@ -1,3 +1,4 @@
+import { satelliteName } from '../launch/satellitePlan';
 import { REENTRY_RUNNING } from '../launch/reentry';
 import { DEORBIT_RUNNING } from '../launch/deorbit';
 import { AVOIDANCE_RUNNING } from '../launch/avoidance';
@@ -24,11 +25,11 @@ export function DeploymentControl({ state: s, paused, rate, ready, error, send, 
     {error && <p role="alert" className="launch-flight-error">{error}</p>}
     <div className="launch-flight-actions">
       {s.phase === 'deployment-ready' && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'open-fairing' })}>打开教学载荷舱 →</button>}
-      {s.phase === 'deployment-open' && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'deploy' })}>释放 E01 卫星 →</button>}
+      {s.phase === 'deployment-open' && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'deploy' })}>释放 {satelliteName(s)} 卫星 →</button>}
       {running && <button className="launch-ignite" disabled={disabled} onClick={() => send({ type: 'pause', value: !paused })}>{paused ? '继续当前阶段' : '暂停模拟'}</button>}
       {s.phase === 'deployment-complete' && <button disabled={disabled} onClick={() => send({ type: 'continue-deployed' })}>继续在轨观察 →</button>}
       <button onClick={() => onFocus('pair')}>同时观察二级与卫星</button><button onClick={() => onFocus('carrier')}>跟随二级</button>
-      <button disabled={!d.released} onClick={() => onFocus('satellite')}>靠近 E01 卫星</button><button onClick={onOverview}>{s.reentry ? '查看下降路径与卫星轨道' : '查看两条预测轨道'}</button>
+      <button disabled={!d.released} onClick={() => onFocus('satellite')}>靠近 {satelliteName(s)} 卫星</button><button onClick={onOverview}>{s.reentry ? '查看下降路径与卫星轨道' : '查看两条预测轨道'}</button>
       {d.released && <button onClick={onImmersive}>卫星沉浸观察</button>}<button disabled={!ready} onClick={onSave}>保存本次飞行</button>
     </div>
     <div className="ascent-rate" aria-label="部署观察倍率">{[1, 10, 100].map(value => <button key={value} disabled={disabled || value > 1 && ['avoidance-align', 'avoidance-burn', 'deorbit-align', 'deorbit-burn'].includes(s.phase)} aria-pressed={rate === value} onClick={() => send({ type: 'rate', value })}>{value} 倍</button>)}</div>
@@ -39,14 +40,14 @@ export function DeploymentControl({ state: s, paused, rate, ready, error, send, 
       {s.phase === 'deployment-ended' && <p>已到释放后两小时的观察上限。二级与卫星的状态仍保留，尚未计算退役或再入结果。</p>}
       <p>后续路线在下方“入轨之后，两条任务线”展开查看。</p>
     </section>
-    <section className={`orbit-verdict ${d.verified ? 'orbit-in-target' : ''}`}><strong>{d.verified ? d.deorbit ? '此前 E01 部署检查已通过' : 'E01 部署检查通过' : d.released ? '正在检查独立飞行' : '完成入轨验证 · 等待部署'}</strong><p>{d.released ? '释放后计算 120 秒，检查两个对象仍处于绕地轨道且分开；这不是长期任务安全认证。' : '舱盖打开后时间仍冻结，确认卫星位置再释放。'}</p><progress aria-label="部署检查进度" value={Math.min(120, d.elapsedS)} max={120}/></section>
+    <section className={`orbit-verdict ${d.verified ? 'orbit-in-target' : ''}`}><strong>{d.verified ? d.deorbit ? `此前 ${satelliteName(s)} 部署检查已通过` : `${satelliteName(s)} 部署检查通过` : d.released ? '正在检查独立飞行' : '完成入轨验证 · 等待部署'}</strong><p>{d.released ? '释放后计算 120 秒，检查两个对象仍处于绕地轨道且分开；这不是长期任务安全认证。' : '舱盖打开后时间仍冻结，确认卫星位置再释放。'}</p><progress aria-label="部署检查进度" value={Math.min(120, d.elapsedS)} max={120}/></section>
     <dl className="launch-telemetry" aria-label="卫星分离参数">
       <div><dt>两者中心距离 / 相对速度</dt><dd data-deployment-separation>{d.separationM.toFixed(2)} <small>m</small> / {d.relativeSpeedMS.toFixed(3)} <small>m/s</small></dd></div>
       <div><dt>卫星 / 二级质量</dt><dd>{d.satellite.massKg.toFixed(0)} / {d.carrier.massKg.toFixed(1)} <small>kg</small></dd></div>
       <div><dt>释放后时间 / 翼板展开</dt><dd>{d.elapsedS.toFixed(1)} <small>s</small> / {(d.panels * 100).toFixed(0)}%</dd></div>
       <div><dt>二级剩余推进剂</dt><dd>{s.ascent!.upperFuelKg.toFixed(1)} <small>kg · {s.phase === "deorbit-passivating" ? "正在泄放" : s.thrustN > 0 ? "正在消耗" : "当前无消耗"}</small></dd></div>
     </dl>
-    {(['satellite', 'carrier'] as const).map(id => <section className="deployment-body" key={id}><h3>{id === 'satellite' ? 'E01 卫星' : '运载二级'}{!d.released && ' · 仍连接'}</h3><p>椭球面高度 {(d[id].altitudeM / 1000).toFixed(2)} km · 惯性速度 {(norm(d[id].velocity) / 1000).toFixed(3)} km/s</p><p>预测近 / 远地点 {(d[id].elements.periapsisM / 1000).toFixed(2)} / {d[id].elements.apoapsisM === null ? '开放' : (d[id].elements.apoapsisM! / 1000).toFixed(2)} km</p></section>)}
+    {(['satellite', 'carrier'] as const).map(id => <section className="deployment-body" key={id}><h3>{id === 'satellite' ? `${satelliteName(s)} 卫星` : '运载二级'}{!d.released && ' · 仍连接'}</h3><p>椭球面高度 {(d[id].altitudeM / 1000).toFixed(2)} km · 惯性速度 {(norm(d[id].velocity) / 1000).toFixed(3)} km/s</p><p>预测近 / 远地点 {(d[id].elements.periapsisM / 1000).toFixed(2)} / {d[id].elements.apoapsisM === null ? '开放' : (d[id].elements.apoapsisM! / 1000).toFixed(2)} km</p></section>)}
     <details className="launch-flight-boundary"><summary>部署的依据与教学设定</summary><p>弹簧释放是实际卫星部署的一种方式。本任务把相对分离速度设为 0.5 m/s，两者获得相反冲量，质量与线动量守恒；弹簧提供分离动能。</p><p>600 kg 舱盖留在二级上，不作为碎片抛出。11 m 初始中心间距、释放后 10–22 秒展开翼板均为教学设定。未计算舱盖动作、姿态控制、互相引力、相互碰撞及翼板发电。</p><p>两对象均受地球引力与简化阻力；普通在轨观察无推力，可在分离分析中另行执行一次教学侧向机动。近远地点以 WGS84 赤道半径定义。在轨观察最多延伸至释放后两小时；低于 80 km 或轨迹异常即停止。P2 另提供教学离轨与简化钝化；P3 可继续观察等效二级的大气减速与热流估算，另有 120 km 检查点和 20 km 教学边界；尚未计算解体、落区或长期碎片管理。</p><a href="https://www.nasa.gov/reference/sls-space-launch-system-secondary-payloads/" target="_blank" rel="noreferrer">NASA · 弹簧释放载荷的实例 ↗</a></details>
     <PostDeploymentPlan/>
     <a href={reportUrl} download="卫星部署与飞行存档.md">下载部署、存档与验收说明 ↗</a>

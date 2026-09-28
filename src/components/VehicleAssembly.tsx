@@ -1,3 +1,4 @@
+import { satellitePlan, DISPOSAL_KIT } from '../launch/satellitePlan';
 import { ENGINE_OPTIONS, engineById, deriveVehicle, type VehicleConfig } from '../launch/vehicle';
 import appearanceUrl from '../../docs/VEHICLE-APPEARANCE.md?url';
 import './VehicleAssembly.css';
@@ -25,7 +26,8 @@ export function VehicleAssembly({ config, onChange, onSave, onLoad, onReset, onA
         <div className="vehicle-stage-stats"><span>干质量 {(stats.dryKg / 1000).toFixed(2)} t</span><span>{index === 0 ? '海平面' : '真空'}估算燃烧 {stats.ratedBurnSeconds.toFixed(0)} s</span></div>
       </fieldset>;
     })}
-    <fieldset className="vehicle-payload"><legend>03 / 无人卫星载荷</legend><div>{([250, 500] as const).map(mass => <button key={mass} aria-pressed={config.payloadKg === mass} onClick={() => onChange({ ...config, payloadKg: mass })}>{mass} kg<span>{mass === 250 ? '轻载荷' : '基准载荷'}</span></button>)}</div><p>两种 E01 都没有推进器或推进剂，不能主动离轨。太阳翼、电池、观测设备和教学电源隔离/泄放电路计入载荷总质量，不在入轨后增加质量。外形为教学示意。</p></fieldset>
+    <fieldset className="vehicle-payload"><legend>03 / 无人卫星载荷</legend><div>{([250, 500] as const).map(mass => <button key={mass} aria-pressed={config.payloadKg === mass} onClick={() => onChange({ ...config, payloadKg: mass })}>{mass} kg<span>{mass === 250 ? '轻载荷' : '基准载荷'}</span></button>)}</div><p>这里选择卫星基体，包含太阳翼、电池和观测设备；下方另选任务末期方案。E02 的离轨设备和推进剂另加质量，入轨后不会凭空添加。</p></fieldset>
+    <fieldset className="vehicle-disposal-plan"><legend>04 / 任务结束后怎么办？</legend><div className="vehicle-plan-options"><button aria-pressed={satellitePlan(config)==='unpowered'} onClick={()=>onChange({...config,satellitePlan:'unpowered'})}>E01 · 无主动离轨能力<span>结束业务后留轨</span></button><button aria-pressed={satellitePlan(config)==='powered'} onClick={()=>onChange({...config,satellitePlan:'powered'})}>E02 · 预留动力离轨<span>任务后执行离轨</span></button></div><p>{satellitePlan(config)==='powered' ? '发射前增加 35 kg 设备和 40 kg 推进剂，共 75 kg；影响起飞和入轨。独立卫星用自己的 200 N 教学发动机降低轨道，不能保证完全烧毁或安全落区。' : '没有离轨发动机。结束业务并处理储能后仍在轨，可能随大气阻力衰减；当前不预测再入日期。'}</p><strong>实际卫星发射质量 {vehicle.payloadKg} kg</strong>{satellitePlan(config)==='powered'&&<small>基体 {config.payloadKg} kg + 设备 {DISPOSAL_KIT.dryKg} kg + 推进剂 {DISPOSAL_KIT.fuelKg} kg；教学设定，非真实型号。</small>}</fieldset>
     <details className="vehicle-explanation"><summary>箭体外形与这些部件是什么？</summary><p>整箭高 60 m，主体直径 3.7 m，整流罩最宽约 4.3 m。顶部整流罩包住卫星；中间深色级间段连接两级，并容纳二级喷管。底部可查看所选一级的四个或两个喷口。</p><p>展开部件后可观察载荷适配器、级间接口、喷管曲面、管路和紧固件。涂装与细节是本项目原创教学造型，未复刻某一真实型号；不代表新增发动机、推进能力或回收装置。</p><a href={appearanceUrl} download="火箭外形与查看说明.md">下载外形说明与对照记录</a></details>
     <section className="vehicle-results" aria-label="当前配置计算结果" aria-live="polite">
       <h3>这套方案会怎样？</h3><dl>

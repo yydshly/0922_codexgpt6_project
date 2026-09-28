@@ -17,6 +17,7 @@ import type { EnvironmentOptions, SpaceObjectKind } from './flightEnvironment';
 import { cross, sampleOrbit } from './orbitInsertion';
 import { add, airVelocity, rotateEarth, scale, unit } from './ascent';
 import { createVehicleExhaust } from './rocketPlume';
+import { satelliteWetKg } from './satellitePlan';
 
 /** A moving render origin at the vehicle, in metres; it never modifies the integrated state. */
 export function createAscentView(loader: PanoramaTextureLoader) {
@@ -75,7 +76,8 @@ export function createAscentView(loader: PanoramaTextureLoader) {
     if (currentConfig !== config) { vehicle.update(config); booster.update(config); currentConfig = config; }
     vehicle.setFlightStage(a.stage === 0 ? 'whole' : 'upper'); booster.setFlightStage('booster');
     const origin = fixedToLocal(new THREE.Vector3(...a.fixedPosition)), direction = localDirection(new THREE.Vector3(...a.fixedDirection)).normalize();
-    const d = state.deployment, o = state.operations;
+    const d = state.deployment, o = state.operations, disposal = state.satelliteDisposal;
+    const satelliteEntry = disposal?.entryAt != null;
     vehicle.root.visible = !o && !state.reentry?.lower;
     if (o) lightDirection = localDirection(new THREE.Vector3(...rotateEarth(o.sunDirection, -state.time))).normalize();
     operations.update(state, origin, overview);
@@ -85,22 +87,23 @@ export function createAscentView(loader: PanoramaTextureLoader) {
     orbitMarker.material.color.set(state.lifecycle?.mode === 'retired' ? '#9eabb9' : '#d9fcf8');
     const carrierCenter = d ? fixedToLocal(new THREE.Vector3(...d.carrier.fixedPosition)).sub(origin) : new THREE.Vector3();
     const satelliteCenter = d ? fixedToLocal(new THREE.Vector3(...d.satellite.fixedPosition)).sub(origin) : null;
-    lowerMarker.visible = !!state.reentry?.lower && !o; lowerMarker.position.copy(carrierCenter);
-    groundReference.visible = !!state.reentry?.lower && !o && !overview && focus === 'carrier' && a.altitudeM < 800;
+    lowerMarker.visible = satelliteEntry || !!state.reentry?.lower && !o; lowerMarker.position.copy(satelliteEntry && satelliteCenter ? satelliteCenter : carrierCenter);
+    groundReference.visible = lowerMarker.visible && !overview && (satelliteEntry ? focus === 'satellite' : focus === 'carrier') && a.altitudeM < 800;
     if (groundReference.visible) {
       const up = localDirection(baseBasis(fixedToGeodetic(new THREE.Vector3(...a.fixedPosition))).up);
       groundReference.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
-      groundReference.position.copy(carrierCenter).addScaledVector(up, -a.altitudeM);
+      groundReference.position.copy(lowerMarker.position).addScaledVector(up, -a.altitudeM);
     }
     // In orbital flight the integrated point is the combined centre of mass. The ready E6 layout is identical.
-    vehicle.root.position.copy(carrierCenter).addScaledVector(direction, state.orbit ? -(DEPLOYMENT.carrierModelCenterM + (d ? 0 : config.payloadKg / state.massKg * DEPLOYMENT.centerSpacingM)) : 0);
+    vehicle.root.position.copy(carrierCenter).addScaledVector(direction, state.orbit ? -(DEPLOYMENT.carrierModelCenterM + (d ? 0 : satelliteWetKg(config) / state.massKg * DEPLOYMENT.centerSpacingM)) : 0);
     vehicle.root.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
     if (d) vehicle.setDeployment(d.fairingOpen, d.released);
-    satellite.root.visible = !!d?.released;
+    satellite.root.visible = !!d?.released && !satelliteEntry;
+    satellite.setPropulsion(!!state.satelliteEquipment, state.phase === 'disposal-burn' ? 1 : 0, state.time);
     if (d && satelliteCenter) { satellite.root.position.copy(satelliteCenter); satellite.root.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), localDirection(new THREE.Vector3(...rotateEarth(o?.direction ?? d.direction, -state.time))).normalize()); satellite.update(config.payloadKg, d.panels); satellite.pointArrays(o ? localDirection(new THREE.Vector3(...rotateEarth(o.arrayNormal, -state.time))).applyQuaternion(satellite.root.quaternion.clone().invert()) : undefined); }
     planet.position.copy(localDirection(basis.origin.clone().negate())).sub(origin);
     orbitLine.visible = targetLine.visible = !!state.orbit && !state.reentry && !o; orbitMarker.visible = !!state.orbit && overview;
-    satelliteOrbit.visible = !!d?.released && overview;
+    satelliteOrbit.visible = !!d?.released && overview && !satelliteEntry;
     if (state.orbit && (lastOrbitTime !== state.time || lastOrbitPhase !== state.phase)) {
       const elements = state.orbit.elements, points = sampleOrbit(elements), q = cross(elements.normal, elements.periDirection);
       points.forEach((p, i) => fixedToLocal(new THREE.Vector3(...rotateEarth(p, -state.time))).sub(origin).toArray(orbitPositions, i * 3));
@@ -120,12 +123,12 @@ export function createAscentView(loader: PanoramaTextureLoader) {
     exhaust.update(state.time, a.pressurePa, state.thrustN > 0 ? state.throttle : 0, a.stage, config.boosterEngine, Infinity, state.phase === 'avoidance-burn' || state.phase === 'deorbit-burn');
     passivation.update(state);
     const relative = unit(add(a.velocity, scale(airVelocity(a.position), -1)));
-    reentry.update(carrierCenter, localDirection(new THREE.Vector3(...rotateEarth(relative, -state.time))).normalize(), state.reentry?.heatFluxWm2 ?? null, !!state.reentry && !o && options.aerodynamic && !overview && focus === 'carrier');
+    reentry.update(satelliteEntry && satelliteCenter ? satelliteCenter : carrierCenter, localDirection(new THREE.Vector3(...rotateEarth(relative, -state.time))).normalize(), disposal ? disposal.heatFluxWm2 : state.reentry?.heatFluxWm2 ?? null, options.aerodynamic && !overview && (satelliteEntry ? focus === 'satellite' : !!state.reentry && !o && focus === 'carrier'));
     // False colour for locating the nose; q controls readability, NOT temperature.
     aerodynamicOverlay.visible = options.aerodynamic && !overview && !state.orbit && a.dynamicPressurePa > 1;
     noseMaterial.opacity = .5 * Math.min(1, Math.sqrt(a.dynamicPressurePa / 30000));
     if (lastPathTime !== state.time) { const points = a.trail.slice(-800); points.forEach((p, i) => fixedToLocal(new THREE.Vector3(...p)).sub(origin).toArray(pathPositions, i * 3)); pathGeometry.attributes.position.needsUpdate = true; pathGeometry.setDrawRange(0, points.length); lastPathTime = state.time; }
-    path.visible = (!o && !!state.reentry && overview) || (!d && a.altitudeM > 2000); stars.material.opacity = overview ? .65 : .65 * THREE.MathUtils.smoothstep(viewAltitude, 55000, 120000);
+    path.visible = (!!disposal || !o && !!state.reentry) && overview || (!d && a.altitudeM > 2000); stars.material.opacity = overview ? .65 : .65 * THREE.MathUtils.smoothstep(viewAltitude, 55000, 120000);
     hemi.intensity = o ? o.shadow ? .14 : .4 : THREE.MathUtils.lerp(1.4, .6, THREE.MathUtils.smoothstep(viewAltitude, 10000, 100000));
     sun.visible = hemi.visible = !!state.reentry || overview || viewAltitude >= 4000;
     const apsis = (radius: number) => fixedToLocal(new THREE.Vector3(...rotateEarth(scale(state.orbit!.elements.periDirection, radius), -state.time))).sub(origin);

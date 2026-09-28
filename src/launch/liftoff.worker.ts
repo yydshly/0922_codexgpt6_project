@@ -1,7 +1,8 @@
+import type { SatellitePlan } from './satellitePlan';
 import type { VehicleConfig } from './vehicle';
 import { FlightSession, type FlightAction } from './flightSession';
 import { DEMO_IDLE, FullFlightDemo } from './fullFlightDemo';
-export type LaunchCommand = { type: 'reset'; config: VehicleConfig; baseTime: number } | { type: Exclude<FlightAction, 'reset'> | 'save' | 'demo-start' | 'demo-exit' } | { type: 'demo-speed'; value: 1 | 3 } | { type: 'restore'; raw: string } | { type: 'pause'; value: boolean } | { type: 'rate'; value: number };
+export type LaunchCommand = { type: 'reset'; config: VehicleConfig; baseTime: number } | { type: Exclude<FlightAction, 'reset'> | 'save' | 'demo-exit' } | { type: 'demo-start'; plan?: SatellitePlan } | { type: 'demo-speed'; value: 1 | 3 } | { type: 'restore'; raw: string } | { type: 'pause'; value: boolean } | { type: 'rate'; value: number };
 let session: FlightSession | undefined, demo: FullFlightDemo | undefined, last = performance.now(), lastRecord = -Infinity;
 const publish = (error = '', extra = {}, includeRecord = true) => {
   if (includeRecord) lastRecord = performance.now();
@@ -11,7 +12,8 @@ self.onmessage = ({ data }: MessageEvent<LaunchCommand>) => {
   try {
     if (data.type === 'demo-start') {
       if (!session || demo) throw Error('当前不能新建演示。');
-      demo = new FullFlightDemo(session); session = demo.session;
+      if (data.plan !== undefined && !['powered','unpowered'].includes(data.plan)) throw Error('演示方案无效。');
+      demo = new FullFlightDemo(session, data.plan); session = demo.session;
     } else if (data.type === 'demo-exit') {
       if (demo) { session = demo.stop(); demo = undefined; }
     } else if (data.type === 'demo-speed') {

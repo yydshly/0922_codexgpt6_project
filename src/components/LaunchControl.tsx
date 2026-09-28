@@ -1,3 +1,4 @@
+import { DISPOSAL_LABELS } from '../launch/satelliteDisposal';
 import { LIFE_LABELS } from '../launch/satelliteLifecycle';
 import { OPS_LABELS } from '../launch/satelliteOperations';
 import { REENTRY_LABELS } from '../launch/reentry';
@@ -10,7 +11,7 @@ import { ignitionReading } from '../launch/flightTelemetry';
 import './LaunchControl.css';
 
 export const flightTime = (time: number) => `${time < 0 ? 'T −' : 'T +'} ${Math.abs(time).toFixed(1)} s`;
-export const flightPhaseName = (state: FlightState) => state.phase === 'ignition' ? ignitionReading(state).label : ({ ...LIFE_LABELS, ...OPS_LABELS, ...AVOIDANCE_LABELS, ...REENTRY_LABELS, ...DEORBIT_LABELS, ready: '等待检查', countdown: '倒计时', ignition: '点火建压 · 支撑锁定', ascending: '离台上升', complete: '离台段完成 · 已冻结', aborted: '试飞停止', ascent: '一级上升 · 辅助转弯', 'stage-ready': '一级燃尽 · 等待分离', separating: '两级分离 · 二级待点火', 'upper-burn': '二级点火 · 继续加速', 'ascent-complete': '上升分级完成 · 已冻结', 'ascent-failed': '上升未完成 · 已冻结', 'orbit-burn': '入轨加速 · 辅助制导', 'orbit-review': '发动机关机 · 等待滑行', 'orbit-coast': '无动力绕地验证', 'orbit-complete': '入轨验证通过 · 已冻结', 'orbit-failed': '入轨验证未通过 · 已冻结', 'deployment-ready': '入轨后 · 等待开舱', 'deployment-open': '载荷舱已打开 · 等待释放', deploying: '卫星已释放 · 独立飞行检查', 'deployment-complete': '部署检查通过 · 已冻结', 'deployed-coast': '二级与卫星 · 在轨观察', 'deployment-ended': '两小时观察完成 · 已冻结', 'deployment-failed': '部署检查未通过 · 已冻结' })[state.phase];
+export const flightPhaseName = (state: FlightState) => state.phase === 'ignition' ? ignitionReading(state).label : ({ ...DISPOSAL_LABELS, ...LIFE_LABELS, ...OPS_LABELS, ...AVOIDANCE_LABELS, ...REENTRY_LABELS, ...DEORBIT_LABELS, ready: '等待检查', countdown: '倒计时', ignition: '点火建压 · 支撑锁定', ascending: '离台上升', complete: '离台段完成 · 已冻结', aborted: '试飞停止', ascent: '一级上升 · 辅助转弯', 'stage-ready': '一级燃尽 · 等待分离', separating: '两级分离 · 二级待点火', 'upper-burn': '二级点火 · 继续加速', 'ascent-complete': '上升分级完成 · 已冻结', 'ascent-failed': '上升未完成 · 已冻结', 'orbit-burn': '入轨加速 · 辅助制导', 'orbit-review': '发动机关机 · 等待滑行', 'orbit-coast': '无动力绕地验证', 'orbit-complete': '入轨验证通过 · 已冻结', 'orbit-failed': '入轨验证未通过 · 已冻结', 'deployment-ready': '入轨后 · 等待开舱', 'deployment-open': '载荷舱已打开 · 等待释放', deploying: '卫星已释放 · 独立飞行检查', 'deployment-complete': '部署检查通过 · 已冻结', 'deployed-coast': '二级与卫星 · 在轨观察', 'deployment-ended': '两小时观察完成 · 已冻结', 'deployment-failed': '部署检查未通过 · 已冻结' })[state.phase];
 interface Props {
   config: VehicleConfig; state: FlightState; paused: boolean; ready: boolean; error: string; checked: boolean;
   onCheck: () => void; onStart: () => void; onPause: () => void; onCancel: () => void; onReset: () => void;
@@ -24,7 +25,7 @@ export function LaunchControl({ config, state: s, paused, ready, error, checked,
     <div className="launch-flight-state"><small role="status">{paused && running ? '模拟已暂停 · ' : ''}{s.phase === 'ignition' ? ignitionReading(s).label : flightPhaseName(s)}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.phase === 'ignition' ? '点火后先建立推力；支撑在 T=0 检查推力条件后释放。' : s.message}</p></div>
     <IgnitionSequence state={s}/>
     <ol className="launch-prechecks" aria-label="发射前检查">
-      <li><span>{checked ? '✓' : '01'}</span><div>配置已应用<small>整箭 {(v.wetKg / 1000).toFixed(2)} t · 载荷 {config.payloadKg} kg</small></div></li>
+      <li><span>{checked ? '✓' : '01'}</span><div>配置已应用<small>整箭 {(v.wetKg / 1000).toFixed(2)} t · 卫星 {v.payloadKg} kg</small></div></li>
       <li><span>{checked ? '✓' : '02'}</span><div>推进剂与推力<small>一级 {(v.stages[0].fuelKg / 1000).toFixed(1)} t · 起飞推重比 {v.twr.toFixed(2)}</small></div></li>
       <li><span>{checked && ready ? '✓' : '03'}</span><div>离台模型就绪<small>{ready ? '竖直姿态辅助 · 独立任务时钟 · 1 倍速' : '正在启动发射计算…'}</small></div></li>
     </ol>

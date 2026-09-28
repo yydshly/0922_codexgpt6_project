@@ -25,7 +25,7 @@ export function FlightSavePanel({ ready, paused, time, phase, saved, status, onS
     const anchor = document.createElement('a');
     try {
       url = URL.createObjectURL(new Blob([raw], { type: 'application/json' }));
-      anchor.href = url; anchor.download = 'ORBIT-E01-flight.json'; anchor.hidden = true;
+      anchor.href = url; anchor.download = 'ORBIT-flight.json'; anchor.hidden = true;
       document.body.append(anchor); anchor.click(); setError('');
     } catch { setError('无法发起文件下载，请检查浏览器下载设置；原存档仍保留。'); }
     finally { anchor.remove(); if (url) { const resource = url; setTimeout(() => URL.revokeObjectURL(resource), 30000); } }

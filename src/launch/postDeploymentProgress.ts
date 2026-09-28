@@ -4,6 +4,8 @@ import { DEORBIT, DEORBIT_RUNNING } from './deorbit';
 import { REENTRY_RUNNING } from './reentry';
 import { OPS, OPS_RUNNING } from './satelliteOperations';
 import { LIFE_RUNNING } from './satelliteLifecycle';
+import { DISPOSAL_RUNNING } from './satelliteDisposal';
+import { satelliteName } from './satellitePlan';
 
 export type PackageStatus = 'pending' | 'unvisited' | 'checkpoint' | 'active' | 'complete' | 'boundary' | 'stopped';
 export const PACKAGE_STATUS_TEXT: Record<PackageStatus, string> = {
@@ -20,10 +22,10 @@ export const recordTime = (v: number) => `T ${v < 0 ? '−' : '+'} ${Math.abs(v)
 
 /** Read-only projection: no new solver milestones, journal actions or saved-state fields. */
 export function postDeploymentProgress(s: FlightState) {
-  const d = s.deployment, p = d?.avoidance, q = d?.deorbit, r = s.reentry, o = s.operations, l = s.lifecycle;
+  const d = s.deployment, p = d?.avoidance, q = d?.deorbit, r = s.reentry, o = s.operations, l = s.lifecycle, sd = s.satelliteDisposal;
   const p1Done = !!p?.started && p.elapsedS >= AVOIDANCE.horizonS - 1e-7;
   const p2Done = !!q?.cutoffVerified && q.restartLocked && q.passivationElapsedS >= DEORBIT.passivateS - 1e-7;
-  const p4Done = !!o && (s.phase === 'ops-complete' || !!l) && o.collectedMB >= OPS.targetMB - 1e-7 && o.bufferMB <= 1e-7 && o.deliveredMB >= o.collectedMB - 1e-7;
+  const p4Done = !!o && (s.phase === 'ops-complete' || !!l || !!sd) && o.collectedMB >= OPS.targetMB - 1e-7 && o.bufferMB <= 1e-7 && o.deliveredMB >= o.collectedMB - 1e-7;
   const at = (exists: boolean, running: readonly string[]): PackageStatus => exists ? running.includes(s.phase) ? 'active' : 'checkpoint' : 'pending';
   const steps: PackageProgress[] = [
     { id: 'P1', title: '分离分析与避让对照', status: p1Done ? 'complete' : p && s.phase === 'deployment-failed' ? 'stopped' : at(!!p, AVOIDANCE_RUNNING),
@@ -42,31 +44,34 @@ export function postDeploymentProgress(s: FlightState) {
       detail: s.phase === 'life-observed' ? '无推进分支完成：业务已结束，退役卫星仍保留，未完成空间处置。' : l?.mode === 'retired' ? '业务已结束；还可完成 10 分钟退役后观察，不能把退役当作主动离轨。' : s.phase === 'life-working' ? '已选择保留工作状态，尚未退役；当前停在检查点。' : '先维护能源，再选择保留工作或结束任务；无推进器就不能主动离轨。',
       facts: l && o ? [`本段已推进 ${(l.elapsedS / 60).toFixed(1)} min`, `电池 ${(o.energyJ / 3600).toFixed(1)} / ${(o.capacityJ / 3600).toFixed(0)} Wh · ${l.isolated ? '充电已隔离' : '充电回路连接'}`] : [] },
   ];
+  if (s.satelliteEquipment) steps[4] = { id: 'P5', title: 'E02 结束业务与动力离轨', status: s.phase==='disposal-failed'?'stopped':s.phase==='disposal-complete'?'complete':at(!!sd,DISPOSAL_RUNNING),
+    detail: sd?.groundAt!=null ? '动力离轨与等效物体参考下降已到 0 m。未求解解体、材料存活或实际落区。' : sd?.entryAt!=null ? '实际轨迹进入大气；以等效质点继续，不断言完整卫星存活。' : sd?.cutoffAt!=null ? '卫星自身点火已降低近地点；尚需观察进入大气与参考下降。' : 'E02 的设备与燃料从发射前计入质量。结束数据任务后保留控制电源执行离轨。',
+    facts: sd ? [`点火耗油 ${kg(sd.burnedKg)} · 排放 ${kg(sd.ventedKg)} · 剩余 ${kg(s.satelliteEquipment.fuelKg)}`, `理想累计 Δv ${sd.usedDeltaVMS.toFixed(1)} m/s · 电池 ${((o?.energyJ??0)/3600).toFixed(1)} Wh`] : [] };
   const records: ObjectRecord[] = d ? [
     { id: 'carrier', title: '运载二级', historical: !!o, time: o?.carrierRecordTime ?? s.time,
       outcome: r?.outcome === 'surface-reference' ? '等效物体到达地表 · 参考结果' : r?.outcome === 'model-boundary' ? '记录停在 20 km 模型边界' : r?.outcome === 'stopped' || s.phase === 'deorbit-failed' ? '二级计算停止' : p2Done ? '离轨与简化钝化完成，尚无最终处置结论' : !q && o ? '未执行离轨，保留原记录' : '尚未完成处置',
       facts: [`${o ? '记录' : '当前'}高度 ${km(d.carrier.altitudeM)}`, `质量 ${kg(d.carrier.massKg)}`],
       boundary: o ? '这是进入卫星工作段时冻结的历史记录，不是当前二级位置；未推断它后来烧毁、落地或仍在哪里。' : '当前计算对象；模型尚未判定烧毁、落区或安全着陆。' },
-    { id: 'satellite', title: 'E01 卫星', historical: false, time: s.time,
-      outcome: l?.mode === 'retired' ? '已退役 · 未完成处置' : s.phase === 'ops-failed' || s.phase === 'life-failed' ? '本段停止 · 保留状态' : l?.isolated ? '结束任务 · 电能收尾' : l?.mode === 'maintaining' ? '低负载能源维护' : o ? '工作任务 · 尚未退役' : d.released ? '已释放 · 独立飞行' : '仍与二级连接',
+    { id: 'satellite', title: `${satelliteName(s)} 卫星`, historical: false, time: s.time,
+      outcome: sd ? sd.outcome==='stopped'?'离轨计算停止 · 保留实际状态':sd.groundAt!=null?'等效物体到 0 m · 材料结局未求解':sd.entryAt!=null?'进入大气 · 参考下降':sd.cutoffAt!=null?'已改变轨道 · 尚无最终处置结论':'结束业务与离轨准备' : l?.mode === 'retired' ? '已退役 · 未完成处置' : s.phase === 'ops-failed' || s.phase === 'life-failed' ? '本段停止 · 保留状态' : l?.isolated ? '结束任务 · 电能收尾' : l?.mode === 'maintaining' ? '低负载能源维护' : o ? '工作任务 · 尚未退役' : d.released ? '已释放 · 独立飞行' : '仍与二级连接',
       facts: [`当前高度 ${km(d.satellite.altitudeM)}`, `近地点 ${km(d.satellite.elements.periapsisM)} · 质量 ${kg(d.satellite.massKg)}`, ...(o ? [`电池 ${(o.energyJ / o.capacityJ * 100).toFixed(1)}% · 已交付 ${o.deliveredMB.toFixed(1)} MB`] : [])],
-      boundary: l?.mode === 'retired' ? '无推进器，没有主动离轨；卫星仍保留在模型中，不预测长期衰减日期。' : '卫星的能源、业务状态与二级分开判断。它未接受二级的离轨推力。' },
+      boundary: sd ? '卫星以自身推进剂改变轨道；二级记录不变。再入按固定质量与阻力等效物体计算，未求解烧蚀、碎片与安全落区。' : l?.mode === 'retired' ? '无推进器，没有主动离轨；卫星仍保留在模型中，不预测长期衰减日期。' : '卫星的能源、业务状态与二级分开判断。它未接受二级的离轨推力。' },
   ] : [];
   const stopped = s.phase === 'aborted' || s.phase.endsWith('-failed');
-  const next = stopped ? `当前计算停止：${s.message}` : s.phase === 'life-observed' ? '本次无推进教学分支已到终点。查看结果与模型边界，导出摘要并保存飞行，再进行使用体验验收。'
-    : s.phase === 'ops-complete' ? '回到当前操作，选择“下一段：维护与退役”。沿用现有电量与轨道。'
+  const next = stopped ? `当前计算停止：${s.message}` : s.phase === 'disposal-complete' ? 'E02 动力离轨教学路线到达参考终点。查看质量、电能与轨迹记录；材料与实际落区仍未计算。' : s.phase === 'life-observed' ? '本次无推进教学分支已到终点。查看结果与模型边界，导出摘要并保存飞行，再进行使用体验验收。'
+    : s.phase === 'ops-complete' ? s.satelliteEquipment ? '回到当前操作，选择“下一段：动力离轨”。沿用当前电量、燃料与轨道。' : '回到当前操作，选择“下一段：维护与退役”。沿用现有电量与轨道。'
     : s.phase === 'avoidance-complete' ? '回到当前操作，可先看二级离轨与再入，也可直接进入卫星工作。未走的路线会如实标为本次未执行。'
     : s.phase === 'reentry-surface' ? '参考下降已到地表。可继续卫星工作；材料存活和实际落点仍未计算。' : s.phase === 'reentry-complete' ? '20 km 是检查点。可继续等效物体到地表的参考下降，或转入卫星路线。'
     : '返回当前步骤，按条件继续操作。这里的状态来自计算记录，阅读摘要不会推进飞行或通过验收。';
-  return { steps, records, next, stopped, branchFinished: s.phase === 'life-observed' };
+  return { steps, records, next, stopped, branchFinished: s.phase === 'life-observed' || s.phase === 'disposal-complete' };
 }
 
 export function taskResultMarkdown(s: FlightState, phaseLabel: string) {
   const report = postDeploymentProgress(s);
-  return ['# 本次 E01 任务结果摘要', '', `任务时刻：${recordTime(s.time)}；阶段：${phaseLabel}。`,
+  return [`# 本次 ${satelliteName(s)} 任务结果摘要`, '', `任务时刻：${recordTime(s.time)}；阶段：${phaseLabel}。`,
     '本文件只描述导出时的教学计算结果，不是可恢复的飞行存档，不代表用户验收或真实任务遥测。', '', '## 部署后任务路径', '',
     ...report.steps.flatMap(step => [`### ${step.id} ${step.title} · ${PACKAGE_STATUS_TEXT[step.status]}`, '', step.detail, '', ...step.facts.map(f => `- ${f}`), '']),
     '## 两个对象分别在哪里', '', ...(report.records.length ? report.records.flatMap(record => [`### ${record.title}`, '', `${record.historical ? '历史记录' : '当前计算'}：${recordTime(record.time)}；${record.outcome}。`, '', ...record.facts.map(f => `- ${f}`), '', record.boundary, '']) : ['尚未进入部署段，没有二级与卫星的独立记录。', '']),
     '## 接下来', '', report.next, '', '需要恢复这次任务，请另用“飞行存档”保存并导出 JSON 文件。此摘要不会覆盖浏览器存档。', '',
-    '## 共同边界', '', '近地点降低、简化钝化、到达 20 km 检查点、等效物体参考下降到 0 m、卫星业务结束，是不同结果。均不能单独证明完整空间处置。主动卫星离轨、材料解体、落区及长期寿命尚未实现。', ''].join('\n');
+    '## 共同边界', '', '近地点降低、简化钝化、到达 20 km 检查点、等效物体参考下降到 0 m、卫星业务结束，是不同结果。均不能单独证明完整空间处置。E02 可用预装发动机进行教学离轨；材料解体、真实落区及多年自然衰减寿命尚未实现。', ''].join('\n');
 }

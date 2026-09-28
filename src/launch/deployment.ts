@@ -1,3 +1,4 @@
+import { satellitePlan, satelliteEquipment } from './satellitePlan';
 import { DEORBIT, DEORBIT_RUNNING, createDeorbitPlan, initializeDeorbit, deorbitModel, deorbitThrottle, deorbitForces, deorbitSample, advancePassivation, type DeorbitPhase, type DeorbitTelemetry } from './deorbit';
 import { add, ascentForces, dot, integrateAscent, norm, rotateEarth, scale, surfaceAt, unit, type Particle, type V3 } from './ascent';
 import { meetsOrbitTarget, orbitalElements, type OrbitElements } from './orbitInsertion';
@@ -33,6 +34,7 @@ export class DeploymentSimulation {
     this.vehicle = compileVehicle(config); this.carrierMass = this.vehicle.stages[1].dryKg + this.vehicle.fairingKg + handoff.ascent.upperFuelKg;
     if (Math.abs(this.carrierMass + this.vehicle.payloadKg - handoff.massKg) > 1e-5) throw Error('任务质量与载具配置不匹配。');
     this.state = structuredClone(handoff); this.state.phase = 'deployment-ready';
+    if (satellitePlan(config) === 'powered') this.state.satelliteEquipment = satelliteEquipment(config.payloadKg);
     const a = handoff.ascent, direction = unit(a.velocity), parts = splitPayload(a.position, a.velocity, direction, handoff.massKg, this.vehicle.payloadKg);
     this.carrier = { position: parts.carrierPosition, velocity: [...a.velocity], fuel: a.upperFuelKg };
     this.satellite = { position: parts.satellitePosition, velocity: [...a.velocity], fuel: 0 }; this.nextTrailTime = handoff.time;
@@ -54,7 +56,7 @@ export class DeploymentSimulation {
       centerErrorM: norm(add(scale(add(scale(this.carrier.position, this.carrierMass), scale(this.satellite.position, this.vehicle.payloadKg)), 1 / beforeMass), scale(beforePosition, -1))),
       relativeSpeedMS: norm(add(this.satellite.velocity, scale(this.carrier.velocity, -1))), springEnergyJ: split.springEnergyJ };
     s.phase = 'deploying'; s.message = '卫星已成为独立对象。弹簧赋予两者相反冲量；接下来观察 120 秒，太阳翼按任务时间展开。';
-    this.event('释放 E01-SAT 卫星：相对分离速度 0.5 m/s，二级保留剩余燃料'); this.refresh();
+    this.event(this.state.satelliteEquipment ? '释放 E02-SAT 卫星：相对分离速度 0.5 m/s，卫星自带离轨设备，二级保留剩余燃料' : '释放 E01-SAT 卫星：相对分离速度 0.5 m/s，二级保留剩余燃料'); this.refresh();
   }
   continueObservation() { if (this.state.phase !== 'deployment-complete') return; this.state.phase = 'deployed-coast'; this.state.message = '两对象继续独立绕地运行；本段观察最多到释放后 2 小时，可随时暂停或保存。'; this.event('继续在轨观察'); }
   analyzeAvoidance() {

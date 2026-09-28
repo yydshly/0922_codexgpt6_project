@@ -1,3 +1,4 @@
+import { satelliteName } from './satellitePlan';
 import { LIFE_RUNNING } from './satelliteLifecycle';
 import { OPS_RUNNING } from './satelliteOperations';
 import { REENTRY, REENTRY_RUNNING } from './reentry';
@@ -24,7 +25,7 @@ export function flightTelemetry(s: FlightState, config: VehicleConfig) {
   const env = flightEnvironmentReading(s), vehicle = compileVehicle(config), a = s.ascent, stage = a?.stage ?? 0;
   const held = !s.released && !a;
   return {
-    ...env, stage, object: s.operations ? 'E01 卫星 · 工作任务' : s.deployment?.released ? '运载二级 · 卫星已独立' : stage === 1 ? '二级与连接中的载荷' : '整箭 · 一级工作段',
+    ...env, stage, object: s.operations ? `${satelliteName(s)} 卫星 · ${s.satelliteDisposal ? '任务末期离轨' : '工作任务'}` : s.deployment?.released ? '运载二级 · 卫星已独立' : stage === 1 ? '二级与连接中的载荷' : '整箭 · 一级工作段',
     verticalMS: s.speedMS, horizontalMS: a?.horizontalMS ?? 0,
     inertialMS: a ? Math.hypot(...a.velocity) : null,
     upwardAccelerationMS2: s.accelerationMS2, gravityMS2: s.weightN / s.massKg,

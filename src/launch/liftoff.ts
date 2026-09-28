@@ -1,3 +1,5 @@
+import type { SatelliteEquipment } from './satellitePlan';
+import type { DisposalPhase, SatelliteDisposalTelemetry } from './satelliteDisposal';
 import { LAUNCH_EARTH } from '../data/launchMission';
 import { compileVehicle, STANDARD_GRAVITY, type VehicleConfig } from './vehicle';
 import type { AscentPhase, AscentTelemetry } from './ascent';
@@ -10,7 +12,7 @@ import type { OperationsPhase, OperationsTelemetry } from './satelliteOperations
 /** E3 only: constrained vertical departure, metres/seconds/kg. No orbit or E4 guidance. */
 export const LIFTOFF = { stepS: .05, countdownS: 10, ignitionT: -3, rampS: 2, endHeightM: 150,
   padHeightM: 8.1, maxTimeS: 120, densityKgM3: 1.225, scaleHeightM: 8500, cd: .35, areaM2: Math.PI * (4.3 / 2) ** 2 } as const;
-export type FlightPhase = 'ready' | 'countdown' | 'ignition' | 'ascending' | 'complete' | 'aborted' | AscentPhase | OrbitPhase | DeploymentPhase | ReentryPhase | OperationsPhase | LifecyclePhase;
+export type FlightPhase = 'ready' | 'countdown' | 'ignition' | 'ascending' | 'complete' | 'aborted' | AscentPhase | OrbitPhase | DeploymentPhase | ReentryPhase | OperationsPhase | LifecyclePhase | DisposalPhase;
 export interface FlightEvent { time: number; label: string }
 export interface FlightState {
   phase: FlightPhase; time: number; heightM: number; speedMS: number; fuelKg: number;
@@ -22,6 +24,8 @@ export interface FlightState {
   reentry?: ReentryTelemetry;
   operations?: OperationsTelemetry;
   lifecycle?: LifecycleTelemetry;
+  satelliteEquipment?: SatelliteEquipment;
+  satelliteDisposal?: SatelliteDisposalTelemetry;
 }
 export interface VerticalState { heightM: number; speedMS: number; fuelKg: number }
 export interface VerticalModel { carriedKg: number; flowKgS: number; ispS: number; mu: number; radiusM: number; rho: number; cdArea: number }

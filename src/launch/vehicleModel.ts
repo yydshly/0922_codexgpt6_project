@@ -21,6 +21,15 @@ export function createLaunchSatellite() {
   const radiator = new THREE.Mesh(new THREE.BoxGeometry(.018, 1.05, .8), steel); radiator.position.set(-.69, -.05, 0); root.add(radiator);
   const port = new THREE.Mesh(new THREE.CylinderGeometry(.16, .16, .07, 24), steel); port.rotation.x = Math.PI / 2; port.position.set(.18, .1, .63); root.add(port);
   const arrays = new THREE.Group(); root.add(arrays);
+  const propulsion = new THREE.Group(); propulsion.name = 'E02 propulsion kit'; root.add(propulsion);
+  for (const x of [-.42, .42]) { const tank = new THREE.Mesh(new THREE.SphereGeometry(.24, 20, 14), steel); tank.scale.y = 1.3; tank.position.set(x, -.95, 0); propulsion.add(tank); }
+  const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(.09, .22, .4, 24, 1, true), new THREE.MeshStandardMaterial({ color: '#35424c', metalness: .6, roughness: .4, side: THREE.DoubleSide })); nozzle.position.y = -1.2; propulsion.add(nozzle);
+  const plumeMaterial = new THREE.ShaderMaterial({ uniforms: { power: { value: 0 }, time: { value: 0 } }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+    vertexShader: 'varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+    fragmentShader: 'varying vec2 vUv; uniform float power; uniform float time; void main(){float tail=smoothstep(0.,.65,vUv.y);float streak=.7+.3*sin(vUv.x*95.+vUv.y*12.-time*18.);gl_FragColor=vec4(mix(vec3(.15,.42,1.),vec3(.65,.88,1.),vUv.y),power*tail*streak*.23);}' });
+  const plume = new THREE.Mesh(new THREE.ConeGeometry(.28, 2.2, 24, 1, true), plumeMaterial); plume.position.y = -2.5; propulsion.add(plume);
+  const setPropulsion = (enabled: boolean, throttle = 0, time = 0) => { propulsion.visible = enabled; plume.visible = enabled && throttle > 0; plumeMaterial.uniforms.power.value = throttle; plumeMaterial.uniforms.time.value = time; };
+  setPropulsion(false);
   const hinges: THREE.Group[] = [];
   for (const side of [-1, 1]) {
     const hinge = new THREE.Group(); hinge.position.set(side * .72, -.65, 0); arrays.add(hinge); hinges.push(hinge);
@@ -29,7 +38,7 @@ export function createLaunchSatellite() {
     for (const z of [-.625, -.21, .21, .625]) { const line = new THREE.Mesh(new THREE.BoxGeometry(.085, 2.2, .012), steel); line.position.set(0, 1.1, z); hinge.add(line); }
   }
   const update = (payloadKg: number, deployed: number) => { root.scale.setScalar(payloadKg === 500 ? 1 : .8); hinges.forEach((h, i) => { h.rotation.z = (i === 0 ? 1 : -1) * Math.PI / 2 * deployed; }); };
-  update(500, 0); return { root, update, pointArrays(normal?: THREE.Vector3) { arrays.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal?.clone().normalize() ?? new THREE.Vector3(0, 1, 0)); } };
+  update(500, 0); return { root, update, setPropulsion, pointArrays(normal?: THREE.Vector3) { arrays.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal?.clone().normalize() ?? new THREE.Vector3(0, 1, 0)); } };
 }
 
 /** Shared 60 m teaching vehicle. Attachment stations and plume origins match the flight model. */
@@ -125,7 +134,7 @@ export function createLaunchVehicle() {
     standardEngines.visible = config.boosterEngine === 'b-standard'; lightEngines.visible = !standardEngines.visible;
     upperEngine.scale.set(config.upperEngine === 'u-efficient' ? 1.25 : 1, 1, config.upperEngine === 'u-efficient' ? 1.25 : 1);
     upper.position.y = exploded ? 8 : 0; fairing.position.set(exploded ? 8 : 0, exploded ? 18 : 0, 0); payload.position.y = exploded ? 15 : 0;
-    payload.visible = exploded; satellite.update(config.payloadKg, 0); openCover.visible = false; gauges.visible = inWorkshop && exploded;
+    payload.visible = exploded; satellite.update(config.payloadKg, 0); satellite.setPropulsion(config.satellitePlan === 'powered'); openCover.visible = false; gauges.visible = inWorkshop && exploded;
     gauge1.scale.y = config.boosterFillPercent / 100; gauge1.position.y = 3.5 + 13.5 * gauge1.scale.y;
     gauge2.scale.y = config.upperFillPercent / 100; gauge2.position.y = 37 + (exploded ? 8 : 0) + 6 * gauge2.scale.y;
   }

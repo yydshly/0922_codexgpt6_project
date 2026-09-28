@@ -1,3 +1,4 @@
+import { satelliteName } from '../launch/satellitePlan';
 import { useEffect, useId, useRef, useState } from 'react';
 import type { FlightState } from '../launch/liftoff';
 import type { LaunchCommand } from '../launch/liftoff.worker';
@@ -13,10 +14,10 @@ export function OperationsControl({ state: s, paused, ready, error, rate, send, 
   const o = s.operations!, running = OPS_RUNNING.includes(s.phase), disabled = !ready || !!error;
   const step = s.phase === 'ops-ready' || s.phase === 'ops-align' ? 0 : s.phase === 'ops-power-ready' || s.phase === 'ops-cycle' ? 1 : 2;
   return <div className="launch-control operations-control">
-    <span className="launch-kicker">P4 / E01 卫星开始工作</span><h2>把观测带回地球。</h2>
+    <span className="launch-kicker">P4 / {satelliteName(s)} 卫星开始工作</span><h2>把观测带回地球。</h2>
     <FlightStageGuide steps={['对日定向 · 建立发电', '日夜循环 · 观测并保存', '地面站窗口 · 下传数据']} current={s.phase === 'ops-failed' ? null : step} complete={s.phase === 'ops-complete'}><p>接续同一颗已部署的卫星。先定向与发电，再观察一圈日夜，最后等待通信窗口下传。</p></FlightStageGuide>
     <div className="launch-flight-state"><small role="status">{running && paused ? '已暂停 · ' : ''}{OPS_LABELS[s.phase as OperationsPhase]}</small><strong data-flight-time>{flightTime(s.time)}</strong><p>{s.message}</p></div>
-    {s.phase === 'ops-complete' && <section className="avoidance-entry"><strong>第五段：卫星维护与退役</strong><p>继承当前电量与轨道，先检查一圈能源；E01 无推进器，任务结束后会保留退役在轨结果。</p><button disabled={disabled} onClick={onMaintenance}>下一段：维护与退役 →</button></section>}
+    {s.phase === 'ops-complete' && <section className="avoidance-entry"><strong>{s.satelliteEquipment ? '第五段：E02 任务末期离轨' : '第五段：卫星维护与退役'}</strong><p>{s.satelliteEquipment ? '继承当前电量、轨道和发射前携带的离轨燃料，核对条件后执行动力离轨。' : '继承当前电量与轨道，先检查一圈能源；E01 无推进器，任务结束后会保留退役在轨结果。'}</p><button disabled={disabled} onClick={onMaintenance}>{s.satelliteEquipment ? '下一段：动力离轨 →' : '下一段：维护与退役 →'}</button></section>}
     {error && <p role="alert">{error}</p>}
     <div className="launch-flight-actions">
       {s.phase === 'ops-ready' && <button className="launch-ignite" disabled={disabled} onClick={() => send({type:'align-operations'})}>1 · 开始对日定向 →</button>}

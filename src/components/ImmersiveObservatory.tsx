@@ -356,7 +356,7 @@ export function ImmersiveObservatory({ frame: entryFrame, start, end, entry, onR
     <div className="imm-vignette" aria-hidden="true"/>
     <header className="imm-header">
       <button onClick={onClose} className="imm-back"><ArrowLeft size={16}/>返回全景</button>
-      <div className="imm-brand">ORBIT <span>沉浸观景</span></div>{onOpenMission && <button onClick={onOpenMission} title="返回独立任务保存的时刻，靠近 E01 卫星">E01 卫星 · 任务近景</button>}
+      <div className="imm-brand">ORBIT <span>沉浸观景</span></div>{onOpenMission && <button onClick={onOpenMission} title="返回独立任务保存的时刻，靠近本次任务的卫星">本次卫星 · 任务近景</button>}
       <button onClick={() => setClean(v => !v)} aria-pressed={clean}><Maximize2 size={15}/>{clean ? '显示界面' : '纯画面'}</button>
     </header>
     {clean && <div className="imm-pure-clock"><span>{date.replace('T', ' ')} · 北京时间 · {clock.playing ? '天体运动中' : '已暂停'}</span>{clock.playing && <button onClick={clock.pause}>暂停天体运动</button>}</div>}

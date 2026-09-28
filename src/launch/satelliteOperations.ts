@@ -80,7 +80,7 @@ export class OperationsSimulation {
     if (![1, .5, .25].includes(stepS)) throw Error('不支持的卫星工作步长。');
     this.state = structuredClone(handoff); this.state.phase = 'ops-ready';
     this.satellite = { position: [...d.satellite.position], velocity: [...d.satellite.velocity], fuel: 0 };
-    const capacityJ = OPS.batteryWh * 3600 * d.satellite.massKg / 500, sun = operationsSun(baseTime, handoff.time).direction;
+    const capacityJ = OPS.batteryWh * 3600 * (handoff.satelliteEquipment?.busKg ?? d.satellite.massKg) / 500, sun = operationsSun(baseTime, handoff.time).direction;
     this.state.operations = { startTime: handoff.time, carrierRecordTime: handoff.time, origin: handoff.reentry ? 'P3' : 'P1', elapsedS: 0, cycleStart: null, cyclePeriodS: d.satellite.elements.periodS, initialDirection: [...d.direction], direction: [...d.direction], arrayNormal: [...d.direction], sunDirection: sun,
       shadow: inEarthShadow(d.satellite.position, sun), previousShadow: inEarthShadow(d.satellite.position, sun), eclipseSeen: false, sunlightAfterEclipse: false, eclipseS: 0, sunlightS: 0, incidence: 0,
       capacityJ, initialEnergyJ: capacityJ * OPS.initialCharge, energyJ: capacityJ * OPS.initialCharge, reserveMode: false, generationW: 0, loadW: 0, generatedJ: 0, consumedJ: 0, lossJ: 0, shuntedJ: 0, unservedJ: 0,
@@ -94,7 +94,7 @@ export class OperationsSimulation {
   downlink() { if (this.state.phase !== 'ops-data-ready') throw Error('请先完成观测检查。'); this.state.phase = 'ops-downlink'; this.state.message = '等待教学地面站仰角达到 10°，满足电量条件才传送；离开窗口即停止，未发完的数据继续保留。'; this.event('申请教学地面站下传'); this.refresh(); }
   private refresh() {
     const s = this.state, o = s.operations!, a = s.ascent!, body = s.deployment!.satellite;
-    Object.assign(o, operationsReading(this.satellite.position, s.time, this.baseTime, o, body.massKg, s.phase), { elapsedS: s.time - o.startTime });
+    Object.assign(o, operationsReading(this.satellite.position, s.time, this.baseTime, o, s.satelliteEquipment?.busKg ?? body.massKg, s.phase), { elapsedS: s.time - o.startTime });
     Object.assign(body, { position: [...this.satellite.position], velocity: [...this.satellite.velocity], fixedPosition: rotateEarth(this.satellite.position, -s.time), altitudeM: surfaceAt(this.satellite.position).height, elements: orbitalElements(this.satellite.position, this.satellite.velocity) });
     const f = ascentForces(this.satellite, { dry: body.massKg, cdArea: 4.4 }, s.time, 0), vertical = dot(f.relative, f.up);
     Object.assign(a, { position: [...body.position], velocity: [...body.velocity], fixedPosition: [...body.fixedPosition], direction: o.direction, fixedDirection: rotateEarth(o.direction, -s.time), altitudeM: body.altitudeM, airSpeedMS: f.airSpeed, horizontalMS: Math.sqrt(Math.max(0, f.airSpeed ** 2 - vertical ** 2)), density: f.density, pressurePa: f.pressurePa, dynamicPressurePa: .5 * f.density * f.airSpeed ** 2, pitchDeg: Math.asin(Math.max(-1, Math.min(1, dot(o.direction, f.up)))) / rad });
@@ -110,7 +110,7 @@ export class OperationsSimulation {
     if (s.phase === 'ops-align') dt = Math.min(dt, OPS.alignS - o.elapsedS);
     if (o.energyJ <= o.capacityJ * OPS.reserve) o.reserveMode = true; else if (o.energyJ >= o.capacityJ * OPS.recover) o.reserveMode = false;
     const advance = (t: number) => integrateAscent(this.satellite, { dry: mass, cdArea: 4.4 }, s.time, t, () => 0);
-    const midpoint = advance(dt / 2), reading = operationsReading(midpoint.position, s.time + dt / 2, this.baseTime, o, mass, s.phase);
+    const midpoint = advance(dt / 2), reading = operationsReading(midpoint.position, s.time + dt / 2, this.baseTime, o, s.satelliteEquipment?.busKg ?? mass, s.phase);
     const energy = electricalStep(o.energyJ, o.capacityJ, reading.generationW, reading.loadW, dt);
     o.energyJ = energy.energyJ; o.generatedJ += reading.generationW * dt; o.consumedJ += reading.loadW * dt; o.lossJ += energy.lossJ; o.shuntedJ += energy.shuntedJ; o.unservedJ += energy.unservedJ;
     if (reading.shadow) { o.eclipseS += dt; o.eclipseSeen = true; } else { o.sunlightS += dt; if (o.eclipseSeen) o.sunlightAfterEclipse = true; }

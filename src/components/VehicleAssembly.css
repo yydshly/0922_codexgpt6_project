@@ -24,3 +24,5 @@
 .launch-assembly-focus button { padding: 8px 10px; font-size: 11px; background: #122733e8; }
 .launch-assembly-focus button[aria-pressed=true] { border-color: #d4ba87; color: #f1dfb9; background: #344642; }
 @media(max-width:760px) { .launch-assembly-focus { left: 12px; right: 12px; bottom: 138px; max-width: none; }.launch-assembly-focus button { padding: 7px 9px; font-size: 10px; }.launch-assembly-mode .launch-assembly-legend { display: none; } }
+
+.vehicle-disposal-plan{border:1px solid #719f91;border-radius:8px;padding:12px;margin:18px 0}.vehicle-plan-options{display:grid;gap:8px}.vehicle-plan-options button{text-align:left;padding:12px}.vehicle-plan-options button[aria-pressed=true]{background:#355449;color:#e6f7d9}.vehicle-plan-options span,.vehicle-disposal-plan small{display:block;margin-top:5px;font-size:11px;color:#b1c8cb}.vehicle-disposal-plan p{font-size:12px;line-height:1.7}

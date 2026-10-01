@@ -1,0 +1,137 @@
+{
+  "checks": [
+    {
+      "name": "entry: restore is paused at the actual integrated state",
+      "passed": true
+    },
+    {
+      "name": "entry: Earth rotation velocity is hidden by default",
+      "passed": true
+    },
+    {
+      "name": "entry: capsule parts are visibly labelled",
+      "passed": true
+    },
+    {
+      "name": "entry: canopy area follows the solver",
+      "passed": true
+    },
+    {
+      "name": "drogue: restore is paused at the actual integrated state",
+      "passed": true
+    },
+    {
+      "name": "drogue: Earth rotation velocity is hidden by default",
+      "passed": true
+    },
+    {
+      "name": "drogue: capsule parts are visibly labelled",
+      "passed": true
+    },
+    {
+      "name": "drogue: canopy area follows the solver",
+      "passed": true
+    },
+    {
+      "name": "main-chute: restore is paused at the actual integrated state",
+      "passed": true
+    },
+    {
+      "name": "main-chute: Earth rotation velocity is hidden by default",
+      "passed": true
+    },
+    {
+      "name": "main-chute: capsule parts are visibly labelled",
+      "passed": true
+    },
+    {
+      "name": "main-chute: canopy area follows the solver",
+      "passed": true
+    },
+    {
+      "name": "landing: restore is paused at the actual integrated state",
+      "passed": true
+    },
+    {
+      "name": "landing: Earth rotation velocity is hidden by default",
+      "passed": true
+    },
+    {
+      "name": "landing: capsule parts are visibly labelled",
+      "passed": true
+    },
+    {
+      "name": "landing: canopy area follows the solver",
+      "passed": true
+    },
+    {
+      "name": "drag and parachute force readouts do not overlap",
+      "passed": true
+    },
+    {
+      "name": "reference display toggle does not advance or change physics",
+      "passed": true
+    },
+    {
+      "name": "touchdown: restore is paused at the actual integrated state",
+      "passed": true
+    },
+    {
+      "name": "touchdown: Earth rotation velocity is hidden by default",
+      "passed": true
+    },
+    {
+      "name": "touchdown: capsule parts are visibly labelled",
+      "passed": true
+    },
+    {
+      "name": "touchdown: canopy area follows the solver",
+      "passed": true
+    },
+    {
+      "name": "touchdown: support feet stay on the surface",
+      "passed": true
+    },
+    {
+      "name": "complete: restore is paused at the actual integrated state",
+      "passed": true
+    },
+    {
+      "name": "complete: Earth rotation velocity is hidden by default",
+      "passed": true
+    },
+    {
+      "name": "complete: capsule parts are visibly labelled",
+      "passed": true
+    },
+    {
+      "name": "complete: canopy area follows the solver",
+      "passed": true
+    },
+    {
+      "name": "complete: support feet stay on the surface",
+      "passed": true
+    },
+    {
+      "name": "stopped capsule has no spurious velocity angles",
+      "passed": true
+    },
+    {
+      "name": "ground support force is visibly labelled without cropping",
+      "passed": true
+    },
+    {
+      "name": "1× soft landing, compression and recovery complete without getting stuck",
+      "passed": true
+    },
+    {
+      "name": "support struts compress with the actual contact state",
+      "passed": true
+    },
+    {
+      "name": "no runtime or browser error during return checks",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

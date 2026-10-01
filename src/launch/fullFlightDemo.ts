@@ -26,7 +26,7 @@ export class FullFlightDemo {
   status: DemoStatus = { ...DEMO_IDLE, active: true, paused: false, visited: [], results: {} };
   private checkpoints = new Map<number, string>();
   private lastPhase = '';
-  constructor(original: FlightSession, plan: SatellitePlan = satellitePlan(original.config)) { this.original = original; original.pause(true); this.status.plan=plan; this.session = new FlightSession({...BASELINE_VEHICLE, ...(plan === 'powered' ? {satellitePlan: plan} : {})}, original.baseTime); this.rememberChapter(); }
+  constructor(original: FlightSession, plan: SatellitePlan = satellitePlan(original.config), readonly stopAfterOrbit = false) { this.original = original; original.pause(true); this.status.plan=plan; this.session = new FlightSession({...BASELINE_VEHICLE, ...(plan === 'powered' ? {satellitePlan: plan} : {})}, original.baseTime); this.rememberChapter(); }
   private rememberChapter() {
     const chapter = demoChapter(this.session.state); this.status.chapter = chapter;
     if (!this.checkpoints.has(chapter)) { this.checkpoints.set(chapter, JSON.stringify(this.session.save())); this.status.visited = [...this.checkpoints.keys()].sort((a,b)=>a-b); }
@@ -52,6 +52,7 @@ export class FullFlightDemo {
     const s = this.session.state, phase = s.phase;
     this.rememberChapter();
     if (phase === 'aborted' || phase.endsWith('-failed')) { this.status.error = s.message; this.pause(true); return; }
+    if (this.stopAfterOrbit && phase === 'orbit-complete') { this.status.finished = true; this.pause(true); return; }
     if (phase === 'life-observed' || phase === 'disposal-complete') { const result = completedDemoResult(s, this.session.baseTime); if (result) this.status.results[result.plan] = result; this.status.finished = true; this.pause(true); return; }
     if (phase !== this.lastPhase) { this.lastPhase = phase; this.status.holdS = 0; }
     try {

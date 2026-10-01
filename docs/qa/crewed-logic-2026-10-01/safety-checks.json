@@ -1,0 +1,234 @@
+{
+  "scope": "crew-earth-3 原创教学模型：名义任务与受控故障注入。故障夹具明确标注，不表示名义航程发生故障。",
+  "vehicleVersion": "crew-earth-3",
+  "unpoweredCarrier": {
+    "steps": 30,
+    "maxCoastTorqueNm": 0,
+    "maxCoastThrustN": 0,
+    "angularVelocityChangeRadS": 0
+  },
+  "boundaries": [
+    {
+      "from": "countdown",
+      "to": "ascent",
+      "clock": 0.09999999999998122,
+      "event": 0.09999999999998122,
+      "clearanceM": 70.21313822364111
+    },
+    {
+      "from": "ascent",
+      "to": "upper",
+      "clock": 153.29999999999555,
+      "event": 153.29999999999555,
+      "clearanceM": 96554.11003205155
+    },
+    {
+      "from": "upper",
+      "to": "insertion",
+      "clock": 183.49999999999383,
+      "event": 183.49999999999383,
+      "clearanceM": 143792.42079529457
+    },
+    {
+      "from": "insertion",
+      "to": "approach",
+      "clock": 1050.7000000001399,
+      "event": 1050.7000000001399,
+      "clearanceM": 401055.531495423
+    },
+    {
+      "from": "approach",
+      "to": "observe",
+      "clock": 1187.3000000000156,
+      "event": 1187.3000000000156,
+      "clearanceM": 401543.5598017114
+    },
+    {
+      "from": "observe",
+      "to": "return-ready",
+      "clock": 1199.5000000000045,
+      "event": 1199.5000000000045,
+      "clearanceM": 401589.02050170826
+    },
+    {
+      "from": "return-ready",
+      "to": "deorbit",
+      "clock": 1207.699999999997,
+      "event": 1207.699999999997,
+      "clearanceM": 401619.78623940033
+    },
+    {
+      "from": "deorbit",
+      "to": "return-coast",
+      "clock": 1386.6999999998343,
+      "event": 1386.6999999998343,
+      "clearanceM": 401442.6275963498
+    },
+    {
+      "from": "return-coast",
+      "to": "entry",
+      "clock": 3180.499999998203,
+      "event": 3180.399999998203,
+      "clearanceM": 119967.14218565979
+    },
+    {
+      "from": "entry",
+      "to": "drogue",
+      "clock": 3730.8999999977023,
+      "event": 3730.7999999977023,
+      "clearanceM": 9979.48343222517
+    },
+    {
+      "from": "drogue",
+      "to": "main-chute",
+      "clock": 3855.499999997589,
+      "event": 3855.399999997589,
+      "clearanceM": 3992.1004099439747
+    },
+    {
+      "from": "main-chute",
+      "to": "landing",
+      "clock": 4459.199999998691,
+      "event": 4459.099999998691,
+      "clearanceM": 11.460557240282965
+    },
+    {
+      "from": "landing",
+      "to": "touchdown",
+      "clock": 4465.560320653225,
+      "event": 4465.560320653225,
+      "clearanceM": -4.440892098500626e-16
+    },
+    {
+      "from": "touchdown",
+      "to": "complete",
+      "clock": 4471.560320653247,
+      "event": 4471.560320653247,
+      "clearanceM": -2.220446049250313e-16
+    }
+  ],
+  "faults": [
+    {
+      "name": "60deg-tilt",
+      "phase": "failed",
+      "reason": "接地检查未通过：倾角 60.0° 超过 15°。保留触地状态，未判定安全着陆。",
+      "altitudeM": 3.263047097250819,
+      "clearanceM": -8.572875742629549e-11,
+      "tiltDeg": 59.99984276486885,
+      "angularRateDegS": 0.03287961541909261,
+      "verticalMS": 1.0909282676550593,
+      "horizontalMS": 0.002031273760125351
+    },
+    {
+      "name": "inverted-hull",
+      "phase": "failed",
+      "reason": "接地检查未通过：舱体或外部硬件先触地；倾角 180.0° 超过 15°。保留触地状态，未判定安全着陆。",
+      "altitudeM": 5.300002844072878,
+      "clearanceM": -9.425420444131305e-10,
+      "tiltDeg": 179.99981888323487,
+      "angularRateDegS": 0.03287727949439646,
+      "verticalMS": 1.0911320557312254,
+      "horizontalMS": 0.0033467999875291194
+    },
+    {
+      "name": "vertical-impact",
+      "phase": "failed",
+      "reason": "接地检查未通过：接地点速度超出教学范围。保留触地状态，未判定安全着陆。",
+      "altitudeM": 2.000000431202352,
+      "clearanceM": -1.0364626046310832e-8,
+      "tiltDeg": 0.000009659346157805877,
+      "angularRateDegS": 0,
+      "verticalMS": 3.974841953961949,
+      "horizontalMS": 0.0001389433488204188
+    },
+    {
+      "name": "horizontal-impact",
+      "phase": "failed",
+      "reason": "接地检查未通过：接地点速度超出教学范围。保留触地状态，未判定安全着陆。",
+      "altitudeM": 2.0000017965212464,
+      "clearanceM": -2.358953032910449e-10,
+      "tiltDeg": 0.000039394044926903576,
+      "angularRateDegS": 0,
+      "verticalMS": 0.9869347448606633,
+      "horizontalMS": 5.898492533681962
+    },
+    {
+      "name": "spinning-contact",
+      "phase": "failed",
+      "reason": "接地检查未通过：接地角速率超过 5°/s。保留触地状态，未判定安全着陆。",
+      "altitudeM": 2.003727256320417,
+      "clearanceM": -1.5400343222893298e-9,
+      "tiltDeg": 0.07181232028571494,
+      "angularRateDegS": 11.437597848256141,
+      "verticalMS": 1.594116209777957,
+      "horizontalMS": 0.39899070391217967
+    }
+  ],
+  "checks": [
+    {
+      "name": "3 s unpowered carrier has zero TVC torque and inherits angular velocity",
+      "passed": true
+    },
+    {
+      "name": "60deg-tilt: fails at first contact without recording completion",
+      "passed": true
+    },
+    {
+      "name": "inverted-hull: fails at first contact without recording completion",
+      "passed": true
+    },
+    {
+      "name": "vertical-impact: fails at first contact without recording completion",
+      "passed": true
+    },
+    {
+      "name": "horizontal-impact: fails at first contact without recording completion",
+      "passed": true
+    },
+    {
+      "name": "spinning-contact: fails at first contact without recording completion",
+      "passed": true
+    },
+    {
+      "name": "failed launch retains connected upper-stage mass and geometry",
+      "passed": true
+    },
+    {
+      "name": "recovery requires a real observation record",
+      "passed": true
+    }
+  ],
+  "nominalContact": {
+    "verticalMS": 1.0344209181429211,
+    "horizontalMS": 0.02790948476021217,
+    "tiltDeg": 0.011463282931220814,
+    "angularRateDegS": 0.0027211624971961207,
+    "clearanceM": -2.220446049250313e-16,
+    "recoveryChecks": [
+      {
+        "label": "已生成平台观察记录",
+        "passed": true
+      },
+      {
+        "label": "接地速度与姿态在教学范围内",
+        "passed": true
+      },
+      {
+        "label": "服务舱已分离且支脚已展开",
+        "passed": true
+      },
+      {
+        "label": "支脚仍在地面承载，舱体没有触地",
+        "passed": true
+      },
+      {
+        "label": "缓冲后已停稳，倾角与角速率合格",
+        "passed": true
+      },
+      {
+        "label": "接地检查已持续至少 3 秒",
+        "passed": true
+      }
+    ]
+  }
+}

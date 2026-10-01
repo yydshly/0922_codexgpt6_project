@@ -1,0 +1,190 @@
+{
+  "scope": "原创教学模型的方向与回归检查；非实飞或工程认证。",
+  "fixedStepSeconds": 0.1,
+  "anglesDeg": {
+    "maxLaunchThrustAngleDeg": 0.0020806658196962503,
+    "maxDeorbitThrustAngleDeg": 0.0000012074182697257333,
+    "minDeorbitThrustVelocityDeg": 179.78452952331594,
+    "maxAtmosphericShieldAngleDeg": 2.9828014253045647,
+    "maxLandingThrustAngleDeg": 8.537736462515939e-7
+  },
+  "matchesCurrentNominalResult": true,
+  "result": {
+    "phase": "complete",
+    "timeSeconds": 4471.499999998736,
+    "inspection": {
+      "time": 1199.100000000005,
+      "distanceM": 62.12922997660261,
+      "relativeSpeedMS": 0.10375564425272164,
+      "pointingDeg": 0.04435614191273734,
+      "parts": [
+        "舱段",
+        "太阳能翼",
+        "通信天线"
+      ]
+    },
+    "touchdownSpeedMS": 1.0344530896384843,
+    "touchdownHorizontalMS": 0.027779454862513677,
+    "serviceFuelKg": 719.4072283388898,
+    "capsuleRcsFuelKg": 17.526647859868266,
+    "serviceAttached": false,
+    "landingFuelKg": 10.570361789389056,
+    "peakProperG": 7.351722055353926,
+    "altitudeM": 1.5862187640741467
+  },
+  "samples": [
+    {
+      "phase": "countdown",
+      "key": "countdown",
+      "timeSeconds": -9.9,
+      "altitudeM": 70.50013107061386,
+      "forwardVelocityDeg": 90.0003396380817,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": null
+    },
+    {
+      "phase": "ascent",
+      "key": "ascent",
+      "timeSeconds": 0.09999999999998122,
+      "altitudeM": 70.51323808822781,
+      "forwardVelocityDeg": 90.00208066569974,
+      "thrustVelocityDeg": 90,
+      "heatShieldAirDeg": null
+    },
+    {
+      "phase": "upper",
+      "key": "upper",
+      "timeSeconds": 153.29999999999555,
+      "altitudeM": 96556.63839803636,
+      "forwardVelocityDeg": 4.6265692829796805,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": 170.069869782835
+    },
+    {
+      "phase": "insertion",
+      "key": "insertion",
+      "timeSeconds": 183.39999999999384,
+      "altitudeM": 143656.8363088891,
+      "forwardVelocityDeg": 5.266094921570929,
+      "thrustVelocityDeg": 5.26609492157086,
+      "heatShieldAirDeg": 170.1052723181182
+    },
+    {
+      "phase": "approach",
+      "key": "approach",
+      "timeSeconds": 1050.50000000014,
+      "altitudeM": 401062.8230459653,
+      "forwardVelocityDeg": 82.33129697560541,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": 97.66239287084909
+    },
+    {
+      "phase": "observe",
+      "key": "observe",
+      "timeSeconds": 1187.1000000000158,
+      "altitudeM": 401547.57387595624,
+      "forwardVelocityDeg": 3.421440921971118,
+      "thrustVelocityDeg": 174.2375556838863,
+      "heatShieldAirDeg": 176.23877137749182
+    },
+    {
+      "phase": "return-ready",
+      "key": "return-ready",
+      "timeSeconds": 1199.2000000000048,
+      "altitudeM": 401592.59929207526,
+      "forwardVelocityDeg": 3.404103028671883,
+      "thrustVelocityDeg": 173.58524107563892,
+      "heatShieldAirDeg": 176.2488299621276
+    },
+    {
+      "phase": "deorbit",
+      "key": "deorbit",
+      "timeSeconds": 1207.2999999999975,
+      "altitudeM": 401622.94558924343,
+      "forwardVelocityDeg": 3.3897215253102426,
+      "thrustVelocityDeg": 173.1705664861009,
+      "heatShieldAirDeg": 176.25808790308645
+    },
+    {
+      "phase": "deorbit",
+      "key": "deorbit-burning",
+      "timeSeconds": 1235.8999999999714,
+      "altitudeM": 401731.6269467389,
+      "forwardVelocityDeg": 179.78452952331594,
+      "thrustVelocityDeg": 179.78452952331594,
+      "heatShieldAirDeg": 1.637915010097386
+    },
+    {
+      "phase": "return-coast",
+      "key": "return-coast",
+      "timeSeconds": 1386.2999999998347,
+      "altitudeM": 401444.7361813262,
+      "forwardVelocityDeg": 179.95617279030378,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": 1.7800329955238372
+    },
+    {
+      "phase": "entry",
+      "key": "entry",
+      "timeSeconds": 3180.099999998203,
+      "altitudeM": 119972.94102100562,
+      "forwardVelocityDeg": 179.7241376726077,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": 0.04570804824163653
+    },
+    {
+      "phase": "entry",
+      "key": "atmospheric-entry",
+      "timeSeconds": 3411.299999997993,
+      "altitudeM": 79997.41766563058,
+      "forwardVelocityDeg": 179.21384458408917,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": 0.3608365153850585
+    },
+    {
+      "phase": "drogue",
+      "key": "drogue",
+      "timeSeconds": 3730.4999999977026,
+      "altitudeM": 9984.09689436853,
+      "forwardVelocityDeg": 104.68149833290256,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": 0.15541237951035544
+    },
+    {
+      "phase": "main-chute",
+      "key": "main-chute",
+      "timeSeconds": 3855.0999999975893,
+      "altitudeM": 3995.3922583796084,
+      "forwardVelocityDeg": 95.30384499651916,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": 0.009623271100658828
+    },
+    {
+      "phase": "landing",
+      "key": "landing",
+      "timeSeconds": 4459.299999998691,
+      "altitudeM": 12.941481017507613,
+      "forwardVelocityDeg": 90.62717088227187,
+      "thrustVelocityDeg": 90.62717088227187,
+      "heatShieldAirDeg": 0.08469100750181258
+    },
+    {
+      "phase": "touchdown",
+      "key": "touchdown",
+      "timeSeconds": 4465.499999998714,
+      "altitudeM": 1.9999999972060323,
+      "forwardVelocityDeg": 90.14917056265318,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": 1.5397336263451096
+    },
+    {
+      "phase": "complete",
+      "key": "complete",
+      "timeSeconds": 4471.499999998736,
+      "altitudeM": 1.5862187640741467,
+      "forwardVelocityDeg": 90.00882453089766,
+      "thrustVelocityDeg": null,
+      "heatShieldAirDeg": null
+    }
+  ]
+}

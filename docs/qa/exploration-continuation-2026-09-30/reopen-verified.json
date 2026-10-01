@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "name": "current explanation is frozen before the first reading pause",
+      "passed": true
+    },
+    {
+      "name": "reopening pause-current replaces a previously selected old entry with the new on-screen explanation",
+      "passed": true
+    },
+    {
+      "name": "the newly frozen explanation and flight clock remain stable while reading",
+      "passed": true
+    },
+    {
+      "name": "navigation can be hidden while the flight continues",
+      "passed": true
+    },
+    {
+      "name": "pause-current restores hidden navigation and opens the right explanation",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors during repeated opening and navigation restoration",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

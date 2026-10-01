@@ -1,0 +1,1 @@
+Error: opening report moves keyboard focus to its summary

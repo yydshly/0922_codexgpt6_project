@@ -1,0 +1,17 @@
+{
+  "checks": [
+    {
+      "name": "opening report moves keyboard focus to its summary",
+      "passed": true
+    },
+    {
+      "name": "both download actions are visible before scrolling through six stations",
+      "passed": true
+    },
+    {
+      "name": "keyboard closing the report does not resume flight",
+      "passed": false
+    }
+  ],
+  "errors": []
+}

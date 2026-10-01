@@ -1,0 +1,49 @@
+{
+  "checks": [
+    {
+      "name": "manual yaw accelerates gradually from rest",
+      "passed": true
+    },
+    {
+      "name": "turn rate is capped at eight degrees per simulated second",
+      "passed": true
+    },
+    {
+      "name": "pure turning preserves linear speed and consumes attitude propellant",
+      "passed": true
+    },
+    {
+      "name": "release uses reverse torque instead of instantly stopping rotation",
+      "passed": true
+    },
+    {
+      "name": "attitude assistance brings rotation to rest",
+      "passed": true
+    },
+    {
+      "name": "the ship continues gliding while changing its nose direction",
+      "passed": true
+    },
+    {
+      "name": "automatic turning stays at normal playback speed",
+      "passed": true
+    },
+    {
+      "name": "time acceleration resumes only after the ship has stabilized for straight flight",
+      "passed": true
+    },
+    {
+      "name": "autopilot still reaches and stops at the selected destination",
+      "passed": true
+    },
+    {
+      "name": "independent practice retains the assisted pointing command",
+      "passed": true
+    },
+    {
+      "name": "assisted pointing also uses the finite turn controller",
+      "passed": false
+    }
+  ],
+  "errors": []
+}

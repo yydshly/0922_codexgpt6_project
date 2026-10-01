@@ -1,0 +1,97 @@
+{
+  "checks": [
+    {
+      "name": "Escape opens departure review and freezes time, position-dependent travel and fuel",
+      "passed": true
+    },
+    {
+      "name": "background controls become inert and focus starts on cancellation",
+      "passed": true
+    },
+    {
+      "name": "Tab can reach the explicit exit action",
+      "passed": true
+    },
+    {
+      "name": "Tab wraps inside the departure dialog",
+      "passed": true
+    },
+    {
+      "name": "Shift Tab wraps inside the departure dialog",
+      "passed": true
+    },
+    {
+      "name": "exit downloads preserve actual arrival, deliberate stop and saved note without inventing completion",
+      "passed": true
+    },
+    {
+      "name": "Escape in the dialog cancels departure and restores prior running mode plus deliberate observation stop",
+      "passed": true
+    },
+    {
+      "name": "cancellation retains the actual target, arrival and note",
+      "passed": true
+    },
+    {
+      "name": "practice transition explains independent initialization and remembers an already paused voyage",
+      "passed": true
+    },
+    {
+      "name": "departure actions fit a narrow screen",
+      "passed": true
+    },
+    {
+      "name": "canceling a paused transition does not silently start flight",
+      "passed": true
+    },
+    {
+      "name": "actual manual thrust reaches the contact boundary while existing records remain",
+      "passed": true
+    },
+    {
+      "name": "restart is reviewed before clearing a stopped voyage",
+      "passed": true
+    },
+    {
+      "name": "a contact snapshot can be exported before restart",
+      "passed": true
+    },
+    {
+      "name": "canceling restart retains the contact state and cannot resume through the failure",
+      "passed": true
+    },
+    {
+      "name": "confirmed restart clears the old voyage once and creates a fresh continuous session",
+      "passed": true
+    },
+    {
+      "name": "story launch keeps the underlying panorama inert and labels return as a new voyage",
+      "passed": true
+    },
+    {
+      "name": "launch story has the same truthful return destination",
+      "passed": true
+    },
+    {
+      "name": "leaving launch story returns to a new voyage rather than an old cleared session",
+      "passed": true
+    },
+    {
+      "name": "single-stop pilot uses the same return label and isolates the background panorama",
+      "passed": true
+    },
+    {
+      "name": "confirmed practice transition opens an independent exercise with an explicit new-voyage return",
+      "passed": true
+    },
+    {
+      "name": "confirmed overview exit unmounts flight and restores the usable panorama",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors across cancel, downloads, contact, restart and story transitions",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,17 @@
+{
+  "checks": [
+    {
+      "name": "coast instruction acknowledges continued thrust instead of falsely saying engine is off",
+      "passed": true
+    },
+    {
+      "name": "paused phenomenon explanation matches the frozen scene",
+      "passed": true
+    },
+    {
+      "name": "final live explanations have no runtime or console errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

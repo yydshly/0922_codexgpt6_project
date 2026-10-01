@@ -1,0 +1,53 @@
+{
+  "checks": [
+    {
+      "name": "actual WebGL canvas mounted",
+      "passed": true
+    },
+    {
+      "name": "thrust changes actual distance speed and fuel",
+      "passed": true
+    },
+    {
+      "name": "cutoff coasts without consuming fuel",
+      "passed": true
+    },
+    {
+      "name": "assisted braking gradually stops relative motion",
+      "passed": true
+    },
+    {
+      "name": "pause freezes practice",
+      "passed": true
+    },
+    {
+      "name": "camera drag leaves flight state unchanged",
+      "passed": true
+    },
+    {
+      "name": "cockpit switches into ship forward view",
+      "passed": true
+    },
+    {
+      "name": "changing scene starts separate practice state",
+      "passed": true
+    },
+    {
+      "name": "target inspection after window mode retains focus",
+      "passed": true
+    },
+    {
+      "name": "narrow layout has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "return restores focus to panorama entry",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

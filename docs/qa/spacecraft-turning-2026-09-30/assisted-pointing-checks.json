@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "name": "the independent practice controls are present",
+      "passed": true
+    },
+    {
+      "name": "the cockpit shows the heading and target-bearing readout",
+      "passed": true
+    },
+    {
+      "name": "assisted pointing reports an active finite maneuver",
+      "passed": true
+    },
+    {
+      "name": "the first 300 ms do not snap the craft to its target",
+      "passed": true
+    },
+    {
+      "name": "the maneuver completes aligned and returns control",
+      "passed": true
+    },
+    {
+      "name": "no runtime errors during the independent-practice maneuver",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

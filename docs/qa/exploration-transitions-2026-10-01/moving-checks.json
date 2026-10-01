@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "name": "departure review freezes a moving automatic flight while retaining its nonzero velocity and route",
+      "passed": true
+    },
+    {
+      "name": "driving keys cannot take over or change state behind the departure dialog",
+      "passed": true
+    },
+    {
+      "name": "canceling departure resumes actual motion and the unchanged route without resetting fuel or time",
+      "passed": true
+    },
+    {
+      "name": "canceling departure of an already paused moving vessel retains velocity and stays paused",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors during moving and paused cancellation",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

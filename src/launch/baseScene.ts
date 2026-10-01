@@ -4,7 +4,7 @@ import { createBaseEnvironment, surfaceTexture } from './baseEnvironment';
 import { createLaunchVehicle } from './vehicleModel';
 
 /** Authored metre-scale teaching facilities. Reference types: NASA LC-39B; not a reconstruction. */
-export function createBaseScene() {
+export function createBaseScene(options:{vehicleRadiusM?:number}={}) {
   const root = new THREE.Group(), environment = createBaseEnvironment(root);
   const material = (color: string, metalness = .1, roughness = .7) => new THREE.MeshStandardMaterial({ color, metalness, roughness });
   const white = material('#ece8da', .22, .38), steel = material('#718186', .68, .42), dark = material('#293239', .5, .5);
@@ -77,7 +77,8 @@ export function createBaseScene() {
   for (let i = 0; i < 12; i++) { const stripe = box(pad, [.55, .02, 3], [-28 + i * 1.8, 4.035, 27], orange); stripe.rotation.y = -.5; }
   const vehicle = createLaunchVehicle(); vehicle.root.position.y = 8.1; pad.add(vehicle.root);
   const clamps = new THREE.Group(), serviceArms = new THREE.Group(); pad.add(clamps, serviceArms);
-  for (const a of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) beam(clamps, [Math.sin(a) * 4.5, 7.3, Math.cos(a) * 4.5], [Math.sin(a) * 1.85, 10, Math.cos(a) * 1.85], .45, steel);
+  const vehicleRadius=options.vehicleRadiusM??1.85;
+  for (const a of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) beam(clamps, [Math.sin(a) * 4.5, 7.3, Math.cos(a) * 4.5], [Math.sin(a) * vehicleRadius, 10, Math.cos(a) * vehicleRadius], .45, steel);
   // Service tower: walkways, lift, stairs, pipes and umbilicals all have depth.
   for (const x of [-21, -12]) for (const z of [-5, 5]) box(pad, [.65, 77, .65], [x, 38.5, z], white);
   box(pad, [3, 74, 3], [-20, 38, -2.8], siding);

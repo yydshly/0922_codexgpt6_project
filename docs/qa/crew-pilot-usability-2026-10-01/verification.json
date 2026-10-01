@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-01",
+  "status": "local-ready-for-review",
+  "published": false,
+  "scope": "Pilot guidance, input feedback, equipment availability, failed-task navigation",
+  "changedPhysics": false,
+  "changedSaveFormat": false,
+  "regression": {
+    "files": 3,
+    "tests": 25,
+    "passed": true,
+    "output": "tests.txt"
+  },
+  "build": {
+    "typeScript": true,
+    "production": true,
+    "output": "build.txt"
+  },
+  "browser": {
+    "checks": 94,
+    "passed": 94,
+    "errors": 0,
+    "warnings": 0,
+    "output": "browser-output.txt",
+    "record": "browser-checks.json",
+    "isolatedProfile": true,
+    "userTabsChanged": false,
+    "renderer": "software; not a hardware frame-rate benchmark"
+  },
+  "priorCoreValidation": "../crew-pilot-mode-2026-10-01/README.md"
+}

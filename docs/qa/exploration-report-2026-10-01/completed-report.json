@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "mission": "蓝色地平线 · 六站巡视",
+  "scope": "近地背景中的合成教学航区；无引力局部动力学，非真实轨道、载人发射或驾驶认证。",
+  "units": {
+    "time": "s",
+    "distance": "m",
+    "fuel": "kg",
+    "speed": "m/s",
+    "position": "m（相对航区起点，非海拔）"
+  },
+  "capturedAt": 540.3916666663396,
+  "progress": "completed",
+  "completion": {
+    "time": 540.2916666663397,
+    "travel": 2545.1202657508725,
+    "fuelRemaining": 66.75603318582716,
+    "fuelUsed": 33.243966814172836
+  },
+  "current": {
+    "targetId": "home",
+    "targetName": "出发航点",
+    "status": "arrived",
+    "speed": 5.421010862427522e-20,
+    "position": [
+      -7.67515604213141,
+      -7.682427102378943,
+      4.655019991134341
+    ],
+    "contact": null,
+    "message": "已抵达出发航点。比较出发与返回后的累计里程和燃料，之后仍可继续自由探索。 可以选择下一站，或直接手动驶离。"
+  },
+  "totals": {
+    "time": 540.3916666663396,
+    "travel": 2545.1202657508725,
+    "fuelUsed": 33.243967052679,
+    "fuelRemaining": 66.756032947321,
+    "arrivedCount": 6,
+    "stationCount": 6,
+    "noteCount": 1,
+    "takeovers": 0,
+    "manualSeconds": 0
+  },
+  "stations": [
+    {
+      "id": "satellite",
+      "name": "教学卫星",
+      "chapter": "01 · 认识一艘飞行器",
+      "question": "找一找太阳能板、载荷镜头和天线：它们的朝向和形状有什么不同？",
+      "explanation": "同一颗卫星上的部件承担不同功能；看清结构，是理解它的第一步。模型没有执行拍照或通信任务。",
+      "arrivalCount": 1,
+      "firstArrival": {
+        "id": "satellite",
+        "time": 25.449999999999196,
+        "fuel": 96.51507465463185,
+        "travel": 78.03447665473317
+      },
+      "lastArrival": {
+        "id": "satellite",
+        "time": 25.449999999999196,
+        "fuel": 96.51507465463185,
+        "travel": 78.03447665473317
+      },
+      "openedParts": [
+        "太阳能板",
+        "载荷镜头",
+        "天线"
+      ],
+      "totalParts": 3,
+      "note": {
+        "time": 25.949999999999168,
+        "parts": [
+          "panel",
+          "payload",
+          "antenna"
+        ]
+      }
+    },
+    {
+      "id": "stage",
+      "name": "废弃级段",
+      "chapter": "02 · 运动不等于工作",
+      "question": "盯住一端的框架：它怎样转到亮面，再进入阴影？整个筒体的中心有没有跟着移动？",
+      "explanation": "这里的级段中心固定，外壳按教学设定翻滚。转动本身不能证明发动机还在工作，也不能说明里面还剩多少燃料。",
+      "arrivalCount": 1,
+      "firstArrival": {
+        "id": "stage",
+        "time": 118.20833333337347,
+        "fuel": 89.0259891353985,
+        "travel": 378.5024905528297
+      },
+      "lastArrival": {
+        "id": "stage",
+        "time": 118.20833333337347,
+        "fuel": 89.0259891353985,
+        "travel": 378.5024905528297
+      },
+      "openedParts": [],
+      "totalParts": 3,
+      "note": null
+    },
+    {
+      "id": "station",
+      "name": "中继平台",
+      "chapter": "03 · 当部件组成平台",
+      "question": "把平台的舱段和太阳能翼，与教学卫星的主体和板面作比较：哪些部分相似，哪些结构更复杂？",
+      "explanation": "组合结构让部件的连接方式变得可见。这是一座原创教学平台，当前没有模拟人员驻留、对接或中继服务。",
+      "arrivalCount": 1,
+      "firstArrival": {
+        "id": "station",
+        "time": 205.0999999999778,
+        "fuel": 84.5685539825251,
+        "travel": 826.6967684226034
+      },
+      "lastArrival": {
+        "id": "station",
+        "time": 205.0999999999778,
+        "fuel": 84.5685539825251,
+        "travel": 826.6967684226034
+      },
+      "openedParts": [],
+      "totalParts": 3,
+      "note": null
+    },
+    {
+      "id": "view",
+      "name": "地球观景点",
+      "chapter": "04 · 把目光移向地球",
+      "question": "沿着地球弧面移动视线：云层在哪里结束，薄亮的边缘又在哪里出现？",
+      "explanation": "观景点没有实体，停留位置由导航定义。眼前的地球用于视觉观察；这段局部航行没有模拟真实轨道转移。",
+      "arrivalCount": 1,
+      "firstArrival": {
+        "id": "view",
+        "time": 301.0999999998905,
+        "fuel": 80.11099432260109,
+        "travel": 1321.7284932042169
+      },
+      "lastArrival": {
+        "id": "view",
+        "time": 301.0999999998905,
+        "fuel": 80.11099432260109,
+        "travel": 1321.7284932042169
+      },
+      "openedParts": [],
+      "totalParts": 0,
+      "note": null
+    },
+    {
+      "id": "rock",
+      "name": "岩体演练区",
+      "chapter": "05 · 不规则的边界",
+      "question": "选一处明显的凸起，观察它随自转进入阴影；换个角度，它还呈现同样的轮廓吗？",
+      "explanation": "可见表面并不等于接触边界：本演练用包住岩体的球面检测接触。这是合成物体，不代表近地空间存在这样的岩群。",
+      "arrivalCount": 1,
+      "firstArrival": {
+        "id": "rock",
+        "time": 379.4499999998192,
+        "fuel": 75.65335094899665,
+        "travel": 1671.1843694836955
+      },
+      "lastArrival": {
+        "id": "rock",
+        "time": 379.4499999998192,
+        "fuel": 75.65335094899665,
+        "travel": 1671.1843694836955
+      },
+      "openedParts": [],
+      "totalParts": 2,
+      "note": null
+    },
+    {
+      "id": "home",
+      "name": "出发航点",
+      "chapter": "06 · 带着航迹返回",
+      "question": "比较累计里程与剩余推进剂，再回想每次转向和停稳：哪些时刻需要喷气，哪些时刻只是继续滑行？",
+      "explanation": "返回航点不会回满推进剂，也不会清空时间和轨迹。到达记录描述这次局部教学航行，不代表真实发射或驾驶认证。",
+      "arrivalCount": 1,
+      "firstArrival": {
+        "id": "home",
+        "time": 540.2916666663397,
+        "fuel": 66.75603318582716,
+        "travel": 2545.1202657508725
+      },
+      "lastArrival": {
+        "id": "home",
+        "time": 540.2916666663397,
+        "fuel": 66.75603318582716,
+        "travel": 2545.1202657508725
+      },
+      "openedParts": [],
+      "totalParts": 0,
+      "note": null
+    }
+  ],
+  "arrivals": [
+    {
+      "id": "satellite",
+      "time": 25.449999999999196,
+      "fuel": 96.51507465463185,
+      "travel": 78.03447665473317,
+      "sequence": 1,
+      "name": "教学卫星",
+      "elapsed": 25.449999999999196,
+      "distance": 78.03447665473317,
+      "fuelUsed": 3.484925345368154
+    },
+    {
+      "id": "stage",
+      "time": 118.20833333337347,
+      "fuel": 89.0259891353985,
+      "travel": 378.5024905528297,
+      "sequence": 2,
+      "name": "废弃级段",
+      "elapsed": 92.75833333337428,
+      "distance": 300.46801389809656,
+      "fuelUsed": 7.489085519233342
+    },
+    {
+      "id": "station",
+      "time": 205.0999999999778,
+      "fuel": 84.5685539825251,
+      "travel": 826.6967684226034,
+      "sequence": 3,
+      "name": "中继平台",
+      "elapsed": 86.89166666660432,
+      "distance": 448.1942778697737,
+      "fuelUsed": 4.457435152873401
+    },
+    {
+      "id": "view",
+      "time": 301.0999999998905,
+      "fuel": 80.11099432260109,
+      "travel": 1321.7284932042169,
+      "sequence": 4,
+      "name": "地球观景点",
+      "elapsed": 95.99999999991269,
+      "distance": 495.03172478161343,
+      "fuelUsed": 4.457559659924016
+    },
+    {
+      "id": "rock",
+      "time": 379.4499999998192,
+      "fuel": 75.65335094899665,
+      "travel": 1671.1843694836955,
+      "sequence": 5,
+      "name": "岩体演练区",
+      "elapsed": 78.34999999992874,
+      "distance": 349.4558762794786,
+      "fuelUsed": 4.457643373604441
+    },
+    {
+      "id": "home",
+      "time": 540.2916666663397,
+      "fuel": 66.75603318582716,
+      "travel": 2545.1202657508725,
+      "sequence": 6,
+      "name": "出发航点",
+      "elapsed": 160.84166666652044,
+      "distance": 873.935896267177,
+      "fuelUsed": 8.897317763169482
+    }
+  ],
+  "recordMeaning": "抵达由实际自动接近并停稳确认；打开介绍和保存笔记只记录阅读行为，不证明已经理解或执行拍照、通信、维修。"
+}

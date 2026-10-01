@@ -1,0 +1,108 @@
+PASS new route requires actual ground checks
+PASS ground entry starts the autonomous route, not the demo
+PASS waiting for ignition freezes the same simulation clock
+PASS ground briefing connects the overall goal to the real next action
+PASS early countdown does not claim thrust buildup before computed thrust
+PASS countdown publishes its 1x adopted policy while retaining the selected rate
+PASS countdown explains route ownership
+PASS actual countdown thrust changes the propulsion description
+PASS countdown stops at release rather than silently lifting off
+PASS a release checkpoint reports a paused clock instead of 60x motion
+PASS launch takeover retains actual motion, clock and fuel
+PASS KeyS: actual keyboard input is visible in the operation card
+PASS KeyS: key release clears the visual input state
+PASS W/S controls persistent launch throttle through real worker input
+PASS zero thrust does not lock the throttle at zero
+PASS zero thrust disables every rocket turning axis without disabling throttle restart
+PASS unpowered turning is explained by the actual propulsion state
+PASS zero throttle is shown as a coast with authorization retained
+PASS manual driving shows 1x without replacing the stored 60x selection
+PASS an unavailable attitude key is not shown as an effective command
+PASS KeyW: actual keyboard input is visible in the operation card
+PASS KeyW: key release clears the visual input state
+PASS launch throttle can be raised again after stopping
+PASS enable keyboard focuses the 3D flight window
+PASS leaving the flight window clears a held attitude command
+PASS a focused steering button also works with Enter, without a mouse
+PASS pausing clears active steering and its button highlight
+PASS briefing distinguishes an ordinary pause from a task checkpoint
+PASS separate-booster: next-step guidance agrees with the actual authorized action
+PASS separate-booster: restored checkpoint matches the operation and main scene
+PASS separate-booster: restoration and checkpoint stay paused
+PASS separate-booster: only a physics-approved action is enabled
+PASS separate-booster: command is not a dead button
+PASS ignite-upper: next-step guidance agrees with the actual authorized action
+PASS ignite-upper: restored checkpoint matches the operation and main scene
+PASS ignite-upper: restoration and checkpoint stay paused
+PASS ignite-upper: only a physics-approved action is enabled
+PASS second-stage authorization with zero throttle is not described as actual acceleration
+PASS ignite-upper: command is not a dead button
+PASS separate-ship: next-step guidance agrees with the actual authorized action
+PASS separate-ship: restored checkpoint matches the operation and main scene
+PASS separate-ship: restoration and checkpoint stay paused
+PASS separate-ship: only a physics-approved action is enabled
+PASS separate-ship: command is not a dead button
+PASS begin-deorbit: next-step guidance agrees with the actual authorized action
+PASS begin-deorbit: restored checkpoint matches the operation and main scene
+PASS begin-deorbit: restoration and checkpoint stay paused
+PASS begin-deorbit: only a physics-approved action is enabled
+PASS begin-deorbit: command is not a dead button
+PASS separate-service: next-step guidance agrees with the actual authorized action
+PASS separate-service: restored checkpoint matches the operation and main scene
+PASS separate-service: restoration and checkpoint stay paused
+PASS separate-service: only a physics-approved action is enabled
+PASS separate-service: command is not a dead button
+PASS open-drogue: next-step guidance agrees with the actual authorized action
+PASS open-drogue: restored checkpoint matches the operation and main scene
+PASS open-drogue: restoration and checkpoint stay paused
+PASS open-drogue: only a physics-approved action is enabled
+PASS open-drogue: command is not a dead button
+PASS open-main: next-step guidance agrees with the actual authorized action
+PASS open-main: restored checkpoint matches the operation and main scene
+PASS open-main: restoration and checkpoint stay paused
+PASS open-main: only a physics-approved action is enabled
+PASS open-main: command is not a dead button
+PASS enable-landing: next-step guidance agrees with the actual authorized action
+PASS enable-landing: restored checkpoint matches the operation and main scene
+PASS enable-landing: restoration and checkpoint stay paused
+PASS enable-landing: only a physics-approved action is enabled
+PASS enable-landing: command is not a dead button
+PASS recover: next-step guidance agrees with the actual authorized action
+PASS recover: restored checkpoint matches the operation and main scene
+PASS recover: restoration and checkpoint stay paused
+PASS recover: only a physics-approved action is enabled
+PASS recovery completes the same flown mission
+PASS completed task offers results instead of active piloting controls
+PASS a completed mission does not offer a continue-flight button
+PASS phase-approach: broader control handoff does not reset physics
+PASS phase-approach: restoring assistance does not re-enable automatic story progression
+PASS phase-return-coast: broader control handoff does not reset physics
+PASS phase-return-coast: restoring assistance does not re-enable automatic story progression
+PASS phase-entry: broader control handoff does not reset physics
+PASS entry exposes attitude controls without a fictitious translation engine
+PASS ArrowUp: actual keyboard input is visible in the operation card
+PASS ArrowUp: key release clears the visual input state
+PASS return-capsule pitch input turns with finite torque and consumes its own RCS fuel
+PASS phase-entry: restoring assistance does not re-enable automatic story progression
+PASS phase-main-chute: broader control handoff does not reset physics
+PASS phase-main-chute: restoring assistance does not re-enable automatic story progression
+PASS phase-landing: broader control handoff does not reset physics
+PASS phase-landing: restoring assistance does not re-enable automatic story progression
+PASS auxiliary deorbit turning reports no main thrust until the burn condition is met
+PASS manual deorbit explanation uses the actual thrust direction rather than presuming alignment
+PASS a paused ready observation explains direct recording instead of a forced resume
+PASS actual stable platform observation remains available
+PASS observation is still a deliberate task action
+PASS recording observation does not return to demo route
+PASS direct observation recording keeps the same paused simulation time
+PASS carrier failure occurs at the solid envelope while its reference is still above ground
+PASS impact is explained and does not offer false recovery
+PASS failure gives a visible saved-task restore and restart route
+PASS an ascent failure remains in the launch chapter instead of falsely reaching landing
+PASS failure is labelled stopped and does not claim an active guidance controller
+PASS a failed mission is stopped and cannot be confused with a resumable pause
+PASS restart first explains which progress will end
+PASS the exit dialog preserves the failure state instead of relabelling it paused
+PASS compact mission controls have no horizontal overflow
+PASS no browser runtime or resource errors
+PASS no GPU feedback or framebuffer errors

@@ -1,0 +1,73 @@
+{
+  "checks": [
+    {
+      "name": "task is explicit, free practice remains the default",
+      "passed": true
+    },
+    {
+      "name": "start resets to alignment and enters the real cockpit",
+      "passed": true
+    },
+    {
+      "name": "aligning does not teleport toward the target",
+      "passed": true
+    },
+    {
+      "name": "paused mission does not advance physical time",
+      "passed": true
+    },
+    {
+      "name": "actual thrust establishes approach speed",
+      "passed": true
+    },
+    {
+      "name": "deceleration prompt follows the predicted stop position",
+      "passed": true
+    },
+    {
+      "name": "hold progress freezes during a pause",
+      "passed": true
+    },
+    {
+      "name": "result displays measured flight and assistance information",
+      "passed": true
+    },
+    {
+      "name": "finished mission cannot be resumed or moved by keyboard",
+      "passed": true
+    },
+    {
+      "name": "return to free practice preserves the actual endpoint",
+      "passed": true
+    },
+    {
+      "name": "collision ends mission with one clear failure result",
+      "passed": true
+    },
+    {
+      "name": "retry clears prior result and restores initial resources",
+      "passed": true
+    },
+    {
+      "name": "changing environment clears the old mission",
+      "passed": true
+    },
+    {
+      "name": "moon task targets the current environment",
+      "passed": true
+    },
+    {
+      "name": "narrow viewport has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "close restores panorama focus",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

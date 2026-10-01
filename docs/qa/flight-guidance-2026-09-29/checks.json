@@ -1,0 +1,77 @@
+{
+  "checks": [
+    {
+      "name": "zero speed has no false velocity heading",
+      "passed": true
+    },
+    {
+      "name": "forward target is placed in view",
+      "passed": true
+    },
+    {
+      "name": "thrust establishes real velocity and fuel consumption",
+      "passed": true
+    },
+    {
+      "name": "velocity direction appears while coasting",
+      "passed": true
+    },
+    {
+      "name": "turning changes attitude without changing coast speed or fuel",
+      "passed": true
+    },
+    {
+      "name": "nose and velocity markers visibly separate",
+      "passed": true
+    },
+    {
+      "name": "aft target remains at edge and is identified as behind",
+      "passed": true
+    },
+    {
+      "name": "braking gradually stops the actual coast",
+      "passed": true
+    },
+    {
+      "name": "stopped velocity marker disappears",
+      "passed": true
+    },
+    {
+      "name": "stopping diagram shows along-track stop and contact distances",
+      "passed": true
+    },
+    {
+      "name": "navigation layer hides all associated markers",
+      "passed": true
+    },
+    {
+      "name": "warning arrives before entering contact range",
+      "passed": true
+    },
+    {
+      "name": "cockpit warning agrees with the braking reference",
+      "passed": true
+    },
+    {
+      "name": "new environment clears prior motion and warnings",
+      "passed": true
+    },
+    {
+      "name": "new scene does not retain old approach warning",
+      "passed": true
+    },
+    {
+      "name": "narrow viewport has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "closing restores panorama focus",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

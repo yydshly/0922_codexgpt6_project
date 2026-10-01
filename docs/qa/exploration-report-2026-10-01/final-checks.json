@@ -1,0 +1,9 @@
+{
+  "checks": [
+    {
+      "name": "opening report moves keyboard focus to its summary",
+      "passed": false
+    }
+  ],
+  "errors": []
+}

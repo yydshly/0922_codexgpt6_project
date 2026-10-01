@@ -1,0 +1,77 @@
+{
+  "checks": [
+    {
+      "name": "mission cannot start before crew checks",
+      "passed": true
+    },
+    {
+      "name": "seated driver has a separate real 3D camera",
+      "passed": true
+    },
+    {
+      "name": "pilot view shares the cabin and remains selectable",
+      "passed": true
+    },
+    {
+      "name": "crew checks unlock the complete mission",
+      "passed": true
+    },
+    {
+      "name": "pause freezes mission time",
+      "passed": true
+    },
+    {
+      "name": "in-orbit takeover is available",
+      "passed": true
+    },
+    {
+      "name": "takeover preserves live fuel and velocity readings while paused",
+      "passed": true
+    },
+    {
+      "name": "browser saves the current crewed flight with its resources",
+      "passed": true
+    },
+    {
+      "name": "manual rotation consumes real service resources",
+      "passed": true
+    },
+    {
+      "name": "restore returns to saved resources and clock, paused",
+      "passed": true
+    },
+    {
+      "name": "invalid save is rejected without losing the current task",
+      "passed": true
+    },
+    {
+      "name": "full automatic story reaches actual landing and recovery completion",
+      "passed": true
+    },
+    {
+      "name": "launch, orbital work, descent, soft landing and contact are observed",
+      "passed": true
+    },
+    {
+      "name": "report contains actual observation and touchdown results",
+      "passed": true
+    },
+    {
+      "name": "narrow screen has no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "leaving requires reviewing the paused mission",
+      "passed": true
+    },
+    {
+      "name": "Escape cancels leaving without restarting the mission",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors in complete browser mission",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

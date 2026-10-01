@@ -1,0 +1,125 @@
+{
+  "checks": [
+    {
+      "name": "opening a voyage report pauses real time, movement and fuel",
+      "passed": true
+    },
+    {
+      "name": "initial report has six pending stops and never claims completion",
+      "passed": true
+    },
+    {
+      "name": "downloaded JSON parses normally and carries units, actual progress and all six stations",
+      "passed": true
+    },
+    {
+      "name": "downloaded Chinese text preserves UTF-8 content and labels the report as a non-restorable snapshot",
+      "passed": true
+    },
+    {
+      "name": "opening a chapter inside a stale report neither pauses current flight nor rewrites its snapshot",
+      "passed": true
+    },
+    {
+      "name": "explicitly reopening the report captures newer flight data and pauses again",
+      "passed": true
+    },
+    {
+      "name": "narrow screen keeps header and report actions within the viewport",
+      "passed": true
+    },
+    {
+      "name": "closing the report alone leaves flight paused",
+      "passed": true
+    },
+    {
+      "name": "report header entry restores a hidden navigation panel",
+      "passed": true
+    },
+    {
+      "name": "actual satellite arrival, opened parts and an explicit saved note are separately reported",
+      "passed": true
+    },
+    {
+      "name": "ending report reading preserves the intentional satellite observation stop",
+      "passed": true
+    },
+    {
+      "name": "actual continuous flight reaches stage",
+      "passed": true
+    },
+    {
+      "name": "actual continuous flight reaches station",
+      "passed": true
+    },
+    {
+      "name": "actual continuous flight reaches view",
+      "passed": true
+    },
+    {
+      "name": "actual continuous flight reaches rock",
+      "passed": true
+    },
+    {
+      "name": "actual continuous flight reaches home",
+      "passed": true
+    },
+    {
+      "name": "a completed six-stop report comes from actual stop confirmations and the final home arrival",
+      "passed": true
+    },
+    {
+      "name": "automatic tour completion does not invent saved notes or refill fuel",
+      "passed": true
+    },
+    {
+      "name": "completed voyage remains accessible after departing again",
+      "passed": true
+    },
+    {
+      "name": "original completion milestone stays fixed while a new report captures continued flight",
+      "passed": true
+    },
+    {
+      "name": "re-entering starts a new voyage and clears the previous completion and report",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors during report reading, downloads, all six stops or new voyage",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "downloads": [
+    {
+      "frameId": "2C8630E7478AC49E3B3EF34DF337395A",
+      "guid": "15ea2ec1-1fa1-49b9-90b0-2aee8dd35b0f",
+      "url": "blob:http://127.0.0.1:4180/e4836f02-7619-4356-b335-bee98138f5ef",
+      "suggestedFilename": "orbit-exploration-T0.json"
+    },
+    {
+      "frameId": "2C8630E7478AC49E3B3EF34DF337395A",
+      "guid": "1bf4bb56-0f5b-4e14-9cef-a10dc6260342",
+      "url": "blob:http://127.0.0.1:4180/d301d174-da85-4165-8e99-ccd66861ea6c",
+      "suggestedFilename": "orbit-exploration-T0.md"
+    },
+    {
+      "frameId": "2C8630E7478AC49E3B3EF34DF337395A",
+      "guid": "c233b8b4-8a16-48a3-90b3-621de8e24a35",
+      "url": "blob:http://127.0.0.1:4180/92981342-c1d4-45c0-a6f8-a9dd19aa9535",
+      "suggestedFilename": "orbit-exploration-T26.json"
+    },
+    {
+      "frameId": "2C8630E7478AC49E3B3EF34DF337395A",
+      "guid": "c18595ba-7b50-4bb2-b9f8-c2544e8e3d3e",
+      "url": "blob:http://127.0.0.1:4180/5668bb62-3ce4-4528-a131-afde7d1a0d24",
+      "suggestedFilename": "orbit-exploration-T540.json"
+    },
+    {
+      "frameId": "2C8630E7478AC49E3B3EF34DF337395A",
+      "guid": "281ef9a3-f0b2-405c-998e-8d5cc84eb747",
+      "url": "blob:http://127.0.0.1:4180/378b3e9f-dbf5-4935-8677-ed396e0be21d",
+      "suggestedFilename": "orbit-exploration-T541.json"
+    }
+  ]
+}

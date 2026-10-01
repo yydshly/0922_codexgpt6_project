@@ -1,0 +1,174 @@
+{
+  "scope": "当前 crew-earth-3 教学模型全程姿态连续性；不等于实飞验证。姿态与实际推力共用船体轴。",
+  "vehicleVersion": "crew-earth-3",
+  "fixedStepSeconds": 0.1,
+  "phase": "complete",
+  "maxBodyStepDeg": 0.6875493541608857,
+  "maxAccelerationRadS2": 0.06000000000000006,
+  "maxThrustNoseDeg": 0.0020806658196962503,
+  "maxEntryShieldDeg": 2.9828042517128415,
+  "capsuleJetSteps": 35,
+  "phases": {
+    "countdown": {
+      "maxBodyStepDeg": 0.0003671822286600976,
+      "maxAngularSpeedRadS": 0.00006408435353182608
+    },
+    "ascent": {
+      "maxBodyStepDeg": 0.058063780575224606,
+      "maxAngularSpeedRadS": 0.010134046815224866
+    },
+    "upper": {
+      "maxBodyStepDeg": 0.03489982844121096,
+      "maxAngularSpeedRadS": 0.006085888562062148
+    },
+    "insertion": {
+      "maxBodyStepDeg": 0.6875493541481633,
+      "maxAngularSpeedRadS": 0.12000000000000002
+    },
+    "approach": {
+      "maxBodyStepDeg": 0.6875493541587652,
+      "maxAngularSpeedRadS": 0.12000000000000002
+    },
+    "observe": {
+      "maxBodyStepDeg": 0.006653015786745504,
+      "maxAngularSpeedRadS": 0.0011611942219231634
+    },
+    "return-ready": {
+      "maxBodyStepDeg": 0.006664931350987016,
+      "maxAngularSpeedRadS": 0.001163253034779905
+    },
+    "deorbit": {
+      "maxBodyStepDeg": 0.6875493541608857,
+      "maxAngularSpeedRadS": 0.12000000000000002
+    },
+    "return-coast": {
+      "maxBodyStepDeg": 0.1405760253448776,
+      "maxAngularSpeedRadS": 0.025043817488282064
+    },
+    "entry": {
+      "maxBodyStepDeg": 0.12174088160907945,
+      "maxAngularSpeedRadS": 0.02124783364068445
+    },
+    "drogue": {
+      "maxBodyStepDeg": 0.017485472971818922,
+      "maxAngularSpeedRadS": 0.003208491225016737
+    },
+    "main-chute": {
+      "maxBodyStepDeg": 0.0009399330523951548,
+      "maxAngularSpeedRadS": 0.00016409923389171965
+    },
+    "landing": {
+      "maxBodyStepDeg": 0.00039473160650022764,
+      "maxAngularSpeedRadS": 0.00006882414015230453
+    },
+    "touchdown": {
+      "maxBodyStepDeg": 0.0004665261703535519,
+      "maxAngularSpeedRadS": 0.00008144245290950189
+    },
+    "complete": {
+      "maxBodyStepDeg": 0.00039598901616723483,
+      "maxAngularSpeedRadS": 0.00006905829997043233
+    }
+  },
+  "boundaries": [
+    {
+      "from": "countdown",
+      "to": "ascent",
+      "time": 0.09999999999998122,
+      "altitudeM": 70.51323808822781,
+      "bodyStepDeg": 0.0003671742877820885
+    },
+    {
+      "from": "ascent",
+      "to": "upper",
+      "time": 153.29999999999555,
+      "altitudeM": 96556.63839808106,
+      "bodyStepDeg": 0.03489982844121096
+    },
+    {
+      "from": "upper",
+      "to": "insertion",
+      "time": 183.49999999999383,
+      "altitudeM": 143795.03968952224,
+      "bodyStepDeg": 0.002554723015732083
+    },
+    {
+      "from": "insertion",
+      "to": "approach",
+      "time": 1050.7000000001399,
+      "altitudeM": 401060.9042862356,
+      "bodyStepDeg": 0.006714424230111323
+    },
+    {
+      "from": "approach",
+      "to": "observe",
+      "time": 1187.3000000000156,
+      "altitudeM": 401546.32286917977,
+      "bodyStepDeg": 0.0065875671912793195
+    },
+    {
+      "from": "observe",
+      "to": "return-ready",
+      "time": 1199.5000000000045,
+      "altitudeM": 401591.7835286241,
+      "bodyStepDeg": 0.0066532877184458435
+    },
+    {
+      "from": "return-ready",
+      "to": "deorbit",
+      "time": 1207.699999999997,
+      "altitudeM": 401622.54923230223,
+      "bodyStepDeg": 0.00666496503621019
+    },
+    {
+      "from": "deorbit",
+      "to": "return-coast",
+      "time": 1386.6999999998343,
+      "altitudeM": 401445.3779040687,
+      "bodyStepDeg": 0.006573984783080582
+    },
+    {
+      "from": "return-coast",
+      "to": "entry",
+      "time": 3180.499999998203,
+      "altitudeM": 119969.89870751742,
+      "bodyStepDeg": 0.006856180454566832
+    },
+    {
+      "from": "entry",
+      "to": "drogue",
+      "time": 3730.8999999977023,
+      "altitudeM": 9979.821802723221,
+      "bodyStepDeg": 0.012653723887156073
+    },
+    {
+      "from": "drogue",
+      "to": "main-chute",
+      "time": 3855.499999997589,
+      "altitudeM": 3992.404127121903,
+      "bodyStepDeg": 0.0003929028844367487
+    },
+    {
+      "from": "main-chute",
+      "to": "landing",
+      "time": 4459.199999998691,
+      "altitudeM": 13.46100593265146,
+      "bodyStepDeg": 0.00039473160650022764
+    },
+    {
+      "from": "landing",
+      "to": "touchdown",
+      "time": 4465.560320653225,
+      "altitudeM": 2.000559533946216,
+      "bodyStepDeg": 0.00016422663987384343
+    },
+    {
+      "from": "touchdown",
+      "to": "complete",
+      "time": 4471.560320653247,
+      "altitudeM": 1.5868134843185544,
+      "bodyStepDeg": 0.00039598901616723483
+    }
+  ],
+  "capsuleRcsFuelRemainingKg": 17.52645757469086
+}

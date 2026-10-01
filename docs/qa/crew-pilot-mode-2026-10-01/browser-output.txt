@@ -1,0 +1,65 @@
+PASS new route requires actual ground checks
+PASS ground entry starts the autonomous route, not the demo
+PASS waiting for ignition freezes the same simulation clock
+PASS countdown explains route ownership
+PASS countdown stops at release rather than silently lifting off
+PASS launch takeover retains actual motion, clock and fuel
+PASS W/S controls persistent launch throttle through real worker input
+PASS zero thrust does not lock the throttle at zero
+PASS launch throttle can be raised again after stopping
+PASS separate-booster: restored checkpoint matches the operation and main scene
+PASS separate-booster: restoration and checkpoint stay paused
+PASS separate-booster: only a physics-approved action is enabled
+PASS separate-booster: command is not a dead button
+PASS ignite-upper: restored checkpoint matches the operation and main scene
+PASS ignite-upper: restoration and checkpoint stay paused
+PASS ignite-upper: only a physics-approved action is enabled
+PASS ignite-upper: command is not a dead button
+PASS separate-ship: restored checkpoint matches the operation and main scene
+PASS separate-ship: restoration and checkpoint stay paused
+PASS separate-ship: only a physics-approved action is enabled
+PASS separate-ship: command is not a dead button
+PASS begin-deorbit: restored checkpoint matches the operation and main scene
+PASS begin-deorbit: restoration and checkpoint stay paused
+PASS begin-deorbit: only a physics-approved action is enabled
+PASS begin-deorbit: command is not a dead button
+PASS separate-service: restored checkpoint matches the operation and main scene
+PASS separate-service: restoration and checkpoint stay paused
+PASS separate-service: only a physics-approved action is enabled
+PASS separate-service: command is not a dead button
+PASS open-drogue: restored checkpoint matches the operation and main scene
+PASS open-drogue: restoration and checkpoint stay paused
+PASS open-drogue: only a physics-approved action is enabled
+PASS open-drogue: command is not a dead button
+PASS open-main: restored checkpoint matches the operation and main scene
+PASS open-main: restoration and checkpoint stay paused
+PASS open-main: only a physics-approved action is enabled
+PASS open-main: command is not a dead button
+PASS enable-landing: restored checkpoint matches the operation and main scene
+PASS enable-landing: restoration and checkpoint stay paused
+PASS enable-landing: only a physics-approved action is enabled
+PASS enable-landing: command is not a dead button
+PASS recover: restored checkpoint matches the operation and main scene
+PASS recover: restoration and checkpoint stay paused
+PASS recover: only a physics-approved action is enabled
+PASS recovery completes the same flown mission
+PASS phase-approach: broader control handoff does not reset physics
+PASS phase-approach: restoring assistance does not re-enable automatic story progression
+PASS phase-return-coast: broader control handoff does not reset physics
+PASS phase-return-coast: restoring assistance does not re-enable automatic story progression
+PASS phase-entry: broader control handoff does not reset physics
+PASS entry exposes attitude controls without a fictitious translation engine
+PASS return-capsule pitch input turns with finite torque and consumes its own RCS fuel
+PASS phase-entry: restoring assistance does not re-enable automatic story progression
+PASS phase-main-chute: broader control handoff does not reset physics
+PASS phase-main-chute: restoring assistance does not re-enable automatic story progression
+PASS phase-landing: broader control handoff does not reset physics
+PASS phase-landing: restoring assistance does not re-enable automatic story progression
+PASS actual stable platform observation remains available
+PASS observation is still a deliberate task action
+PASS recording observation does not return to demo route
+PASS carrier failure occurs at the solid envelope while its reference is still above ground
+PASS impact is explained and does not offer false recovery
+PASS compact mission controls have no horizontal overflow
+PASS no browser runtime or resource errors
+PASS no GPU feedback or framebuffer errors

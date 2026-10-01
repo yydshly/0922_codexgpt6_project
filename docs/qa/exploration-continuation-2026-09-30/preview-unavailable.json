@@ -1,0 +1,6 @@
+{
+  "attempt": "reopen-checks.json",
+  "status": "not_run",
+  "reason": "本地4180预览服务停止，检查等待入口超时。恢复预览后另行重跑，原检查记录保留。",
+  "verified": false
+}

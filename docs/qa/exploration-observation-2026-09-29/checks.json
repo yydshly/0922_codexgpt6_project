@@ -1,0 +1,97 @@
+{
+  "checks": [
+    {
+      "name": "browsing another object leaves the active flight destination unchanged",
+      "passed": true
+    },
+    {
+      "name": "previewing information preserves autopilot and the itinerary",
+      "passed": true
+    },
+    {
+      "name": "arrival observation uses normal time instead of four times cruise rate",
+      "passed": true
+    },
+    {
+      "name": "satellite has three visible model-anchored part labels",
+      "passed": true
+    },
+    {
+      "name": "choosing a part displays its explanation and holds the stop",
+      "passed": true
+    },
+    {
+      "name": "holding preserves location fuel and itinerary while the world clock continues",
+      "passed": true
+    },
+    {
+      "name": "camera switches interpolate rather than hard cut",
+      "passed": true
+    },
+    {
+      "name": "changing camera while paused leaves all flight values frozen",
+      "passed": true
+    },
+    {
+      "name": "dragging the observation camera moves labels with the projected 3D parts",
+      "passed": true
+    },
+    {
+      "name": "continue departs for the next existing itinerary stop",
+      "passed": true
+    },
+    {
+      "name": "continuing keeps previously consumed fuel",
+      "passed": true
+    },
+    {
+      "name": "stage part labels follow its physical model rotation during a held stop",
+      "passed": true
+    },
+    {
+      "name": "turning off automatic observation preserves the follow camera at arrival",
+      "passed": true
+    },
+    {
+      "name": "part label text does not overlap in the desktop observation view",
+      "passed": true
+    },
+    {
+      "name": "observation controls fit a narrow viewport",
+      "passed": true
+    },
+    {
+      "name": "part label text remains separate in a narrow viewport",
+      "passed": true
+    },
+    {
+      "name": "view arrival uses its own observation framing",
+      "passed": true
+    },
+    {
+      "name": "rock arrival uses its own observation framing",
+      "passed": true
+    },
+    {
+      "name": "home arrival uses its own observation framing",
+      "passed": true
+    },
+    {
+      "name": "all six places remain reachable with observation stops in one journey",
+      "passed": true
+    },
+    {
+      "name": "returning preserves total distance and consumed fuel",
+      "passed": true
+    },
+    {
+      "name": "manual departure after the final stop restores follow view and free flight",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors during arrival and continued exploration",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

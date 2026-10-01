@@ -1,0 +1,238 @@
+{
+  "scope": "自主教学任务实际积分；每次授权沿用原状态，无位置、速度、姿态或燃料重置。",
+  "physicsStepSeconds": 0.1,
+  "route": "self-directed",
+  "control": "assisted",
+  "actions": [
+    {
+      "action": "ignite",
+      "phase": "ground",
+      "time": -10
+    },
+    {
+      "action": "release",
+      "phase": "countdown",
+      "time": -1.8790524691780774e-14
+    },
+    {
+      "action": "separate-booster",
+      "phase": "ascent",
+      "time": 153.29999999999555
+    },
+    {
+      "action": "ignite-upper",
+      "phase": "upper",
+      "time": 156.29999999999538
+    },
+    {
+      "action": "separate-ship",
+      "phase": "insertion",
+      "time": 1050.50000000014
+    },
+    {
+      "action": "record-observation",
+      "phase": "observe",
+      "time": 1194.500000000009
+    },
+    {
+      "action": "begin-deorbit",
+      "phase": "return-ready",
+      "time": 1194.500000000009
+    },
+    {
+      "action": "separate-service",
+      "phase": "deorbit",
+      "time": 1373.4999999998463
+    },
+    {
+      "action": "open-drogue",
+      "phase": "entry",
+      "time": 3719.299999997713
+    },
+    {
+      "action": "open-main",
+      "phase": "drogue",
+      "time": 3843.9999999975994
+    },
+    {
+      "action": "enable-landing",
+      "phase": "main-chute",
+      "time": 4447.99999999865
+    },
+    {
+      "action": "recover",
+      "phase": "touchdown",
+      "time": 4457.369104246969
+    }
+  ],
+  "missingActions": [],
+  "result": {
+    "phase": "complete",
+    "time": 4457.369104246969,
+    "inspection": {
+      "time": 1194.500000000009,
+      "distanceM": 63.20957133646913,
+      "relativeSpeedMS": 0.13270005867239099,
+      "pointingDeg": 0.04395634326735408,
+      "parts": [
+        "舱段",
+        "太阳能翼",
+        "通信天线"
+      ]
+    },
+    "touchdownSpeedMS": 1.034502871333864,
+    "touchdownHorizontalMS": 0.02809865248036851,
+    "touchdownTiltDeg": 0.011443737921706321,
+    "landingFuelKg": 9.094718801139502,
+    "capsuleRcsFuelKg": 17.563679576362443,
+    "peakG": 7.351089013428525,
+    "recoveryChecksPassed": true
+  },
+  "events": [
+    {
+      "time": -10,
+      "label": "已启用自主任务路线；飞控辅助与任务授权分别控制，自动故事推进关闭。",
+      "phase": "ground"
+    },
+    {
+      "time": -10,
+      "label": "等待驾驶员：授权点火与倒计时。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "ground"
+    },
+    {
+      "time": -10,
+      "label": "驾驶员确认准备，开始倒计时。",
+      "phase": "countdown"
+    },
+    {
+      "time": -1.8790524691780774e-14,
+      "label": "等待驾驶员：释放发射台约束。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "countdown"
+    },
+    {
+      "time": -1.8790524691780774e-14,
+      "label": "驾驶员释放发射台约束；沿现有状态开始上升。",
+      "phase": "ascent"
+    },
+    {
+      "time": 153.29999999999555,
+      "label": "等待驾驶员：分离燃尽的一级。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "ascent"
+    },
+    {
+      "time": 153.29999999999555,
+      "label": "驾驶员分离燃尽的一级；无动力滑行 3 秒后可授权二级点火。",
+      "phase": "upper"
+    },
+    {
+      "time": 156.29999999999538,
+      "label": "等待驾驶员：点火二级。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "upper"
+    },
+    {
+      "time": 156.29999999999538,
+      "label": "驾驶员点火二级，推力在 2 秒内建立。",
+      "phase": "upper"
+    },
+    {
+      "time": 183.49999999999383,
+      "label": "二级进入轨道制导，检查近、远地点。",
+      "phase": "insertion"
+    },
+    {
+      "time": 1050.50000000014,
+      "label": "等待驾驶员：确认轨道并分离飞船。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "insertion"
+    },
+    {
+      "time": 1050.50000000014,
+      "label": "驾驶员确认轨道并分离飞船；保留位置、速度和姿态，改用服务舱。",
+      "phase": "approach"
+    },
+    {
+      "time": 1194.500000000009,
+      "label": "已相对平台停稳，开始外部观察；仍共同绕地。",
+      "phase": "observe"
+    },
+    {
+      "time": 1194.500000000009,
+      "label": "结构观察记录已生成；这是模型观察，不是实物检修或真实遥感成像。",
+      "phase": "return-ready"
+    },
+    {
+      "time": 1194.500000000009,
+      "label": "等待驾驶员：授权离轨点火。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "return-ready"
+    },
+    {
+      "time": 1194.500000000009,
+      "label": "驾驶员授权离轨点火；辅助模式先转向逆速度方向，手动模式沿实际船头推力。",
+      "phase": "deorbit"
+    },
+    {
+      "time": 1373.4999999998463,
+      "label": "等待驾驶员：分离服务舱。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "deorbit"
+    },
+    {
+      "time": 1373.4999999998463,
+      "label": "驾驶员分离服务舱；返回舱使用自身姿态喷口准备再入。",
+      "phase": "return-coast"
+    },
+    {
+      "time": 3168.199999998214,
+      "label": "下降越过 120 km 教学阶段界线；空气密度连续增加，继续检查热盾迎风与受热。",
+      "phase": "entry"
+    },
+    {
+      "time": 3719.299999997713,
+      "label": "等待驾驶员：展开减速伞。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "entry"
+    },
+    {
+      "time": 3719.299999997713,
+      "label": "驾驶员展开减速伞，拉力在 4 秒内逐渐建立。",
+      "phase": "drogue"
+    },
+    {
+      "time": 3843.9999999975994,
+      "label": "等待驾驶员：展开主伞。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "drogue"
+    },
+    {
+      "time": 3843.9999999975994,
+      "label": "主伞开始展开，拉力在 4 秒内逐渐建立。",
+      "phase": "main-chute"
+    },
+    {
+      "time": 4447.99999999865,
+      "label": "等待驾驶员：授权近地软着陆推进。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "main-chute"
+    },
+    {
+      "time": 4447.99999999865,
+      "label": "驾驶员授权近地软着陆，下降至 14 m 触发专用发动机。",
+      "phase": "main-chute"
+    },
+    {
+      "time": 4447.99999999865,
+      "label": "进入近地软着陆，启用独立发动机与接地缓冲。",
+      "phase": "landing"
+    },
+    {
+      "time": 4454.369104246958,
+      "label": "支脚首次接地，缓冲机构吸收剩余动能；稳定与任务检查通过后才能回收。",
+      "phase": "touchdown"
+    },
+    {
+      "time": 4457.369104246969,
+      "label": "等待驾驶员：检查并发送回收信号。教学模拟时钟暂停，位置、速度和姿态保留。",
+      "phase": "touchdown"
+    },
+    {
+      "time": 4457.369104246969,
+      "label": "教学流程与接地检查通过，已发送回收信号；未验证实飞热防护、结构与乘员健康。",
+      "phase": "complete"
+    }
+  ]
+}

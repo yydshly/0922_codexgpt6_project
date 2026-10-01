@@ -1,0 +1,73 @@
+{
+  "checks": [
+    {
+      "name": "five ordered chapters and explicit crew roles are visible",
+      "passed": true
+    },
+    {
+      "name": "story launch offers its own bounded route",
+      "passed": true
+    },
+    {
+      "name": "launch reaches actual verified orbit and offers handover",
+      "passed": true
+    },
+    {
+      "name": "orbit checkpoint remains frozen instead of deploying automatically",
+      "passed": true
+    },
+    {
+      "name": "handover clearly states the new local initial conditions",
+      "passed": true
+    },
+    {
+      "name": "story cannot silently skip the controller checks by changing the scene",
+      "passed": true
+    },
+    {
+      "name": "real dragging advances the look task",
+      "passed": true
+    },
+    {
+      "name": "paused pilot lesson does not count coast time",
+      "passed": true
+    },
+    {
+      "name": "coasting shows unchanged speed and fuel after releasing thrust",
+      "passed": true
+    },
+    {
+      "name": "survey inherits actual position and fuel from pilot checks",
+      "passed": true
+    },
+    {
+      "name": "survey report is available only after actual approach completion",
+      "passed": true
+    },
+    {
+      "name": "report combines verified launch and five completed pilot observations",
+      "passed": true
+    },
+    {
+      "name": "story leaves browser storage unchanged",
+      "passed": true
+    },
+    {
+      "name": "story report fits a narrow viewport",
+      "passed": true
+    },
+    {
+      "name": "skipping observation does not invent an orbit record",
+      "passed": true
+    },
+    {
+      "name": "leaving story returns to independent free practice",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

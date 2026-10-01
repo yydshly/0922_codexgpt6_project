@@ -1,0 +1,41 @@
+import fs from 'node:fs';
+import path from 'node:path';
+const out='docs/qa/exploration-report-2026-10-01';fs.mkdirSync(`${out}/final-downloads`,{recursive:true});
+for(const old of await(await fetch('http://127.0.0.1:9333/json/list')).json())if(old.type==='page')await fetch('http://127.0.0.1:9333/json/close/'+old.id);
+const tab=await(await fetch('http://127.0.0.1:9333/json/new?about:blank',{method:'PUT'})).json();
+const ws=new WebSocket(tab.webSocketDebuggerUrl);await new Promise(r=>ws.addEventListener('open',r,{once:true}));
+let id=0;const pending=new Map(),errors=[],checks=[];
+ws.addEventListener('message',event=>{const d=JSON.parse(event.data);if(d.id){pending.get(d.id)?.(d);pending.delete(d.id);}else if(d.method==='Runtime.exceptionThrown'||d.method==='Log.entryAdded'&&d.params.entry.level==='error')errors.push(d.params);});
+const call=(method,params={})=>new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error(method+' timeout')),30000);pending.set(++id,d=>{clearTimeout(timer);d.error?reject(Error(JSON.stringify(d.error))):resolve(d.result);});ws.send(JSON.stringify({id,method,params}));});
+const run=async expression=>{const r=await call('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(JSON.stringify(r.exceptionDetails));return r.result.value;};
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const until=async expression=>{for(let i=0;i<600;i++){if(await run(expression))return;await wait(200);}throw Error('Timeout '+expression);};
+const click=async selector=>{const result=await run(`(()=>{const e=document.querySelector(${JSON.stringify(selector)});if(!e||e.disabled)return false;e.click();return true;})()`);if(!result)throw Error('Missing '+selector);await wait(180);};
+const capture=async name=>{const data=await call('Page.captureScreenshot',{format:'png'});fs.writeFileSync(`${out}/${name}.png`,Buffer.from(data.data,'base64'));};
+const check=(condition,name)=>{checks.push({name,passed:!!condition});if(!condition)throw Error(name);console.log('PASS '+name);};
+const key=async(key,code)=>{const virtualKey={Enter:13,Tab:9}[key],text=key==='Enter'?'\r':undefined;await call('Input.dispatchKeyEvent',{type:'keyDown',key,code,windowsVirtualKeyCode:virtualKey,nativeVirtualKeyCode:virtualKey,text,unmodifiedText:text});await call('Input.dispatchKeyEvent',{type:'keyUp',key,code,windowsVirtualKeyCode:virtualKey,nativeVirtualKeyCode:virtualKey});await wait(180);};
+const downloaded=async format=>{for(let i=0;i<100;i++){const file=fs.readdirSync(`${out}/final-downloads`).find(f=>f.endsWith('.'+format));if(file)return fs.readFileSync(`${out}/final-downloads/${file}`,'utf8');await wait(100);}throw Error('Download missing '+format);};
+await call('Runtime.enable');await call('Log.enable');await call('Page.enable');
+await call('Page.bringToFront');
+await call('Browser.setDownloadBehavior',{behavior:'allow',downloadPath:path.resolve(`${out}/final-downloads`)});
+await call('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+try {
+ await call('Page.navigate',{url:'http://127.0.0.1:4180/'});await until('!!document.querySelector(".macro-flight-entry")');await click('.macro-flight-entry');await until('!!document.querySelector(".exploration-open-report")');await wait(500);await click('.exploration-open-report');await until('document.activeElement===document.querySelector(".exploration-report>summary")');
+ check(await run('document.activeElement===document.querySelector(".exploration-report>summary")'),'opening report moves keyboard focus to its summary');
+ check(await run('[...document.querySelectorAll(".exploration-report-downloads button")].every(e=>{const r=e.getBoundingClientRect(),panel=document.querySelector(".exploration-panel").getBoundingClientRect();return r.top>=panel.top&&r.bottom<=panel.bottom})'),'both download actions are visible before scrolling through six stations');
+ await key('Enter','Enter');await wait(300);
+ check(await run('!document.querySelector(".exploration-report").open&&document.querySelector(".exploration-pause").textContent==="继续"'),'keyboard closing the report does not resume flight');
+ await key('Enter','Enter');await key('Tab','Tab');
+ check(await run('document.activeElement===document.querySelector(".exploration-report-download")'),'Tab reaches the first download action directly from the summary');
+ await key('Enter','Enter');const md=await downloaded('md');check(md.includes('蓝色地平线')&&md.includes('巡视尚未完成'),'keyboard activation downloads a readable current report');await capture('05-final-report-actions');
+ await call('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:false});await wait(400);await capture('06-final-narrow-report');
+ check(await run('document.querySelector(".free-exploration").scrollWidth<=390&&[...document.querySelectorAll(".flight-env-header button")].every(e=>{const r=e.getBoundingClientRect();return r.left>=0&&r.right<=390})'),'final report header and reading area fit a 390 pixel screen');
+ await call('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});await click('.exploration-report-resume');
+ check(await run('document.activeElement===document.querySelector(".exploration-stage")&&!document.querySelector(".exploration-report").open'),'explicit resume closes report and returns keyboard focus to the 3D flight area');
+ await until('!!document.querySelector(".exploration-observation[data-id=satellite]")');await click('.exploration-part-list button:first-child');await click('.exploration-open-report');
+ check(await run('document.querySelector(".exploration-report").textContent.includes("主动停留观察")&&!document.querySelector(".exploration-report").textContent.includes("稍后继续下一站")'),'intentional stop is described as waiting for the user rather than an imminent automatic departure');
+ await click('.exploration-report-json');const data=JSON.parse(await downloaded('json'));
+ check(data.current.staying===true&&data.current.status==='arrived'&&data.totals.arrivedCount===1&&data.totals.noteCount===0,'final JSON records actual arrival and a deliberate stop without inventing a saved note');
+ check(errors.length===0,'no runtime or console errors in final keyboard, layout, stop-description and export checks');
+}catch(error){fs.writeFileSync(`${out}/final-rerun-failure.txt`,String(error));throw error;}
+finally {fs.writeFileSync(`${out}/final-verified.json`,JSON.stringify({checks,errors},null,2));ws.close();}

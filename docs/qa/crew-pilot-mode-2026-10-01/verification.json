@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-01",
+  "status": "local-ready-for-review",
+  "published": false,
+  "vehicleVersion": "crew-earth-3",
+  "fullRegression": {
+    "scope": "Before the final carrier-contact fix",
+    "files": 148,
+    "tests": 810,
+    "passed": true,
+    "output": "full-regression.txt"
+  },
+  "finalRelevantRegression": {
+    "scope": "After the final carrier-contact fix",
+    "files": 6,
+    "tests": 54,
+    "passed": true
+  },
+  "controlRegression": {
+    "files": 1,
+    "tests": 19,
+    "passed": true,
+    "output": "control-regression.txt"
+  },
+  "build": {
+    "typeScript": true,
+    "production": true,
+    "output": "build.txt"
+  },
+  "browser": {
+    "checks": 65,
+    "passed": 65,
+    "errors": 0,
+    "warnings": 0,
+    "record": "browser-checks.json",
+    "output": "browser-output.txt",
+    "isolatedProfile": true,
+    "userTabsChanged": false,
+    "renderer": "software; not a hardware frame-rate benchmark"
+  },
+  "actualIntegration": {
+    "selfDirectedAssistedMission": "assisted-flight.json",
+    "carrierFirstContactFailure": "carrier-contact-failure.json",
+    "stepSeconds": 0.1,
+    "resetsBetweenActions": false
+  },
+  "reproducibleIntegrationCommand": "npx tsx scripts/validate-crew-pilot.ts"
+}

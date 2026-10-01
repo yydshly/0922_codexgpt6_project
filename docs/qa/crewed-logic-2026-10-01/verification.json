@@ -1,0 +1,28 @@
+{
+  "vehicleVersion": "crew-earth-3",
+  "status": "local-reviewed-not-published",
+  "fullSuite": {
+    "files": 145,
+    "tests": 764,
+    "passed": true,
+    "command": "vitest run --maxWorkers=2 --testTimeout=30000"
+  },
+  "finalRelatedRegression": {
+    "files": 2,
+    "tests": 13,
+    "passed": true
+  },
+  "buildPassed": true,
+  "existingBuildWarning": true,
+  "browser": {
+    "checks": 51,
+    "failed": 0,
+    "runtimeErrors": 0
+  },
+  "safetyChecksPassed": true,
+  "finalProductionBoundariesPassed": true,
+  "productionFullMissionPassed": true,
+  "nominalAndReturnAgree": true,
+  "previewUrl": "http://127.0.0.1:4180/",
+  "published": false
+}

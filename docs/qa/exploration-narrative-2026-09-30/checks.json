@@ -1,0 +1,93 @@
+{
+  "checks": [
+    {
+      "name": "mission purpose is visible without stopping the automatic flight",
+      "passed": true
+    },
+    {
+      "name": "browsing rock leaves the actual satellite chapter and paused navigation narration unchanged",
+      "passed": true
+    },
+    {
+      "name": "paused reading does not advance the mission",
+      "passed": true
+    },
+    {
+      "name": "no reading note can be saved before actual arrival",
+      "passed": true
+    },
+    {
+      "name": "first part opens its explanation and holds the stop, but does not complete the notebook",
+      "passed": true
+    },
+    {
+      "name": "opening every part enables voluntary save, not automatic completion",
+      "passed": true
+    },
+    {
+      "name": "saved note belongs to the arrived satellite instead of the separately browsed rock",
+      "passed": true
+    },
+    {
+      "name": "the next leg narrates the actual turn towards the stage",
+      "passed": true
+    },
+    {
+      "name": "automatic arrival increases visits but not saved reading notes",
+      "passed": true
+    },
+    {
+      "name": "the default route proceeds without mandatory narrative acknowledgements",
+      "passed": true
+    },
+    {
+      "name": "a arrived virtual viewpoint can save its explanation without fabricated model parts",
+      "passed": true
+    },
+    {
+      "name": "mission narrative and note controls fit a narrow viewport",
+      "passed": true
+    },
+    {
+      "name": "rock arrival has its own physical-boundary observation task",
+      "passed": true
+    },
+    {
+      "name": "return report requires all six actual arrivals and preserves two deliberately saved notes",
+      "passed": true
+    },
+    {
+      "name": "return report uses accumulated travelled distance and consumed propellant",
+      "passed": true
+    },
+    {
+      "name": "debrief opens a notebook that distinguishes missing notes from missing arrivals",
+      "passed": true
+    },
+    {
+      "name": "manual takeover followed by pause does not claim the old automatic route is active",
+      "passed": true
+    },
+    {
+      "name": "skipping launch honestly describes the new training state",
+      "passed": true
+    },
+    {
+      "name": "real single-stop report offers the next mission while explaining the state boundary",
+      "passed": true
+    },
+    {
+      "name": "new voyage resets previous arrivals and notes instead of inheriting training results",
+      "passed": true
+    },
+    {
+      "name": "new voyage starts with a new teaching fuel supply",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors throughout narration, stops, report and story bridge",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

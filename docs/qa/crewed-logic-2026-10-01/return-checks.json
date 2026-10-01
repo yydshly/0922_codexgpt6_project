@@ -1,0 +1,94 @@
+{
+  "scope": "原创教学模型的返回几何/方向检查，数值不等于实飞验证。浏览器夹具来自该完整积分，不是伪造的任意阶段。",
+  "fixedStepSeconds": 0.1,
+  "matchesCurrentNominalResult": true,
+  "maxFootClearanceM": 4.440892098500626e-16,
+  "maxParachuteAreaErrorM2": 2.2737367544323206e-13,
+  "maxDragAirAngleErrorDeg": 0.12203952575117682,
+  "maxChuteAirAngleErrorDeg": 0.052900828435895164,
+  "result": {
+    "phase": "complete",
+    "timeSeconds": 4471.560320653247,
+    "inspection": {
+      "time": 1199.5000000000045,
+      "distanceM": 62.12178735933116,
+      "relativeSpeedMS": 0.10357373679698866,
+      "pointingDeg": 0.044357930267541534,
+      "parts": [
+        "舱段",
+        "太阳能翼",
+        "通信天线"
+      ]
+    },
+    "touchdownSpeedMS": 1.0344209181429211,
+    "touchdownHorizontalMS": 0.02790948476021217,
+    "serviceFuelKg": 719.406492629071,
+    "capsuleRcsFuelKg": 17.52645757469086,
+    "serviceAttached": false,
+    "landingFuelKg": 8.00121759012339,
+    "peakProperG": 7.351746971716045,
+    "altitudeM": 1.5868134843185544
+  },
+  "samples": [
+    {
+      "key": "entry",
+      "time": 3563.3999999978546,
+      "altitudeM": 49975.2100343816,
+      "verticalMS": -304.1161369493416,
+      "chuteAreaM2": 0,
+      "heatShieldAirDeg": 0.26769825763881927,
+      "thrustAirDeg": null,
+      "verticalNetForceN": -20853.025252044263
+    },
+    {
+      "key": "drogue",
+      "time": 3734.8999999976986,
+      "altitudeM": 9606.264345144853,
+      "verticalMS": -75.09313943379257,
+      "chuteAreaM2": 24,
+      "heatShieldAirDeg": 0.11997536082367036,
+      "thrustAirDeg": null,
+      "verticalNetForceN": 31270.401000119724
+    },
+    {
+      "key": "main-chute",
+      "time": 4377.999999998396,
+      "altitudeM": 499.83561720792204,
+      "verticalMS": -6.065197988696133,
+      "chuteAreaM2": 1000,
+      "heatShieldAirDeg": 0.00946467719287557,
+      "thrustAirDeg": null,
+      "verticalNetForceN": -89.93567580689425
+    },
+    {
+      "key": "landing",
+      "time": 4461.899999998701,
+      "altitudeM": 6.978655946440995,
+      "verticalMS": -1.8653587741515654,
+      "chuteAreaM2": 1000,
+      "heatShieldAirDeg": 0.5022475227704146,
+      "thrustAirDeg": 179.4977524772303,
+      "verticalNetForceN": 835.1709094923206
+    },
+    {
+      "key": "touchdown",
+      "time": 4465.560320653225,
+      "altitudeM": 2.000559533946216,
+      "verticalMS": -1.0343651257494098,
+      "chuteAreaM2": 1000,
+      "heatShieldAirDeg": 1.5432991951469983,
+      "thrustAirDeg": null,
+      "verticalNetForceN": 4170.555327113055
+    },
+    {
+      "key": "complete",
+      "time": 4471.560320653247,
+      "altitudeM": 1.5868134843185544,
+      "verticalMS": 0.0028971731367874454,
+      "chuteAreaM2": 1000,
+      "heatShieldAirDeg": null,
+      "thrustAirDeg": null,
+      "verticalNetForceN": -93.36047049793042
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "name": "contact freezes the flight and shows a consistent paused state",
+      "passed": true
+    },
+    {
+      "name": "contact does not keep advancing the clock behind the alert",
+      "passed": true
+    },
+    {
+      "name": "explicit restart clears visits and begins a new journey",
+      "passed": true
+    },
+    {
+      "name": "story still opens its own training cockpit rather than restarting exploration",
+      "passed": true
+    },
+    {
+      "name": "no runtime errors during contact restart and story entry",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

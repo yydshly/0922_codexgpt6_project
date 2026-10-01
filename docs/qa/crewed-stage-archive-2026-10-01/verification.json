@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-01",
+  "version": "2026.10.01-crewed-r1",
+  "archiveTag": "crewed-2026.10.01",
+  "checkedAgainst": "final source before archive commit",
+  "fullRegression": {
+    "files": 152,
+    "passed": 830,
+    "failed": 0,
+    "maxWorkers": 2,
+    "testTimeoutMS": 30000,
+    "durationSeconds": 139.45
+  },
+  "build": {
+    "typescript": "passed",
+    "planningDocs": "passed",
+    "local": "passed",
+    "githubPages": "passed",
+    "base": "/0922_codexgpt6_project/"
+  },
+  "latestBrowserEvidence": {
+    "path": "../crew-flight-readout-2026-10-01/browser-checks.json",
+    "checks": 108,
+    "failed": 0,
+    "runtimeAndResourceErrors": 0,
+    "warnings": 0,
+    "hardwarePerformanceMeasured": false
+  },
+  "runtimeLogicChangedDuringArchive": false,
+  "physicsPrecisionIncreased": false,
+  "publicationProof": "Git tag, release notes and the commit-specific GitHub Pages workflow; historical QA reports retain their original local status"
+}

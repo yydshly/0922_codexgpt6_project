@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "name": "opening report moves keyboard focus to its summary",
+      "passed": true
+    },
+    {
+      "name": "both download actions are visible before scrolling through six stations",
+      "passed": true
+    },
+    {
+      "name": "keyboard closing the report does not resume flight",
+      "passed": true
+    },
+    {
+      "name": "Tab reaches the first download action directly from the summary",
+      "passed": true
+    },
+    {
+      "name": "keyboard activation downloads a readable current report",
+      "passed": true
+    },
+    {
+      "name": "final report header and reading area fit a 390 pixel screen",
+      "passed": true
+    },
+    {
+      "name": "explicit resume closes report and returns keyboard focus to the 3D flight area",
+      "passed": true
+    },
+    {
+      "name": "intentional stop is described as waiting for the user rather than an imminent automatic departure",
+      "passed": true
+    },
+    {
+      "name": "final JSON records actual arrival and a deliberate stop without inventing a saved note",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors in final keyboard, layout, stop-description and export checks",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

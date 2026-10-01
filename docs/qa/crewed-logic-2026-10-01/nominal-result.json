@@ -1,0 +1,285 @@
+{
+  "scope": "原创载人教学任务；计算值，非实测或实飞认证。",
+  "stepSeconds": 0.1,
+  "vehicle": {
+    "version": "crew-earth-3",
+    "capsuleDryKg": 3200,
+    "capsuleRcsFuelKg": 18,
+    "landingFuelKg": 100,
+    "serviceDryKg": 800,
+    "serviceFuelKg": 900,
+    "boosterDryKg": 14000,
+    "boosterFuelKg": 200000,
+    "boosterThrustN": 3600000,
+    "boosterIspS": 315,
+    "upperDryKg": 3000,
+    "upperFuelKg": 50000,
+    "upperThrustN": 480000,
+    "upperIspS": 345,
+    "mainThrustN": 3500,
+    "rcsThrustN": 1000,
+    "serviceIspS": 310,
+    "landingThrustN": 60000,
+    "landingIspS": 220,
+    "orbitM": 400000,
+    "mainChuteAreaM2": 1000,
+    "drogueAreaM2": 24,
+    "capsuleCdAreaM2": 15
+  },
+  "stages": [
+    {
+      "phase": "countdown",
+      "timeSeconds": -10,
+      "altitudeM": 70.50000000093132,
+      "orbitalSpeedMS": 409.05516268518517,
+      "relativeSpeedMS": 7291.938361182022,
+      "massKg": 272018,
+      "serviceFuelKg": 900,
+      "capsuleRcsFuelKg": 18,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "ascent",
+      "timeSeconds": 0.09999999999998122,
+      "altitudeM": 70.51323808822781,
+      "orbitalSpeedMS": 409.05516378363507,
+      "relativeSpeedMS": 7290.402193363101,
+      "massKg": 269313.06857189,
+      "serviceFuelKg": 900,
+      "capsuleRcsFuelKg": 18,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "upper",
+      "timeSeconds": 153.29999999999555,
+      "altitudeM": 96556.63839808106,
+      "orbitalSpeedMS": 2892.523123253695,
+      "relativeSpeedMS": 5209.4795374221285,
+      "massKg": 58018,
+      "serviceFuelKg": 900,
+      "capsuleRcsFuelKg": 18,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "insertion",
+      "timeSeconds": 183.49999999999383,
+      "altitudeM": 143795.03968952224,
+      "orbitalSpeedMS": 2961.3277507222665,
+      "relativeSpeedMS": 5055.213360834438,
+      "massKg": 54308.006404260464,
+      "serviceFuelKg": 900,
+      "capsuleRcsFuelKg": 18,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "approach",
+      "timeSeconds": 1050.7000000001399,
+      "altitudeM": 401060.9042862356,
+      "orbitalSpeedMS": 7668.566466705166,
+      "relativeSpeedMS": 0.20367703800631462,
+      "massKg": 5018,
+      "serviceFuelKg": 900,
+      "capsuleRcsFuelKg": 18,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "observe",
+      "timeSeconds": 1187.3000000000156,
+      "altitudeM": 401546.32286917977,
+      "orbitalSpeedMS": 7667.31233018862,
+      "relativeSpeedMS": 0.13281592032516587,
+      "massKg": 5011.548988640922,
+      "serviceFuelKg": 893.5489886409221,
+      "capsuleRcsFuelKg": 18,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "return-ready",
+      "timeSeconds": 1199.5000000000045,
+      "altitudeM": 401591.7835286241,
+      "orbitalSpeedMS": 7667.156585549881,
+      "relativeSpeedMS": 0.10357373679698866,
+      "massKg": 5011.488315603431,
+      "serviceFuelKg": 893.4883156034314,
+      "capsuleRcsFuelKg": 18,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "deorbit",
+      "timeSeconds": 1207.699999999997,
+      "altitudeM": 401622.54923230223,
+      "orbitalSpeedMS": 7667.059093635291,
+      "relativeSpeedMS": 0.09122986863756143,
+      "massKg": 5011.458951076469,
+      "serviceFuelKg": 893.4589510764696,
+      "capsuleRcsFuelKg": 18,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "return-coast",
+      "timeSeconds": 1386.6999999998343,
+      "altitudeM": 401445.3779040687,
+      "orbitalSpeedMS": 7559.432300582411,
+      "relativeSpeedMS": 106.29519897275097,
+      "massKg": 3318,
+      "serviceFuelKg": 719.406492629071,
+      "capsuleRcsFuelKg": 18,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "entry",
+      "timeSeconds": 3180.499999998203,
+      "altitudeM": 119969.89870751742,
+      "orbitalSpeedMS": 7893.999853046427,
+      "relativeSpeedMS": 558.7318444946799,
+      "massKg": 3317.6251518840454,
+      "serviceFuelKg": 719.406492629071,
+      "capsuleRcsFuelKg": 17.625151884045188,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "drogue",
+      "timeSeconds": 3730.8999999977023,
+      "altitudeM": 9979.821802723221,
+      "orbitalSpeedMS": 444.839226557519,
+      "relativeSpeedMS": 7252.958052821215,
+      "massKg": 3317.526457574691,
+      "serviceFuelKg": 719.406492629071,
+      "capsuleRcsFuelKg": 17.52645757469086,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "main-chute",
+      "timeSeconds": 3855.499999997589,
+      "altitudeM": 3992.404127121903,
+      "orbitalSpeedMS": 432.083850739533,
+      "relativeSpeedMS": 7265.334600068091,
+      "massKg": 3317.526457574691,
+      "serviceFuelKg": 719.406492629071,
+      "capsuleRcsFuelKg": 17.52645757469086,
+      "landingFuelKg": 100
+    },
+    {
+      "phase": "landing",
+      "timeSeconds": 4459.199999998691,
+      "altitudeM": 13.46100593265146,
+      "orbitalSpeedMS": 429.9985201549217,
+      "relativeSpeedMS": 7416.21392339294,
+      "massKg": 3315.2631835605403,
+      "serviceFuelKg": 719.406492629071,
+      "capsuleRcsFuelKg": 17.52645757469086,
+      "landingFuelKg": 97.73672598584913
+    },
+    {
+      "phase": "touchdown",
+      "timeSeconds": 4465.560320653225,
+      "altitudeM": 2.000559533946216,
+      "orbitalSpeedMS": 429.9700583222705,
+      "relativeSpeedMS": 7421.285868896066,
+      "massKg": 3225.5276751648144,
+      "serviceFuelKg": 719.406492629071,
+      "capsuleRcsFuelKg": 17.52645757469086,
+      "landingFuelKg": 8.00121759012339
+    }
+  ],
+  "result": {
+    "phase": "complete",
+    "timeSeconds": 4471.560320653247,
+    "inspection": {
+      "time": 1199.5000000000045,
+      "distanceM": 62.12178735933116,
+      "relativeSpeedMS": 0.10357373679698866,
+      "pointingDeg": 0.044357930267541534,
+      "parts": [
+        "舱段",
+        "太阳能翼",
+        "通信天线"
+      ]
+    },
+    "touchdownSpeedMS": 1.0344209181429211,
+    "touchdownHorizontalMS": 0.02790948476021217,
+    "serviceFuelKg": 719.406492629071,
+    "capsuleRcsFuelKg": 17.52645757469086,
+    "serviceAttached": false,
+    "landingFuelKg": 8.00121759012339,
+    "peakProperG": 7.351746971716045,
+    "altitudeM": 1.5868134843185544
+  },
+  "events": [
+    {
+      "time": -10,
+      "label": "驾驶员确认准备，开始倒计时。",
+      "phase": "countdown"
+    },
+    {
+      "time": 0.09999999999998122,
+      "label": "约束释放，开始计算上升。",
+      "phase": "ascent"
+    },
+    {
+      "time": 153.29999999999555,
+      "label": "一级燃尽分离；保留位置、速度与角速度，3 秒后建立二级推力。",
+      "phase": "upper"
+    },
+    {
+      "time": 183.49999999999383,
+      "label": "二级进入轨道制导，检查近、远地点。",
+      "phase": "insertion"
+    },
+    {
+      "time": 1050.7000000001399,
+      "label": "二级关机与飞船分离；飞船状态连续，使用独立服务舱推进剂。",
+      "phase": "approach"
+    },
+    {
+      "time": 1187.3000000000156,
+      "label": "已相对平台停稳，开始外部观察；仍共同绕地。",
+      "phase": "observe"
+    },
+    {
+      "time": 1199.5000000000045,
+      "label": "结构观察记录已生成；这是模型观察，不是实物检修或真实遥感成像。",
+      "phase": "return-ready"
+    },
+    {
+      "time": 1207.699999999997,
+      "label": "已授权返回：逐渐转向并用飞船自己的推进剂离轨。",
+      "phase": "deorbit"
+    },
+    {
+      "time": 1386.6999999998343,
+      "label": "离轨点火完成，分离服务舱；保留姿态和角速度，用返回舱自身喷口准备再入。",
+      "phase": "return-coast"
+    },
+    {
+      "time": 3180.399999998203,
+      "label": "下降越过 120 km 教学阶段界线；空气密度连续增加，继续检查热盾迎风与受热。",
+      "phase": "entry"
+    },
+    {
+      "time": 3730.7999999977023,
+      "label": "开伞条件满足，减速伞开始逐渐展开。",
+      "phase": "drogue"
+    },
+    {
+      "time": 3855.399999997589,
+      "label": "主伞开始展开，拉力在 4 秒内逐渐建立。",
+      "phase": "main-chute"
+    },
+    {
+      "time": 4459.099999998691,
+      "label": "进入近地软着陆，启用独立发动机与接地缓冲。",
+      "phase": "landing"
+    },
+    {
+      "time": 4465.560320653225,
+      "label": "支脚首次接地，缓冲机构吸收剩余动能；稳定与任务检查通过后才能回收。",
+      "phase": "touchdown"
+    },
+    {
+      "time": 4471.560320653247,
+      "label": "教学流程与接地检查通过，已发送回收信号；未验证实飞热防护、结构与乘员健康。",
+      "phase": "complete"
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "checks": [
+    {
+      "name": "ground feed gated before separation",
+      "passed": true
+    },
+    {
+      "name": "crew mission uses the restrained reclined pilot, not the free-flight seat",
+      "passed": true
+    },
+    {
+      "name": "insertion: POV stays at the actual pilot eye",
+      "passed": true
+    },
+    {
+      "name": "insertion: gaze and image-up follow pilot/craft, without an Earth-up flip",
+      "passed": true
+    },
+    {
+      "name": "insertion: attached upper-stage instruments and unavailable base camera",
+      "passed": true
+    },
+    {
+      "name": "insertion: switching views and looking at instruments does not change physics or resources",
+      "passed": true
+    },
+    {
+      "name": "return-coast: POV stays at the actual pilot eye",
+      "passed": true
+    },
+    {
+      "name": "return-coast: gaze and image-up follow pilot/craft, without an Earth-up flip",
+      "passed": true
+    },
+    {
+      "name": "return-coast: descent instruments use actual altitude and signed vertical speed",
+      "passed": true
+    },
+    {
+      "name": "return-coast: exterior optics remain fixed to the base, not secretly gimballed",
+      "passed": true
+    },
+    {
+      "name": "return-coast: switching views and looking at instruments does not change physics or resources",
+      "passed": true
+    },
+    {
+      "name": "entry: POV stays at the actual pilot eye",
+      "passed": true
+    },
+    {
+      "name": "entry: gaze and image-up follow pilot/craft, without an Earth-up flip",
+      "passed": true
+    },
+    {
+      "name": "entry: descent instruments use actual altitude and signed vertical speed",
+      "passed": true
+    },
+    {
+      "name": "entry: exterior optics remain fixed to the base, not secretly gimballed",
+      "passed": true
+    },
+    {
+      "name": "entry: switching views and looking at instruments does not change physics or resources",
+      "passed": true
+    },
+    {
+      "name": "main-chute: POV stays at the actual pilot eye",
+      "passed": true
+    },
+    {
+      "name": "main-chute: gaze and image-up follow pilot/craft, without an Earth-up flip",
+      "passed": true
+    },
+    {
+      "name": "main-chute: descent instruments use actual altitude and signed vertical speed",
+      "passed": true
+    },
+    {
+      "name": "main-chute: exterior optics remain fixed to the base, not secretly gimballed",
+      "passed": true
+    },
+    {
+      "name": "main-chute: switching views and looking at instruments does not change physics or resources",
+      "passed": true
+    },
+    {
+      "name": "landing: POV stays at the actual pilot eye",
+      "passed": true
+    },
+    {
+      "name": "landing: gaze and image-up follow pilot/craft, without an Earth-up flip",
+      "passed": true
+    },
+    {
+      "name": "landing: descent instruments use actual altitude and signed vertical speed",
+      "passed": true
+    },
+    {
+      "name": "landing: exterior optics remain fixed to the base, not secretly gimballed",
+      "passed": true
+    },
+    {
+      "name": "landing: centre ray sees reference ground from above",
+      "passed": true
+    },
+    {
+      "name": "landing: switching views and looking at instruments does not change physics or resources",
+      "passed": true
+    },
+    {
+      "name": "touchdown: POV stays at the actual pilot eye",
+      "passed": true
+    },
+    {
+      "name": "touchdown: gaze and image-up follow pilot/craft, without an Earth-up flip",
+      "passed": true
+    },
+    {
+      "name": "touchdown: descent instruments use actual altitude and signed vertical speed",
+      "passed": true
+    },
+    {
+      "name": "touchdown: exterior optics remain fixed to the base, not secretly gimballed",
+      "passed": true
+    },
+    {
+      "name": "touchdown: centre ray sees reference ground from above",
+      "passed": true
+    },
+    {
+      "name": "touchdown: switching views and looking at instruments does not change physics or resources",
+      "passed": true
+    },
+    {
+      "name": "complete: POV stays at the actual pilot eye",
+      "passed": true
+    },
+    {
+      "name": "complete: gaze and image-up follow pilot/craft, without an Earth-up flip",
+      "passed": true
+    },
+    {
+      "name": "complete: descent instruments use actual altitude and signed vertical speed",
+      "passed": true
+    },
+    {
+      "name": "complete: exterior optics remain fixed to the base, not secretly gimballed",
+      "passed": true
+    },
+    {
+      "name": "complete: centre ray sees reference ground from above",
+      "passed": true
+    },
+    {
+      "name": "complete: switching views and looking at instruments does not change physics or resources",
+      "passed": true
+    },
+    {
+      "name": "failed-tilt: POV stays at the actual pilot eye",
+      "passed": true
+    },
+    {
+      "name": "failed-tilt: gaze and image-up follow pilot/craft, without an Earth-up flip",
+      "passed": true
+    },
+    {
+      "name": "failed-tilt: descent instruments use actual altitude and signed vertical speed",
+      "passed": true
+    },
+    {
+      "name": "failed-tilt: exterior optics remain fixed to the base, not secretly gimballed",
+      "passed": true
+    },
+    {
+      "name": "failed-tilt: switching views and looking at instruments does not change physics or resources",
+      "passed": true
+    },
+    {
+      "name": "pointer drag changes pilot head view",
+      "passed": true
+    },
+    {
+      "name": "turning head still keeps POV on the rotating eye",
+      "passed": true
+    },
+    {
+      "name": "head look changes no mission state",
+      "passed": true
+    },
+    {
+      "name": "return camera and instruments remain live through braking, first contact and recovery",
+      "passed": true
+    },
+    {
+      "name": "restart restores camera availability and avoids a stale return feed",
+      "passed": true
+    },
+    {
+      "name": "compact layout has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "no browser runtime/resource error",
+      "passed": true
+    },
+    {
+      "name": "no render-target feedback or framebuffer error",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

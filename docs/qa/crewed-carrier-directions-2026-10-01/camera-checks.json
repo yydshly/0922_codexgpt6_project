@@ -1,0 +1,18 @@
+[
+  {
+    "name": "external 3D drag changes the rendered viewpoint",
+    "passed": true
+  },
+  {
+    "name": "camera drag preserves physical clock and resources",
+    "passed": true
+  },
+  {
+    "name": "cockpit drag turns the head without advancing physics",
+    "passed": true
+  },
+  {
+    "name": "independent crew save is retained across leaving and re-entry",
+    "passed": true
+  }
+]

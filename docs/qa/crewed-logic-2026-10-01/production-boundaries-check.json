@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "workerFile": "crewMission.worker-BGm5gsnD.js",
+  "result": {
+    "phase": "approach",
+    "release": {
+      "groundForceN": 0,
+      "torqueNm": 0,
+      "released": true,
+      "clockMatches": true
+    },
+    "upper": {
+      "thrustN": 0,
+      "torqueNm": 0,
+      "source": "发动机关机滑行 · 保留角速度，无主动控制力矩"
+    },
+    "handoff": {
+      "torqueNm": 0,
+      "thrustN": 0,
+      "stage": "none",
+      "source": "服务舱姿态喷口 · 等待下一步控制",
+      "clockMatches": true
+    }
+  }
+}

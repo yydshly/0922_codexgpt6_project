@@ -1,0 +1,181 @@
+{
+  "checks": [
+    {
+      "name": "insertion: actual integrated checkpoint restores paused",
+      "passed": true
+    },
+    {
+      "name": "insertion: rendered hull uses physical attitude (floating-point angle tolerance)",
+      "passed": true
+    },
+    {
+      "name": "insertion: rate, torque and actuator explanation are present",
+      "passed": true
+    },
+    {
+      "name": "return-coast: actual integrated checkpoint restores paused",
+      "passed": true
+    },
+    {
+      "name": "return-coast: rendered hull uses physical attitude (floating-point angle tolerance)",
+      "passed": true
+    },
+    {
+      "name": "return-coast: rate, torque and actuator explanation are present",
+      "passed": true
+    },
+    {
+      "name": "400 km coast is named distinctly from atmospheric entry",
+      "passed": true
+    },
+    {
+      "name": "separated capsule has visible active attitude jets",
+      "passed": true
+    },
+    {
+      "name": "coast explanation includes the teaching entry boundary",
+      "passed": true
+    },
+    {
+      "name": "return-coast: return reference defaults to atmosphere",
+      "passed": true
+    },
+    {
+      "name": "entry: actual integrated checkpoint restores paused",
+      "passed": true
+    },
+    {
+      "name": "entry: rendered hull uses physical attitude (floating-point angle tolerance)",
+      "passed": true
+    },
+    {
+      "name": "entry: rate, torque and actuator explanation are present",
+      "passed": true
+    },
+    {
+      "name": "entry: return reference defaults to atmosphere",
+      "passed": true
+    },
+    {
+      "name": "drogue: actual integrated checkpoint restores paused",
+      "passed": true
+    },
+    {
+      "name": "drogue: rendered hull uses physical attitude (floating-point angle tolerance)",
+      "passed": true
+    },
+    {
+      "name": "drogue: rate, torque and actuator explanation are present",
+      "passed": true
+    },
+    {
+      "name": "drogue: return reference defaults to atmosphere",
+      "passed": true
+    },
+    {
+      "name": "main-chute: actual integrated checkpoint restores paused",
+      "passed": true
+    },
+    {
+      "name": "main-chute: rendered hull uses physical attitude (floating-point angle tolerance)",
+      "passed": true
+    },
+    {
+      "name": "main-chute: rate, torque and actuator explanation are present",
+      "passed": true
+    },
+    {
+      "name": "main-chute: return reference defaults to atmosphere",
+      "passed": true
+    },
+    {
+      "name": "landing: actual integrated checkpoint restores paused",
+      "passed": true
+    },
+    {
+      "name": "landing: rendered hull uses physical attitude (floating-point angle tolerance)",
+      "passed": true
+    },
+    {
+      "name": "landing: rate, torque and actuator explanation are present",
+      "passed": true
+    },
+    {
+      "name": "landing: return reference defaults to atmosphere",
+      "passed": true
+    },
+    {
+      "name": "touchdown: actual integrated checkpoint restores paused",
+      "passed": true
+    },
+    {
+      "name": "touchdown: rendered hull uses physical attitude (floating-point angle tolerance)",
+      "passed": true
+    },
+    {
+      "name": "touchdown: rate, torque and actuator explanation are present",
+      "passed": true
+    },
+    {
+      "name": "touchdown: return reference defaults to atmosphere",
+      "passed": true
+    },
+    {
+      "name": "touchdown: contact feet remain on the surface",
+      "passed": true
+    },
+    {
+      "name": "complete: actual integrated checkpoint restores paused",
+      "passed": true
+    },
+    {
+      "name": "complete: rendered hull uses physical attitude (floating-point angle tolerance)",
+      "passed": true
+    },
+    {
+      "name": "complete: rate, torque and actuator explanation are present",
+      "passed": true
+    },
+    {
+      "name": "complete: return reference defaults to atmosphere",
+      "passed": true
+    },
+    {
+      "name": "complete: contact feet remain on the surface",
+      "passed": true
+    },
+    {
+      "name": "direction reference toggle keeps flight paused",
+      "passed": true
+    },
+    {
+      "name": "selected fast playback resumes coast after the finite turn and does not freeze",
+      "passed": true
+    },
+    {
+      "name": "coast attitude jets consume the capsule reserve",
+      "passed": true
+    },
+    {
+      "name": "continuous near-ground braking, contact and recovery complete",
+      "passed": true
+    },
+    {
+      "name": "production worker completes a fresh full mission through distinct coast/entry phases",
+      "passed": true
+    },
+    {
+      "name": "first insertion high-rate batch publishes the turn before it can jump across the whole rotation",
+      "passed": true
+    },
+    {
+      "name": "each production worker tick remains 1× during the actual capsule turn, then permits faster coast",
+      "passed": true
+    },
+    {
+      "name": "no browser runtime error",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

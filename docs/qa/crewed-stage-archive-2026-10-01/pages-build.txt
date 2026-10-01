@@ -1,0 +1,295 @@
+
+> orbit-observatory@1.0.0 build
+> npm run docs:check && tsc -b && vite build --outDir .cache/crewed-stage-pages-dist
+
+
+> orbit-observatory@1.0.0 docs:check
+> tsx scripts/sync-planning-docs.ts --check
+
+Planning documents synchronized
+vite v6.4.3 building for production...
+transforming...
+✓ 2270 modules transformed.
+rendering chunks...
+computing gzip size...
+.cache/crewed-stage-pages-dist/index.html                                                 0.77 kB │ gzip:   0.50 kB
+.cache/crewed-stage-pages-dist/assets/EPHEMERIS-LOADING-CE0Bi1Ym.md                       4.54 kB
+.cache/crewed-stage-pages-dist/assets/F01-PANORAMA-STARS-vP3K5Rj8.md                      4.57 kB
+.cache/crewed-stage-pages-dist/assets/PHENOMENA-AUDIT-CimTSEPa.md                         4.60 kB
+.cache/crewed-stage-pages-dist/assets/C02-CONTEXT-COVERAGE-AUDIT-Bg0ztwmS.md              4.73 kB
+.cache/crewed-stage-pages-dist/assets/TASK-RESULTS-DK5q7bX4.md                            4.81 kB
+.cache/crewed-stage-pages-dist/assets/MAIN-SCENE-INTEGRATION-CXFFVTZo.md                  4.84 kB
+.cache/crewed-stage-pages-dist/assets/VEHICLE-APPEARANCE-CTMPu025.md                      5.00 kB
+.cache/crewed-stage-pages-dist/assets/physics.worker-dAUiFOEY.js                          5.13 kB
+.cache/crewed-stage-pages-dist/assets/SCIENCE-AUDIT-BEkhIp3E.md                           5.20 kB
+.cache/crewed-stage-pages-dist/assets/REENTRY-CGC3DL4b.md                                 5.20 kB
+.cache/crewed-stage-pages-dist/assets/EARTH-LAUNCH-DELIVERY-OvAT3F8M.md                   5.32 kB
+.cache/crewed-stage-pages-dist/assets/HOME-INTEGRATION-CISe71Z0.md                        5.49 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-DEMO-CLOSEOUT-BEUoOwc5.md                    5.57 kB
+.cache/crewed-stage-pages-dist/assets/FINAL-TECHNICAL-REPORT-C3aRVPyt.md                  5.59 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-USABILITY-DqjTQBUR.md                        5.64 kB
+.cache/crewed-stage-pages-dist/assets/SPACECRAFT-CONTROL-BACKLOG-Bo_F8GT1.md              5.69 kB
+.cache/crewed-stage-pages-dist/assets/C02-CORE-COVERAGE-AUDIT-BATYIN6U.md                 5.69 kB
+.cache/crewed-stage-pages-dist/assets/R02-OUTER-VISITORS-DZnT88Dv.md                      5.91 kB
+.cache/crewed-stage-pages-dist/assets/C02-SUPPLEMENT-COVERAGE-AUDIT-Coa0KY5_.md           5.98 kB
+.cache/crewed-stage-pages-dist/assets/C02-ENVIRONMENT-COVERAGE-AUDIT-DzE2Hqjd.md          6.21 kB
+.cache/crewed-stage-pages-dist/assets/SATELLITE-LIFECYCLE-CrsiXtyM.md                     6.21 kB
+.cache/crewed-stage-pages-dist/assets/SATELLITE-OPERATIONS-Dy-NESWP.md                    6.25 kB
+.cache/crewed-stage-pages-dist/assets/C02-OUTER-COVERAGE-AUDIT-BDfs0Onf.md                6.27 kB
+.cache/crewed-stage-pages-dist/assets/EARTH-LAUNCH-ARCHIVE-Z5HAMswi.md                    6.28 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-ENDINGS-AND-DEMO-BXl-5O5J.md                 6.32 kB
+.cache/crewed-stage-pages-dist/assets/SEPARATION-AVOIDANCE-BwzKSZGv.md                    6.47 kB
+.cache/crewed-stage-pages-dist/assets/DEPLOYMENT-AND-SAVES-CKDQMoXt.md                    6.63 kB
+.cache/crewed-stage-pages-dist/assets/NAVIGATION-AUDIT-Byn-pv5V.md                        6.82 kB
+.cache/crewed-stage-pages-dist/assets/SATELLITE-DISPOSAL-CHOICES-BTRjvaOL.md              6.87 kB
+.cache/crewed-stage-pages-dist/assets/R01-SMALL-BODIES-Cy7ELyvY.md                        6.89 kB
+.cache/crewed-stage-pages-dist/assets/SCALE-AND-CONTEXT-AUDIT-BjaxvQjc.md                 7.13 kB
+.cache/crewed-stage-pages-dist/assets/BOOSTER-DESCENT-DPu6p9wz.md                         7.13 kB
+.cache/crewed-stage-pages-dist/assets/ORBIT-INSERTION-DdTCEe9z.md                         7.98 kB
+.cache/crewed-stage-pages-dist/assets/DEORBIT-AND-PASSIVATION-DVN8AXVP.md                 8.27 kB
+.cache/crewed-stage-pages-dist/assets/POST-DEPLOYMENT-PLAN-BUFztDis.md                    9.36 kB
+.cache/crewed-stage-pages-dist/assets/R07-TOPIC-ROUTES-CEUaAqg7.md                        9.53 kB
+.cache/crewed-stage-pages-dist/assets/EARTH-TO-ORBIT-PLAN-DhW2vUnG.md                    10.07 kB
+.cache/crewed-stage-pages-dist/assets/R08-STELLAR-CONTEXT-BqA9sqdf.md                    10.21 kB
+.cache/crewed-stage-pages-dist/assets/R09-VALIDATION-BHDG8nLC.md                         12.83 kB
+.cache/crewed-stage-pages-dist/assets/EXECUTION-PLAN--i9IajhA.md                         13.08 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-PHENOMENA-l25K58pL.md                       14.29 kB
+.cache/crewed-stage-pages-dist/assets/R04-APPEARANCE-D5JSDaoL.md                         14.86 kB
+.cache/crewed-stage-pages-dist/assets/MASTER-PLAN-DUoE8Nya.md                            16.53 kB
+.cache/crewed-stage-pages-dist/assets/R03-SYSTEMS-AND-RINGS-BtZrIXSK.md                  17.18 kB
+.cache/crewed-stage-pages-dist/assets/R05-ENVIRONMENT-LINKS-g5aJV1Jx.md                  17.82 kB
+.cache/crewed-stage-pages-dist/assets/ROADMAP-De3xVlto.md                                23.20 kB
+.cache/crewed-stage-pages-dist/assets/FIRST-RELEASE-CLOSEOUT-DV1khYWd.md                 23.53 kB
+.cache/crewed-stage-pages-dist/assets/CONTENT-COVERAGE-NzB6_W0W.md                       27.34 kB
+.cache/crewed-stage-pages-dist/assets/POST-ACCEPTANCE-PLAN-E-vmGtQV.md                   27.55 kB
+.cache/crewed-stage-pages-dist/assets/R06-MOTION-AND-EVENTS-14AwvBk8.md                  50.13 kB
+.cache/crewed-stage-pages-dist/assets/crewMission.worker-CcO8aeYr.js                     72.23 kB
+.cache/crewed-stage-pages-dist/assets/liftoff.worker-D5Idi1sF.js                        119.43 kB
+.cache/crewed-stage-pages-dist/assets/08-narrow-B6n-gP7g.png                            127.24 kB
+.cache/crewed-stage-pages-dist/assets/06-e01-ending-Cqm8teZa.png                        254.92 kB
+.cache/crewed-stage-pages-dist/assets/14-return-to-capability-D75fnf9a.png              272.66 kB
+.cache/crewed-stage-pages-dist/assets/02-pointing-J2gXn2RX.png                          276.94 kB
+.cache/crewed-stage-pages-dist/assets/12-chapter-replay-CmV4nwMT.png                    280.02 kB
+.cache/crewed-stage-pages-dist/assets/10-powered-handoff-vmonuwHm.png                   293.03 kB
+.cache/crewed-stage-pages-dist/assets/09-power-check-DAKifttC.png                       298.81 kB
+.cache/crewed-stage-pages-dist/assets/17-e02-complete-J282E0GX.png                      320.21 kB
+.cache/crewed-stage-pages-dist/assets/06-e02-ending-CwCngtny.png                        332.07 kB
+.cache/crewed-stage-pages-dist/assets/03-observation-BIVYYKI0.png                       410.15 kB
+.cache/crewed-stage-pages-dist/assets/11-readable-notes-CuJYBMTk.png                    499.47 kB
+.cache/crewed-stage-pages-dist/assets/20-recovery-restored-Dt0rGjsl.png                 531.59 kB
+.cache/crewed-stage-pages-dist/assets/05-delivery-iKd-tpiD.png                          564.74 kB
+.cache/crewed-stage-pages-dist/assets/04-downlink-DrgBmj8Q.png                          572.42 kB
+.cache/crewed-stage-pages-dist/assets/19-recovery-rejected-B9P6_rN7.png                 663.02 kB
+.cache/crewed-stage-pages-dist/assets/16-e02-next-step-DCWNBiVf.png                     672.64 kB
+.cache/crewed-stage-pages-dist/assets/07-restored-DTIVdK28.png                          699.91 kB
+.cache/crewed-stage-pages-dist/assets/01-entry-DA7Zvd16.png                             700.04 kB
+.cache/crewed-stage-pages-dist/assets/15-playback-status-BS7jcWKH.png                   833.86 kB
+.cache/crewed-stage-pages-dist/assets/18-calculation-stopped-CDQQz1Q2.png               841.66 kB
+.cache/crewed-stage-pages-dist/assets/13-reading-controls-DTJWgCVs.png                  848.53 kB
+.cache/crewed-stage-pages-dist/assets/DustExplorer-BBzqusUa.css                           0.54 kB │ gzip:   0.28 kB
+.cache/crewed-stage-pages-dist/assets/HeliosphereExplorer-vYdKJ0YG.css                    0.59 kB │ gzip:   0.29 kB
+.cache/crewed-stage-pages-dist/assets/SolarActivity-DlP9rE9k.css                          0.84 kB │ gzip:   0.41 kB
+.cache/crewed-stage-pages-dist/assets/EARTH-TO-ORBIT-PLAN-e-Xk7MPw.css                    1.74 kB │ gzip:   0.61 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-PHENOMENA-Die0OQDZ.css                       2.32 kB │ gzip:   0.80 kB
+.cache/crewed-stage-pages-dist/assets/SceneReadingGuide-DdKv2VFm.css                      2.75 kB │ gzip:   1.00 kB
+.cache/crewed-stage-pages-dist/assets/ProductProgress-OTikXpI-.css                        3.05 kB │ gzip:   1.09 kB
+.cache/crewed-stage-pages-dist/assets/StageGuide-atHqs_Yb.css                             3.59 kB │ gzip:   1.24 kB
+.cache/crewed-stage-pages-dist/assets/SpaceEnvironment-D8swkUXw.css                       4.07 kB │ gzip:   1.30 kB
+.cache/crewed-stage-pages-dist/assets/SolarKnowledge-CfEra3HC.css                         4.65 kB │ gzip:   1.49 kB
+.cache/crewed-stage-pages-dist/assets/DataJourney-B-Q01oVm.css                            4.88 kB │ gzip:   1.59 kB
+.cache/crewed-stage-pages-dist/assets/environmentMeshes-CrN2el57.css                      5.94 kB │ gzip:   1.81 kB
+.cache/crewed-stage-pages-dist/assets/ExplorationGuide-bU9JyaAM.css                      13.25 kB │ gzip:   3.46 kB
+.cache/crewed-stage-pages-dist/assets/FlightJourney-DfUp4Eg9.css                         13.58 kB │ gzip:   3.46 kB
+.cache/crewed-stage-pages-dist/assets/ImmersiveObservatory-BV0Qf3Mq.css                  17.23 kB │ gzip:   4.33 kB
+.cache/crewed-stage-pages-dist/assets/FlightEnvironment-BECi4dfz.css                     33.27 kB │ gzip:   7.01 kB
+.cache/crewed-stage-pages-dist/assets/ExpansionRoadmap-BmZB7Hya.css                      36.03 kB │ gzip:   7.24 kB
+.cache/crewed-stage-pages-dist/assets/EarthLaunchBase-48tUgyDv.css                       70.45 kB │ gzip:  14.55 kB
+.cache/crewed-stage-pages-dist/assets/index-hWZ6wwbV.css                                131.16 kB │ gzip:  26.17 kB
+.cache/crewed-stage-pages-dist/assets/arrow-right-BCP6QX6v.js                             0.33 kB │ gzip:   0.27 kB
+.cache/crewed-stage-pages-dist/assets/EARTH-LAUNCH-DELIVERY-CIN9O8oJ.js                   0.55 kB │ gzip:   0.30 kB
+.cache/crewed-stage-pages-dist/assets/README-DLW2Cp3p.js                                  0.70 kB │ gzip:   0.60 kB
+.cache/crewed-stage-pages-dist/assets/ACCEPTANCE-RECORD-CKFoTqSk.js                       1.19 kB │ gzip:   0.89 kB
+.cache/crewed-stage-pages-dist/assets/README-DIYrN-mT.js                                  1.66 kB │ gzip:   1.16 kB
+.cache/crewed-stage-pages-dist/assets/CLOSEOUT-PLAN-VERIFICATION--P3OaRT4.js              1.73 kB │ gzip:   1.19 kB
+.cache/crewed-stage-pages-dist/assets/README-I64fg108.js                                  1.92 kB │ gzip:   1.34 kB
+.cache/crewed-stage-pages-dist/assets/RELEASE-STAGE-06-BHYeW7BS.js                        1.99 kB │ gzip:   1.40 kB
+.cache/crewed-stage-pages-dist/assets/FINAL-ACCEPTANCE-DCid-I2B.js                        2.05 kB │ gzip:   1.39 kB
+.cache/crewed-stage-pages-dist/assets/README-D7roMH3k.js                                  2.16 kB │ gzip:   1.44 kB
+.cache/crewed-stage-pages-dist/assets/IMMERSIVE-ACCEPTANCE-BOYfXBFg.js                    2.18 kB │ gzip:   1.53 kB
+.cache/crewed-stage-pages-dist/assets/README--OcOHFvo.js                                  2.32 kB │ gzip:   1.53 kB
+.cache/crewed-stage-pages-dist/assets/README-BCiYUnrs.js                                  2.37 kB │ gzip:   1.51 kB
+.cache/crewed-stage-pages-dist/assets/COMPACT-PANORAMA-N3tEI2NC.js                        2.57 kB │ gzip:   1.65 kB
+.cache/crewed-stage-pages-dist/assets/README-aCPFmJfa.js                                  2.70 kB │ gzip:   1.74 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-FOCUS--SNtKtta.js                          2.70 kB │ gzip:   1.62 kB
+.cache/crewed-stage-pages-dist/assets/README-BO3ZZkDX.js                                  2.78 kB │ gzip:   1.83 kB
+.cache/crewed-stage-pages-dist/assets/TOPIC-FAMILY-ACCEPTANCE-BYJaFiL3.js                 2.79 kB │ gzip:   1.68 kB
+.cache/crewed-stage-pages-dist/assets/README-CP00A8uu.js                                  2.81 kB │ gzip:   1.87 kB
+.cache/crewed-stage-pages-dist/assets/VIEWPORT-ACCEPTANCE-BVcNYNOv.js                     2.84 kB │ gzip:   1.75 kB
+.cache/crewed-stage-pages-dist/assets/README-CQoB9bq-.js                                  2.84 kB │ gzip:   1.95 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-MOTION-BN6evMYD.js                         3.02 kB │ gzip:   1.94 kB
+.cache/crewed-stage-pages-dist/assets/DIALOG-LOADING-RECOVERY-BrcbXdhX.js                 3.03 kB │ gzip:   1.81 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-MEMBERS-gAVNG-ze.js                        3.04 kB │ gzip:   1.82 kB
+.cache/crewed-stage-pages-dist/assets/README-DIlhR6Iz.js                                  3.05 kB │ gzip:   1.85 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-CONTENTS-UZ5dpDIl.js                       3.15 kB │ gzip:   1.83 kB
+.cache/crewed-stage-pages-dist/assets/LOADING-OPTIMIZATION-BZE3XopY.js                    3.21 kB │ gzip:   1.96 kB
+.cache/crewed-stage-pages-dist/assets/StageGuide-CtWmx1SS.js                              3.23 kB │ gzip:   1.80 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-ORBITS-CG7FC3z9.js                         3.34 kB │ gzip:   1.98 kB
+.cache/crewed-stage-pages-dist/assets/MACRO-POLISH-BDYPBYJp.js                            3.39 kB │ gzip:   2.04 kB
+.cache/crewed-stage-pages-dist/assets/README-CdlvCTC3.js                                  3.40 kB │ gzip:   2.08 kB
+.cache/crewed-stage-pages-dist/assets/README-CXtmg2wM.js                                  3.40 kB │ gzip:   2.18 kB
+.cache/crewed-stage-pages-dist/assets/flightStory-C3_jeEb8.js                             3.43 kB │ gzip:   2.01 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-PRIMARY-DxJIavyY.js                        3.50 kB │ gzip:   2.02 kB
+.cache/crewed-stage-pages-dist/assets/EVENT-ACCEPTANCE-D5MUJgkY.js                        3.51 kB │ gzip:   2.14 kB
+.cache/crewed-stage-pages-dist/assets/README-Cnjv3y7A.js                                  3.56 kB │ gzip:   2.14 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-EARTH-DoH-1Zm9.js                          3.61 kB │ gzip:   2.15 kB
+.cache/crewed-stage-pages-dist/assets/MOTION-ACCEPTANCE-BUJEfcoR.js                       3.62 kB │ gzip:   2.08 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-SIZE-COMPARISON-BXAn6II9.js                3.64 kB │ gzip:   2.27 kB
+.cache/crewed-stage-pages-dist/assets/README-DRfPbx--.js                                  3.70 kB │ gzip:   2.21 kB
+.cache/crewed-stage-pages-dist/assets/RELEASE-2026-09-25-ljaBSgCN.js                      3.74 kB │ gzip:   2.45 kB
+.cache/crewed-stage-pages-dist/assets/BASELINE-REVIEW-DprHNpdQ.js                         3.89 kB │ gzip:   2.41 kB
+.cache/crewed-stage-pages-dist/assets/TEXTURE-LOADING-clCsJOcV.js                         3.97 kB │ gzip:   2.41 kB
+.cache/crewed-stage-pages-dist/assets/DWARF-DATA-CWA4Dj87.js                              3.98 kB │ gzip:   2.43 kB
+.cache/crewed-stage-pages-dist/assets/orbit-exploration-T0-CcTs6HUy.js                    3.99 kB │ gzip:   2.02 kB
+.cache/crewed-stage-pages-dist/assets/orbit-exploration-T0-B3i1GPvQ.js                    3.99 kB │ gzip:   2.02 kB
+.cache/crewed-stage-pages-dist/assets/LEARNING-FLOW-AUDIT-B5R_pSrN.js                     4.01 kB │ gzip:   2.32 kB
+.cache/crewed-stage-pages-dist/assets/LEARNING-ROUTE-XuXLDZsU.js                          4.04 kB │ gzip:   2.39 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-COMETS-CC8KIvvO.js                         4.05 kB │ gzip:   2.45 kB
+.cache/crewed-stage-pages-dist/assets/README-DlyW2X9M.js                                  4.06 kB │ gzip:   2.48 kB
+.cache/crewed-stage-pages-dist/assets/orbit-exploration-T25-Cn0FFXka.js                   4.09 kB │ gzip:   2.10 kB
+.cache/crewed-stage-pages-dist/assets/SCENE-HANDOFF-FIX-DWvFYxXs.js                       4.18 kB │ gzip:   2.43 kB
+.cache/crewed-stage-pages-dist/assets/SOLAR-ACTIVITY-B5ZB4a_z.js                          4.19 kB │ gzip:   2.51 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-BINARY-mgod2PFp.js                         4.19 kB │ gzip:   2.54 kB
+.cache/crewed-stage-pages-dist/assets/README-DqYlpocM.js                                  4.19 kB │ gzip:   2.48 kB
+.cache/crewed-stage-pages-dist/assets/README-fuDjaPql.js                                  4.19 kB │ gzip:   2.42 kB
+.cache/crewed-stage-pages-dist/assets/README-Cmc7aOkR.js                                  4.20 kB │ gzip:   2.63 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-VISUAL-HIERARCHY-B7EI-5AY.js               4.32 kB │ gzip:   2.54 kB
+.cache/crewed-stage-pages-dist/assets/FIRST-RELEASE-CLOSEOUT-De6QWQIv.js                  4.44 kB │ gzip:   2.62 kB
+.cache/crewed-stage-pages-dist/assets/README-BhhVKZ99.js                                  4.48 kB │ gzip:   2.59 kB
+.cache/crewed-stage-pages-dist/assets/UNDERSTANDING-STAGE-ARCHIVE-DcMvlTbt.js             4.55 kB │ gzip:   2.86 kB
+.cache/crewed-stage-pages-dist/assets/COMET-EPHEMERIS-BVfFR1-5.js                         4.61 kB │ gzip:   2.84 kB
+.cache/crewed-stage-pages-dist/assets/OBSERVATION-SPACE-IMPLEMENTATION-dDyj8iVu.js        4.62 kB │ gzip:   2.69 kB
+.cache/crewed-stage-pages-dist/assets/EPHEMERIS-LOADING-Bd5CPi_y.js                       4.63 kB │ gzip:   2.69 kB
+.cache/crewed-stage-pages-dist/assets/F01-PANORAMA-STARS-ocfKQERG.js                      4.66 kB │ gzip:   2.68 kB
+.cache/crewed-stage-pages-dist/assets/NEAR-EARTH-POPULATIONS-DOZPtf5f.js                  4.67 kB │ gzip:   2.76 kB
+.cache/crewed-stage-pages-dist/assets/PHENOMENA-AUDIT-fa0WbVf3.js                         4.69 kB │ gzip:   2.86 kB
+.cache/crewed-stage-pages-dist/assets/C02-CONTEXT-COVERAGE-AUDIT--dntsV4M.js              4.84 kB │ gzip:   2.40 kB
+.cache/crewed-stage-pages-dist/assets/TASK-RESULTS-DjiUmLeE.js                            4.84 kB │ gzip:   2.71 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-DISTANCE-COMPARISON-CvSiGV5s.js            4.91 kB │ gzip:   3.05 kB
+.cache/crewed-stage-pages-dist/assets/README-B8f6I0H8.js                                  4.92 kB │ gzip:   2.92 kB
+.cache/crewed-stage-pages-dist/assets/MAIN-SCENE-INTEGRATION-Dc450O7P.js                  4.92 kB │ gzip:   2.81 kB
+.cache/crewed-stage-pages-dist/assets/README-CP1-pyNq.js                                  4.96 kB │ gzip:   3.07 kB
+.cache/crewed-stage-pages-dist/assets/SPACE-ENVIRONMENT-DA0I4oIa.js                       5.02 kB │ gzip:   2.94 kB
+.cache/crewed-stage-pages-dist/assets/DUST-AND-METEORS-C3QCLrz3.js                        5.03 kB │ gzip:   2.89 kB
+.cache/crewed-stage-pages-dist/assets/VEHICLE-APPEARANCE-yHW-uvE5.js                      5.03 kB │ gzip:   3.07 kB
+.cache/crewed-stage-pages-dist/assets/REGION-MEMBERS-CUfNRUHU.js                          5.08 kB │ gzip:   2.99 kB
+.cache/crewed-stage-pages-dist/assets/README-CjDvWcfw.js                                  5.17 kB │ gzip:   3.02 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-OBSERVATION-PATH-Ckw7Q6Pa.js               5.21 kB │ gzip:   2.93 kB
+.cache/crewed-stage-pages-dist/assets/TASK-FLOW-IMPLEMENTATION-D6ryYkfM.js                5.21 kB │ gzip:   2.90 kB
+.cache/crewed-stage-pages-dist/assets/REENTRY-BX3oZNxh.js                                 5.24 kB │ gzip:   3.30 kB
+.cache/crewed-stage-pages-dist/assets/SCIENCE-AUDIT-oEoUHv_4.js                           5.30 kB │ gzip:   3.05 kB
+.cache/crewed-stage-pages-dist/assets/HELIOSPHERE-EXPLORER-CSlSGdq6.js                    5.32 kB │ gzip:   3.08 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-FAMILIES-Dqynqiij.js                       5.33 kB │ gzip:   3.11 kB
+.cache/crewed-stage-pages-dist/assets/README-DsdUGxtD.js                                  5.35 kB │ gzip:   3.34 kB
+.cache/crewed-stage-pages-dist/assets/EARTH-LAUNCH-DELIVERY-rMlLaGPC.js                   5.36 kB │ gzip:   3.17 kB
+.cache/crewed-stage-pages-dist/assets/CLOSEUP-AND-BASE-VIEWS-0Mfd_076.js                  5.37 kB │ gzip:   3.23 kB
+.cache/crewed-stage-pages-dist/assets/STAGES-AND-RINGS-CvuGOTDx.js                        5.41 kB │ gzip:   3.11 kB
+.cache/crewed-stage-pages-dist/assets/PANORAMA-NAVIGATION-IMPLEMENTATION-Crhrv1cF.js      5.45 kB │ gzip:   3.07 kB
+.cache/crewed-stage-pages-dist/assets/HOME-INTEGRATION-DIiGi5iL.js                        5.58 kB │ gzip:   3.15 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-DEMO-CLOSEOUT-DU9CGPu9.js                    5.61 kB │ gzip:   3.23 kB
+.cache/crewed-stage-pages-dist/assets/SceneReadingGuide-DlkFZPOv.js                       5.64 kB │ gzip:   2.80 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-USABILITY-CyeW_HBk.js                        5.67 kB │ gzip:   3.11 kB
+.cache/crewed-stage-pages-dist/assets/FINAL-TECHNICAL-REPORT-Bi4Xl1UU.js                  5.69 kB │ gzip:   3.33 kB
+.cache/crewed-stage-pages-dist/assets/SPACECRAFT-CONTROL-BACKLOG-CexmhCA2.js              5.72 kB │ gzip:   3.28 kB
+.cache/crewed-stage-pages-dist/assets/C02-CORE-COVERAGE-AUDIT-DxvCSuMK.js                 5.81 kB │ gzip:   2.68 kB
+.cache/crewed-stage-pages-dist/assets/R02-OUTER-VISITORS-Dibt3Aka.js                      6.02 kB │ gzip:   3.44 kB
+.cache/crewed-stage-pages-dist/assets/MACRO-EXPANSION-DzMMJoeC.js                         6.04 kB │ gzip:   3.53 kB
+.cache/crewed-stage-pages-dist/assets/C02-SUPPLEMENT-COVERAGE-AUDIT-B88dZJ3p.js           6.08 kB │ gzip:   3.07 kB
+.cache/crewed-stage-pages-dist/assets/SATURN-SOURCES-xaMpssLM.js                          6.18 kB │ gzip:   3.54 kB
+.cache/crewed-stage-pages-dist/assets/URANUS-SOURCES-DUrtuJ8m.js                          6.19 kB │ gzip:   3.56 kB
+.cache/crewed-stage-pages-dist/assets/SATELLITE-LIFECYCLE-DtQh0TuT.js                     6.24 kB │ gzip:   3.65 kB
+.cache/crewed-stage-pages-dist/assets/SATELLITE-OPERATIONS-CJG9154b.js                    6.28 kB │ gzip:   3.81 kB
+.cache/crewed-stage-pages-dist/assets/INTEGRATED-PANORAMA-D-y5yv-G.js                     6.29 kB │ gzip:   3.43 kB
+.cache/crewed-stage-pages-dist/assets/LIFTOFF-TRIAL-CScj1YYI.js                           6.30 kB │ gzip:   3.71 kB
+.cache/crewed-stage-pages-dist/assets/EARTH-LAUNCH-ARCHIVE-DlvpKoDQ.js                    6.32 kB │ gzip:   3.76 kB
+.cache/crewed-stage-pages-dist/assets/C02-ENVIRONMENT-COVERAGE-AUDIT-C12NpGwx.js          6.33 kB │ gzip:   2.85 kB
+.cache/crewed-stage-pages-dist/assets/DATA-PIPELINE-Dy69IH9L.js                           6.33 kB │ gzip:   3.63 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-ENDINGS-AND-DEMO-lCMBi9yk.js                 6.35 kB │ gzip:   3.83 kB
+.cache/crewed-stage-pages-dist/assets/C02-OUTER-COVERAGE-AUDIT-Cbx5rZZE.js                6.39 kB │ gzip:   3.13 kB
+.cache/crewed-stage-pages-dist/assets/EXPLANATION-AND-RESULTS-DIHM-JOu.js                 6.47 kB │ gzip:   3.61 kB
+.cache/crewed-stage-pages-dist/assets/SEPARATION-AVOIDANCE-DKy7wP5-.js                    6.51 kB │ gzip:   3.77 kB
+.cache/crewed-stage-pages-dist/assets/ValidationPanel-QaRr2VDh.js                         6.60 kB │ gzip:   3.10 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-ENVIRONMENT-Ch0U4wGN.js                      6.60 kB │ gzip:   3.89 kB
+.cache/crewed-stage-pages-dist/assets/immersiveClock-DnhaTlzu.js                          6.61 kB │ gzip:   3.32 kB
+.cache/crewed-stage-pages-dist/assets/DEPLOYMENT-AND-SAVES-DBEw8Tk8.js                    6.67 kB │ gzip:   3.84 kB
+.cache/crewed-stage-pages-dist/assets/VEHICLE-ASSEMBLY--2Mc0BDD.js                        6.90 kB │ gzip:   3.76 kB
+.cache/crewed-stage-pages-dist/assets/SATELLITE-DISPOSAL-CHOICES-DJRhImey.js              6.91 kB │ gzip:   4.10 kB
+.cache/crewed-stage-pages-dist/assets/NAVIGATION-AUDIT-CL1wLWbL.js                        6.94 kB │ gzip:   3.62 kB
+.cache/crewed-stage-pages-dist/assets/R01-SMALL-BODIES-Dt2JJefm.js                        7.00 kB │ gzip:   4.10 kB
+.cache/crewed-stage-pages-dist/assets/BOOSTER-DESCENT-CrtCDbUE.js                         7.17 kB │ gzip:   4.02 kB
+.cache/crewed-stage-pages-dist/assets/SCALE-AND-CONTEXT-AUDIT-BIYM4aNg.js                 7.26 kB │ gzip:   3.69 kB
+.cache/crewed-stage-pages-dist/assets/SolarKnowledge-DuRTFS3R.js                          7.49 kB │ gzip:   3.28 kB
+.cache/crewed-stage-pages-dist/assets/README-DhDe3d2N.js                                  7.55 kB │ gzip:   4.22 kB
+.cache/crewed-stage-pages-dist/assets/SPECIALIST-CHECKS-AND-CLOSEOUT-Be8EhYrI.js          7.74 kB │ gzip:   4.40 kB
+.cache/crewed-stage-pages-dist/assets/ORBIT-INSERTION-xN3AvgJo.js                         8.01 kB │ gzip:   4.62 kB
+.cache/crewed-stage-pages-dist/assets/CREWED-STAGE-ARCHIVE-B06YKLPs.js                    8.17 kB │ gzip:   4.44 kB
+.cache/crewed-stage-pages-dist/assets/DEORBIT-AND-PASSIVATION-D009ciFb.js                 8.30 kB │ gzip:   4.69 kB
+.cache/crewed-stage-pages-dist/assets/CREWED-PILOT-MODE-CvOA6M02.js                       8.41 kB │ gzip:   4.36 kB
+.cache/crewed-stage-pages-dist/assets/VALIDATION-BM8HK-Ho.js                              8.41 kB │ gzip:   4.47 kB
+.cache/crewed-stage-pages-dist/assets/MACRO-STRUCTURE-DGHH66xS.js                         8.71 kB │ gzip:   4.43 kB
+.cache/crewed-stage-pages-dist/assets/LAUNCH-BASE-EKhjYHIQ.js                             8.89 kB │ gzip:   5.05 kB
+.cache/crewed-stage-pages-dist/assets/SATELLITE-DEMO-CLOSEOUT-B44iG7IP.js                 8.90 kB │ gzip:   4.93 kB
+.cache/crewed-stage-pages-dist/assets/SATELLITE-DATA-B5AuqDMn.js                          9.16 kB │ gzip:   4.97 kB
+.cache/crewed-stage-pages-dist/assets/ASCENT-STAGING-CAbLS7Sy.js                          9.32 kB │ gzip:   5.36 kB
+.cache/crewed-stage-pages-dist/assets/POST-DEPLOYMENT-PLAN-4OZSfopu.js                    9.39 kB │ gzip:   5.06 kB
+.cache/crewed-stage-pages-dist/assets/CURRENT-BASELINE-CGyEC9cU.js                        9.43 kB │ gzip:   4.88 kB
+.cache/crewed-stage-pages-dist/assets/R07-TOPIC-ROUTES-CEr0KLKJ.js                        9.66 kB │ gzip:   4.97 kB
+.cache/crewed-stage-pages-dist/assets/EARTH-TO-ORBIT-PLAN-BYnolbRa.js                    10.11 kB │ gzip:   5.30 kB
+.cache/crewed-stage-pages-dist/assets/R08-STELLAR-CONTEXT-DV1F17nB.js                    10.36 kB │ gzip:   5.65 kB
+.cache/crewed-stage-pages-dist/assets/SolarActivity-LBegZQzE.js                          10.54 kB │ gzip:   5.21 kB
+.cache/crewed-stage-pages-dist/assets/EARTH-TO-ORBIT-PLAN-jGr1MrUR.js                    10.79 kB │ gzip:   5.18 kB
+.cache/crewed-stage-pages-dist/assets/FIRST-FLIGHT-STORY-BM7mhO3S.js                     10.79 kB │ gzip:   5.48 kB
+.cache/crewed-stage-pages-dist/assets/ATLAS-SOURCES-DO_zLYe_.js                          11.48 kB │ gzip:   5.21 kB
+.cache/crewed-stage-pages-dist/assets/ExplorationGuide-DZrRFWzT.js                       11.67 kB │ gzip:   4.99 kB
+.cache/crewed-stage-pages-dist/assets/REPORT-CntYQ9tn.js                                 12.21 kB │ gzip:   6.20 kB
+.cache/crewed-stage-pages-dist/assets/README-CawDVSuj.js                                 12.58 kB │ gzip:   6.45 kB
+.cache/crewed-stage-pages-dist/assets/DustExplorer-B9JSKoIZ.js                           12.71 kB │ gzip:   6.16 kB
+.cache/crewed-stage-pages-dist/assets/R09-VALIDATION-3rYkGuas.js                         13.02 kB │ gzip:   6.93 kB
+.cache/crewed-stage-pages-dist/assets/EXECUTION-PLAN-CvS4FujG.js                         13.11 kB │ gzip:   5.92 kB
+.cache/crewed-stage-pages-dist/assets/HeliosphereExplorer-BDARPlLZ.js                    13.65 kB │ gzip:   6.81 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-PHENOMENA-WOebynNK.js                       14.33 kB │ gzip:   7.41 kB
+.cache/crewed-stage-pages-dist/assets/R04-APPEARANCE-DLPy6EgN.js                         15.01 kB │ gzip:   7.51 kB
+.cache/crewed-stage-pages-dist/assets/CONTINUOUS-EXPLORATION-CysZBspF.js                 16.28 kB │ gzip:   7.87 kB
+.cache/crewed-stage-pages-dist/assets/MASTER-PLAN-DknuQWNk.js                            16.57 kB │ gzip:   7.68 kB
+.cache/crewed-stage-pages-dist/assets/SpaceEnvironment-D2URXdjA.js                       17.06 kB │ gzip:   8.11 kB
+.cache/crewed-stage-pages-dist/assets/SPACEFLIGHT-ENVIRONMENT-DESIGN-CpLjHUaJ.js         17.21 kB │ gzip:   8.75 kB
+.cache/crewed-stage-pages-dist/assets/SATELLITE-MISSION-GUIDE-Cw_ntqES.js                17.28 kB │ gzip:   8.57 kB
+.cache/crewed-stage-pages-dist/assets/DataJourney-qNdQaXma.js                            17.28 kB │ gzip:   6.73 kB
+.cache/crewed-stage-pages-dist/assets/IMMERSIVE-OBSERVATION-T363ZZfR.js                  17.34 kB │ gzip:   8.11 kB
+.cache/crewed-stage-pages-dist/assets/R03-SYSTEMS-AND-RINGS-Kfxvlv3j.js                  17.45 kB │ gzip:   8.25 kB
+.cache/crewed-stage-pages-dist/assets/R05-ENVIRONMENT-LINKS-D3cfO_Po.js                  18.01 kB │ gzip:   8.01 kB
+.cache/crewed-stage-pages-dist/assets/CONTENT-COVERAGE-before-closeout-KLriaC3N.js       21.19 kB │ gzip:   6.90 kB
+.cache/crewed-stage-pages-dist/assets/EXECUTION-PLAN-before-closeout-CFhYnFDD.js         21.79 kB │ gzip:   9.30 kB
+.cache/crewed-stage-pages-dist/assets/CREWED-EARTH-MISSION-BQ42h6rV.js                   22.12 kB │ gzip:  11.03 kB
+.cache/crewed-stage-pages-dist/assets/ROADMAP-V1lld5Yn.js                                23.47 kB │ gzip:  11.26 kB
+.cache/crewed-stage-pages-dist/assets/FIRST-RELEASE-CLOSEOUT-ReKf4VnU.js                 23.56 kB │ gzip:   7.44 kB
+.cache/crewed-stage-pages-dist/assets/FLIGHT-PHENOMENA-CDEh6G6f.js                       26.04 kB │ gzip:   6.56 kB
+.cache/crewed-stage-pages-dist/assets/CONTENT-COVERAGE-DyE3cU9w.js                       27.37 kB │ gzip:   6.94 kB
+.cache/crewed-stage-pages-dist/assets/POST-ACCEPTANCE-PLAN-BGuJa1jp.js                   27.59 kB │ gzip:  13.04 kB
+.cache/crewed-stage-pages-dist/assets/MASTER-PLAN-before-closeout-CAZJNl2_.js            28.96 kB │ gzip:  12.74 kB
+.cache/crewed-stage-pages-dist/assets/environmentMeshes-B2U3kLGn.js                      30.76 kB │ gzip:  12.74 kB
+.cache/crewed-stage-pages-dist/assets/baseScene-CjPxcVfr.js                              31.94 kB │ gzip:  14.32 kB
+.cache/crewed-stage-pages-dist/assets/ImmersiveObservatory-C5hNFcDE.js                   39.27 kB │ gzip:  14.98 kB
+.cache/crewed-stage-pages-dist/assets/R06-MOTION-AND-EVENTS-ptlFIay6.js                  50.68 kB │ gzip:  20.96 kB
+.cache/crewed-stage-pages-dist/assets/PRODUCT-PROGRESS-DCsBAxVz.js                       50.91 kB │ gzip:  19.96 kB
+.cache/crewed-stage-pages-dist/assets/FlightJourney-BqgBWpa9.js                          90.06 kB │ gzip:  32.58 kB
+.cache/crewed-stage-pages-dist/assets/ProductProgress-CrDcgz7N.js                       101.24 kB │ gzip:  42.26 kB
+.cache/crewed-stage-pages-dist/assets/ExpansionRoadmap-DimkD_fj.js                      113.12 kB │ gzip:  41.19 kB
+.cache/crewed-stage-pages-dist/assets/FlightEnvironment-Da-6dSfA.js                     122.12 kB │ gzip:  42.76 kB
+.cache/crewed-stage-pages-dist/assets/EarthLaunchBase-CTPKuI8u.js                       373.55 kB │ gzip: 127.63 kB
+.cache/crewed-stage-pages-dist/assets/index-YQANtlbJ.js                               1,694.46 kB │ gzip: 520.74 kB
+
+(!) Some chunks are larger than 900 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 11.54s

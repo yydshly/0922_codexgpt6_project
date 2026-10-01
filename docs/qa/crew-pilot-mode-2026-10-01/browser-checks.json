@@ -1,0 +1,266 @@
+{
+  "checks": [
+    {
+      "name": "new route requires actual ground checks",
+      "passed": true
+    },
+    {
+      "name": "ground entry starts the autonomous route, not the demo",
+      "passed": true
+    },
+    {
+      "name": "waiting for ignition freezes the same simulation clock",
+      "passed": true
+    },
+    {
+      "name": "countdown explains route ownership",
+      "passed": true
+    },
+    {
+      "name": "countdown stops at release rather than silently lifting off",
+      "passed": true
+    },
+    {
+      "name": "launch takeover retains actual motion, clock and fuel",
+      "passed": true
+    },
+    {
+      "name": "W/S controls persistent launch throttle through real worker input",
+      "passed": true
+    },
+    {
+      "name": "zero thrust does not lock the throttle at zero",
+      "passed": true
+    },
+    {
+      "name": "launch throttle can be raised again after stopping",
+      "passed": true
+    },
+    {
+      "name": "separate-booster: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "separate-booster: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "separate-booster: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "separate-booster: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "ignite-upper: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "ignite-upper: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "ignite-upper: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "ignite-upper: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "separate-ship: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "separate-ship: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "separate-ship: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "separate-ship: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "begin-deorbit: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "begin-deorbit: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "begin-deorbit: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "begin-deorbit: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "separate-service: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "separate-service: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "separate-service: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "separate-service: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "open-drogue: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "open-drogue: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "open-drogue: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "open-drogue: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "open-main: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "open-main: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "open-main: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "open-main: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "enable-landing: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "enable-landing: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "enable-landing: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "enable-landing: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "recover: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "recover: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "recover: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "recovery completes the same flown mission",
+      "passed": true
+    },
+    {
+      "name": "phase-approach: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "phase-approach: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "phase-return-coast: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "phase-return-coast: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "phase-entry: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "entry exposes attitude controls without a fictitious translation engine",
+      "passed": true
+    },
+    {
+      "name": "return-capsule pitch input turns with finite torque and consumes its own RCS fuel",
+      "passed": true
+    },
+    {
+      "name": "phase-entry: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "phase-main-chute: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "phase-main-chute: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "phase-landing: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "phase-landing: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "actual stable platform observation remains available",
+      "passed": true
+    },
+    {
+      "name": "observation is still a deliberate task action",
+      "passed": true
+    },
+    {
+      "name": "recording observation does not return to demo route",
+      "passed": true
+    },
+    {
+      "name": "carrier failure occurs at the solid envelope while its reference is still above ground",
+      "passed": true
+    },
+    {
+      "name": "impact is explained and does not offer false recovery",
+      "passed": true
+    },
+    {
+      "name": "compact mission controls have no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "no browser runtime or resource errors",
+      "passed": true
+    },
+    {
+      "name": "no GPU feedback or framebuffer errors",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

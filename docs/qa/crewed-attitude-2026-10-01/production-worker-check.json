@@ -1,0 +1,12 @@
+{
+  "phase": "complete",
+  "coast": true,
+  "entry": true,
+  "firstInsertion": 0.0733743457687958,
+  "ticks": 2359,
+  "coastSlowTicks": 16,
+  "turnRateSafe": true,
+  "version": "crew-earth-2",
+  "inspection": true,
+  "capsuleFuel": 17.526647859906603
+}

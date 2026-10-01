@@ -1,0 +1,438 @@
+{
+  "checks": [
+    {
+      "name": "new route requires actual ground checks",
+      "passed": true
+    },
+    {
+      "name": "ground entry starts the autonomous route, not the demo",
+      "passed": true
+    },
+    {
+      "name": "waiting for ignition freezes the same simulation clock",
+      "passed": true
+    },
+    {
+      "name": "ground briefing connects the overall goal to the real next action",
+      "passed": true
+    },
+    {
+      "name": "early countdown does not claim thrust buildup before computed thrust",
+      "passed": true
+    },
+    {
+      "name": "countdown publishes its 1x adopted policy while retaining the selected rate",
+      "passed": true
+    },
+    {
+      "name": "countdown explains route ownership",
+      "passed": true
+    },
+    {
+      "name": "actual countdown thrust changes the propulsion description",
+      "passed": true
+    },
+    {
+      "name": "countdown stops at release rather than silently lifting off",
+      "passed": true
+    },
+    {
+      "name": "a release checkpoint reports a paused clock instead of 60x motion",
+      "passed": true
+    },
+    {
+      "name": "launch takeover retains actual motion, clock and fuel",
+      "passed": true
+    },
+    {
+      "name": "KeyS: actual keyboard input is visible in the operation card",
+      "passed": true
+    },
+    {
+      "name": "KeyS: key release clears the visual input state",
+      "passed": true
+    },
+    {
+      "name": "W/S controls persistent launch throttle through real worker input",
+      "passed": true
+    },
+    {
+      "name": "zero thrust does not lock the throttle at zero",
+      "passed": true
+    },
+    {
+      "name": "zero thrust disables every rocket turning axis without disabling throttle restart",
+      "passed": true
+    },
+    {
+      "name": "unpowered turning is explained by the actual propulsion state",
+      "passed": true
+    },
+    {
+      "name": "zero throttle is shown as a coast with authorization retained",
+      "passed": true
+    },
+    {
+      "name": "manual driving shows 1x without replacing the stored 60x selection",
+      "passed": true
+    },
+    {
+      "name": "an unavailable attitude key is not shown as an effective command",
+      "passed": true
+    },
+    {
+      "name": "KeyW: actual keyboard input is visible in the operation card",
+      "passed": true
+    },
+    {
+      "name": "KeyW: key release clears the visual input state",
+      "passed": true
+    },
+    {
+      "name": "launch throttle can be raised again after stopping",
+      "passed": true
+    },
+    {
+      "name": "enable keyboard focuses the 3D flight window",
+      "passed": true
+    },
+    {
+      "name": "leaving the flight window clears a held attitude command",
+      "passed": true
+    },
+    {
+      "name": "a focused steering button also works with Enter, without a mouse",
+      "passed": true
+    },
+    {
+      "name": "pausing clears active steering and its button highlight",
+      "passed": true
+    },
+    {
+      "name": "briefing distinguishes an ordinary pause from a task checkpoint",
+      "passed": true
+    },
+    {
+      "name": "separate-booster: next-step guidance agrees with the actual authorized action",
+      "passed": true
+    },
+    {
+      "name": "separate-booster: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "separate-booster: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "separate-booster: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "separate-booster: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "ignite-upper: next-step guidance agrees with the actual authorized action",
+      "passed": true
+    },
+    {
+      "name": "ignite-upper: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "ignite-upper: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "ignite-upper: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "second-stage authorization with zero throttle is not described as actual acceleration",
+      "passed": true
+    },
+    {
+      "name": "ignite-upper: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "separate-ship: next-step guidance agrees with the actual authorized action",
+      "passed": true
+    },
+    {
+      "name": "separate-ship: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "separate-ship: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "separate-ship: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "separate-ship: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "begin-deorbit: next-step guidance agrees with the actual authorized action",
+      "passed": true
+    },
+    {
+      "name": "begin-deorbit: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "begin-deorbit: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "begin-deorbit: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "begin-deorbit: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "separate-service: next-step guidance agrees with the actual authorized action",
+      "passed": true
+    },
+    {
+      "name": "separate-service: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "separate-service: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "separate-service: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "separate-service: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "open-drogue: next-step guidance agrees with the actual authorized action",
+      "passed": true
+    },
+    {
+      "name": "open-drogue: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "open-drogue: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "open-drogue: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "open-drogue: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "open-main: next-step guidance agrees with the actual authorized action",
+      "passed": true
+    },
+    {
+      "name": "open-main: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "open-main: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "open-main: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "open-main: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "enable-landing: next-step guidance agrees with the actual authorized action",
+      "passed": true
+    },
+    {
+      "name": "enable-landing: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "enable-landing: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "enable-landing: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "enable-landing: command is not a dead button",
+      "passed": true
+    },
+    {
+      "name": "recover: next-step guidance agrees with the actual authorized action",
+      "passed": true
+    },
+    {
+      "name": "recover: restored checkpoint matches the operation and main scene",
+      "passed": true
+    },
+    {
+      "name": "recover: restoration and checkpoint stay paused",
+      "passed": true
+    },
+    {
+      "name": "recover: only a physics-approved action is enabled",
+      "passed": true
+    },
+    {
+      "name": "recovery completes the same flown mission",
+      "passed": true
+    },
+    {
+      "name": "completed task offers results instead of active piloting controls",
+      "passed": true
+    },
+    {
+      "name": "a completed mission does not offer a continue-flight button",
+      "passed": true
+    },
+    {
+      "name": "phase-approach: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "phase-approach: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "phase-return-coast: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "phase-return-coast: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "phase-entry: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "entry exposes attitude controls without a fictitious translation engine",
+      "passed": true
+    },
+    {
+      "name": "ArrowUp: actual keyboard input is visible in the operation card",
+      "passed": true
+    },
+    {
+      "name": "ArrowUp: key release clears the visual input state",
+      "passed": true
+    },
+    {
+      "name": "return-capsule pitch input turns with finite torque and consumes its own RCS fuel",
+      "passed": true
+    },
+    {
+      "name": "phase-entry: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "phase-main-chute: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "phase-main-chute: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "phase-landing: broader control handoff does not reset physics",
+      "passed": true
+    },
+    {
+      "name": "phase-landing: restoring assistance does not re-enable automatic story progression",
+      "passed": true
+    },
+    {
+      "name": "auxiliary deorbit turning reports no main thrust until the burn condition is met",
+      "passed": true
+    },
+    {
+      "name": "manual deorbit explanation uses the actual thrust direction rather than presuming alignment",
+      "passed": true
+    },
+    {
+      "name": "a paused ready observation explains direct recording instead of a forced resume",
+      "passed": true
+    },
+    {
+      "name": "actual stable platform observation remains available",
+      "passed": true
+    },
+    {
+      "name": "observation is still a deliberate task action",
+      "passed": true
+    },
+    {
+      "name": "recording observation does not return to demo route",
+      "passed": true
+    },
+    {
+      "name": "direct observation recording keeps the same paused simulation time",
+      "passed": true
+    },
+    {
+      "name": "carrier failure occurs at the solid envelope while its reference is still above ground",
+      "passed": true
+    },
+    {
+      "name": "impact is explained and does not offer false recovery",
+      "passed": true
+    },
+    {
+      "name": "failure gives a visible saved-task restore and restart route",
+      "passed": true
+    },
+    {
+      "name": "an ascent failure remains in the launch chapter instead of falsely reaching landing",
+      "passed": true
+    },
+    {
+      "name": "failure is labelled stopped and does not claim an active guidance controller",
+      "passed": true
+    },
+    {
+      "name": "a failed mission is stopped and cannot be confused with a resumable pause",
+      "passed": true
+    },
+    {
+      "name": "restart first explains which progress will end",
+      "passed": true
+    },
+    {
+      "name": "the exit dialog preserves the failure state instead of relabelling it paused",
+      "passed": true
+    },
+    {
+      "name": "compact mission controls have no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "no browser runtime or resource errors",
+      "passed": true
+    },
+    {
+      "name": "no GPU feedback or framebuffer errors",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

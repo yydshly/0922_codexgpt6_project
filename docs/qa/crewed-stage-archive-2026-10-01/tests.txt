@@ -1,0 +1,12 @@
+
+> orbit-observatory@1.0.0 test
+> vitest run --maxWorkers=2 --testTimeout=30000
+
+
+ RUN  v4.1.11 F:/codex_project/0922_codexgpt6_project
+
+
+ Test Files  152 passed (152)
+      Tests  830 passed (830)
+   Start at  19:37:48
+   Duration  139.45s (transform 4.31s, setup 0ms, import 20.28s, tests 229.94s, environment 15ms)

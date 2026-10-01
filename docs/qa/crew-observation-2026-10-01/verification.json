@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-10-01T17:57:30+08:00",
+  "status": "local-reviewed-not-published",
+  "published": false,
+  "browser": {
+    "runtimeErrors": 0,
+    "warnings": 0,
+    "failed": 0,
+    "checks": 52
+  },
+  "buildPassed": true,
+  "fullRegression": {
+    "files": 147,
+    "passed": true,
+    "tests": 789
+  },
+  "finalFocused": {
+    "files": 5,
+    "passed": true,
+    "tests": 47
+  },
+  "vehicleVersion": "crew-earth-3",
+  "physicsChanged": false
+}

@@ -1,0 +1,77 @@
+{
+  "checks": [
+    {
+      "name": "all six destinations share the same exploration page",
+      "passed": true
+    },
+    {
+      "name": "default cruise physically moves the craft and advances its clock",
+      "passed": true
+    },
+    {
+      "name": "pause freezes position progression speed fuel and time",
+      "passed": true
+    },
+    {
+      "name": "overview shows the connected flight area",
+      "passed": true
+    },
+    {
+      "name": "manual takeover cancels the remaining itinerary",
+      "passed": true
+    },
+    {
+      "name": "takeover preserves travel and fuel",
+      "passed": true
+    },
+    {
+      "name": "manual control uses normal time rate",
+      "passed": true
+    },
+    {
+      "name": "choosing a destination never teleports or resets the ship",
+      "passed": true
+    },
+    {
+      "name": "destination description matches the selected scene object",
+      "passed": true
+    },
+    {
+      "name": "a different destination can be flown to from the current state",
+      "passed": true
+    },
+    {
+      "name": "full itinerary reaches all six places in the same scene",
+      "passed": true
+    },
+    {
+      "name": "returning to departure point retains travelled distance and fuel consumption",
+      "passed": true
+    },
+    {
+      "name": "the craft remains controllable after completing the tour",
+      "passed": true
+    },
+    {
+      "name": "free movement retains visited destinations",
+      "passed": true
+    },
+    {
+      "name": "continuous navigation fits a narrow viewport",
+      "passed": true
+    },
+    {
+      "name": "original three independent practice scenes remain accessible",
+      "passed": true
+    },
+    {
+      "name": "returning explicitly starts a new exploration journey",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

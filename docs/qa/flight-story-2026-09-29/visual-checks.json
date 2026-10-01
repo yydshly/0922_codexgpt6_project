@@ -1,0 +1,21 @@
+{
+  "checks": [
+    {
+      "name": "story launch controls are on the right",
+      "passed": true
+    },
+    {
+      "name": "control input still changes actual speed after cockpit visual changes",
+      "passed": true
+    },
+    {
+      "name": "pilot story fits the narrow viewport",
+      "passed": true
+    },
+    {
+      "name": "latest visual build has no runtime or console errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

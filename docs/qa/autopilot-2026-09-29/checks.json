@@ -1,0 +1,113 @@
+{
+  "checks": [
+    {
+      "name": "autopilot is immediately visible in the controls",
+      "passed": true
+    },
+    {
+      "name": "one click arms automatic control and creates an approach task",
+      "passed": true
+    },
+    {
+      "name": "autopilot moves the actual craft and uses fuel",
+      "passed": true
+    },
+    {
+      "name": "camera change preserves autopilot",
+      "passed": true
+    },
+    {
+      "name": "pause freezes position speed fuel and autopilot clock",
+      "passed": true
+    },
+    {
+      "name": "paused HUD explains frozen automation",
+      "passed": true
+    },
+    {
+      "name": "looking around does not take over",
+      "passed": true
+    },
+    {
+      "name": "manual steering takes over immediately",
+      "passed": true
+    },
+    {
+      "name": "takeover retains distance velocity and used fuel",
+      "passed": true
+    },
+    {
+      "name": "automatic control can resume from a moving manual state",
+      "passed": true
+    },
+    {
+      "name": "earth approach completes through the real control loop",
+      "passed": true
+    },
+    {
+      "name": "completion disarms automation",
+      "passed": true
+    },
+    {
+      "name": "completed result remains paused",
+      "passed": true
+    },
+    {
+      "name": "moon starts without stale autopilot history",
+      "passed": true
+    },
+    {
+      "name": "moon approach reaches the observation zone",
+      "passed": true
+    },
+    {
+      "name": "asteroid starts without stale autopilot history",
+      "passed": true
+    },
+    {
+      "name": "asteroid approach reaches the observation zone",
+      "passed": true
+    },
+    {
+      "name": "manual story checks are initially incomplete",
+      "passed": true
+    },
+    {
+      "name": "story can start autopilot without completing manual lessons",
+      "passed": true
+    },
+    {
+      "name": "automatic story reaches report eligibility",
+      "passed": true
+    },
+    {
+      "name": "skipped launch remains identified in the report",
+      "passed": true
+    },
+    {
+      "name": "automatic report does not claim skipped manual skills",
+      "passed": true
+    },
+    {
+      "name": "automatic and manual control times are separately reported",
+      "passed": true
+    },
+    {
+      "name": "keyboard activation of on-screen thrust takes over",
+      "passed": true
+    },
+    {
+      "name": "on-screen control releases correctly after keyboard takeover",
+      "passed": true
+    },
+    {
+      "name": "autopilot layout fits a narrow viewport",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

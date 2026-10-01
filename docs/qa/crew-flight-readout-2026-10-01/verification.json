@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-01",
+  "status": "local-verified",
+  "committed": false,
+  "published": false,
+  "unitTests": {
+    "files": 5,
+    "passed": 34,
+    "failed": 0
+  },
+  "typescript": "passed",
+  "productionBuild": "passed",
+  "browser": {
+    "checks": 108,
+    "failed": 0,
+    "runtimeAndResourceErrors": 0,
+    "warnings": 0,
+    "renderer": "isolated headless software rendering; not a hardware performance measurement"
+  },
+  "changedPhysicsSolver": false,
+  "changedSaveFormat": false,
+  "sharedObservationGuard": true,
+  "observationGuardRejectsInvalidNumbers": true
+}

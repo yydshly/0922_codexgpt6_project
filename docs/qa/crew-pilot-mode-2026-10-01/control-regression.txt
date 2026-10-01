@@ -1,0 +1,12 @@
+
+> orbit-observatory@1.0.0 test
+> vitest run src/flight/crewPilotControl.test.ts --maxWorkers=1 --testTimeout=60000
+
+
+ RUN  v4.1.11 F:/codex_project/0922_codexgpt6_project
+
+
+ Test Files  1 passed (1)
+      Tests  19 passed (19)
+   Start at  18:26:54
+   Duration  6.44s (transform 238ms, setup 0ms, import 588ms, tests 5.66s, environment 0ms)

@@ -24,7 +24,8 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm test -- --maxWorkers=2
+      # Full-flight regression integrates the mission; use the same timeout as release QA.
+      - run: npm test -- --maxWorkers=2 --testTimeout=30000
       - run: npm run build
         env:
           GITHUB_PAGES: 'true'

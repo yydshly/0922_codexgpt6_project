@@ -1,0 +1,69 @@
+{
+  "checks": [
+    {
+      "name": "pause reading preserves the exact previous on-screen explanation instead of replacing it with the pause message",
+      "passed": true
+    },
+    {
+      "name": "reading freezes actual time, movement and propellant",
+      "passed": true
+    },
+    {
+      "name": "repeated paused frames do not flood the narration history",
+      "passed": true
+    },
+    {
+      "name": "selecting old narration does not change the active destination",
+      "passed": true
+    },
+    {
+      "name": "closing the reading panel does not silently resume flight",
+      "passed": true
+    },
+    {
+      "name": "explicit finish-reading resumes the existing automatic flight",
+      "passed": true
+    },
+    {
+      "name": "moving manual takeover offers a way back into the incomplete mission",
+      "passed": true
+    },
+    {
+      "name": "resuming chooses the unvisited stage while preserving the independently browsed rock",
+      "passed": true
+    },
+    {
+      "name": "resuming keeps real elapsed time, travel and previously consumed fuel",
+      "passed": true
+    },
+    {
+      "name": "visited satellite and saved note survive takeover, and the visited stop is skipped in the resumed queue",
+      "passed": true
+    },
+    {
+      "name": "reading a satellite explanation at the stage does not move the vessel back or rewrite current flight state",
+      "passed": true
+    },
+    {
+      "name": "narrow screen keeps readable history and an accessible resume action",
+      "passed": true
+    },
+    {
+      "name": "finishing a reading session preserves an intentional stop instead of departing automatically",
+      "passed": true
+    },
+    {
+      "name": "single-stop report has one clear new-voyage action with the reset boundary beside it",
+      "passed": true
+    },
+    {
+      "name": "new voyage clears prior narration and visits instead of mixing different journeys",
+      "passed": true
+    },
+    {
+      "name": "no runtime or console errors during pause reading, manual takeover, resumed flight and story handoff",
+      "passed": true
+    }
+  ],
+  "errors": []
+}
